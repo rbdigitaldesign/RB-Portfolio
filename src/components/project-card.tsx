@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
@@ -22,7 +23,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isCaseStudy = [
     'gopro-app-redesign', 
     'wellness-features-delivery-apps',
-    'bestie-health-club'
+    'bestie-health-club',
+    'trip-approve-onboarding'
   ].includes(project.slug);
   const href = `/projects/${project.slug}`;
 
@@ -53,7 +55,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <CardFooter>
         <Button asChild variant="link" className="p-0 h-auto">
           <Link href={href} className="group">
-            View Case Study
+            View {isCaseStudy ? 'Case Study' : 'Project'}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Button>

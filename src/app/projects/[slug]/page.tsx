@@ -1,3 +1,4 @@
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,7 +24,7 @@ function getProjectData(slug: string) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding'];
   if (caseStudySlugs.includes(slug)) {
     return { project, prevProject: null, nextProject: null };
   }
