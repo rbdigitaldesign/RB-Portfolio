@@ -24,7 +24,7 @@ function getProjectData(slug: string) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon'];
   if (caseStudySlugs.includes(slug)) {
     return { project, prevProject: null, nextProject: null };
   }

@@ -58,4 +58,22 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
+  blockquote {
+    border-left: 4px solid hsl(var(--primary));
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    background: color-mix(in srgb, hsl(var(--primary)) 6%, transparent);
+    font-style: italic;
+  }
+  blockquote > p { margin: 0; }
+  blockquote cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-style: normal;
+    opacity: 0.8;
+  }
+}
+
+.dark blockquote {
+  background: color-mix(in srgb, hsl(var(--primary)) 14%, transparent);
 }
