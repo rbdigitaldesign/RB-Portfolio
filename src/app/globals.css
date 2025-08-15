@@ -14,8 +14,8 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 30 34% 49%; /* secondary: #A67C52 */
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted: 240 13% 14%; /* #1d1d2a */
+    --muted-foreground: 0 0% 80%; /* Lighter text for dark footer */
     --accent: 36 100% 64%; /* accent: #FFB347 */
     --accent-foreground: 0 0% 10%;
     --destructive: 0 84.2% 60.2%; /* error: #D64545 */
@@ -36,8 +36,8 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 30 34% 55%; /* Lighter secondary for dark mode */
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted: 240 13% 14%; /* #1d1d2a */
+    --muted-foreground: 0 0% 80%; /* Lighter text for dark footer */
     --accent: 36 100% 64%; /* accent: #FFB347 */
     --accent-foreground: 0 0% 10%;
     --destructive: 0 62.8% 50.6%;
