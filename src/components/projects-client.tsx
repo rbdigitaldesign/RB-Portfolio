@@ -4,6 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ProjectCard } from './project-card';
 import type { Project } from '@/lib/types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 
 interface ProjectsClientProps {
   projects: Project[];
@@ -13,11 +15,20 @@ const categories = ['All', 'User Experience', 'Learning Design', 'Hackathons', '
 
 export function ProjectsClient({ projects }: ProjectsClientProps) {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [activeTag, setActiveTag] = useState('All');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const allTags = useMemo(() => {
+    const tags = new Set<string>(['All']);
+    projects.forEach(p => {
+      p.tags.forEach(tag => tags.add(tag));
+    });
+    return Array.from(tags).sort();
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     let filtered = projects;
@@ -25,26 +36,54 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
     if (activeCategory !== 'All') {
       filtered = filtered.filter((p) => p.category === activeCategory);
     }
+
+    if (activeTag !== 'All') {
+      filtered = filtered.filter((p) => p.tags.includes(activeTag));
+    }
     
     // Default sort by year
     filtered.sort((a, b) => b.year - a.year);
 
     return filtered;
-  }, [projects, activeCategory]);
+  }, [projects, activeCategory, activeTag]);
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    // Reset tag filter when category changes to avoid empty states
+    setActiveTag('All');
+  };
 
   return (
     <section className="py-12">
-      <div className="mb-8 flex flex-wrap justify-center gap-2">
-        {categories.map((category) => (
-          <Button
-            key={category}
-            variant={activeCategory === category ? 'default' : 'outline'}
-            onClick={() => setActiveCategory(category)}
-            className="transition-all duration-200"
-          >
-            {category}
-          </Button>
-        ))}
+      <div className="mb-8 flex flex-col items-center gap-4">
+        <div className="flex flex-wrap justify-center gap-2">
+          {categories.map((category) => (
+            <Button
+              key={category}
+              variant={activeCategory === category ? 'default' : 'outline'}
+              onClick={() => handleCategoryChange(category)}
+              className="transition-all duration-200"
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
+        <Separator className="max-w-md" />
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
+           <Select onValueChange={setActiveTag} value={activeTag}>
+            <SelectTrigger className="w-[240px]">
+              <SelectValue placeholder="Select a tag" />
+            </SelectTrigger>
+            <SelectContent>
+              {allTags.map((tag) => (
+                <SelectItem key={tag} value={tag}>
+                  {tag}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
