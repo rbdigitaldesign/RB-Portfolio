@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <section className="relative w-full h-[50vh] flex items-center justify-center text-white">
         <Image
-          src="/hero-background.png"
+          src="https://i.imgur.com/wQFi674.jpeg"
           alt="Innovation concept with lightbulbs and paper airplanes"
           fill
           priority
