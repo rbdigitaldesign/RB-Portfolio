@@ -1,9 +1,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
-import type { Project } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,49 +38,49 @@ const LocalTOC = () => (
 );
 
 const projectContent = {
-  brief: `Humanitech asked us to explore how technology might empower urban communities to cope with climate impacts. We focused on delivery riders and heat-stress, aiming to augment existing rider apps with wellbeing features that are practical during shifts.`,
+  brief: `Humanitech asked us to explore how technology might empower urban communities to cope with climate impacts. We focused on delivery riders and heat-stress, aiming to augment existing rider apps with practical wellbeing features usable during shifts.`,
   problem: [
-    `Australia’s heatwaves are the deadliest natural hazard; urban heat is rising.`,
-    `Delivery riders work outdoors, often prioritising income over self-care during peaks.`,
-    `Current apps lack contextual wellness support (water/shade access, quick guidance, inclusive language).`,
+    `Heatwaves are australia’s deadliest natural hazard; urban heat is rising`,
+    `Riders often prioritise income during busy periods, neglecting hydration and shade`,
+    `Current apps lack contextual wellness support and inclusive language options`,
   ],
-  opportunity: `Rather than invent a new platform, embed wellness features inside the rider apps they already use—meeting riders where they are, with low-friction prompts and benefits that make staying safe a rational choice during heat events.`,
+  opportunity: `Embed wellness features inside the rider apps they already use, with low-friction prompts and benefits that make staying safe the rational choice during heat events.`,
   solution: [
-    `**Map markers for heat safety** — nearby water, shade, sunscreen points, visible on the job.`,
-    `**Lightweight daily check-ins** — riders log how they feel and earn credits redeemable at participating vendors (BP, 7-Eleven, cafés).`,
-    `**Multilingual onboarding** — language options at first run to support migrant workers.`,
-    `**Clearer concepts & icons** — rename “climate credits” to “credits”; update credit icon to coin stack; simplify legend usage.`,
+    `**Map markers for heat safety** — nearby water, shade, sunscreen points`,
+    `**Daily check-ins with credits** — earn credits for reporting wellbeing and redeem at partner vendors`,
+    `**Multilingual onboarding** — language options at first run`,
+    `**Clearer concepts & icons** — rename “climate credits”→“credits”; switch to coin-stack icon; simplify legends`,
   ],
-  solutionNote: `*Note: emergency contacts were removed after testing showed low likelihood of use.*`,
+  solutionNote: `*Note: emergency contacts removed after testing showed low likelihood of use.*`,
   approach: {
-    research: `Guerrilla and scheduled interviews with 14 riders; stakeholder touchpoints with Humanitech; desk research into urban heat.`,
-    synthesis: `Affinity mapping; personas (primary/secondary); journey maps; problem-scale framing to reconcile rider vs platform vs charity priorities.`,
-    prototyping: `Crazy-8s with the client; grayscale mid-fi in Figma; iterative usability tests (moderated & unmoderated via Useberry); refined to hi-fi.`,
+    research: `Guerrilla and scheduled interviews with **14 riders** across Perth, Adelaide, Hong Kong; stakeholder sessions with Humanitech.`,
+    synthesis: `Affinity maps, personas, journey maps; problem-scale model balancing rider, platform, and charity priorities.`,
+    prototyping: `Crazy-8s with the client; mid-fi grayscale Figma; moderated/unmoderated tests in Useberry; refined to hi-fi.`,
   },
   outcomes: [
-    `**66%** reported negative effects from heat while delivering; **81%** said in-app health info could improve wellness; **78%** believed platforms could do more.`,
-    `Post-iteration tests showed improved comprehension of the rider wellness screen and credits; simplified flows reduced confusion.`,
-    `The approach is cross-sector friendly (platforms + retailers + charities) and fits existing rider behaviour.`,
+    `**66%** reported negative heat effects; **78%** expect platforms to do more; **81%** believe in-app health info could improve wellness`,
+    `Comprehension of wellness screen and credits improved after iterations`,
+    `Cross-sector model fits existing rider behaviour and platform incentives`,
   ],
   reflection: {
-    worked: `Augmenting existing apps; on-shift cues (map markers, check-ins); multilingual setup.`,
-    challenges: `Early testing inconsistencies (varied scripts/metrics); educating users on new features.`,
-    next: `Animate weather on wellness screen; refine credit redemption flow (QR & vendor UX); explore wearables (Fitbit/Apple Watch).`,
+    worked: `Augmenting existing apps; on-shift cues; multilingual setup`,
+    challenges: `Inconsistent early test scripts; explaining new concepts`,
+    next: `Animated weather; smoother redemption flow; wearable integrations`,
   },
-  fullResearch: `The extended write-up covers: the heat context; pivot from dengue to riders; recruitment tactics; interview guide design; key insights (hydration, shade, motivation, platform duty of care); MVP matrix; user flows; icon ideation; client feedback and iterations (language, credits rename, legend changes); and testing notes and limitations.`
+  fullResearch: `The extended write-up covers: literature and stats on heat; pivot from dengue to rider safety; recruitment tactics; interview guide design; hydration/shade/credit themes; mvp matrix; user-flow diagrams; icon ideation; client feedback (language options, credits rename, legend changes); testing limitations and lessons learned.`
 };
 
 const galleryImages = [
-    { src: 'https://placehold.co/1200x800.png', alt: 'mid-fi wireframe of the main wellness screen', hint: 'wireframe screen', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'mid-fi wireframe of the check-in flow', hint: 'wireframe flow', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'hi-fi map screen showing water and shade markers', hint: 'app screen map', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'hi-fi check-in screen with mood selectors', hint: 'app screen check-in', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'credits screen showing balance and redemption options', hint: 'app screen credits', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'language selection screen during onboarding', hint: 'app screen language', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'hi-fi prototype screen for the main dashboard', hint: 'app screen dashboard', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'hi-fi prototype screen showing weather alerts', hint: 'app screen alert', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'diagram of the user flow for checking in and earning credits', hint: 'user flow diagram', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'storyboard illustrating a rider using the wellness features', hint: 'storyboard illustration', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fi wireframe of the main wellness screen', hint: 'wireframe screen', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fi wireframe of the check-in flow', hint: 'wireframe flow', value: 'Daily check-ins to report wellbeing and earn credits' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi map screen showing water and shade markers', hint: 'app screen map', value: 'Hi-fi map with clear markers for water and shade' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi check-in screen with mood selectors', hint: 'app screen check-in', value: 'Intuitive check-in flow with simple UI elements' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Credits screen showing balance and redemption options', hint: 'app screen credits', value: 'Clear display of earned credits and how to redeem them' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Language selection screen during onboarding', hint: 'app screen language', value: 'Multilingual support from the very first screen' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi prototype screen for the main dashboard', hint: 'app screen dashboard', value: 'Dashboard integrating wellness features seamlessly' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi prototype screen showing weather alerts', hint: 'app screen alert', value: 'Contextual weather alerts to inform riders' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Diagram of the user flow for checking in and earning credits', hint: 'user flow diagram', value: 'Visualising the user journey for the credit system' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Storyboard illustrating a rider using the wellness features', hint: 'storyboard illustration', value: 'A storyboard showing the feature in a real-world context' },
 ]
 
 // Estimated reading time
@@ -166,7 +164,7 @@ export default function WellnessProjectPage() {
                 <div className="space-y-4">
                     <div>
                         <h4 className="font-bold font-headline text-lg">Research</h4>
-                        <p className="text-foreground/80">{projectContent.approach.research}</p>
+                        <p className="text-foreground/80" dangerouslySetInnerHTML={{ __html: projectContent.approach.research.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                     </div>
                     <div>
                         <h4 className="font-bold font-headline text-lg">Synthesis</h4>
@@ -275,7 +273,7 @@ export default function WellnessProjectPage() {
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
@@ -284,8 +282,8 @@ export default function WellnessProjectPage() {
                     data-ai-hint={img.hint}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm p-2">{img.value}</p>
+                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <p className="text-white text-center text-sm">{img.value}</p>
                     </div>
                 </div>
               ))}
