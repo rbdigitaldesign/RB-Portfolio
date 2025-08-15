@@ -21,7 +21,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center p-8 max-w-4xl mx-auto flex flex-col items-center">
            <Avatar className="w-32 h-32 mb-6 border-4 border-background/20 shadow-lg">
-            <AvatarImage src="https://i.imgur.com/deXz824.png" alt="Rich Bartlett" data-ai-hint="profile picture" />
+            <AvatarImage src="https://i.imgur.com/deXz824.png" alt="Rich Bartlett" data-ai-hint="profile picture" className="object-cover" />
             <AvatarFallback>RB</AvatarFallback>
           </Avatar>
            <div className="bg-background/70 backdrop-blur-sm p-8 rounded-lg">
