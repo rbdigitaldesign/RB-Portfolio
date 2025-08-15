@@ -16,9 +16,8 @@ import {
 } from '@/components/ui/sheet';
 
 const navLinks = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: 'Projects' },
   { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -27,13 +26,19 @@ export function Header() {
   const pathname = usePathname();
 
   const NavLink = ({ href, label, className }: { href: string; label: string; className?: string }) => {
-    const isActive = pathname === href;
+    const isActive = pathname === href || (href === '/' && pathname.startsWith('/projects'));
+    // A special check for projects to keep the link active on case study pages.
+    const isProjectsLink = href === '/';
+    const isProjectPage = pathname.startsWith('/projects/');
+    const checkIsActive = isProjectsLink ? isActive || isProjectPage : pathname === href;
+
+
     return (
       <Link
         href={href}
         className={cn(
           'text-sm font-medium transition-colors hover:text-primary',
-          isActive ? 'text-primary dark:text-accent' : 'text-muted-foreground',
+          checkIsActive ? 'text-primary dark:text-accent' : 'text-muted-foreground',
           className
         )}
       >
