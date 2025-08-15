@@ -3,6 +3,7 @@ import { ProjectsClient } from '@/components/projects-client';
 import projects from '@/data/projects.json';
 import type { Project } from '@/lib/types';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function Home() {
   const typedProjects: Project[] = projects;
@@ -18,7 +19,11 @@ export default function Home() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 text-center p-8 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center p-8 max-w-4xl mx-auto flex flex-col items-center">
+           <Avatar className="w-32 h-32 mb-6 border-4 border-background/20 shadow-lg">
+            <AvatarImage src="https://i.imgur.com/deXz824.png" alt="Rich Bartlett" data-ai-hint="profile picture" />
+            <AvatarFallback>RB</AvatarFallback>
+          </Avatar>
            <div className="bg-background/70 backdrop-blur-sm p-8 rounded-lg">
              <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">
               Rich Bartlett — LDX Designer
