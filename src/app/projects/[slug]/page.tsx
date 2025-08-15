@@ -13,9 +13,13 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 const projects: Project[] = projectsData;
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon'];
+  // Generate params only for projects that are NOT case studies
+  return projects
+    .filter(project => !caseStudySlugs.includes(project.slug))
+    .map((project) => ({
+      slug: project.slug,
+    }));
 }
 
 function getProjectData(slug: string) {
@@ -25,8 +29,12 @@ function getProjectData(slug: string) {
   }
   
   const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon'];
+  // This page should only handle non-case-study projects.
+  // If the slug is a case study, we let it fall through to its dedicated page.
   if (caseStudySlugs.includes(slug)) {
-    return { project, prevProject: null, nextProject: null };
+    // This will effectively be ignored because generateStaticParams filters them out,
+    // but it's a good safeguard.
+    return null;
   }
 
   const otherProjects = projects.filter(p => !caseStudySlugs.includes(p.slug));
