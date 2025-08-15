@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import projectsData from '@/data/projects.json';
@@ -22,8 +22,13 @@ function getProjectData(slug: string) {
   if (!project) {
     return null;
   }
-  const projectIndex = projects.findIndex((p) => p.slug === slug);
-  const otherProjects = projects.filter(p => p.slug !== 'gopro-app-redesign');
+  
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club'];
+  if (caseStudySlugs.includes(slug)) {
+    return { project, prevProject: null, nextProject: null };
+  }
+
+  const otherProjects = projects.filter(p => !caseStudySlugs.includes(p.slug));
   const currentIndexInOthers = otherProjects.findIndex(p => p.slug === slug);
   
   const prevProject = currentIndexInOthers > 0 ? otherProjects[currentIndexInOthers - 1] : null;
@@ -33,10 +38,6 @@ function getProjectData(slug: string) {
 }
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
-  if (params.slug === 'gopro-app-redesign') {
-    redirect('/projects/gopro-app-redesign');
-  }
-  
   const data = getProjectData(params.slug);
 
   if (!data) {
@@ -173,5 +174,3 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     </article>
   );
 }
-
-    

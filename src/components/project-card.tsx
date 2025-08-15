@@ -19,6 +19,13 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const isCaseStudy = [
+    'gopro-app-redesign', 
+    'wellness-features-delivery-apps',
+    'bestie-health-club'
+  ].includes(project.slug);
+  const href = `/projects/${project.slug}`;
+
   return (
     <Card className="flex flex-col h-full overflow-hidden transition-all duration-300 ease-in-out hover:shadow-medium focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
       <CardHeader>
@@ -45,7 +52,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild variant="link" className="p-0 h-auto">
-          <Link href={`/projects/${project.slug}`} className="group">
+          <Link href={href} className="group">
             View Case Study
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
