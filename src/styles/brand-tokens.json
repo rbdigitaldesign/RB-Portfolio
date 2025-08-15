@@ -1,0 +1,52 @@
+{
+  "colors": {
+    "primary": "#2F4F4F",
+    "primaryDark": "#1E3A3A",
+    "primaryLight": "#3D5C5C",
+    "secondary": "#A67C52",
+    "secondaryLight": "#CFAE8F",
+    "accent": "#FFB347",
+    "neutralLight": "#F5F5F2",
+    "neutralDark": "#1A1A1A",
+    "success": "#4CAF50",
+    "error": "#D64545"
+  },
+  "typography": {
+    "fontPrimary": "'Inter', sans-serif",
+    "fontSecondary": "'Merriweather', serif",
+    "baseFontSize": "16px",
+    "headingsWeight": 600,
+    "bodyWeight": 400
+  },
+  "spacing": {
+    "xs": "4px",
+    "sm": "8px",
+    "md": "16px",
+    "lg": "24px",
+    "xl": "48px"
+  },
+  "radius": {
+    "sm": "4px",
+    "md": "8px",
+    "lg": "16px"
+  },
+  "shadows": {
+    "soft": "0 2px 6px rgba(0, 0, 0, 0.08)",
+    "medium": "0 4px 12px rgba(0, 0, 0, 0.12)",
+    "strong": "0 8px 24px rgba(0, 0, 0, 0.16)"
+  },
+  "biomimicry": {
+    "motifs": [
+      "leaf venation patterns",
+      "branching structures",
+      "spiral phyllotaxis",
+      "cellular tessellation"
+    ],
+    "principles": [
+      "design for adaptability and resilience",
+      "use forms that follow natural growth patterns",
+      "optimise surfaces for energy and light",
+      "integrate colour psychology with natural hues"
+    ]
+  }
+}
