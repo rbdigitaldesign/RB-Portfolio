@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 
 // This would ideally be in a separate layout component
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
@@ -352,6 +353,7 @@ export default function TripApproveProjectPage() {
             <Link href="/contact">Contact me</Link>
         </Button>
       </footer>
+      <ScrollToTopButton />
     </CaseStudyLayout>
   );
 }
