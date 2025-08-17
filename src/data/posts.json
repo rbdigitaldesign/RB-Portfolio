@@ -59,15 +59,5 @@
     "publishedDate": "2021-06-06T10:00:00.000Z",
     "tags": ["UX", "Principles", "Beginners"],
     "coverImage": "https://i.imgur.com/Yhvz7Q9.jpeg"
-  },
-  {
-    "slug": "welcome-to-the-blog",
-    "title": "Welcome to DesignToSolve!",
-    "summary": "This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making.",
-    "content": "This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making. Whether you're an academic looking to integrate design principles into educational settings or a UX newcomer navigating the complexities of the field, DesignToSolve serves as a resource for continuous learning and dialogue. Designed for both seasoned professionals and those new to the field, the blog covers a wide range of topics that address both the technical and emotional aspects of design. Dive in to enrich your understanding and engage in conversations that aim to help shape the future of design.",
-    "author": "Rich Bartlett",
-    "publishedDate": "2021-06-05T10:00:00.000Z",
-    "tags": ["Intro", "General"],
-    "coverImage": "https://placehold.co/1200x675.png"
   }
 ]
