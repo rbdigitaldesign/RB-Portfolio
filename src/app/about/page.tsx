@@ -80,15 +80,21 @@ export default function AboutPage() {
         </section>
 
         <section aria-labelledby="approach-heading">
-          <h2 id="approach-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><Lightbulb /> My Approach</h2>
-          <div className="space-y-4 text-foreground/80">
-            <p>
-              My design process is collaborative, iterative, and always grounded in research. I believe the best solutions come from a deep understanding of the user's needs, context, and motivations. 
-            </p>
-            <p>
-              I follow a double-diamond approach: discover, define, develop, and deliver. This ensures that I'm not just building features, but solving the right problems in a way that is both elegant and effective. Biomimicry often inspires my work, looking to nature for time-tested patterns of efficiency and aesthetics.
-            </p>
-          </div>
+            <h2 id="approach-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><Lightbulb /> My Approach</h2>
+            <div className="space-y-4 text-foreground/80">
+                <p>
+                    My design practice combines the structure of learning theory with the creativity of user-centred design. I see every project as an opportunity to solve complex problems in a way that is clear, practical, and meaningful for learners and stakeholders.
+                </p>
+                <p>
+                    I work iteratively, moving from exploration to refinement through research, prototyping, and feedback. Collaboration is central to this process—whether it’s with academics, developers, or media specialists—because the best results come from shared insight and diverse perspectives.
+                </p>
+                <p>
+                    I draw on systems thinking to understand the broader context of a challenge and ensure that solutions are not only usable in the moment but sustainable over time. While frameworks such as the double-diamond guide my process, I adapt methods to suit the needs of each project rather than applying a rigid formula.
+                </p>
+                 <p>
+                    Inspiration often comes from observing patterns in nature and design: elegant, efficient, and resilient solutions that can be translated into digital learning experiences. My aim is always the same—create courses and tools that are engaging, accessible, and designed to last.
+                </p>
+            </div>
         </section>
       </div>
 
