@@ -96,12 +96,39 @@
     "links": {}
   },
   {
+    "slug": "rps-pod-battle",
+    "title": "RPS Pod Battle — From Slide Idea to Playable Tournament",
+    "category": "Coding Projects",
+    "summary": "AI-assisted build with Firebase + Stackblitz for a 50+ person meeting.",
+    "tags": [
+      "Coding Projects",
+      "Firebase",
+      "Stackblitz",
+      "Multiplayer",
+      "AI-assisted"
+    ],
+    "coverImage": "https://placehold.co/600x400.png",
+    "gallery": [],
+    "overview": "Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.",
+    "problem": "Run a lightweight tournament many can follow on one call, minimal setup. Handle ties and bracket progression; clearly show who plays next. Keep interaction simple so pod managers can represent teams without confusion.",
+    "process": "Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”. Paired with an engineer to stabilise real-time reads/writes and repair regressions from rapid AI-led edits.",
+    "outcomes": "A working multiplayer tournament game deployed on Firebase Hosting. Facilitation model tested and ready for a live 50+ person event.",
+    "role": "Product Owner, Facilitator, UX/UI, Prototyper",
+    "year": 2025,
+    "duration": "1 Week",
+    "team": "Solo, with engineering partner",
+    "tools": ["Firebase Studio", "Firebase Hosting", "Stackblitz", "AI", "Figma"],
+    "links": {
+      "live": "https://leipodbattle.com.au"
+    }
+  },
+  {
     "slug": "oua-design-process",
     "title": "OUA Design Process",
     "category": "Learning Design",
     "summary": "Developing a standardized design and development process for online university courses.",
     "tags": ["Instructional Design", "Process", "Higher Education", "UoA"],
-    "coverImage": "https://i.imgur.com/nxY0hJB.png",
+    "coverImage": "https://i.imgur.com/yygdVja.png",
     "gallery": [],
     "overview": "Created a scalable framework for designing high-quality online learning experiences for Open Universities Australia (OUA).",
     "problem": "The lack of a standardized process led to inconsistent course quality and inefficient use of resources.",
@@ -120,7 +147,7 @@
     "category": "Learning Design",
     "summary": "Improving student engagement from day one with a redesigned orientation module.",
     "tags": ["Student Experience", "LMS", "Online Learning", "UoA"],
-    "coverImage": "https://i.imgur.com/gKA9SWV.png",
+    "coverImage": "https://i.imgur.com/pjDmpEp.png",
     "gallery": [],
     "overview": "Transformed a static, text-heavy orientation module into an interactive and welcoming experience for new online students.",
     "problem": "Student feedback indicated that the initial course orientation was boring and failed to set them up for success.",
