@@ -4,16 +4,30 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { PlusCircle, Share2 } from "lucide-react";
+import { PlusCircle, Share2, Trash2 } from "lucide-react";
 import Link from "next/link";
 import posts from "@/data/posts.json";
 import { useEffect, useState } from "react";
 import type { Post } from "@/lib/types";
+import { deletePost } from "@/app/actions/blog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { useRouter } from "next/navigation";
 
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
   const [origin, setOrigin] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -35,6 +49,23 @@ export default function AdminBlogPage() {
       });
     });
   };
+  
+  const handleDelete = async (slug: string) => {
+    const result = await deletePost(slug);
+    if (result.success) {
+      toast({
+        title: "Post Deleted",
+        description: "The blog post has been successfully deleted.",
+      });
+      router.refresh();
+    } else {
+       toast({
+        title: "Error Deleting Post",
+        description: result.error || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
+  }
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
@@ -75,6 +106,29 @@ export default function AdminBlogPage() {
                     <Button variant="outline" size="sm" asChild>
                       <Link href={`/admin/blog/edit/${post.slug}`}>Edit</Link>
                     </Button>
+                     <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="sm">
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the post
+                            titled "{post.title}".
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleDelete(post.slug)}>
+                            Yes, delete post
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </li>
               ))}
