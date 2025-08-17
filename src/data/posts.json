@@ -1,17 +1,5 @@
 [
   {
-    "slug": "testing-new-blog",
-    "title": "Testing new blog",
-    "summary": "ssdfsdfsdfsdfsdf",
-    "content": "sdfsdfsdfsdfsdfsdfsdfsdfsdf",
-    "author": "Rich Bartlett",
-    "publishedDate": "2025-08-17T13:09:32.299Z",
-    "tags": [
-      "General"
-    ],
-    "coverImage": "https://i.imgur.com/Yhvz7Q9.jpeg"
-  },
-  {
     "slug": "useful-thinking-tools",
     "title": "Useful thinking tools: insights from design and teaching",
     "summary": "Exploring practical thinking tools and frameworks from both design and education to enhance problem-solving and creativity.",
