@@ -123,7 +123,7 @@ export default function RpsPodBattlePage() {
               RPS Pod Battle — from slide idea to playable tournament
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              AI-assisted build with Firebase + Stackblitz for a 50+ person meeting
+              AI-assisted build with Firebase Studio for a 50+ person meeting
             </p>
             <p className="text-sm text-muted-foreground mt-2">Estimated reading time: {readingTime} minutes</p>
         </div>
