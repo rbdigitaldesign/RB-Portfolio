@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { remark } from 'remark';
 import html from 'remark-html';
+import { BlogPostActions } from '@/components/blog-post-actions';
 
 const posts: Post[] = postsData;
 
@@ -69,7 +70,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         dangerouslySetInnerHTML={{ __html: contentHtml }} 
       />
       
-      <Separator className="my-16" />
+      <Separator className="my-8" />
+      
+      <div className="flex justify-center">
+        <BlogPostActions slug={post.slug} />
+      </div>
+
+      <Separator className="my-8" />
 
     </article>
   );
