@@ -99,7 +99,7 @@
     "slug": "rps-pod-battle",
     "title": "RPS Pod Battle — From Slide Idea to Playable Tournament",
     "category": "Coding Projects",
-    "summary": "AI-assisted build with Firebase + Stackblitz for a 50+ person meeting.",
+    "summary": "AI-assisted build with Firebase Studio for a 50+ person meeting.",
     "tags": [
       "Coding Projects",
       "Firebase",
@@ -185,7 +185,7 @@
     "category": "Learning Design",
     "summary": "Enhanced a course page by integrating an expandable 'show references' feature, applying the principle of progressive disclosure to simplify the UI.",
     "tags": ["UX", "Instructional Design", "Progressive Disclosure", "AU"],
-    "coverImage": "https://i.imgur.com/7XBmoUE.png",
+    "coverImage": "https://i.imgur.com/AzzPhcJ.png",
     "gallery": [],
     "overview": "In this project, I enhanced a course page by integrating an expandable 'show references' feature. This design aligns with the principle of progressive disclosure, which defers advanced or less frequently used features to secondary screens, simplifying the user interface and reducing cognitive load.",
     "problem": "The original page presented a lengthy reference list, requiring extensive scrolling and potentially overwhelming students. This layout hindered efficient navigation and detracted from the primary content.",
