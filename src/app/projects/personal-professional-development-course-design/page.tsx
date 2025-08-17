@@ -52,7 +52,7 @@ const projectContent = {
   },
   personas: {
       narrative: `To make the learning experience more memorable and personal, we created two personas, Alex and Sarah, based on the MBTI framework. Their distinct journeys of professional growth provide a narrative thread that connects the course modules and helps students see reflections of their own development paths.`,
-      inclusion: `To ensure all students feel represented, gender-neutral language and AI-generated imagery were used in portraying the personas, fostering an inclusive learning environment.`
+      inclusion: `To ensure all students feel represented, gender-neutral language and AI-generated imagery were used in portraying these personas, fostering an inclusive learning environment.`
   },
   outcomes: `The result is a comprehensive and pedagogically sound online course that guides students through a transformative learning journey. The course successfully translates abstract professional theories into practical skills through its structured content, engaging narrative, and visually compelling learning artefacts. It provides a clear pathway for students to build a professional portfolio and develop their own professional identity.`
 };
@@ -83,7 +83,7 @@ export default function PersonalDevelopmentProjectPage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://placehold.co/1200x675.png"
+                src="https://i.imgur.com/EAfCZaG.png"
                 alt="A collage of learning design artefacts including concept maps, personas, and diagrams."
                 fill
                 priority
