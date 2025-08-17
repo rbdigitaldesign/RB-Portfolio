@@ -1,20 +1,34 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Wrench } from 'lucide-react';
 import posts from '@/data/posts.json';
 import type { Post } from '@/lib/types';
 import Image from 'next/image';
+import { useAuth } from '@/contexts/auth-context';
 
 export default function BlogPage() {
   const typedPosts: Post[] = posts;
+  const { user } = useAuth();
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <header className="mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-2 text-center">DesignToSolve</h1>
-        <div className="text-lg text-muted-foreground space-y-4 max-w-3xl mx-auto">
+        <div className="flex justify-between items-start">
+            <h1 className="text-4xl font-bold font-headline mb-2">DesignToSolve</h1>
+            {user && (
+                <Button asChild variant="outline">
+                    <Link href="/admin/blog">
+                        <Wrench className="mr-2 h-4 w-4" />
+                        Manage Blog
+                    </Link>
+                </Button>
+            )}
+        </div>
+        <div className="text-lg text-muted-foreground space-y-4 max-w-3xl">
           <p>
             This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making.
           </p>
