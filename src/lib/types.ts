@@ -1,7 +1,7 @@
 export type Project = {
   slug: string;
   title: string;
-  category: 'User Experience' | 'Learning Design' | 'Hackathons' | 'Coding Projects';
+  category: 'User Experience' | 'Learning Design' | 'Hackathons' | 'Coding Projects' | 'Publications';
   summary: string;
   tags: string[];
   coverImage: string;
