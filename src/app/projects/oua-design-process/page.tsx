@@ -117,9 +117,9 @@ export default function OuaDesignProcessPage() {
                         </div>
                     </div>
                       <div>
-                        <h4 className="font-bold font-headline text-lg mb-2">Showcase 4 - OUA Showcase - student testimonial - marketing version</h4>
+                        <h4 className="font-bold font-headline text-lg mb-2">Showcase 4 - OUA Showcase - student testimonial</h4>
                         <div className="aspect-video">
-                            <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/qrQZrMuxvyI?si=zWn6BYkkF8f7kRz8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                            <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/Ky1E0DzbxsU?si=IAvNkQ_A-9RcVwqn" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
                     </div>
                 </div>
