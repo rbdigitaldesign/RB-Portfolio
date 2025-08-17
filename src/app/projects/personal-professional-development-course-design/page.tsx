@@ -246,7 +246,7 @@ export default function PersonalDevelopmentProjectPage() {
 
       <footer className="mt-24 text-center bg-muted/50 py-12 rounded-lg">
         <h3 className="text-2xl font-bold font-headline mb-2">Need help translating complex ideas into engaging learning?</h3>
-        <p className="text-muted-foreground mb-6">I can walk you through the process of designing learner-centric educational experiences.</p>
+        <p className="text-muted-foreground mb-6">I can walk through the process of designing learner-centric educational experiences.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>
         </Button>
