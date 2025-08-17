@@ -13,7 +13,7 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 const projects: Project[] = projectsData;
 
 export async function generateStaticParams() {
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design'];
   // Generate params only for projects that are NOT case studies
   return projects
     .filter(project => !caseStudySlugs.includes(project.slug))
@@ -28,7 +28,7 @@ function getProjectData(slug: string) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design'];
   // This page should only handle non-case-study projects.
   // If the slug is a case study, we let it fall through to its dedicated page.
   if (caseStudySlugs.includes(slug)) {
