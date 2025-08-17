@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <header className="flex flex-col md:flex-row items-center gap-8 mb-12">
         <Avatar className="w-32 h-32">
-          <AvatarImage src="https://placehold.co/200x200.png" alt="Rich Bartlett" data-ai-hint="profile picture" />
+          <AvatarImage src="https://i.imgur.com/X0EG5j2.png" alt="Rich Bartlett" data-ai-hint="profile picture" />
           <AvatarFallback>RB</AvatarFallback>
         </Avatar>
         <div>
