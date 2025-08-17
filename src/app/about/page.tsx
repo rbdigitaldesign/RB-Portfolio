@@ -2,7 +2,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { User, Dna, Wrench, Lightbulb, Award } from "lucide-react";
+import { User, Dna, Wrench, Lightbulb, Award, ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutPage() {
   const skills = ["UX Research", "UI Design", "Instructional Design", "Prototyping", "Frontend Development", "Agile Methodologies"];
@@ -36,7 +37,17 @@ export default function AboutPage() {
               Currently, as a Learning Designer at a Group of Eight university, I apply these principles to create engaging and effective online courses for thousands of students. I thrive on complex challenges and am passionate about using design to solve problems and improve people's lives.
             </p>
              <p>
-              I am a Fellow of the Higher Education Academy (FHEA), a recognition of my commitment to professionalism in teaching and learning in higher education.
+              I am a{' '}
+              <a 
+                href="https://www.advance-he.ac.uk/fellowship/fellowship" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-semibold text-primary hover:underline underline-offset-4"
+              >
+                Fellow of the Higher Education Academy (FHEA)
+                <ExternalLink className="inline-block ml-1 h-4 w-4" />
+              </a>
+              , a recognition of my commitment to professionalism in teaching and learning in higher education.
             </p>
           </div>
         </section>

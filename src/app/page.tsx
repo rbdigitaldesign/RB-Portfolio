@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { ProjectsClient } from '@/components/projects-client';
 import projects from '@/data/projects.json';
 import type { Project } from '@/lib/types';
+import Link from 'next/link';
 
 export default function Home() {
   const typedProjects: Project[] = projects;
@@ -45,7 +46,9 @@ export default function Home() {
               Rich Bartlett
             </h1>
             <p className="text-lg md:text-xl text-primary/90 dark:text-primary-foreground/90 font-medium mb-4">
-              FHEA — LDX Designer
+               <a href="https://www.advance-he.ac.uk/fellowship/fellowship" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                FHEA — LDX Designer
+              </a>
             </p>
             <p className="max-w-3xl mx-auto text-lg md:text-xl text-foreground/80">
               Welcome to RB Digital Design. I’m a Learning Designer at a GO8 university with 9+ years in Australia’s tech sector. Combining educational design with UX/UI expertise, I create intuitive, impactful experiences.
