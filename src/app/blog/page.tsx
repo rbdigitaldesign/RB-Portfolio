@@ -12,9 +12,9 @@ export default function BlogPage() {
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
-      <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-2">DesignToSolve</h1>
-        <div className="text-lg text-muted-foreground space-y-4">
+      <header className="mb-12">
+        <h1 className="text-4xl font-bold font-headline mb-2 text-center">DesignToSolve</h1>
+        <div className="text-lg text-muted-foreground space-y-4 max-w-3xl mx-auto">
           <p>
             This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making.
           </p>
