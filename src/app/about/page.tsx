@@ -1,7 +1,8 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { User, Dna, Wrench, Lightbulb } from "lucide-react";
+import { User, Dna, Wrench, Lightbulb, Award } from "lucide-react";
 
 export default function AboutPage() {
   const skills = ["UX Research", "UI Design", "Instructional Design", "Prototyping", "Frontend Development", "Agile Methodologies"];
@@ -33,6 +34,9 @@ export default function AboutPage() {
             </p>
             <p>
               Currently, as a Learning Designer at a Group of Eight university, I apply these principles to create engaging and effective online courses for thousands of students. I thrive on complex challenges and am passionate about using design to solve problems and improve people's lives.
+            </p>
+             <p>
+              I am a Fellow of the Higher Education Academy (FHEA), a recognition of my commitment to professionalism in teaching and learning in higher education.
             </p>
           </div>
         </section>

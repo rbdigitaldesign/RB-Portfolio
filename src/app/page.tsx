@@ -42,7 +42,7 @@ export default function Home() {
         <div className="relative z-10 text-center p-8 max-w-4xl mx-auto flex flex-col items-center">
           <div className="bg-background/70 backdrop-blur-sm p-8 rounded-lg">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">
-              Rich Bartlett — LDX Designer
+              Rich Bartlett, FHEA — LDX Designer
             </h1>
             <p className="max-w-3xl mx-auto text-lg md:text-xl text-foreground/80">
               Welcome to RB Digital Design. I’m a Learning Designer at a GO8 university with 9+ years in Australia’s tech sector. Combining educational design with UX/UI expertise, I create intuitive, impactful experiences.
