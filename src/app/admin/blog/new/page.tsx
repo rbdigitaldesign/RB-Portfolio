@@ -14,11 +14,31 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { addPost } from '@/app/actions/blog';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
   content: z.string().min(20, 'Content must be at least 20 characters.'),
+  coverImageType: z.enum(['url', 'upload']),
+  coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
+  coverImageFile: z.any().optional(),
+}).refine(data => {
+    if (data.coverImageType === 'url') {
+        return !!data.coverImageUrl;
+    }
+    return true;
+}, {
+    message: 'Please provide an image URL.',
+    path: ['coverImageUrl'],
+}).refine(data => {
+    if (data.coverImageType === 'upload') {
+        return !!data.coverImageFile && data.coverImageFile.length > 0;
+    }
+    return true;
+}, {
+    message: 'Please select a file to upload.',
+    path: ['coverImageFile'],
 });
 
 export default function NewPostPage() {
@@ -32,20 +52,37 @@ export default function NewPostPage() {
       title: '',
       summary: '',
       content: '',
+      coverImageType: 'url',
+      coverImageUrl: '',
     },
   });
 
+  const coverImageType = form.watch('coverImageType');
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
+    
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('summary', values.summary);
+    formData.append('content', values.content);
+    formData.append('coverImageType', values.coverImageType);
+    if (values.coverImageType === 'url' && values.coverImageUrl) {
+      formData.append('coverImageUrl', values.coverImageUrl);
+    }
+    if (values.coverImageType === 'upload' && values.coverImageFile && values.coverImageFile.length > 0) {
+      formData.append('coverImageFile', values.coverImageFile[0]);
+    }
+
     try {
-      const result = await addPost(values);
+      const result = await addPost(formData);
       if (result.success) {
         toast({
           title: 'Post Created!',
           description: 'Your new blog post has been saved.',
         });
         router.push('/admin/blog');
-        router.refresh(); // Ensures the post list is updated
+        router.refresh(); 
       } else {
         throw new Error(result.error || 'An unknown error occurred');
       }
@@ -113,6 +150,81 @@ export default function NewPostPage() {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="coverImageType"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Cover Image</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="url" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Image URL
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="upload" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Upload Image
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {coverImageType === 'url' && (
+                <FormField
+                  control={form.control}
+                  name="coverImageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://example.com/image.png" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {coverImageType === 'upload' && (
+                 <FormField
+                    control={form.control}
+                    name="coverImageFile"
+                    render={({ field: { value, onChange, ...fieldProps } }) => (
+                      <FormItem>
+                        <FormLabel>Image File</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...fieldProps}
+                            type="file"
+                            accept="image/png, image/jpeg, image/gif"
+                            onChange={(event) => {
+                                onChange(event.target.files);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+              )}
+
               <div className="flex gap-4">
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? 'Saving...' : 'Save Post'}
