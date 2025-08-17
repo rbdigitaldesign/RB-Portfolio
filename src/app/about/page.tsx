@@ -11,10 +11,6 @@ export default function AboutPage() {
   const tools = ["Figma", "Adobe CC", "React", "Next.js", "Canvas LMS", "Miro", "Jira"];
   const interests = [
     {
-      icon: <User className="h-5 w-5 text-primary" />,
-      text: "Spending cherished moments with my wife Hannah, a nurse, and our daughter Maggie Jo.",
-    },
-    {
       icon: <Dna className="h-5 w-5 text-primary" />,
       text: "Challenging my physical limits and having fun through CrossFit to maintain strength and resilience.",
     },
@@ -134,7 +130,7 @@ export default function AboutPage() {
             </div>
             <div>
               <p className="text-foreground/80 mb-6">
-                When I'm not working, I cherish moments spent with my wife Hannah, who is a nurse, and our daughter Maggie Jo. Here's a glimpse into what fuels my spirit:
+                When I'm not working, here's a glimpse into what fuels my spirit:
               </p>
               <ul className="space-y-4">
                 {interests.map((interest, index) => (
