@@ -11,7 +11,6 @@ export function Footer() {
       <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between py-6 px-4">
         <div className="text-sm mb-4 sm:mb-0 text-center sm:text-left">
             <p>&copy; {currentYear} RB Digital Design. All Rights Reserved.</p>
-            <p className="mt-1">rbdigitaldesign11@gmail.com</p>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="ghost" size="icon" asChild>
