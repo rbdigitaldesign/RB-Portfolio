@@ -2,12 +2,43 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { User, Dna, Wrench, Lightbulb, Award, ExternalLink } from "lucide-react";
+import { User, Dna, Wrench, Lightbulb, Award, ExternalLink, Heart, Radio, Music, BookOpen, Beer, Dog } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutPage() {
   const skills = ["UX Research", "UI Design", "Instructional Design", "Prototyping", "Frontend Development", "Agile Methodologies"];
   const tools = ["Figma", "Adobe CC", "React", "Next.js", "Canvas LMS", "Miro", "Jira"];
+  const interests = [
+    {
+      icon: <User className="h-5 w-5 text-primary" />,
+      text: "Spending cherished moments with my wife Hannah, a nurse, and our daughter Maggie Jo.",
+    },
+    {
+      icon: <Dna className="h-5 w-5 text-primary" />,
+      text: "Challenging my physical limits and having fun through CrossFit to maintain strength and resilience.",
+    },
+    {
+      icon: <Dog className="h-5 w-5 text-primary" />,
+      text: "Enjoying tranquility at home or the dog park with our Kelpie cross, 'Jerry Boi Seinfeld'.",
+    },
+    {
+      icon: <BookOpen className="h-5 w-5 text-primary" />,
+      text: "Immersing myself in compelling reads—from animal studies and biographies to Sci-Fi and Fantasy.",
+    },
+    {
+      icon: <Music className="h-5 w-5 text-primary" />,
+      text: "Humming along to inspiring music and continually reminding myself to practice guitar.",
+    },
+    {
+      icon: <Radio className="h-5 w-5 text-primary" />,
+      text: "Tuning into thought-provoking podcasts like 'Heavy Weight,' 'Science Vs,' and 'How I Built This'.",
+    },
+    {
+      icon: <Beer className="h-5 w-5 text-primary" />,
+      text: "Relishing a tasty beer or wine in the company of good friends, celebrating life’s simple pleasures.",
+    },
+  ];
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
@@ -86,6 +117,36 @@ export default function AboutPage() {
           </div>
         </section>
       </div>
+
+      <Separator className="my-12" />
+
+      <section aria-labelledby="life-outside-work-heading">
+          <h2 id="life-outside-work-heading" className="text-2xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Heart /> Life Outside Work</h2>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+             <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-strong">
+                <Image
+                    src="https://i.imgur.com/WyDEtud.png"
+                    alt="Rich Bartlett with his family"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="family photo"
+                />
+            </div>
+            <div>
+              <p className="text-foreground/80 mb-6">
+                When I'm not working, I cherish moments spent with my wife Hannah, who is a nurse, and our daughter Maggie Jo. Here's a glimpse into what fuels my spirit:
+              </p>
+              <ul className="space-y-4">
+                {interests.map((interest, index) => (
+                  <li key={index} className="flex items-start gap-4">
+                    <div className="flex-shrink-0 mt-1">{interest.icon}</div>
+                    <span className="text-foreground/80">{interest.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
     </div>
   );
 }
