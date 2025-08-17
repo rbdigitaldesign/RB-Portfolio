@@ -1,6 +1,6 @@
+
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import Link from "next/link";
 
 export default function ResumePage() {
   return (
@@ -11,7 +11,12 @@ export default function ResumePage() {
           You can view or download my full résumé for more details on my experience and qualifications.
         </p>
         <Button asChild size="lg">
-          <a href="/resume.pdf" download="Rich_Bartlett_Resume.pdf">
+          <a 
+            href="https://docs.google.com/document/d/1323RCNFuAi6XZl8nIbOo7y1r8n157PlpDtAwLHdSbFA/export?format=pdf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            download="Rich_Bartlett_Resume.pdf"
+          >
             <Download className="mr-2 h-5 w-5" />
             Download Résumé (PDF)
           </a>
