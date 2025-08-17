@@ -1,3 +1,4 @@
+
 export type Project = {
   slug: string;
   title: string;
@@ -20,3 +21,14 @@ export type Project = {
     github?: string;
   };
 };
+
+export interface Post {
+  slug: string;
+  title: string;
+  summary: string;
+  content: string;
+  author: string;
+  publishedDate: string;
+  tags: string[];
+  coverImage: string;
+}

@@ -1,0 +1,13 @@
+
+[
+  {
+    "slug": "welcome-to-the-blog",
+    "title": "Welcome to the Blog!",
+    "summary": "This is the first post on my new blog. Stay tuned for more content.",
+    "content": "This is the full content of the first blog post. I'll be writing about user experience, learning design, and technology.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2024-08-15T10:00:00.000Z",
+    "tags": ["Intro", "General"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  }
+]
