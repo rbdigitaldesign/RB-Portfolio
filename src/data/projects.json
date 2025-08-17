@@ -186,7 +186,7 @@
     "summary": "Enhanced a course page by integrating an expandable 'show references' feature, applying the principle of progressive disclosure to simplify the UI.",
     "tags": ["UX", "Instructional Design", "Progressive Disclosure", "AU"],
     "coverImage": "https://i.imgur.com/AzzPhcJ.png",
-    "gallery": [],
+    "gallery": ["https://placehold.co/1200x800.png", "https://placehold.co/1200x800.png"],
     "overview": "In this project, I enhanced a course page by integrating an expandable 'show references' feature. This design aligns with the principle of progressive disclosure, which defers advanced or less frequently used features to secondary screens, simplifying the user interface and reducing cognitive load.",
     "problem": "The original page presented a lengthy reference list, requiring extensive scrolling and potentially overwhelming students. This layout hindered efficient navigation and detracted from the primary content.",
     "process": "Implemented an expandable 'show references' box. This feature allows students to access references on demand, providing greater control and freedom to navigate content according to their needs. The references section is initially collapsed, displaying a link to expand. When clicked, the full list of references expands below, allowing students to view them without leaving the current page.",
