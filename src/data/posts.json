@@ -1,12 +1,72 @@
 
 [
   {
-    "slug": "welcome-to-the-blog",
-    "title": "Welcome to the Blog!",
-    "summary": "This is the first post on my new blog. Stay tuned for more content.",
-    "content": "This is the full content of the first blog post. I'll be writing about user experience, learning design, and technology.",
+    "slug": "useful-thinking-tools",
+    "title": "Useful thinking tools: insights from design and teaching",
+    "summary": "Exploring practical thinking tools and frameworks from both design and education to enhance problem-solving and creativity.",
+    "content": "Full blog post content coming soon. This post will delve into various thinking models that can be applied across disciplines.",
     "author": "Rich Bartlett",
-    "publishedDate": "2024-08-15T10:00:00.000Z",
+    "publishedDate": "2024-05-13T10:00:00.000Z",
+    "tags": ["Design Thinking", "Pedagogy", "Creativity"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  },
+  {
+    "slug": "striking-the-balance",
+    "title": "Striking the Balance: Data, Empathy, and Gut Feeling in Product Design",
+    "summary": "A deep dive into the art of balancing quantitative data, qualitative user empathy, and a designer's intuition to create successful products.",
+    "content": "Full blog post content coming soon. This article will explore case studies where this balance was key to success.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2023-08-30T10:00:00.000Z",
+    "tags": ["UX", "Product Design", "Decision Making"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  },
+  {
+    "slug": "navigating-curriculum-alignment",
+    "title": "Navigating Curriculum Alignment through Workshops: A University of Adelaide Initiative",
+    "summary": "A case study on facilitating curriculum alignment workshops at the University of Adelaide to ensure cohesive and effective learning pathways.",
+    "content": "Full blog post content coming soon. This post will share the process, challenges, and outcomes of this institutional initiative.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2023-05-25T10:00:00.000Z",
+    "tags": ["Learning Design", "Higher Education", "Workshops"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  },
+  {
+    "slug": "decoding-ux-ui-design",
+    "title": "Decoding UX/UI Design: More Than Just Pretty Buttons?",
+    "summary": "An exploration of the fundamental differences and synergies between User Experience (UX) and User Interface (UI) design.",
+    "content": "Full blog post content coming soon. This article aims to clarify common misconceptions for those new to the field.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2021-08-10T10:00:00.000Z",
+    "tags": ["UX", "UI", "Beginners"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  },
+  {
+    "slug": "imposter-syndrome-in-ux",
+    "title": "Why does everyone seem to suffer from ‘imposter syndrome’ when becoming a UX designer?",
+    "summary": "A personal reflection and analysis on the prevalence of imposter syndrome among new and aspiring UX designers, and strategies to overcome it.",
+    "content": "Full blog post content coming soon. This post will offer advice and encouragement for those feeling like an imposter.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2021-06-06T10:00:00.000Z",
+    "tags": ["Career", "UX", "Imposter Syndrome"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  },
+  {
+    "slug": "11-ux-design-principles",
+    "title": "New to UX? Here are 11 UX design principles to live by",
+    "summary": "A foundational guide to eleven essential UX design principles that every new designer should know and apply in their work.",
+    "content": "Full blog post content coming soon. This post will serve as a go-to reference for core UX concepts.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2021-06-06T10:00:00.000Z",
+    "tags": ["UX", "Principles", "Beginners"],
+    "coverImage": "https://placehold.co/1200x675.png"
+  },
+  {
+    "slug": "welcome-to-the-blog",
+    "title": "Welcome to DesignToSolve!",
+    "summary": "This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making.",
+    "content": "This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making. Whether you're an academic looking to integrate design principles into educational settings or a UX newcomer navigating the complexities of the field, DesignToSolve serves as a resource for continuous learning and dialogue. Designed for both seasoned professionals and those new to the field, the blog covers a wide range of topics that address both the technical and emotional aspects of design. Dive in to enrich your understanding and engage in conversations that aim to help shape the future of design.",
+    "author": "Rich Bartlett",
+    "publishedDate": "2021-06-05T10:00:00.000Z",
     "tags": ["Intro", "General"],
     "coverImage": "https://placehold.co/1200x675.png"
   }

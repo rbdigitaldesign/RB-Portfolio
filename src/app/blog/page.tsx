@@ -13,10 +13,18 @@ export default function BlogPage() {
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-2">Blog</h1>
-        <p className="text-xl text-muted-foreground">
-          Thoughts on design, technology, and learning.
-        </p>
+        <h1 className="text-4xl font-bold font-headline mb-2">DesignToSolve</h1>
+        <div className="text-lg text-muted-foreground space-y-4">
+          <p>
+            This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making.
+          </p>
+          <p>
+            Whether you're an academic looking to integrate design principles into educational settings or a UX newcomer navigating the complexities of the field, DesignToSolve serves as a resource for continuous learning and dialogue.
+          </p>
+          <p>
+            Designed for both seasoned professionals and those new to the field, the blog covers a wide range of topics that address both the technical and emotional aspects of design. Dive in to enrich your understanding and engage in conversations that aim to help shape the future of design.
+          </p>
+        </div>
       </header>
 
       {typedPosts.length > 0 ? (
