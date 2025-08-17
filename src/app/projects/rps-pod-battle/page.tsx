@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Gamepad2 } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -110,7 +110,7 @@ export default function RpsPodBattlePage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://placehold.co/1200x675.png"
+                src="https://i.imgur.com/Orr8zIw.png"
                 alt="Retro tournament title screen with start button"
                 fill
                 priority
@@ -127,9 +127,17 @@ export default function RpsPodBattlePage() {
             </p>
             <p className="text-sm text-muted-foreground mt-2">Estimated reading time: {readingTime} minutes</p>
         </div>
-        <StatusNote>
-          First live run scheduled for 27 August 2025 (Adelaide time); structured feedback to follow.
-        </StatusNote>
+        <div className="flex flex-col items-center mt-6 gap-4">
+             <Button asChild size="lg">
+                <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">
+                    <Gamepad2 className="mr-2 h-5 w-5" />
+                    Play the Game!
+                </a>
+            </Button>
+            <StatusNote>
+              First live run scheduled for 27 August 2025 (Adelaide time); structured feedback to follow.
+            </StatusNote>
+        </div>
       </header>
       
       <div className="grid lg:grid-cols-4 gap-12">
@@ -252,7 +260,7 @@ export default function RpsPodBattlePage() {
                  <h3 className="text-2xl font-bold font-headline mb-4">Interactive demo</h3>
                  <div className="flex flex-wrap gap-4 items-center">
                     <Button asChild>
-                        <a href="#" target="_blank" rel="noopener noreferrer">Open Tournament <ExternalLink className="ml-2 h-4 w-4" /></a>
+                        <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">Open Tournament <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                      <Button variant="outline" asChild>
                         <a href="#" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>

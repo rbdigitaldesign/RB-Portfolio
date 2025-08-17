@@ -107,7 +107,7 @@
       "Multiplayer",
       "AI-assisted"
     ],
-    "coverImage": "https://placehold.co/600x400.png",
+    "coverImage": "https://i.imgur.com/Orr8zIw.png",
     "gallery": [],
     "overview": "Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.",
     "problem": "Run a lightweight tournament many can follow on one call, minimal setup. Handle ties and bracket progression; clearly show who plays next. Keep interaction simple so pod managers can represent teams without confusion.",
@@ -119,7 +119,7 @@
     "team": "Solo, with engineering partner",
     "tools": ["Firebase Studio", "Firebase Hosting", "Stackblitz", "AI", "Figma"],
     "links": {
-      "live": "https://leipodbattle.com.au"
+      "live": "https://www.leipodbattle.com.au"
     }
   },
   {
@@ -128,7 +128,7 @@
     "category": "Learning Design",
     "summary": "Developing a standardized design and development process for online university courses.",
     "tags": ["Instructional Design", "Process", "Higher Education", "UoA"],
-    "coverImage": "https://i.imgur.com/yygdVja.png",
+    "coverImage": "https://i.imgur.com/nxY0hJB.png",
     "gallery": [],
     "overview": "Created a scalable framework for designing high-quality online learning experiences for Open Universities Australia (OUA).",
     "problem": "The lack of a standardized process led to inconsistent course quality and inefficient use of resources.",
@@ -147,7 +147,7 @@
     "category": "Learning Design",
     "summary": "Improving student engagement from day one with a redesigned orientation module.",
     "tags": ["Student Experience", "LMS", "Online Learning", "UoA"],
-    "coverImage": "https://i.imgur.com/pjDmpEp.png",
+    "coverImage": "https://i.imgur.com/gKA9SWV.png",
     "gallery": [],
     "overview": "Transformed a static, text-heavy orientation module into an interactive and welcoming experience for new online students.",
     "problem": "Student feedback indicated that the initial course orientation was boring and failed to set them up for success.",
