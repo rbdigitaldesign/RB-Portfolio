@@ -4,8 +4,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -26,6 +27,16 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const logoSrc = resolvedTheme === 'dark' 
+    ? 'https://i.imgur.com/hdIZnWQ.png' 
+    : 'https://i.imgur.com/ocbJgCp.png';
 
   const NavLink = ({ href, label, className }: { href: string; label: string; className?: string }) => {
     const isActive = pathname === href || (href === '/' && pathname.startsWith('/projects'));
@@ -33,7 +44,6 @@ export function Header() {
     const isProjectsLink = href === '/';
     const isProjectPage = pathname.startsWith('/projects/');
     const checkIsActive = isProjectsLink ? isActive || isProjectPage : pathname === href;
-
 
     return (
       <Link
@@ -53,7 +63,11 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="https://i.imgur.com/9x6WbJ3.png" alt="RB Digital Design Logo" width={32} height={32} />
+          {mounted ? (
+            <Image src={logoSrc} alt="RB Digital Design Logo" width={32} height={32} />
+          ) : (
+            <div style={{ width: 32, height: 32 }} />
+          )}
           <span className="font-bold text-lg font-headline">RB Digital Design</span>
         </Link>
         
