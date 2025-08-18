@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import StatusNote from '@/components/StatusNote';
@@ -318,6 +318,16 @@ export default function TuxForLearningDesignPage() {
                     <div className="aspect-video relative">
                         <iframe className="w-full h-full absolute top-0 left-0" src="https://miro.com/app/live-embed/uXjVJXMJ08E=/?focusWidget=3458764636428448072&embedMode=view_only_without_ui&embedId=656730734944" frameBorder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowFullScreen></iframe>
                     </div>
+                     <Button asChild variant="outline" className="mt-4">
+                        <a 
+                            href="https://drive.google.com/file/d/1H95bGtCPi-VLadSFP0mP77AibjAEbZ9l/view?usp=sharing" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            <Download className="mr-2 h-4 w-4" />
+                            Download Scoping Document
+                        </a>
+                    </Button>
                 </div>
             </section>
 
@@ -427,4 +437,5 @@ export default function TuxForLearningDesignPage() {
     </CaseStudyLayout>
   );
 }
+
 
