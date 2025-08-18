@@ -16,20 +16,17 @@ const postsFilePath = path.join(process.cwd(), 'src', 'data', 'posts.json');
 // Helper to read posts
 async function getPosts(): Promise<Post[]> {
   try {
-    // In a serverless environment, the file system can be ephemeral.
-    // It's often better to require/import the JSON data directly if it's part of the build.
-    // However, to support dynamic updates, we'll read from the file.
-    // For this fix, we will use the imported data as the source of truth
-    // and write back to the file path for persistence.
-    return JSON.parse(JSON.stringify(postsData));
+    const data = await fs.readFile(postsFilePath, 'utf-8');
+    if (!data) return []; // Handle empty file
+    return JSON.parse(data);
   } catch (error) {
-    if (error instanceof SyntaxError) {
-        console.warn("posts.json is empty or invalid, starting with an empty array.");
-        return [];
-    }
-    // If file doesn't exist, this will also fail, but we have posts.json
     if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
-      return [];
+      console.warn("posts.json not found, starting with data from import.");
+      return JSON.parse(JSON.stringify(postsData));
+    }
+     if (error instanceof SyntaxError) {
+        console.warn("posts.json is empty or invalid, starting with data from import.");
+        return JSON.parse(JSON.stringify(postsData));
     }
     throw error;
   }
@@ -56,7 +53,7 @@ export async function getPost(slug: string): Promise<Post | null> {
 }
 
 const tagsSchema = z.string().refine(
-  (value) => value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
+  (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
   { message: 'You can add a maximum of 3 tags.' }
 ).optional();
 
@@ -154,8 +151,8 @@ export async function addPost(formData: FormData) {
       coverImage: finalCoverImageUrl,
     };
 
-    posts.unshift(newPost);
-    await writePosts(posts);
+    const updatedPosts = [newPost, ...posts];
+    await writePosts(updatedPosts);
 
     revalidatePath('/admin/blog');
     revalidatePath('/blog');
