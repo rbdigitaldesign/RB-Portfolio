@@ -44,7 +44,7 @@ const projectContent = {
     `Barriers (multi-select): time constraints 31; lack of training 15; limited tools/resources 22; team/academic resistance 19; don’t know where to start 13; none 3.`,
     `Preferred platform for future resources: canvas course 29; dedicated website 6; confluence 3; pdfs 3; other 2.`,
     `Open-ended themes: interest in recognised upskilling/certificates; access to paid resources; exemplars and baseline quality standards; earlier usability testing; small-group training; “fewer clicks”; leadership awareness that ux testing is longer and continuous; encode best practices in course templates; helpful link shared (nngroup.com/articles/).`,
-    `Interview volunteers: Tamika Glouftsis; Michelle Riggs; Yashi Renoir; Haley Timms; Jeremy Bowtell.`
+    `Interview volunteers: tamika glouftsis; michelle riggs; yashi renoir; haley timms; jeremy bowtell.`
   ],
   implications: [
     'Prioritise canvas as the preferred delivery platform for future ux-for-learning resources.',
@@ -122,7 +122,7 @@ export default function UxSurveyCaseStudyPage() {
             <section id="findings">
                 <h3 className="text-2xl font-bold font-headline mb-4">Key findings (LEI results)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                   {projectContent.findings.map((item, i) => <li key={i}>{item}</li>)}
+                   {projectContent.findings.map((item, i) => <li key={i}>{typeof item === 'string' ? item : JSON.stringify(item)}</li>)}
                 </ul>
             </section>
 
@@ -155,11 +155,6 @@ export default function UxSurveyCaseStudyPage() {
                     <Button asChild variant="outline">
                         <a href="https://drive.google.com/file/d/1SHFHjdnFacnZ7lhXnHeI2uZXb4pprd9S/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                             <Download className="mr-2 h-4 w-4" /> Download Survey (PDF)
-                        </a>
-                    </Button>
-                     <Button asChild variant="outline">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                            Volunteer Interview List (Redacted)
                         </a>
                     </Button>
                  </div>
@@ -231,3 +226,5 @@ export default function UxSurveyCaseStudyPage() {
     </CaseStudyLayout>
   );
 }
+
+    
