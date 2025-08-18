@@ -240,23 +240,23 @@
     "tools": ["ChatGPT", "Github Pages", "Google Suite", "Miro", "HTML/CSS/JavaScript"],
     "links": {}
   },
-  {
-    "slug": "lms-tabbed-navigation",
-    "title": "LMS Tabbed Navigation Bar",
-    "category": "Learning Design",
-    "summary": "Implementing an intuitive tabbed navigation bar within the LMS to improve content organisation and accessibility.",
-    "tags": ["AU", "LMS", "UI", "UX"],
-    "coverImage": "https://i.imgur.com/5MtXytM.png",
+   {
+    "slug": "canvas-quick-navigation",
+    "title": "Canvas LMS Quick Navigation Bar",
+    "category": "Coding Projects",
+    "summary": "Reducing clicks with an accessible, reusable on-page nav for modules and topics.",
+    "tags": ["Canvas LMS", "HTML", "CSS", "Component", "Navigation", "Accessibility", "Higher Education"],
+    "coverImage": "https://i.imgur.com/QMwbgwF.png",
     "gallery": [],
-    "overview": "This project focuses on enhancing the user interface of the Learning Management System (LMS) by replacing a cumbersome navigation menu with a clean, tabbed interface.",
-    "problem": "Students found the existing nested menu structure difficult to navigate, often getting lost when trying to find course materials, assignments, and grades.",
-    "process": "I designed and prototyped a tabbed navigation bar, conducted usability testing with students to validate the design, and worked with developers to implement it using custom CSS and JavaScript within the LMS.",
-    "outcomes": "The new tabbed navigation significantly improved student satisfaction and reduced the time it took for users to find key information within their courses.",
-    "role": "Learning Designer",
-    "year": 2023,
-    "duration": "4 Weeks",
-    "team": "Solo",
-    "tools": ["Canvas LMS", "CSS", "JavaScript", "Figma"],
+    "overview": "A lightweight, consistent quick navigation element embedded on Canvas pages to jump between topics, assignments and key resources with fewer clicks.",
+    "problem": "Frequent navigation requires multiple clicks and context switching. Patterns vary across courses, increasing cognitive load. Designers often lack theme access, restricting global changes.",
+    "process": "Reviewed current course pages, prototyped HTML/CSS in a test shell, confirmed accessibility, and created variants. Consulted with the media team for alignment with global navigation plans.",
+    "outcomes": "A consistent in-page pattern ready for wider trial, faster setup for designers, positive pilot feedback, and alignment with the media team.",
+    "role": "Product Owner, UX/UI, Prototyper",
+    "year": 2025,
+    "duration": "August 2025",
+    "team": "Solo, with academic collaboration",
+    "tools": ["Canvas LMS", "HTML", "CSS"],
     "links": {}
   },
   {
@@ -298,3 +298,4 @@
     "links": {}
   }
 ]
+
