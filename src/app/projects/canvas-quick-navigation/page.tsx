@@ -102,7 +102,7 @@ export default function CanvasQuickNavPage() {
                     Pilot — implemented on Canvas pages as a content component; no theme or LTI changes required.
                 </StatusNote>
                  <StatusNote>
-                    Important context — this is an iterative idea created in response to an academic request (Eden Blazejak). The academic was notified that global navigation for the LMS will be implemented. This page demonstrates collaboration and custom coding, not a standard pattern for AU course development.
+                    Important context — This component was created as a custom solution for an academic request. It is not a standard university pattern, as a global navigation feature is planned for the LMS. This page demonstrates a collaborative coding solution.
                 </StatusNote>
             </header>
 
@@ -213,7 +213,7 @@ export default function CanvasQuickNavPage() {
                     <section id="reflection">
                         <h3 className="text-2xl font-bold font-headline mb-4">Reflection & next steps</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                            <li>Convert snippet into a Canvas template page for adoption at scale</li>
+                            <li>Convert snippet into a canvas template page for adoption at scale</li>
                             <li>Explore auto-highlighting of the current week/topic</li>
                             <li>Produce a short setup video and a redacted example course</li>
                             <li>Coordinate with the media team on timing and governance for any future theme-level include or retirement of the page-level pattern once global nav is live</li>
@@ -322,4 +322,3 @@ export default function CanvasQuickNavPage() {
         </CaseStudyLayout>
     );
 }
-
