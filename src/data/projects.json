@@ -246,7 +246,7 @@
     "category": "Learning Design",
     "summary": "Implementing an intuitive tabbed navigation bar within the LMS to improve content organisation and accessibility.",
     "tags": ["AU", "LMS", "UI", "UX"],
-    "coverImage": "https://i.imgur.com/zUVWgvo.png",
+    "coverImage": "https://i.imgur.com/5MtXytM.png",
     "gallery": [],
     "overview": "This project focuses on enhancing the user interface of the Learning Management System (LMS) by replacing a cumbersome navigation menu with a clean, tabbed interface.",
     "problem": "Students found the existing nested menu structure difficult to navigate, often getting lost when trying to find course materials, assignments, and grades.",
