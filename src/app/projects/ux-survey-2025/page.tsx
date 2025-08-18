@@ -53,7 +53,7 @@ const projectContent = {
     'Plan for ongoing usability testing and leadership comms about cadence/effort.',
     'Schedule interviews with volunteers; consider micro-credentials.'
   ],
-  outreach: `The Jotform survey was distributed to TIU colleagues at UniSA post-session. The results are pending and will be appended to this study once available.`
+  outreach: `The Jotform survey was distributed to TIU colleagues at UniSA post-session.`
 };
 
 const galleryImages = [
