@@ -263,7 +263,7 @@ export default function RpsPodBattlePage() {
                         <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">Open Tournament <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                      <Button variant="outline" asChild>
-                        <a href="#" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>
+                        <a href="https://github.com/rbdigitaldesign/LEI-Pod-Battle.git" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                  </div>
                  <Accordion type="single" collapsible className="w-full border-none mt-4">
@@ -354,5 +354,7 @@ export default function RpsPodBattlePage() {
     </CaseStudyLayout>
   );
 }
+
+    
 
     
