@@ -11,6 +11,29 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/auth-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const DesignToSolveLogo = () => (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 400 60" 
+      aria-labelledby="dts-title" 
+      role="img"
+      className="w-full max-w-md h-auto"
+    >
+      <title id="dts-title">DesignToSolve Logo</title>
+      <desc id="dts-desc">The words 'DesignToSolve' in a stylized font.</desc>
+      <text 
+        x="50%" 
+        y="50%" 
+        dominantBaseline="middle" 
+        textAnchor="middle" 
+        className="font-headline text-5xl fill-current"
+      >
+        DesignToSolve
+      </text>
+    </svg>
+);
+
+
 export default function BlogPage() {
   const typedPosts: Post[] = posts;
   const { user, loading } = useAuth();
@@ -18,18 +41,13 @@ export default function BlogPage() {
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <header className="mb-12">
-        <div className="flex justify-between items-start">
-            <h1 className="text-4xl font-bold font-headline mb-2">DesignToSolve</h1>
+        <div className="flex justify-between items-start mb-4">
+            <h1 className="text-4xl font-bold font-headline mb-2 sr-only">DesignToSolve</h1>
+            <DesignToSolveLogo />
         </div>
         <div className="text-lg text-muted-foreground space-y-4 max-w-3xl">
           <p>
-            This blog aims to offer a nuanced approach to design thinking, exploring the delicate balance between empirical data, human-centric empathy, and intuitive decision-making.
-          </p>
-          <p>
-            Whether you're an academic looking to integrate design principles into educational settings or a UX newcomer navigating the complexities of the field, DesignToSolve serves as a resource for continuous learning and dialogue.
-          </p>
-          <p>
-            Designed for both seasoned professionals and those new to the field, the blog covers a wide range of topics that address both the technical and emotional aspects of design. Dive in to enrich your understanding and engage in conversations that aim to help shape the future of design.
+            Design and learning aren’t always elegant. Here you’ll find ideas shaped by patterns in nature, sarcasm, and the occasional brain fart.
           </p>
         </div>
       </header>
