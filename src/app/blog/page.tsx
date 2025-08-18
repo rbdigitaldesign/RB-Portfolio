@@ -56,7 +56,11 @@ export default function BlogPage() {
                 </div>
                 <div className="md:w-2/3 flex flex-col">
                     <CardHeader>
-                        <CardTitle className="font-headline text-2xl">{post.title}</CardTitle>
+                        <CardTitle className="font-headline text-2xl">
+                           <Link href={`/blog/${post.slug}`} className="hover:underline">
+                             {post.title}
+                           </Link>
+                        </CardTitle>
                         <CardDescription>
                             {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </CardDescription>
