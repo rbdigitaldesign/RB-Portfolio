@@ -79,7 +79,7 @@
   {
     "slug": "ux-survey-2025",
     "title": "UX Survey of Learning Design Practice — LEI & TIU 2025",
-    "category": "Learning Design",
+    "category": "User Experience",
     "summary": "A quick pulse on practices, confidence, barriers, and platform preferences among learning design practitioners.",
     "tags": ["UX Research", "Mentimeter", "Jotform", "Higher Education", "Poll", "Adelaide"],
     "coverImage": "https://i.imgur.com/5UV2LHM.png",
@@ -224,7 +224,7 @@
   {
     "slug": "tux-for-learning-design",
     "title": "UX Design Toolkit (TUX) for Learning Design",
-    "category": "Learning Design",
+    "category": "Coding Projects",
     "summary": "A UX toolkit providing reusable components, templates, and guidelines to ensure consistency and quality across online courses.",
     "tags": ["Learning Design", "UX", "Toolkit", "Higher Education", "Workshops", "Canvas LMS", "ChatGPT", "Github Pages", "HTML", "CSS", "JavaScript"],
     "coverImage": "https://i.imgur.com/t8NXYGY.png",
