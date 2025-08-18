@@ -3,12 +3,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, Download } from 'lucide-react';
+import { ExternalLink, Download, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -24,6 +26,7 @@ const LocalTOC = () => (
       <li><a href="#implications" className="hover:text-primary">Implications</a></li>
       <li><a href="#outreach" className="hover:text-primary">Outreach status</a></li>
       <li><a href="#artefacts" className="hover:text-primary">Artefacts</a></li>
+      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
     </ul>
   </nav>
 );
@@ -52,18 +55,45 @@ const projectContent = {
     'Plan for ongoing usability testing and leadership comms about cadence/effort.',
     'Schedule interviews with volunteers; consider micro-credentials.'
   ],
-  outreach: `The Jotform survey was distributed to TIU colleagues at UniSA post-session.`
+  outreach: `The Jotform survey was distributed to TIU colleagues at UniSA post-session. The results have been added.`
 };
 
 const galleryImages = [
-    { src: 'https://placehold.co/1200x800.png', alt: 'Summary chart of key survey categories from the live poll', hint: 'results overview' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Bar chart highlighting Canvas as the preferred platform', hint: 'platform preference' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Chart showing workshops and exemplars as top support formats', hint: 'support preferences' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Bar chart with time constraints as the leading barrier', hint: 'barriers chart' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Redacted list indicating colleagues who volunteered for interviews', hint: 'volunteer list' },
+    { src: 'https://i.imgur.com/yyiwP9x.png', alt: 'Chart showing UX practices used' },
+    { src: 'https://i.imgur.com/XYxWnyR.png', alt: 'Chart showing confidence in applying UX' },
+    { src: 'https://i.imgur.com/w0Em2Eq.png', alt: 'Chart showing experience with UX' },
+    { src: 'https://i.imgur.com/pdwOiU5.png', alt: 'Chart showing interest in learning more about UX' },
+    { src: 'https://i.imgur.com/cgzEKVy.png', alt: 'Chart showing preferred support formats for UX' },
+    { src: 'https://i.imgur.com/gtGPfnS.png', alt: 'Chart showing barriers to using UX' },
+    { src: 'https://i.imgur.com/kf9KGK2.png', alt: 'Chart showing preferred platform for future UX resources' },
+    { src: 'https://i.imgur.com/vWexSJc.png', alt: 'List of open-ended themes from the survey' },
 ];
 
 export default function UxSurveyCaseStudyPage() {
+  const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleNext = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (!open) return;
+        if (e.key === 'ArrowRight') {
+            handleNext();
+        } else if (e.key === 'ArrowLeft') {
+            handlePrev();
+        }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, handleNext, handlePrev]);
+
   return (
     <CaseStudyLayout>
        <header className="mb-12">
@@ -204,21 +234,41 @@ export default function UxSurveyCaseStudyPage() {
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
                     fill 
                     className="object-cover"
-                    data-ai-hint={img.hint}
+                    data-ai-hint="survey results chart"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm">{img.alt}</p>
-                    </div>
+                  />
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p className="text-white text-center text-sm">{img.alt}</p>
+                  </div>
                 </div>
               ))}
             </div>
+
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                  <div className="relative aspect-video">
+                    <Image 
+                      src={galleryImages[selectedIndex].src} 
+                      alt={galleryImages[selectedIndex].alt} 
+                      fill
+                      className="rounded-lg object-contain"
+                    />
+                  </div>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                      <ArrowLeft className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                      <ArrowRight className="h-6 w-6" />
+                  </Button>
+              </DialogContent>
+            </Dialog>
       </section>
       <ScrollToTopButton />
     </CaseStudyLayout>
