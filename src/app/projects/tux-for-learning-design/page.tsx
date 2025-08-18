@@ -313,6 +313,12 @@ export default function TuxForLearningDesignPage() {
                     <li><strong className="font-semibold text-foreground">Constraints:</strong> {projectContent.reflection.constraints}</li>
                     <li><strong className="font-semibold text-foreground">Next steps:</strong> {projectContent.reflection.next}</li>
                 </ul>
+                <div className="mt-6">
+                    <h4 className="font-bold font-headline text-lg mb-2">Collaborative Toolkit Planning</h4>
+                    <div className="aspect-video relative">
+                        <iframe className="w-full h-full absolute top-0 left-0" src="https://miro.com/app/live-embed/uXjVJXMJ08E=/?focusWidget=3458764636428448072&embedMode=view_only_without_ui&embedId=656730734944" frameBorder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowFullScreen></iframe>
+                    </div>
+                </div>
             </section>
 
             <Separator />
@@ -421,3 +427,4 @@ export default function TuxForLearningDesignPage() {
     </CaseStudyLayout>
   );
 }
+
