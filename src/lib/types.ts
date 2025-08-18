@@ -32,3 +32,5 @@ export interface Post {
   tags: string[];
   coverImage: string;
 }
+
+    
