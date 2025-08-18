@@ -82,7 +82,7 @@
     "category": "User Experience",
     "summary": "A placeholder for the TALAS and TIU UX Survey case study, detailing the process and outcomes of survey-based user experience research.",
     "tags": ["Learning Design", "UX Research", "Survey", "Higher Education"],
-    "coverImage": "https://i.imgur.com/zUVWgvo.png",
+    "coverImage": "https://i.imgur.com/5UV2LHM.png",
     "gallery": [],
     "overview": "Case study content coming soon.",
     "problem": "Case study content coming soon.",
@@ -116,7 +116,7 @@
   },
   {
     "slug": "rps-pod-battle",
-    "title": "RPS Pod Battle — From Slide Idea to Playable Tournament",
+    "title": "Rock, Paper, Scissors - online battle tournament",
     "category": "Coding Projects",
     "summary": "AI-assisted build with Firebase Studio for a 50+ person meeting.",
     "tags": [
@@ -134,7 +134,7 @@
     "outcomes": "A working multiplayer tournament game deployed on Firebase Hosting. Facilitation model tested and ready for a live 50+ person event.",
     "role": "Product Owner, Facilitator, UX/UI, Prototyper",
     "year": 2025,
-    "duration": "~1 week (evenings)",
+    "duration": "1 week",
     "team": "Solo, with engineering partner",
     "tools": ["Firebase Studio", "Firebase Hosting", "Stackblitz", "AI"],
     "links": {
