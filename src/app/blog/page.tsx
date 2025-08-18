@@ -21,7 +21,7 @@ export default function BlogPage() {
         <h1 className="text-4xl font-bold font-headline mb-4">WHAT AM I ON ABOUT 🤔</h1>
         <div className="text-lg text-muted-foreground space-y-4 max-w-3xl mx-auto">
           <p>
-            Design, learning, and biomimicry—served with sarcasm and the occasional brain fart.
+            Design, learning, and biomimicry—a blog served with sarcasm and the occasional brain fart.
           </p>
         </div>
       </header>
