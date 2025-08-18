@@ -8,6 +8,12 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink, Gamepad2 } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import StatusNote from '@/components/StatusNote';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -36,8 +42,8 @@ const LocalTOC = () => (
 const projectContent = {
   overview: `Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.`,
   context: `In LEI (Learning Enhancement and Innovation) at the University of Adelaide, pods host the monthly meeting. The Orcas hosted 27 August 2025; topic was decision-making, coinciding with international RPS day. With 50+ colleagues on Teams, we needed something interactive, quick to facilitate, and simple.`,
-  earlyApproach: `Two failed Mentimeter trials highlighted limitations around state, ties, and bracket progression. An initial 50+ player idea was impractical, so we reframed to pod managers as players. Existing RPS games were evaluated but found unsuitable for a quick start or clear facilitation.`,
-  pivot: `Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”. Multiplayer was the main challenge; while Gemini understood the requirement to create a match between two players, it struggled to generate correct tournament bracketing. With 14 teams, it would try to create byes but wouldn't progress them to the next round automatically, only seeming to work with a perfect power of two, like 16 players. My developer partner, Aaron, was able to successfully engineer the logic to handle the brackets correctly. We paired over several builds to stabilise real-time reads/writes and repair regressions from rapid AI-led edits. We registered the domain, connected hosting, and ran ad-hoc tests which proved compatible with MS Teams breakout rooms.`,
+  earlyApproach: `Two failed Mentimeter trials highlighted limitations around state, ties, and bracket progression. An initial 50+ player idea was impractical, so we reframed to pod managers as players. Existing RPS games were evaluated but found unsuitable for a quick start or clear facilitation. Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”.`,
+  pivot: `Multiplayer was the main challenge; while Gemini understood the requirement to create a match between two players, it struggled to generate correct tournament bracketing. With 14 teams, it would try to create byes but wouldn't progress them to the next round automatically, only seeming to work with a perfect power of two, like 16 players. My developer partner, Aaron, was able to successfully engineer the logic to handle the brackets correctly. We paired over several builds to stabilise real-time reads/writes and repair regressions from rapid AI-led edits. We registered the domain, connected hosting, and ran ad-hoc tests which proved compatible with MS Teams breakout rooms.`,
   problem: [
     `Run a lightweight tournament many can follow on one call, with minimal setup.`,
     `Handle ties and bracket progression; clearly show who plays next.`,
@@ -81,11 +87,18 @@ const projectContent = {
 };
 
 const galleryImages = [
-    { src: 'https://placehold.co/1200x800.png', alt: 'Retro intro text teasing the rock–paper–scissors tournament', hint: 'retro game text' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Title screen with ‘start tournament’ call-to-action', hint: 'game title screen' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Matchup cards for two pods with a draw message and replay prompt', hint: 'game arena' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Admin modal with tournament controls and player links', hint: 'admin panel' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Single-elimination bracket with latest result and eliminated teams panel', hint: 'tournament bracket' },
+    { src: 'https://i.imgur.com/0DY7gk0.png', alt: 'First iteration example of start page with Ai generate image of animal pod teams, spectator and Dev test view', hint: 'start page ai image' },
+    { src: 'https://i.imgur.com/L2ljmom.png', alt: 'First iteration of the Tournament bracket', hint: 'tournament bracket first iteration' },
+    { src: 'https://i.imgur.com/qOmuSKJ.png', alt: 'Example of Dev Test view Gemini was prompted to create to help me with real-time testing.', hint: 'dev test view' },
+    { src: 'https://i.imgur.com/rHXhAQ7.png', alt: 'Second iteration of Battle page showcasing tournament view on the same page', hint: 'battle page second iteration' },
+    { src: 'https://i.imgur.com/n3wmwa5.png', alt: 'Second iteration of start page with 8-bit font and start button', hint: 'start page second iteration' },
+    { src: 'https://i.imgur.com/nYaJboX.png', alt: 'First iteration of winner announcement overlay', hint: 'winner overlay first iteration' },
+    { src: 'https://i.imgur.com/0WkXTa9.png', alt: 'Second iteration of tournament bracket', hint: 'tournament bracket second iteration' },
+    { src: 'https://i.imgur.com/3UumLCf.png', alt: 'Final iteration of start page with 8-bit font, retro 8-bit theme music, pixelated Ai background and press start button', hint: 'start page final' },
+    { src: 'https://i.imgur.com/vR7Wx1X.png', alt: 'Final iteration of tournament bracket showing winner of each battle and tournament progress of eliminated teams', hint: 'tournament bracket final' },
+    { src: 'https://i.imgur.com/y53UeKM.png', alt: 'First iteration of battle page where players select Rock, Paper or Scissors', hint: 'battle page first iteration' },
+    { src: 'https://i.imgur.com/1WUCALh.png', alt: 'Final iteration of battle page with LEI commentary box to engage players with game play tips, silly jokes and RPS facts', hint: 'battle page final' },
+    { src: 'https://i.imgur.com/Y7f7ww6.png', alt: 'Added a Hollywood movie-style intro page for humour and dramatic effect to start the tournament', hint: 'movie intro page' },
 ];
 
 function calculateReadingTime(text: string) {
@@ -155,7 +168,7 @@ export default function RpsPodBattlePage() {
 
             <section id="early-approach">
                 <h3 className="text-2xl font-bold font-headline mb-4">Early approach — Mentimeter and a rethink</h3>
-                <p className="text-foreground/80">{projectContent.earlyApproach}</p>
+                 <p className="text-foreground/80">{projectContent.earlyApproach}</p>
             </section>
 
             <Separator />
@@ -311,19 +324,32 @@ export default function RpsPodBattlePage() {
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
-                  <Image 
-                    src={img.src} 
-                    alt={img.alt} 
-                    fill 
-                    className="object-cover"
-                    data-ai-hint={img.hint}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm">{img.alt}</p>
+                <Dialog key={index}>
+                  <DialogTrigger asChild>
+                    <div className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                      <Image 
+                        src={img.src} 
+                        alt={img.alt} 
+                        fill 
+                        className="object-cover"
+                        data-ai-hint={img.hint}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-white text-center text-sm">{img.alt}</p>
+                      </div>
                     </div>
-                </div>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl p-0">
+                      <Image 
+                        src={img.src} 
+                        alt={img.alt} 
+                        width={1200}
+                        height={675}
+                        className="rounded-lg object-contain"
+                      />
+                  </DialogContent>
+                </Dialog>
               ))}
             </div>
       </section>
