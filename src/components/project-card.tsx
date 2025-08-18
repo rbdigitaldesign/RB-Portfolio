@@ -36,7 +36,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
           />
         </div>
         <Badge variant="secondary" className="w-fit">{project.category}</Badge>
-        <CardTitle className="pt-2 font-headline">{project.title}</CardTitle>
+        <CardTitle className="pt-2 font-headline">
+          <Link href={href} className="hover:underline">
+            {project.title}
+          </Link>
+        </CardTitle>
         <CardDescription>{project.summary}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
