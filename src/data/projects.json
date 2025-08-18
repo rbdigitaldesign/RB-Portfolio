@@ -4,17 +4,17 @@
     "slug": "gopro-app-redesign",
     "title": "GoPro App Redesign",
     "category": "User Experience",
-    "summary": "Reimagining the GoPro mobile app to enhance user onboarding and media management.",
-    "tags": ["UX", "UI", "Mobile App", "Figma"],
-    "coverImage": "https://i.imgur.com/eRgHLzJ.png",
+    "summary": "Making GoPro fun & easy for all—a faster path from capture to share with ‘Magic Movie’.",
+    "tags": ["mobile", "ios", "gopro", "ux research", "usability testing", "sus", "figma"],
+    "coverImage": "/images/projects/gopro/cover.jpg",
     "gallery": ["https://placehold.co/1200x800.png", "https://placehold.co/1200x800.png"],
     "overview": "A conceptual project focused on improving the GoPro app's user experience, from initial device pairing to sharing final edits.",
     "problem": "The existing app was perceived as complex, with a steep learning curve for new users and inefficient media management for power users.",
     "process": "The process involved user research, competitive analysis, persona creation, user flow mapping, wireframing, and high-fidelity prototyping.",
     "outcomes": "The redesigned app features a streamlined onboarding process, intuitive media gallery with smart sorting, and a simplified video editor.",
     "role": "UX/UI Designer",
-    "year": 2023,
-    "duration": "8 Weeks",
+    "year": 2021,
+    "duration": "6 Weeks",
     "team": "Solo Project",
     "tools": ["Figma", "Miro", "Adobe Illustrator"],
     "links": {}
@@ -317,5 +317,3 @@
     "links": {}
   }
 ]
-
-    
