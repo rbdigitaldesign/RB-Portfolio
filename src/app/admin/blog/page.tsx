@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { PlusCircle, Share2, Trash2 } from "lucide-react";
+import { PlusCircle, Share2, Trash2, LogOut } from "lucide-react";
 import Link from "next/link";
 import posts from "@/data/posts.json";
 import { useEffect, useState } from "react";
@@ -22,12 +22,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
 
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
   const [origin, setOrigin] = useState('');
   const router = useRouter();
+  const { logout } = useAuth();
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -76,12 +78,18 @@ export default function AdminBlogPage() {
             Create and manage your blog posts.
           </p>
         </div>
-        <Button asChild>
-          <Link href="/admin/blog/new">
-            <PlusCircle className="mr-2 h-5 w-5" />
-            New Post
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+            <Button asChild>
+            <Link href="/admin/blog/new">
+                <PlusCircle className="mr-2 h-5 w-5" />
+                New Post
+            </Link>
+            </Button>
+             <Button onClick={logout} variant="outline">
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign Out
+            </Button>
+        </div>
       </header>
 
       <Card>

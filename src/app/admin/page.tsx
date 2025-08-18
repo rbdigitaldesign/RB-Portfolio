@@ -5,9 +5,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useAuth } from "@/contexts/auth-context";
 import { FileText, Newspaper, LogOut } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdminDashboardPage() {
     const { user, logout } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await logout();
+        router.push('/login');
+    };
 
     return (
         <div className="container mx-auto max-w-4xl py-16 px-4">
@@ -18,7 +25,7 @@ export default function AdminDashboardPage() {
                         Welcome, {user.email}
                     </p>
                 )}
-                 <Button onClick={logout} variant="outline" className="mt-4">
+                 <Button onClick={handleLogout} variant="outline" className="mt-4">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign Out
                 </Button>
