@@ -377,10 +377,10 @@ export default function RpsPodBattlePage() {
                       className="rounded-lg object-contain"
                     />
                   </div>
-                  <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                  <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white opacity-100" onClick={handlePrev}>
                       <ArrowLeft className="h-6 w-6" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                  <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white opacity-100" onClick={handleNext}>
                       <ArrowRight className="h-6 w-6" />
                   </Button>
               </DialogContent>
@@ -399,3 +399,4 @@ export default function RpsPodBattlePage() {
   );
 }
 
+    
