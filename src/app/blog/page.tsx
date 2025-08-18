@@ -9,17 +9,20 @@ import posts from '@/data/posts.json';
 import type { Post } from '@/lib/types';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/auth-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function BlogPage() {
   const typedPosts: Post[] = posts;
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <header className="mb-12">
         <div className="flex justify-between items-start">
             <h1 className="text-4xl font-bold font-headline mb-2">DesignToSolve</h1>
-            {user && (
+            {loading ? (
+              <Skeleton className="h-10 w-36" />
+            ) : user && (
                 <Button asChild variant="outline">
                     <Link href="/admin/blog">
                         <Wrench className="mr-2 h-4 w-4" />
