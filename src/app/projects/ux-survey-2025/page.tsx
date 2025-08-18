@@ -56,7 +56,6 @@ const projectContent = {
 };
 
 const galleryImages = [
-    { src: 'https://i.imgur.com/5UV2LHM.png', alt: 'Division meeting slide showing the live UX poll title', hint: 'live poll title' },
     { src: 'https://placehold.co/1200x800.png', alt: 'Summary chart of key survey categories from the live poll', hint: 'results overview' },
     { src: 'https://placehold.co/1200x800.png', alt: 'Bar chart highlighting Canvas as the preferred platform', hint: 'platform preference' },
     { src: 'https://placehold.co/1200x800.png', alt: 'Chart showing workshops and exemplars as top support formats', hint: 'support preferences' },
