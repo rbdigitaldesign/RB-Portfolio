@@ -43,7 +43,7 @@ const projectContent = {
   overview: `Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.`,
   context: `In LEI (Learning Enhancement and Innovation) at the University of Adelaide, pods host the monthly meeting. The Orcas hosted 27 August 2025; topic was decision-making, coinciding with international RPS day. With 50+ colleagues on Teams, we needed something interactive, quick to facilitate, and simple.`,
   earlyApproach: `Two failed Mentimeter trials highlighted limitations around state, ties, and bracket progression. An initial 50+ player idea was impractical, so we reframed to pod managers as players. Existing RPS games were evaluated but found unsuitable for a quick start or clear facilitation.`,
-  pivot: `Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”. Multiplayer was the main challenge; my developer partner, Aaron, paired over several builds to stabilise real-time reads/writes and repair regressions from rapid AI-led edits. We registered the domain, connected hosting, and ran ad-hoc tests which proved compatible with MS Teams breakout rooms.`,
+  pivot: `Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”. Multiplayer was the main challenge; while Gemini understood the requirement to create a match between two players, it struggled to generate correct tournament bracketing. With 14 teams, it would try to create byes but wouldn't progress them to the next round automatically, only seeming to work with a perfect power of two, like 16 players. My developer partner, Aaron, was able to successfully engineer the logic to handle the brackets correctly. We paired over several builds to stabilise real-time reads/writes and repair regressions from rapid AI-led edits. We registered the domain, connected hosting, and ran ad-hoc tests which proved compatible with MS Teams breakout rooms.`,
   problem: [
     `Run a lightweight tournament many can follow on one call, with minimal setup.`,
     `Handle ties and bracket progression; clearly show who plays next.`,
@@ -120,7 +120,7 @@ export default function RpsPodBattlePage() {
         </div>
         <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-2">
-              RPS Pod Battle — from slide idea to playable tournament
+              Rock, Paper, Scissors - online battle tournament
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               AI-assisted build with Firebase Studio for a 50+ person meeting
@@ -354,3 +354,5 @@ export default function RpsPodBattlePage() {
     </CaseStudyLayout>
   );
 }
+
+    
