@@ -1,7 +1,6 @@
-
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode, useMemo } from 'react';
 import { onAuthStateChanged, User, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
@@ -21,38 +20,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser ?? null);
       setLoading(false);
     });
-
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
-  const login = (email: string, pass: string) => {
-    return signInWithEmailAndPassword(auth, email, pass);
+  const login = (email: string, pass: string) => signInWithEmailAndPassword(auth, email, pass);
+
+  const logout = async () => {
+    await signOut(auth);
+    router.push('/login');
   };
 
-  const logout = () => {
-    return signOut(auth).then(() => {
-      router.push('/login');
-    });
-  };
+  const value = useMemo(
+    () => ({ user, loading, login, logout }),
+    [user, loading]
+  );
 
-  const value = {
-    user,
-    loading,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
+  return ctx;
 };

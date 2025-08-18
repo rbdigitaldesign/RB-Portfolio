@@ -20,16 +20,15 @@ export default function BlogPage() {
       <header className="mb-12">
         <div className="flex justify-between items-start">
             <h1 className="text-4xl font-bold font-headline mb-2">DesignToSolve</h1>
-            {loading ? (
-              <Skeleton className="h-10 w-36" />
-            ) : user ? (
+            {loading && <Skeleton className="h-10 w-36" />}
+            {!loading && user && (
                 <Button asChild variant="outline">
                     <Link href="/admin/blog">
                         <Wrench className="mr-2 h-4 w-4" />
                         Manage Blog
                     </Link>
                 </Button>
-            ) : null}
+            )}
         </div>
         <div className="text-lg text-muted-foreground space-y-4 max-w-3xl">
           <p>
