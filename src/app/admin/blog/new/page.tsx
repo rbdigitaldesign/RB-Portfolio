@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -20,6 +20,10 @@ const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
   content: z.string().min(20, 'Content must be at least 20 characters.'),
+  tags: z.string().refine(
+    (value) => value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
+    { message: 'You can add a maximum of 3 tags.' }
+  ).optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
@@ -52,6 +56,7 @@ export default function NewPostPage() {
       title: '',
       summary: '',
       content: '',
+      tags: '',
       coverImageType: 'url',
       coverImageUrl: '',
     },
@@ -66,6 +71,7 @@ export default function NewPostPage() {
     formData.append('title', values.title);
     formData.append('summary', values.summary);
     formData.append('content', values.content);
+    formData.append('tags', values.tags || '');
     formData.append('coverImageType', values.coverImageType);
     if (values.coverImageType === 'url' && values.coverImageUrl) {
       formData.append('coverImageUrl', values.coverImageUrl);
@@ -145,6 +151,22 @@ export default function NewPostPage() {
                     <FormControl>
                       <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tags</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. UX, Design, Learning" {...field} />
+                    </FormControl>
+                     <FormDescription>
+                        Enter up to 3 tags, separated by commas.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { PlusCircle, Share2, Trash2 } from "lucide-react";
+import { PlusCircle, Share2, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
 import posts from "@/data/posts.json";
 import { useEffect, useState } from "react";
@@ -100,6 +100,12 @@ export default function AdminBlogPage() {
                     <p className="text-sm text-muted-foreground">{new Date(post.publishedDate).toLocaleDateString('en-GB')}</p>
                   </div>
                   <div className="flex gap-2">
+                     <Button variant="outline" size="sm" asChild>
+                      <Link href={`/blog/${post.slug}`} target="_blank">
+                        <Eye className="mr-2 h-4 w-4" />
+                        View
+                      </Link>
+                    </Button>
                     <Button variant="outline" size="sm" onClick={() => handleShare(post.slug)}>
                       <Share2 className="mr-2 h-4 w-4" />
                       Share

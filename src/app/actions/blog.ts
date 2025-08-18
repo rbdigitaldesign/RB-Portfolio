@@ -46,12 +46,18 @@ export async function getPost(slug: string): Promise<Post | null> {
     return posts.find(p => p.slug === slug) || null;
 }
 
+const tagsSchema = z.string().refine(
+  (value) => value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
+  { message: 'You can add a maximum of 3 tags.' }
+).optional();
+
 
 // --- ADD POST ---
 const addPostSchema = z.object({
   title: z.string().min(1, "Title is required"),
   summary: z.string().min(1, "Summary is required"),
   content: z.string().min(1, "Content is required"),
+  tags: tagsSchema,
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
 });
@@ -62,6 +68,7 @@ export async function addPost(formData: FormData) {
     title: formData.get('title'),
     summary: formData.get('summary'),
     content: formData.get('content'),
+    tags: formData.get('tags'),
     coverImageType: formData.get('coverImageType'),
     coverImageUrl: formData.get('coverImageUrl'),
     coverImageFile: formData.get('coverImageFile'),
@@ -71,6 +78,7 @@ export async function addPost(formData: FormData) {
     title: rawFormData.title,
     summary: rawFormData.summary,
     content: rawFormData.content,
+    tags: rawFormData.tags,
     coverImageType: rawFormData.coverImageType,
     coverImageUrl: rawFormData.coverImageUrl,
   });
@@ -85,6 +93,13 @@ export async function addPost(formData: FormData) {
   const { title, summary, content, coverImageType, coverImageUrl } = result.data;
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png'; // Default
+
+  const tagsArray = result.data.tags 
+    ? result.data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+    : ['General'];
+  if (tagsArray.length === 0) {
+      tagsArray.push('General');
+  }
 
   try {
     if (coverImageType === 'url' && coverImageUrl) {
@@ -123,7 +138,7 @@ export async function addPost(formData: FormData) {
       content,
       author: 'Rich Bartlett', 
       publishedDate: new Date().toISOString(),
-      tags: ['General'], 
+      tags: tagsArray, 
       coverImage: finalCoverImageUrl,
     };
 
@@ -155,6 +170,7 @@ export async function updatePost(formData: FormData) {
         title: formData.get('title'),
         summary: formData.get('summary'),
         content: formData.get('content'),
+        tags: formData.get('tags'),
         coverImageType: formData.get('coverImageType'),
         coverImageUrl: formData.get('coverImageUrl'),
         coverImageFile: formData.get('coverImageFile'),
@@ -165,6 +181,7 @@ export async function updatePost(formData: FormData) {
       title: rawFormData.title,
       summary: rawFormData.summary,
       content: rawFormData.content,
+      tags: rawFormData.tags,
       coverImageType: rawFormData.coverImageType,
       coverImageUrl: rawFormData.coverImageUrl,
       originalSlug: rawFormData.originalSlug,
@@ -180,6 +197,13 @@ export async function updatePost(formData: FormData) {
 
     const { title, summary, content, coverImageType, coverImageUrl, originalSlug } = result.data;
     const newSlug = createSlug(title);
+    
+    const tagsArray = result.data.tags 
+      ? result.data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+      : ['General'];
+    if (tagsArray.length === 0) {
+        tagsArray.push('General');
+    }
 
     try {
         const posts = await getPosts();
@@ -220,6 +244,7 @@ export async function updatePost(formData: FormData) {
             title,
             summary,
             content,
+            tags: tagsArray,
             coverImage: finalCoverImageUrl,
         };
 
