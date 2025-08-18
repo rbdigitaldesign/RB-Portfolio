@@ -14,12 +14,13 @@ interface AuthContextType {
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: "design-portfolio-v2.firebaseapp.com",
-  projectId: "design-portfolio-v2",
-  storageBucket: "design-portfolio-v2.appspot.com",
-  messagingSenderId: "738515003817",
-  appId: "1:738515003817:web:e996b105dcaf8f4e827cb8"
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
