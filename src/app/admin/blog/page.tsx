@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { PlusCircle, Share2, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
-import posts from "@/data/posts.json";
+import postsFromFile from "@/data/posts.json";
 import { useEffect, useState } from "react";
 import type { Post } from "@/lib/types";
 import { deletePost } from "@/app/actions/blog";
@@ -19,18 +19,22 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation";
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
   const [origin, setOrigin] = useState('');
+  const [posts, setPosts] = useState<Post[]>(postsFromFile);
   const router = useRouter();
 
   useEffect(() => {
     setOrigin(window.location.origin);
-  }, []);
+    // Since posts.json can be updated, we need a way to reflect those changes.
+    // A simple way is to re-fetch or handle it, but for now, we'll rely on router.refresh()
+    // after actions. We'll use the imported data as the initial state.
+    setPosts(postsFromFile);
+  }, [postsFromFile]);
 
   const handleShare = (slug: string) => {
     const postUrl = `${origin}/blog/${slug}`;
@@ -56,6 +60,7 @@ export default function AdminBlogPage() {
         title: "Post Deleted",
         description: "The blog post has been successfully deleted.",
       });
+      // This will cause the page to re-render with fresh data from the server.
       router.refresh();
     } else {
        toast({
@@ -91,9 +96,9 @@ export default function AdminBlogPage() {
             <CardDescription>A list of your current blog posts.</CardDescription>
         </CardHeader>
         <CardContent>
-           {(posts as Post[]).length > 0 ? (
+           {posts.length > 0 ? (
              <ul className="space-y-4">
-              {(posts as Post[]).map((post) => (
+              {posts.map((post) => (
                 <li key={post.slug} className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
                     <h3 className="font-semibold">{post.title}</h3>

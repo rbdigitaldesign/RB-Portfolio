@@ -9,16 +9,25 @@ import { storage } from '@/lib/firebase';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import type { Post } from '@/lib/types';
+import postsData from '@/data/posts.json';
 
 const postsFilePath = path.join(process.cwd(), 'src', 'data', 'posts.json');
 
 // Helper to read posts
 async function getPosts(): Promise<Post[]> {
   try {
-    const fileContent = await fs.readFile(postsFilePath, 'utf-8');
-    return JSON.parse(fileContent);
+    // In a serverless environment, the file system can be ephemeral.
+    // It's often better to require/import the JSON data directly if it's part of the build.
+    // However, to support dynamic updates, we'll read from the file.
+    // For this fix, we will use the imported data as the source of truth
+    // and write back to the file path for persistence.
+    return JSON.parse(JSON.stringify(postsData));
   } catch (error) {
-    // If file doesn't exist, return empty array
+    if (error instanceof SyntaxError) {
+        console.warn("posts.json is empty or invalid, starting with an empty array.");
+        return [];
+    }
+    // If file doesn't exist, this will also fail, but we have posts.json
     if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
       return [];
     }
