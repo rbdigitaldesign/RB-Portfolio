@@ -43,8 +43,7 @@ const projectContent = {
     `Support preferences (multi-select): workshops/events 28; a ux knowledge base 24; exemplars/case studies 28; 1:1 support 12; short video explainers 17.`,
     `Barriers (multi-select): time constraints 31; lack of training 15; limited tools/resources 22; team/academic resistance 19; don’t know where to start 13; none 3.`,
     `Preferred platform for future resources: canvas course 29; dedicated website 6; confluence 3; pdfs 3; other 2.`,
-    `Open-ended themes: interest in recognised upskilling/certificates; access to paid resources; exemplars and baseline quality standards; earlier usability testing; small-group training; “fewer clicks”; leadership awareness that ux testing is longer and continuous; encode best practices in course templates; helpful link shared (nngroup.com/articles/).`,
-    `Interview volunteers: tamika glouftsis; michelle riggs; yashi renoir; haley timms; jeremy bowtell.`
+    `Open-ended themes: interest in recognised upskilling/certificates; access to paid resources; exemplars and baseline quality standards; earlier usability testing; small-group training; “fewer clicks”; leadership awareness that ux testing is longer and continuous; encode best practices in course templates; helpful link shared (nngroup.com/articles/).`
   ],
   implications: [
     'Prioritise canvas as the preferred delivery platform for future ux-for-learning resources.',
@@ -226,5 +225,3 @@ export default function UxSurveyCaseStudyPage() {
     </CaseStudyLayout>
   );
 }
-
-    
