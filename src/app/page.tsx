@@ -8,7 +8,7 @@ import projects from '@/data/projects.json';
 import type { Project } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, ExternalLink } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Home() {
@@ -57,9 +57,15 @@ export default function Home() {
               Rich Bartlett
             </h1>
             <p className="text-lg md:text-xl text-primary/90 dark:text-primary-foreground/90 font-medium mb-4">
-               <a href="https://www.advance-he.ac.uk/fellowship/fellowship" target="_blank" rel="noopener noreferrer" className="hover:underline font-semibold text-primary">
-                FHEA
-              </a> — LDX Designer
+               <a 
+                  href="https://www.advance-he.ac.uk/fellowship/fellowship" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="font-bold text-primary hover:underline underline-offset-4"
+                >
+                  FHEA
+                  <ExternalLink className="inline-block ml-1 h-4 w-4" />
+                </a> — LDX Designer
             </p>
             <p className="max-w-3xl mx-auto text-lg md:text-xl text-foreground/80">
               Welcome to RB Digital Design. I’m a Learning Designer at a GO8 university with 9+ years in Australia’s tech sector. Combining educational design with UX/UI expertise, I create intuitive, impactful experiences.
