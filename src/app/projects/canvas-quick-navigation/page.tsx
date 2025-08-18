@@ -99,9 +99,6 @@ export default function CanvasQuickNavPage() {
                     </p>
                 </div>
                  <StatusNote>
-                    Pilot — implemented on Canvas pages as a content component; no theme or LTI changes required.
-                </StatusNote>
-                 <StatusNote>
                     Important context — This component was created as a custom solution for an academic request. It is not a standard university pattern, as a global navigation feature is planned for the LMS. This page demonstrates a collaborative coding solution.
                 </StatusNote>
             </header>
