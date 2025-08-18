@@ -1,23 +1,47 @@
 
-'use client';
-
 import Link from 'next/link';
+import Image from 'next/image';
+import { getDownloadURL, ref } from 'firebase/storage';
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Wrench } from 'lucide-react';
+import { storage } from '@/lib/firebase';
 import posts from '@/data/posts.json';
 import type { Post } from '@/lib/types';
-import Image from 'next/image';
-import { useAuth } from '@/contexts/auth-context';
-import { Skeleton } from '@/components/ui/skeleton';
 
-export default function BlogPage() {
+async function BlogPage() {
   const typedPosts: Post[] = posts;
-  const { user, loading } = useAuth();
+  let bannerUrl = '';
+  try {
+    const bannerRef = ref(storage, 'banners/What Am I On About - Blog.svg');
+    bannerUrl = await getDownloadURL(bannerRef);
+  } catch (error) {
+    console.error("Failed to get banner URL:", error);
+    // Use a placeholder or handle the error gracefully
+    bannerUrl = 'https://placehold.co/1900x225.png'; 
+  }
 
   return (
     <>
-      <section className="bg-[#568f90] text-primary-foreground py-12">
+      <section className="bg-[#568f90]">
+         <div className="container mx-auto px-4 banner">
+          {bannerUrl && (
+            <div className="relative w-full h-auto aspect-[1900/225]">
+               <Image
+                src={bannerUrl}
+                alt="What Am I On About – blog banner"
+                fill
+                priority
+                className="object-contain"
+                sizes="100vw"
+              />
+            </div>
+          )}
+        </div>
+      </section>
+      
+      <section className="bg-background text-foreground py-12">
         <div className="container mx-auto max-w-4xl py-8 px-4">
           <header className="text-center">
             <h1 className="text-4xl font-bold font-headline mb-4">WHAT AM I ON ABOUT 🤔</h1>
@@ -79,3 +103,5 @@ export default function BlogPage() {
     </>
   );
 }
+
+export default BlogPage;
