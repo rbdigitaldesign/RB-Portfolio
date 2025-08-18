@@ -134,11 +134,12 @@
     "outcomes": "A working multiplayer tournament game deployed on Firebase Hosting. Facilitation model tested and ready for a live 50+ person event.",
     "role": "Product Owner, Facilitator, UX/UI, Prototyper",
     "year": 2025,
-    "duration": "1 week",
+    "duration": "~1 week",
     "team": "Solo, with engineering partner",
     "tools": ["Firebase Studio", "Firebase Hosting", "Stackblitz", "AI"],
     "links": {
-      "live": "https://www.leipodbattle.com.au"
+      "live": "https://www.leipodbattle.com.au",
+      "github": "https://github.com/rbdigitaldesign/LEI-Pod-Battle.git"
     }
   },
   {
@@ -208,7 +209,7 @@
     "summary": "Enhanced a course page by integrating an expandable 'show references' feature, applying the principle of progressive disclosure to simplify the UI.",
     "tags": ["UX", "Instructional Design", "Progressive Disclosure", "AU"],
     "coverImage": "https://i.imgur.com/AzzPhcJ.png",
-    "gallery": ["https://placehold.co/1200x800.png", "https://placehold.co/1200x800.png"],
+    "gallery": ["https://i.imgur.com/A3EW01i.png", "https://i.imgur.com/BFGfSix.gif"],
     "overview": "In this project, I enhanced a course page by integrating an expandable 'show references' feature. This design aligns with the principle of progressive disclosure, which defers advanced or less frequently used features to secondary screens, simplifying the user interface and reducing cognitive load.",
     "problem": "The original page presented a lengthy reference list, requiring extensive scrolling and potentially overwhelming students. This layout hindered efficient navigation and detracted from the primary content.",
     "process": "Implemented an expandable 'show references' box. This feature allows students to access references on demand, providing greater control and freedom to navigate content according to their needs. The references section is initially collapsed, displaying a link to expand. When clicked, the full list of references expands below, allowing students to view them without leaving the current page.",
@@ -223,20 +224,20 @@
   {
     "slug": "tux-for-learning-design",
     "title": "UX Design Toolkit (TUX) for Learning Design",
-    "category": "User Experience",
-    "summary": "A design system and component library to streamline the creation of engaging and user-friendly learning experiences.",
-    "tags": ["UX", "AU", "prototype", "Github", "Ai", "Design System"],
-    "coverImage": "https://i.imgur.com/zUVWgvo.png",
+    "category": "Learning Design",
+    "summary": "Practical UX methods adapted for course and learning design.",
+    "tags": ["Learning Design", "UX", "Toolkit", "Higher Education", "Workshops", "Canvas LMS", "ChatGPT", "Github Pages", "HTML", "CSS", "JavaScript"],
+    "coverImage": "https://i.imgur.com/tYwY7Xp.png",
     "gallery": [],
     "overview": "This project involves creating a comprehensive UX Design Toolkit specifically tailored for learning designers. The toolkit, codenamed TUX, provides reusable components, templates, and guidelines to ensure consistency and quality across all online courses.",
     "problem": "Learning designers often have to reinvent the wheel for each new course, leading to inconsistencies in user experience and inefficient workflows. There is a need for a centralized, standardized set of tools.",
     "process": "The process includes auditing existing courses, identifying common UI patterns, developing a component library in Figma, and creating documentation on usage and best practices. The toolkit is being developed with AI-assisted tools and will be available via a GitHub repository.",
     "outcomes": "The expected outcome is a robust design system that will accelerate the course development process, improve the student user experience, and foster a more collaborative design culture.",
-    "role": "Lead UX/UI Designer",
+    "role": "Toolkit Author, Facilitator, UX/LD Integration",
     "year": 2024,
     "duration": "Ongoing",
     "team": "Solo",
-    "tools": ["Figma", "Github", "AI", "Storybook"],
+    "tools": ["ChatGPT", "Github Pages", "Figma", "Google Suite", "Miro", "HTML/CSS/JavaScript"],
     "links": {}
   },
   {
