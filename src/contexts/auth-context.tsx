@@ -1,8 +1,9 @@
+
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, ReactNode, useMemo } from 'react';
-import { onAuthStateChanged, User, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { onAuthStateChanged, User, signInWithEmailAndPassword, signOut, Auth } from 'firebase/auth';
+import { auth as clientAuth } from '@/lib/firebase-client'; // Use the client-side auth
 import { useRouter } from 'next/navigation';
 
 interface AuthContextType {
@@ -20,19 +21,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      console.log("[auth] projectId:", auth.app.options.projectId);
-      console.log("[auth] state changed:", !!firebaseUser);
+    const authInstance: Auth = clientAuth;
+    const unsubscribe = onAuthStateChanged(authInstance, (firebaseUser) => {
       setUser(firebaseUser ?? null);
       setLoading(false);
     });
     return unsubscribe;
   }, []);
 
-  const login = (email: string, pass: string) => signInWithEmailAndPassword(auth, email, pass);
+  const login = (email: string, pass: string) => {
+     const authInstance: Auth = clientAuth;
+     return signInWithEmailAndPassword(authInstance, email, pass);
+  }
 
   const logout = async () => {
-    await signOut(auth);
+    const authInstance: Auth = clientAuth;
+    await signOut(authInstance);
     router.push('/login');
   };
 
