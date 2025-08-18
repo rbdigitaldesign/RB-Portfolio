@@ -18,17 +18,19 @@ export default function AdminDashboardPage() {
 
     return (
         <div className="container mx-auto max-w-4xl py-16 px-4">
-            <header className="text-center mb-12">
+            <header className="flex justify-between items-center mb-12">
+              <div>
                 <h1 className="text-4xl font-bold font-headline">Admin Dashboard</h1>
                 {user && (
                     <p className="text-lg text-muted-foreground mt-2">
                         Welcome, {user.email}
                     </p>
                 )}
-                 <Button onClick={handleLogout} variant="outline" className="mt-4">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign Out
-                </Button>
+              </div>
+              <Button onClick={handleLogout} variant="outline">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+              </Button>
             </header>
 
             <div className="grid md:grid-cols-2 gap-8">

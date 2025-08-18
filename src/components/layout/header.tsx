@@ -83,7 +83,7 @@ export function Header() {
             {loading && <Skeleton className="h-9 w-28" />}
             {!loading && user && (
               <Button asChild variant="secondary" size="sm">
-                <Link href="/admin/blog">
+                <Link href="/admin">
                   <Settings className="mr-2 h-4 w-4" />
                   Site Admin
                 </Link>
@@ -114,7 +114,7 @@ export function Header() {
                    {!loading && user && (
                     <SheetClose asChild>
                       <Button asChild className="w-full">
-                        <Link href="/admin/blog">
+                        <Link href="/admin">
                            <Settings className="mr-2 h-4 w-4" />
                           Site Admin
                         </Link>
