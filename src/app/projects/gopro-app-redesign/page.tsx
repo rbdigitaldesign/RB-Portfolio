@@ -69,7 +69,7 @@ export default function GoProProjectPage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="/images/projects/gopro/cover.jpg"
+                src="https://i.imgur.com/Ukax7tl.png"
                 alt="dark-styled mobile screens showing a magic movie flow for the gopro app"
                 fill
                 priority
@@ -341,3 +341,5 @@ export default function GoProProjectPage() {
     </CaseStudyLayout>
   );
 }
+
+    
