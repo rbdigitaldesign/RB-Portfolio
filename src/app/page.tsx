@@ -61,7 +61,7 @@ export default function Home() {
                   href="https://www.advance-he.ac.uk/fellowship/fellowship" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="font-headline font-bold text-primary hover:underline underline-offset-4 inline-flex items-center gap-1"
+                  className="font-headline text-primary hover:underline underline-offset-4 inline-flex items-center gap-1"
                 >
                   <Award className="inline-block h-4 w-4" />
                   FHEA
