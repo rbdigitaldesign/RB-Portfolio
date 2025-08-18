@@ -78,8 +78,8 @@ export default function NewPostPage() {
       const result = await addPost(formData);
       if (result.success) {
         toast({
-          title: 'Post Created!',
-          description: 'Your new blog post has been saved.',
+          title: 'Post Published!',
+          description: 'Your new blog post is now live.',
         });
         router.push('/admin/blog');
         router.refresh(); 
@@ -90,7 +90,7 @@ export default function NewPostPage() {
        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
        toast({
         title: 'Error',
-        description: `Failed to create post: ${errorMessage}`,
+        description: `Failed to publish post: ${errorMessage}`,
         variant: 'destructive',
       });
     } finally {
@@ -227,7 +227,7 @@ export default function NewPostPage() {
 
               <div className="flex gap-4">
                 <Button type="submit" disabled={isLoading}>
-                  {isLoading ? 'Saving...' : 'Save Post'}
+                  {isLoading ? 'Publishing...' : 'Publish Post'}
                 </Button>
                  <Button type="button" variant="outline" onClick={() => router.back()}>
                   Cancel
