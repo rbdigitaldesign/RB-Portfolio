@@ -89,6 +89,9 @@ export function Header() {
                 </Link>
               </Button>
             )}
+             {!loading && !user && process.env.NODE_ENV !== "production" && (
+                <span className="text-xs text-muted-foreground">not signed in</span>
+            )}
           </div>
           <ThemeToggle />
         </nav>
