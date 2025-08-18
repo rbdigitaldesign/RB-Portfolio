@@ -17,27 +17,19 @@ const postsFilePath = path.join(process.cwd(), 'src', 'data', 'posts.json');
 async function getPosts(): Promise<Post[]> {
   try {
     const data = await fs.readFile(postsFilePath, 'utf-8');
-    // If the file is empty or just whitespace, return an empty array or the initial data.
-    if (!data.trim()) {
-        console.warn("posts.json is empty, starting with data from import.");
-        return JSON.parse(JSON.stringify(postsData));
-    }
     return JSON.parse(data);
   } catch (error: any) {
-    // If the file doesn't exist, it's the first run, so use the imported data.
     if (error.code === 'ENOENT') {
+      // File doesn't exist, so we start with the imported data
       console.warn("posts.json not found, starting with data from import.");
       return JSON.parse(JSON.stringify(postsData));
     }
-    // If there's a syntax error (e.g., malformed JSON), log it and fall back.
-    if (error instanceof SyntaxError) {
-        console.warn("posts.json contains invalid JSON, starting with data from import.");
-        return JSON.parse(JSON.stringify(postsData));
-    }
-    // For other errors, re-throw them.
-    throw error;
+    // For other errors, such as parsing errors on an empty file, we also fall back
+    console.warn("Could not read or parse posts.json, falling back to imported data.", error);
+    return JSON.parse(JSON.stringify(postsData));
   }
 }
+
 
 // Helper to write posts
 async function writePosts(posts: Post[]): Promise<void> {
