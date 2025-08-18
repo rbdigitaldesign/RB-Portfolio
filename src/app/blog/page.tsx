@@ -1,26 +1,16 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { getDownloadURL, ref } from 'firebase/storage';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Wrench } from 'lucide-react';
-import { storage } from '@/lib/firebase';
+import { ArrowRight } from 'lucide-react';
 import posts from '@/data/posts.json';
 import type { Post } from '@/lib/types';
 
 async function BlogPage() {
   const typedPosts: Post[] = posts;
-  let bannerUrl = '';
-  try {
-    const bannerRef = ref(storage, 'banners/What Am I On About - Blog.svg');
-    bannerUrl = await getDownloadURL(bannerRef);
-  } catch (error) {
-    console.error("Failed to get banner URL:", error);
-    // Use a placeholder or handle the error gracefully
-    bannerUrl = 'https://placehold.co/1900x225.png'; 
-  }
+  const bannerUrl = 'https://i.imgur.com/v5tofnA.png'; 
 
   return (
     <>
@@ -38,19 +28,6 @@ async function BlogPage() {
               />
             </div>
           )}
-        </div>
-      </section>
-      
-      <section className="bg-background text-foreground py-12">
-        <div className="container mx-auto max-w-4xl py-8 px-4">
-          <header className="text-center">
-            <h1 className="text-4xl font-bold font-headline mb-4">WHAT AM I ON ABOUT 🤔</h1>
-            <div className="text-lg space-y-4 max-w-3xl mx-auto opacity-90">
-              <p>
-                Design, learning, and biomimicry—a blog served with sarcasm and the occasional brain fart.
-              </p>
-            </div>
-          </header>
         </div>
       </section>
 
