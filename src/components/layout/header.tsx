@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Settings } from 'lucide-react';
+import { Menu, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
@@ -18,6 +18,7 @@ import {
   SheetClose,
 } from '@/components/ui/sheet';
 import { useAuth } from '@/contexts/auth-context';
+import { Skeleton } from '../ui/skeleton';
 
 const navLinks = [
   { href: '/', label: 'Projects' },
@@ -78,14 +79,17 @@ export function Header() {
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
-           {mounted && !loading && user && (
-            <Button asChild variant="outline" size="sm">
-              <Link href="/admin">
-                <Settings className="mr-2 h-4 w-4" />
-                Site Admin
-              </Link>
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {loading && <Skeleton className="h-9 w-28" />}
+            {!loading && user && (
+              <Button asChild variant="secondary" size="sm">
+                <Link href="/admin/blog">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Site Admin
+                </Link>
+              </Button>
+            )}
+          </div>
           <ThemeToggle />
         </nav>
 
@@ -105,16 +109,19 @@ export function Header() {
                     <NavLink href={link.href} label={link.label} className="text-lg" />
                   </SheetClose>
                 ))}
-                 {mounted && !loading && user && (
-                   <SheetClose asChild>
-                    <Button asChild className="mt-4">
-                      <Link href="/admin">
-                         <Settings className="mr-2 h-4 w-4" />
-                        Site Admin
-                      </Link>
-                    </Button>
-                  </SheetClose>
-                 )}
+                 <div className="mt-4">
+                   {loading && <Skeleton className="h-10 w-full" />}
+                   {!loading && user && (
+                    <SheetClose asChild>
+                      <Button asChild className="w-full">
+                        <Link href="/admin/blog">
+                           <Settings className="mr-2 h-4 w-4" />
+                          Site Admin
+                        </Link>
+                      </Button>
+                    </SheetClose>
+                   )}
+                 </div>
               </nav>
               <div className="absolute bottom-4 right-4">
                 <ThemeToggle />

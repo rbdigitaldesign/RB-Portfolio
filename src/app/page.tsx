@@ -64,7 +64,7 @@ export default function Home() {
                   className="font-headline text-primary hover:underline underline-offset-4 inline-flex items-center gap-1"
                 >
                   <Award className="inline-block h-4 w-4" />
-                  FHEA
+                  <span className="font-medium">FHEA</span>
                 </a> — LDX Designer
             </p>
             <p className="max-w-3xl mx-auto text-lg md:text-xl text-foreground/80">
