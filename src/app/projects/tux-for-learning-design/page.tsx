@@ -113,7 +113,7 @@ const projectContent = {
 };
 
 const galleryImages = [
-    { src: 'https://i.imgur.com/tYwY7Xp.png', alt: 'overview of toolkit cards and canvas in use', hint: 'toolkit cards canvas' },
+    { src: 'https://i.imgur.com/r4LoKz6.png', alt: 'ive build of the toolkit on github pages showing navigation and search', hint: 'live build toolkit' },
     { src: 'https://i.imgur.com/MaiMjSF.png', alt: 'home page with search bar, main tool kit buttons, team info', hint: 'home page search team' },
     { src: 'https://i.imgur.com/K3pvDbr.png', alt: 'Example of UX methods page', hint: 'ux methods page' },
     { src: 'https://i.imgur.com/UfgW5a0.png', alt: 'UX/ review checklist tool, utilising a mix of Uni Quality framework and UX checklist to create a report for designers', hint: 'checklist tool report' },
