@@ -74,7 +74,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="text-center py-8">
+      <section className="text-center pt-8 pb-4">
         <Button asChild size="lg">
             <a 
               href="https://docs.google.com/document/d/1323RCNFuAi6XZl8nIbOo7y1r8n157PlpDtAwLHdSbFA/export?format=pdf" 
