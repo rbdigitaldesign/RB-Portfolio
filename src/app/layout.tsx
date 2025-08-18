@@ -42,6 +42,7 @@ export default function RootLayout({
           fontBody.variable,
           fontHeadline.variable
         )}
+        suppressHydrationWarning={true}
       >
         <ThemeProvider
           attribute="class"
