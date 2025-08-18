@@ -225,7 +225,7 @@
     "slug": "tux-for-learning-design",
     "title": "UX Design Toolkit (TUX) for Learning Design",
     "category": "Learning Design",
-    "summary": "Practical UX methods adapted for course and learning design.",
+    "summary": "This project involves creating a comprehensive UX Design Toolkit specifically tailored for learning designers. The toolkit, codenamed TUX, provides reusable components, templates, and guidelines to ensure consistency and quality across all online courses.",
     "tags": ["Learning Design", "UX", "Toolkit", "Higher Education", "Workshops", "Canvas LMS", "ChatGPT", "Github Pages", "HTML", "CSS", "JavaScript"],
     "coverImage": "https://i.imgur.com/t8NXYGY.png",
     "gallery": [],
