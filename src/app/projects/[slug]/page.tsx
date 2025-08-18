@@ -13,7 +13,7 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 const projects: Project[] = projectsData;
 
 export async function generateStaticParams() {
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'publications', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
   // Generate params only for projects that are NOT case studies
   return projects
     .filter(project => !caseStudySlugs.includes(project.slug))
@@ -28,7 +28,7 @@ function getProjectData(slug: string) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'publications', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
   // This page should only handle non-case-study projects.
   // If the slug is a case study, we let it fall through to its dedicated page.
   if (caseStudySlugs.includes(slug)) {
@@ -183,3 +183,4 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     </article>
   );
 }
+

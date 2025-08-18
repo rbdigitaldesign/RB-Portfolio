@@ -298,9 +298,9 @@
     "links": {}
   },
   {
-    "slug": "academic-writing",
-    "title": "Academic Writing",
-    "category": "Academic Writing",
+    "slug": "publications",
+    "title": "Publications",
+    "category": "Publications",
     "summary": "A collection of my published articles, papers, and other works.",
     "tags": ["Writing", "Research", "Academia"],
     "coverImage": "https://i.imgur.com/dUzgj4A.jpeg",
