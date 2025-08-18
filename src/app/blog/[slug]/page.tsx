@@ -1,7 +1,7 @@
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import postsData from '@/data/posts.json';
+import { getAllPosts } from '@/app/actions/blog';
 import type { Post } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -12,15 +12,15 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Home } from 'lucide-react';
 
-const posts: Post[] = postsData;
-
 export async function generateStaticParams() {
+  const posts = await getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 async function getPostData(slug: string) {
+  const posts = await getAllPosts();
   const postIndex = posts.findIndex((p) => p.slug === slug);
   
   if (postIndex === -1) {
@@ -34,8 +34,8 @@ async function getPostData(slug: string) {
     .process(post.content);
   const contentHtml = processedContent.toString();
 
-  const prevPost = postIndex < posts.length - 1 ? posts[postIndex + 1] : null;
-  const nextPost = postIndex > 0 ? posts[postIndex - 1] : null;
+  const prevPost = postIndex > 0 ? posts[postIndex - 1] : null;
+  const nextPost = postIndex < posts.length - 1 ? posts[postIndex + 1] : null;
 
   return { post, contentHtml, prevPost, nextPost };
 }

@@ -28,7 +28,7 @@ const formSchema = z.object({
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
   content: z.string().min(20, 'Content must be at least 20 characters.'),
   tags: z.string().refine(
-    (value) => value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
+    (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
   ).optional(),
   publishedDate: z.date().optional(),
@@ -93,10 +93,11 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   const coverImageType = form.watch('coverImageType');
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!post) return;
+    if (!post || !post.id) return;
     setIsLoading(true);
     
     const formData = new FormData();
+    formData.append('postId', post.id);
     formData.append('originalSlug', post.slug);
     formData.append('title', values.title);
     formData.append('summary', values.summary);

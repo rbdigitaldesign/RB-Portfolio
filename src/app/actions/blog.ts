@@ -1,55 +1,38 @@
 
 'use server';
 
-import fs from 'fs/promises';
-import path from 'path';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-import { storage } from '@/lib/firebase';
+import { storage, db } from '@/lib/firebase';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy, limit } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 import type { Post } from '@/lib/types';
-import postsData from '@/data/posts.json';
 
-const postsFilePath = path.join(process.cwd(), 'src', 'data', 'posts.json');
-
-// Helper to read posts
-async function getPosts(): Promise<Post[]> {
-  try {
-    const data = await fs.readFile(postsFilePath, 'utf-8');
-    return JSON.parse(data);
-  } catch (error: any) {
-    if (error.code === 'ENOENT') {
-      // File doesn't exist, so we start with the imported data
-      console.warn("posts.json not found, starting with data from import.");
-      return JSON.parse(JSON.stringify(postsData));
-    }
-    // For other errors, such as parsing errors on an empty file, we also fall back
-    console.warn("Could not read or parse posts.json, falling back to imported data.", error);
-    return JSON.parse(JSON.stringify(postsData));
-  }
-}
-
-
-// Helper to write posts
-async function writePosts(posts: Post[]): Promise<void> {
-  await fs.writeFile(postsFilePath, JSON.stringify(posts, null, 2), 'utf-8');
-}
-
+const postsCollection = collection(db, 'posts');
 
 const createSlug = (title: string) => {
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '') 
-    .replace(/\s+/g, '-') 
-    .replace(/-+/g, '-'); 
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 };
 
 // --- GET POSTS ---
-export async function getPost(slug: string): Promise<Post | null> {
-    const posts = await getPosts();
-    return posts.find(p => p.slug === slug) || null;
+export async function getAllPosts(): Promise<Post[]> {
+    const q = query(postsCollection, orderBy('publishedDate', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Post));
 }
+
+export async function getPost(slug: string): Promise<Post | null> {
+    const posts = await getAllPosts(); // This is inefficient but simple for now.
+    const post = posts.find(p => p.slug === slug);
+    return post || null;
+}
+
 
 const tagsSchema = z.string().refine(
   (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
@@ -69,7 +52,6 @@ const addPostSchema = z.object({
 });
 
 export async function addPost(formData: FormData) {
-  
   const rawFormData = {
     title: formData.get('title'),
     summary: formData.get('summary'),
@@ -100,9 +82,9 @@ export async function addPost(formData: FormData) {
 
   const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = result.data;
   const slug = createSlug(title);
-  let finalCoverImageUrl = 'https://placehold.co/1200x675.png'; // Default
+  let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
 
-  const tagsArray = result.data.tags 
+  const tagsArray = result.data.tags
     ? result.data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
     : ['General'];
   if (tagsArray.length === 0) {
@@ -110,6 +92,14 @@ export async function addPost(formData: FormData) {
   }
 
   try {
+    const posts = await getAllPosts();
+    if (posts.some(post => post.slug === slug)) {
+      return {
+        success: false,
+        error: `A post with the slug "${slug}" already exists. Please choose a different title.`,
+      };
+    }
+
     if (coverImageType === 'url' && coverImageUrl) {
         finalCoverImageUrl = coverImageUrl;
     } else if (coverImageType === 'upload') {
@@ -130,34 +120,24 @@ export async function addPost(formData: FormData) {
         finalCoverImageUrl = await getDownloadURL(storageRef);
     }
 
-    const posts = await getPosts();
-
-    if (posts.some(post => post.slug === slug)) {
-      return {
-        success: false,
-        error: `A post with the slug "${slug}" already exists. Please choose a different title.`,
-      };
-    }
-
-    const newPost: Post = {
+    const newPostData = {
       slug,
       title,
       summary,
       content,
-      author: 'Rich Bartlett', 
+      author: 'Rich Bartlett',
       publishedDate: publishedDate || new Date().toISOString(),
-      tags: tagsArray, 
+      tags: tagsArray,
       coverImage: finalCoverImageUrl,
     };
 
-    const updatedPosts = [newPost, ...posts];
-    await writePosts(updatedPosts);
+    const docRef = await addDoc(postsCollection, newPostData);
 
     revalidatePath('/admin/blog');
     revalidatePath('/blog');
     revalidatePath(`/blog/${slug}`);
 
-    return { success: true, post: newPost };
+    return { success: true, post: { id: docRef.id, ...newPostData } };
   } catch (error) {
     console.error('Error adding post:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
@@ -171,6 +151,7 @@ export async function addPost(formData: FormData) {
 // --- UPDATE POST ---
 const updatePostSchema = addPostSchema.extend({
     originalSlug: z.string(),
+    postId: z.string(),
 });
 
 export async function updatePost(formData: FormData) {
@@ -184,19 +165,10 @@ export async function updatePost(formData: FormData) {
         coverImageUrl: formData.get('coverImageUrl'),
         coverImageFile: formData.get('coverImageFile'),
         originalSlug: formData.get('originalSlug'),
+        postId: formData.get('postId'),
     };
 
-    const result = updatePostSchema.safeParse({
-      title: rawFormData.title,
-      summary: rawFormData.summary,
-      content: rawFormData.content,
-      tags: rawFormData.tags,
-      publishedDate: rawFormData.publishedDate,
-      coverImageType: rawFormData.coverImageType,
-      coverImageUrl: rawFormData.coverImageUrl,
-      originalSlug: rawFormData.originalSlug,
-    });
-
+    const result = updatePostSchema.safeParse(rawFormData);
 
     if (!result.success) {
         return {
@@ -205,10 +177,10 @@ export async function updatePost(formData: FormData) {
         };
     }
 
-    const { title, summary, content, coverImageType, coverImageUrl, originalSlug, publishedDate } = result.data;
+    const { title, summary, content, coverImageType, coverImageUrl, originalSlug, publishedDate, postId } = result.data;
     const newSlug = createSlug(title);
     
-    const tagsArray = result.data.tags 
+    const tagsArray = result.data.tags
       ? result.data.tags.split(',').map(tag => tag.trim()).filter(Boolean)
       : ['General'];
     if (tagsArray.length === 0) {
@@ -216,22 +188,24 @@ export async function updatePost(formData: FormData) {
     }
 
     try {
-        const posts = await getPosts();
-        const postIndex = posts.findIndex(p => p.slug === originalSlug);
+        const postRef = doc(db, 'posts', postId);
+        const postSnap = await getDoc(postRef);
 
-        if (postIndex === -1) {
+        if (!postSnap.exists()) {
             return { success: false, error: 'Post to update not found.' };
         }
         
-        // Check if new slug conflicts with another post
-        if (originalSlug !== newSlug && posts.some(p => p.slug === newSlug)) {
-             return {
-                success: false,
-                error: `A post with the new slug "${newSlug}" already exists. Please choose a different title.`,
-            };
+        if (originalSlug !== newSlug) {
+            const allPosts = await getAllPosts();
+            if (allPosts.some(p => p.slug === newSlug && p.id !== postId)) {
+                 return {
+                    success: false,
+                    error: `A post with the new slug "${newSlug}" already exists. Please choose a different title.`,
+                };
+            }
         }
 
-        const existingPost = posts[postIndex];
+        const existingPost = postSnap.data();
         let finalCoverImageUrl = existingPost.coverImage;
 
         if (coverImageType === 'url' && coverImageUrl) {
@@ -245,11 +219,10 @@ export async function updatePost(formData: FormData) {
                 const storageRef = ref(storage, `blog-covers/${fileName}`);
                 await uploadBytes(storageRef, fileBuffer, { contentType: file.type });
                 finalCoverImageUrl = await getDownloadURL(storageRef);
-            }
+             }
         }
 
-        const updatedPost: Post = {
-            ...existingPost,
+        const updatedPostData = {
             slug: newSlug,
             title,
             summary,
@@ -259,8 +232,7 @@ export async function updatePost(formData: FormData) {
             coverImage: finalCoverImageUrl,
         };
 
-        posts[postIndex] = updatedPost;
-        await writePosts(posts);
+        await updateDoc(postRef, updatedPostData);
         
         revalidatePath('/admin/blog');
         revalidatePath('/blog');
@@ -269,7 +241,7 @@ export async function updatePost(formData: FormData) {
         }
         revalidatePath(`/blog/${newSlug}`);
 
-        return { success: true, post: updatedPost };
+        return { success: true, post: { id: postId, ...existingPost, ...updatedPostData } };
 
     } catch (error) {
         console.error('Error updating post:', error);
@@ -280,33 +252,31 @@ export async function updatePost(formData: FormData) {
 
 
 // --- DELETE POST ---
-export async function deletePost(slug: string) {
+export async function deletePost(postId: string) {
     try {
-        const posts = await getPosts();
-        const postIndex = posts.findIndex(p => p.slug === slug);
+        const postRef = doc(db, 'posts', postId);
+        const postSnap = await getDoc(postRef);
 
-        if (postIndex === -1) {
+        if (!postSnap.exists()) {
             return { success: false, error: 'Post to delete not found.' };
         }
         
-        const [deletedPost] = posts.splice(postIndex, 1);
+        const deletedPost = postSnap.data();
         
-        // If image is from firebase storage, delete it
-        if (deletedPost.coverImage.includes('firebasestorage.googleapis.com')) {
+        if (deletedPost.coverImage && deletedPost.coverImage.includes('firebasestorage.googleapis.com')) {
             try {
                 const imageRef = ref(storage, deletedPost.coverImage);
                 await deleteObject(imageRef);
             } catch (storageError) {
-                 // Log error but don't block post deletion if file doesn't exist
                 console.warn(`Could not delete cover image from storage: ${storageError}`);
             }
         }
 
-        await writePosts(posts);
+        await deleteDoc(postRef);
 
         revalidatePath('/admin/blog');
         revalidatePath('/blog');
-        revalidatePath(`/blog/${slug}`);
+        revalidatePath(`/blog/${deletedPost.slug}`);
 
         return { success: true };
     } catch (error) {

@@ -23,6 +23,7 @@ export type Project = {
 };
 
 export interface Post {
+  id?: string; // Document ID from Firestore
   slug: string;
   title: string;
   summary: string;
@@ -32,5 +33,3 @@ export interface Post {
   tags: string[];
   coverImage: string;
 }
-
-    

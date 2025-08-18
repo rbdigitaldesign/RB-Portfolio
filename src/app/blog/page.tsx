@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import posts from '@/data/posts.json';
 import type { Post } from '@/lib/types';
+import { getAllPosts } from '../actions/blog';
 
-async function BlogPage() {
-  const typedPosts: Post[] = posts;
+export default async function BlogPage() {
+  const posts: Post[] = await getAllPosts();
   const bannerUrl = 'https://i.imgur.com/v5tofnA.png'; 
 
   return (
@@ -32,9 +32,9 @@ async function BlogPage() {
       </section>
 
       <div className="container mx-auto max-w-4xl py-16 px-4">
-        {typedPosts.length > 0 ? (
+        {posts.length > 0 ? (
           <div className="grid gap-8">
-            {typedPosts.map((post) => (
+            {posts.map((post) => (
               <Card key={post.slug} className="flex flex-col md:flex-row overflow-hidden">
                   <div className="md:w-1/3 relative min-h-[200px] md:min-h-full">
                       <Image 
@@ -80,5 +80,3 @@ async function BlogPage() {
     </>
   );
 }
-
-export default BlogPage;

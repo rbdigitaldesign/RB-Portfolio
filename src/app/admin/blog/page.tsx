@@ -6,10 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { PlusCircle, Share2, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
-import postsFromFile from "@/data/posts.json";
 import { useEffect, useState } from "react";
 import type { Post } from "@/lib/types";
-import { deletePost } from "@/app/actions/blog";
+import { deletePost, getAllPosts } from "@/app/actions/blog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,20 +20,25 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
   const [origin, setOrigin] = useState('');
-  const [posts, setPosts] = useState<Post[]>(postsFromFile);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     setOrigin(window.location.origin);
-    // Since posts.json can be updated, we need a way to reflect those changes.
-    // A simple way is to re-fetch or handle it, but for now, we'll rely on router.refresh()
-    // after actions. We'll use the imported data as the initial state.
-    setPosts(postsFromFile);
-  }, [postsFromFile]);
+    async function fetchPosts() {
+        setIsLoading(true);
+        const fetchedPosts = await getAllPosts();
+        setPosts(fetchedPosts);
+        setIsLoading(false);
+    }
+    fetchPosts();
+  }, []);
 
   const handleShare = (slug: string) => {
     const postUrl = `${origin}/blog/${slug}`;
@@ -53,15 +57,14 @@ export default function AdminBlogPage() {
     });
   };
   
-  const handleDelete = async (slug: string) => {
-    const result = await deletePost(slug);
+  const handleDelete = async (postId: string) => {
+    const result = await deletePost(postId);
     if (result.success) {
       toast({
         title: "Post Deleted",
         description: "The blog post has been successfully deleted.",
       });
-      // This will cause the page to re-render with fresh data from the server.
-      router.refresh();
+      setPosts(posts.filter(p => p.id !== postId));
     } else {
        toast({
         title: "Error Deleting Post",
@@ -96,10 +99,16 @@ export default function AdminBlogPage() {
             <CardDescription>A list of your current blog posts.</CardDescription>
         </CardHeader>
         <CardContent>
-           {posts.length > 0 ? (
+           {isLoading ? (
+             <div className="space-y-4">
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full" />
+             </div>
+           ) : posts.length > 0 ? (
              <ul className="space-y-4">
               {posts.map((post) => (
-                <li key={post.slug} className="flex items-center justify-between p-4 border rounded-lg">
+                <li key={post.id} className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
                     <h3 className="font-semibold">{post.title}</h3>
                     <p className="text-sm text-muted-foreground">{new Date(post.publishedDate).toLocaleDateString('en-GB')}</p>
@@ -135,7 +144,7 @@ export default function AdminBlogPage() {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleDelete(post.slug)}>
+                          <AlertDialogAction onClick={() => handleDelete(post.id!)}>
                             Yes, delete post
                           </AlertDialogAction>
                         </AlertDialogFooter>
