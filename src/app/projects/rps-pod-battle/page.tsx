@@ -82,7 +82,7 @@ const projectContent = {
       `Explore spectator mode, optional sound cues, and lightweight analytics.`,
       `Extend accessibility (keyboard-only facilitation; alt text across UI imagery).`
   ],
-  acknowledgements: `My engineering partner, Aaron (they), was essential in making the live build possible, particularly in stabilising the multiplayer functionality and state synchronisation.`,
+  acknowledgements: `Huge thanks to Aaron from the media team in our LEI division at the University of Adelaide was essential in making the live build possible, particularly in stabilising the multiplayer functionality and state synchronisation.`,
   aiDisclosure: `AI guided the environment setup (Firebase/Stackblitz), generated starter code, adjusted presentation elements, and created background imagery. Human review and iteration were responsible for the overall experience design, fixing bugs, and stabilising the multiplayer behaviour.`,
   buildNotes: `The process involved setting up the toolchain with Firebase and Stackblitz, scaffolding the initial project structure with AI assistance, and sketching a simple state model. The bracket was managed with a basic data structure, and an admin workflow was created for tournament control. Development included ad-hoc testing and the creation of a facilitation checklist to ensure a smooth live event.`
 };
