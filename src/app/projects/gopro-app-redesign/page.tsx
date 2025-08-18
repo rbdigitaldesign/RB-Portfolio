@@ -166,7 +166,6 @@ export default function GoProProjectPage() {
                           <li>Explicit loading indicators</li>
                           <li>Consistent back placement (top-left)</li>
                       </ul>
-                      <Image src="https://i.imgur.com/ja959sF.png" width={800} height={450} alt="Low-fi prototype overview" className="rounded-lg shadow-medium mb-4" />
                       <div className="aspect-video">
                         <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/7YSr5GE1a0ZScvi1J4CYnm/GoPro-Lo-Fi--Final-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe>
                       </div>
