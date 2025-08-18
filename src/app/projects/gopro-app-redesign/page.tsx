@@ -55,6 +55,12 @@ function calculateReadingTime(text: string) {
     return Math.ceil(wordCount / wordsPerMinute);
 }
 
+const BannerHeading = ({ children }: { children: React.ReactNode }) => (
+    <h4 className="text-xl font-bold font-headline bg-muted text-muted-foreground p-2 rounded-md inline-block">
+        {children}
+    </h4>
+);
+
 export default function GoProProjectPage() {
   const readingTime = 4; // Hardcoded based on content
 
@@ -122,11 +128,11 @@ export default function GoProProjectPage() {
             <section id="design-process">
                 <h3 className="text-2xl font-bold font-headline mb-4">Design Process</h3>
                 <div className="space-y-6 text-foreground/80">
-                  <p>We followed the Double Diamond model: 1) Discover → 2) Define → 3) Develop → 4) Deliver.</p>
+                  <p>I followed the Double Diamond model: 1) Discover → 2) Define → 3) Develop → 4) Deliver.</p>
                   
                   <div>
-                    <h4 className="text-xl font-bold font-headline">Discover</h4>
-                    <p className="mb-2"><strong>Goals:</strong> understand action-cam user needs, language and workflows; compare competing apps; identify opportunities.</p>
+                    <BannerHeading>Discover</BannerHeading>
+                    <p className="my-2"><strong>Goals:</strong> understand action-cam user needs, language and workflows; compare competing apps; identify opportunities.</p>
                     <p className="mb-2"><strong>Methods:</strong> surveys (Q2), 1:1 interviews (Q1), contextual enquiry (Q1), competitor analysis, desk research.</p>
                     <p className="mb-4"><strong>Targets:</strong> 20+ survey; 3–5 interviews/contextual; 1–3 competitors.</p>
                     <p><strong>Contextual enquiry (task: insta story from fresh GoPro footage):</strong></p>
@@ -144,14 +150,14 @@ export default function GoProProjectPage() {
                   </div>
 
                   <div>
-                      <h4 className="text-xl font-bold font-headline">Define</h4>
-                      <p className="mb-2"><strong>Hypothesis:</strong> adventurers (20s–30s) are motivated to create/share video narratives.</p>
+                      <BannerHeading>Define</BannerHeading>
+                      <p className="my-2"><strong>Hypothesis:</strong> adventurers (20s–30s) are motivated to create/share video narratives.</p>
                       <p><strong>Key concepts:</strong> home hub; global navigation; faster auto-movie; cloud storage (Drive/Dropbox/iCloud); social & shop.</p>
                   </div>
 
                   <div>
-                      <h4 className="text-xl font-bold font-headline">Develop</h4>
-                      <p className="mb-2">Lo-fi wireframes → tests (maze + face-to-face); iterative fixes:</p>
+                      <BannerHeading>Develop</BannerHeading>
+                      <p className="my-2">Lo-fi wireframes → tests (maze + face-to-face); iterative fixes:</p>
                       <ul className="list-disc list-outside pl-5 mb-4 space-y-1">
                           <li>Checkboxes instead of swipes</li>
                           <li>Explicit loading indicators</li>
@@ -164,8 +170,8 @@ export default function GoProProjectPage() {
                   </div>
 
                   <div>
-                      <h4 className="text-xl font-bold font-headline">Deliver</h4>
-                      <p className="mb-2"><strong>Success criteria:</strong> faster than QUIKSTORY; new features with familiarity; practical usefulness that encourages in-app editing.</p>
+                      <BannerHeading>Deliver</BannerHeading>
+                      <p className="my-2"><strong>Success criteria:</strong> faster than QUIKSTORY; new features with familiarity; practical usefulness that encourages in-app editing.</p>
                        <Image src="https://i.imgur.com/rpf1Z6Q.png" width={800} height={450} alt="Hi-fi prototype overview" className="rounded-lg shadow-medium mb-4" />
                        <div className="aspect-video mb-4">
                         <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/UgLZ101OVxbo3vU0mD1vTj/GoPro-Hi-Fi-V2--Final---V2-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe>
@@ -244,7 +250,7 @@ export default function GoProProjectPage() {
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Remote testing quirks (mouse vs touch; prototype clickability).</li>
                     <li>Early question bias—importance of neutral task phrasing.</li>
-                    <li>First extensive use of Figma + remote testing platform; value of SUS as a simple comparable measure.</li>
+                    <li>My first extensive use of Figma + remote testing platform; value of SUS as a simple comparable measure.</li>
                 </ul>
             </section>
 
