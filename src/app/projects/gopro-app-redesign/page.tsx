@@ -82,7 +82,7 @@ export default function GoProProjectPage() {
         </div>
         <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-2">
-              gopro app redesign
+              GoPro App Redesign
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               making gopro fun and easy for all
@@ -100,7 +100,7 @@ export default function GoProProjectPage() {
             <section id="scope">
                 <h3 className="text-2xl font-bold font-headline mb-4">Project Scope & Constraints</h3>
                 <div className="space-y-4 text-foreground/80">
-                  <p><strong>Brief:</strong> develop an iOS app concept for GoPro that addresses current app limitations and appeals to millennials—differentiating from instagram, vsco, snapchat.</p>
+                  <p><strong>Brief:</strong> I developed an iOS app concept for GoPro that addresses current app limitations and appeals to millennials—differentiating from instagram, vsco, snapchat.</p>
                   <p><strong>Constraints:</strong> must be iOS-compatible; suggested tech must exist now or within 12 months.</p>
                   <p><strong>Opportunity:</strong> go beyond photo viewing/editing to boost creativity and engagement while aligning to GoPro’s adventurous ethos.</p>
                   <p><strong>Target Audience:</strong> millennials interested in capturing, editing and sharing photo/video.</p>
@@ -343,5 +343,3 @@ export default function GoProProjectPage() {
     </CaseStudyLayout>
   );
 }
-
-    
