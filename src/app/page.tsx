@@ -13,20 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 
 export default function Home() {
   const typedProjects: Project[] = projects;
-  const [offsetY, setOffsetY] = useState(0);
   const { toast } = useToast();
-
-  const handleScroll = () => {
-    setOffsetY(window.pageYOffset);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   const handleDownload = () => {
     toast({
@@ -37,22 +24,10 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative w-full h-[50vh] flex items-center justify-center text-white overflow-hidden">
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{ transform: `translateY(${offsetY * 0.2}px)` }}
-        >
-          <Image
-            src="https://i.imgur.com/rnSenPk.png"
-            alt="Abstract background image with flowing lines"
-            fill
-            priority
-            className="object-cover"
-          />
-        </div>
-        <div className="absolute inset-0 bg-black/50" />
+      <section className="relative w-full h-[50vh] flex items-center justify-center text-foreground overflow-hidden">
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#568f90] to-background" />
         <div className="relative z-10 text-center p-8 max-w-4xl mx-auto flex flex-col items-center">
-          <div className="bg-background/70 backdrop-blur-sm p-8 rounded-lg">
+          <div className="bg-background/70 backdrop-blur-sm p-8 rounded-lg shadow-strong">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground">
               Rich Bartlett
             </h1>
