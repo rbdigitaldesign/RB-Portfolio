@@ -56,7 +56,10 @@ function calculateReadingTime(text: string) {
 }
 
 const BannerHeading = ({ children }: { children: React.ReactNode }) => (
-    <h4 className="text-xl font-bold font-headline bg-muted text-muted-foreground p-2 rounded-md inline-block">
+    <h4 
+        className="text-xl font-bold font-headline p-2 rounded-md w-full"
+        style={{ backgroundColor: '#568f90', color: 'white' }}
+    >
         {children}
     </h4>
 );
@@ -79,7 +82,7 @@ export default function GoProProjectPage() {
         </div>
         <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-2">
-              GoPro App Redesign
+              gopro app redesign
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               making gopro fun and easy for all
