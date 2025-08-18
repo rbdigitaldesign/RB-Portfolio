@@ -6,17 +6,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Calendar } from '@/components/ui/calendar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { getPost, updatePost } from '@/app/actions/blog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Post } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
@@ -26,6 +31,7 @@ const formSchema = z.object({
     (value) => value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
   ).optional(),
+  publishedDate: z.date().optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
@@ -54,6 +60,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       summary: '',
       content: '',
       tags: '',
+      publishedDate: new Date(),
       coverImageType: 'url',
       coverImageUrl: '',
     },
@@ -70,6 +77,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
             summary: fetchedPost.summary,
             content: fetchedPost.content,
             tags: fetchedPost.tags.join(', '),
+            publishedDate: new Date(fetchedPost.publishedDate),
             coverImageType: 'url',
             coverImageUrl: fetchedPost.coverImage,
         });
@@ -94,6 +102,9 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     formData.append('summary', values.summary);
     formData.append('content', values.content);
     formData.append('tags', values.tags || '');
+    if (values.publishedDate) {
+        formData.append('publishedDate', values.publishedDate.toISOString());
+    }
     formData.append('coverImageType', values.coverImageType);
     if (values.coverImageType === 'url' && values.coverImageUrl) {
       formData.append('coverImageUrl', values.coverImageUrl);
@@ -113,6 +124,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
           description: 'Your blog post has been successfully updated.',
         });
         router.push('/admin/blog');
+        router.refresh();
       } else {
         throw new Error(result.error || 'An unknown error occurred');
       }
@@ -168,6 +180,47 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                     <FormControl>
                       <Input placeholder="Your amazing blog post title" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="publishedDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Publication Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}

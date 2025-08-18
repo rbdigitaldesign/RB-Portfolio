@@ -58,6 +58,7 @@ const addPostSchema = z.object({
   summary: z.string().min(1, "Summary is required"),
   content: z.string().min(1, "Content is required"),
   tags: tagsSchema,
+  publishedDate: z.string().datetime("Invalid date format").optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
 });
@@ -69,6 +70,7 @@ export async function addPost(formData: FormData) {
     summary: formData.get('summary'),
     content: formData.get('content'),
     tags: formData.get('tags'),
+    publishedDate: formData.get('publishedDate'),
     coverImageType: formData.get('coverImageType'),
     coverImageUrl: formData.get('coverImageUrl'),
     coverImageFile: formData.get('coverImageFile'),
@@ -79,6 +81,7 @@ export async function addPost(formData: FormData) {
     summary: rawFormData.summary,
     content: rawFormData.content,
     tags: rawFormData.tags,
+    publishedDate: rawFormData.publishedDate,
     coverImageType: rawFormData.coverImageType,
     coverImageUrl: rawFormData.coverImageUrl,
   });
@@ -90,7 +93,7 @@ export async function addPost(formData: FormData) {
     };
   }
 
-  const { title, summary, content, coverImageType, coverImageUrl } = result.data;
+  const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = result.data;
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png'; // Default
 
@@ -137,7 +140,7 @@ export async function addPost(formData: FormData) {
       summary,
       content,
       author: 'Rich Bartlett', 
-      publishedDate: new Date().toISOString(),
+      publishedDate: publishedDate || new Date().toISOString(),
       tags: tagsArray, 
       coverImage: finalCoverImageUrl,
     };
@@ -171,6 +174,7 @@ export async function updatePost(formData: FormData) {
         summary: formData.get('summary'),
         content: formData.get('content'),
         tags: formData.get('tags'),
+        publishedDate: formData.get('publishedDate'),
         coverImageType: formData.get('coverImageType'),
         coverImageUrl: formData.get('coverImageUrl'),
         coverImageFile: formData.get('coverImageFile'),
@@ -182,6 +186,7 @@ export async function updatePost(formData: FormData) {
       summary: rawFormData.summary,
       content: rawFormData.content,
       tags: rawFormData.tags,
+      publishedDate: rawFormData.publishedDate,
       coverImageType: rawFormData.coverImageType,
       coverImageUrl: rawFormData.coverImageUrl,
       originalSlug: rawFormData.originalSlug,
@@ -195,7 +200,7 @@ export async function updatePost(formData: FormData) {
         };
     }
 
-    const { title, summary, content, coverImageType, coverImageUrl, originalSlug } = result.data;
+    const { title, summary, content, coverImageType, coverImageUrl, originalSlug, publishedDate } = result.data;
     const newSlug = createSlug(title);
     
     const tagsArray = result.data.tags 
@@ -245,6 +250,7 @@ export async function updatePost(formData: FormData) {
             summary,
             content,
             tags: tagsArray,
+            publishedDate: publishedDate || existingPost.publishedDate,
             coverImage: finalCoverImageUrl,
         };
 
