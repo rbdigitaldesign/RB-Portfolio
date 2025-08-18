@@ -114,12 +114,12 @@ const projectContent = {
 
 const galleryImages = [
     { src: 'https://i.imgur.com/tYwY7Xp.png', alt: 'overview of toolkit cards and canvas in use', hint: 'toolkit cards canvas' },
-    { src: 'https://i.imgur.com/your-image-url.png', alt: 'first live build of the toolkit on github pages showing navigation and search', hint: 'github pages home' },
-    { src: 'https://i.imgur.com/your-image-url.png', alt: 'repository layout illustrating assets, pages, and search.js', hint: 'repo structure' },
-    { src: 'https://i.imgur.com/your-image-url.png', alt: 'search interaction returning methods and resources', hint: 'search js' },
-    { src: 'https://i.imgur.com/your-image-url.png', alt: 'application of university colour palette to ensure readability and contrast', hint: 'brand tokens' },
-    { src: 'https://i.imgur.com/your-image-url.png', alt: 'before/after header and profile card alignment after css refinements', hint: 'header before after' },
-    { src: 'https://i.imgur.com/your-image-url.png', alt: 'evidence capture sheet linking insights to design choices', hint: 'decision trail' }
+    { src: 'https://placehold.co/1200x800.png', alt: 'first live build of the toolkit on github pages showing navigation and search', hint: 'github pages home' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'repository layout illustrating assets, pages, and search.js', hint: 'repo structure' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'search interaction returning methods and resources', hint: 'search js' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'application of university colour palette to ensure readability and contrast', hint: 'brand tokens' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'before/after header and profile card alignment after css refinements', hint: 'header before after' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'evidence capture sheet linking insights to design choices', hint: 'decision trail' }
 ];
 
 function calculateReadingTime(text: string) {
@@ -162,7 +162,7 @@ export default function TuxForLearningDesignPage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://i.imgur.com/tYwY7Xp.png"
+                src="https://i.imgur.com/t8NXYGY.png"
                 alt="Collage of toolkit cards and a learning design workshop in progress"
                 fill
                 priority

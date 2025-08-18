@@ -227,7 +227,7 @@
     "category": "Learning Design",
     "summary": "Practical UX methods adapted for course and learning design.",
     "tags": ["Learning Design", "UX", "Toolkit", "Higher Education", "Workshops", "Canvas LMS", "ChatGPT", "Github Pages", "HTML", "CSS", "JavaScript"],
-    "coverImage": "https://i.imgur.com/tYwY7Xp.png",
+    "coverImage": "https://i.imgur.com/t8NXYGY.png",
     "gallery": [],
     "overview": "This project involves creating a comprehensive UX Design Toolkit specifically tailored for learning designers. The toolkit, codenamed TUX, provides reusable components, templates, and guidelines to ensure consistency and quality across all online courses.",
     "problem": "Learning designers often have to reinvent the wheel for each new course, leading to inconsistencies in user experience and inefficient workflows. There is a need for a centralized, standardized set of tools.",
