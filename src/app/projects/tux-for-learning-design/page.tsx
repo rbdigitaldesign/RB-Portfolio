@@ -363,7 +363,7 @@ export default function TuxForLearningDesignPage() {
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Tools</h4>
-                     <p className="text-muted-foreground">ChatGPT, Github Pages, Figma (templates), Google Suite, Miro, HTML/CSS/JavaScript</p>
+                     <p className="text-muted-foreground">ChatGPT, Github Pages, Google Suite, Miro, HTML/CSS/JavaScript</p>
                 </div>
                 <Separator />
                  <div>
@@ -437,5 +437,6 @@ export default function TuxForLearningDesignPage() {
     </CaseStudyLayout>
   );
 }
+
 
 
