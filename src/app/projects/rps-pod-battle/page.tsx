@@ -6,12 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ExternalLink, Gamepad2 } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import StatusNote from '@/components/StatusNote';
 
@@ -83,8 +77,7 @@ const projectContent = {
       `Extend accessibility (keyboard-only facilitation; alt text across UI imagery).`
   ],
   acknowledgements: `Huge thanks to Aaron from the media team in our LEI division at the University of Adelaide was essential in making the live build possible, particularly in stabilising the multiplayer functionality and state synchronisation.`,
-  aiDisclosure: `AI guided the environment setup (Firebase/Stackblitz), generated starter code, adjusted presentation elements, and created background imagery. Human review and iteration were responsible for the overall experience design, fixing bugs, and stabilising the multiplayer behaviour.`,
-  buildNotes: `The process involved setting up the toolchain with Firebase and Stackblitz, scaffolding the initial project structure with AI assistance, and sketching a simple state model. The bracket was managed with a basic data structure, and an admin workflow was created for tournament control. Development included ad-hoc testing and the creation of a facilitation checklist to ensure a smooth live event.`
+  aiDisclosure: `AI guided the environment setup (Firebase/Stackblitz), generated starter code, adjusted presentation elements, and created background imagery. Human review and iteration were responsible for the overall experience design, fixing bugs, and stabilising the multiplayer behaviour.`
 };
 
 const galleryImages = [
@@ -282,7 +275,7 @@ export default function RpsPodBattlePage() {
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Tools</h4>
-                     <p className="text-muted-foreground">Firebase Studio, Firebase Hosting, Stackblitz, AI Image Generation, Figma</p>
+                     <p className="text-muted-foreground">Firebase Studio, Firebase Hosting, Stackblitz, AI</p>
                 </div>
                 <Separator />
                 <div>
