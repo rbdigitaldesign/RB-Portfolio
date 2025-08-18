@@ -83,8 +83,8 @@ const projectContent = {
       'GitHub is a universal toolkit that extends far beyond software teams.'
     ],
     future: [
-      'Implement a dark-mode toggle.',
-      'Integrate live forms using Jotform.',
+      'Conduct further qualitative research to validate and refine the toolkit\'s methods.',
+      'Collaborate with the UX group to map the toolkit\'s structure to a universal design process (Empathise, Define, Ideate, Prototype, Evaluate, Iterate, Share Outcomes).',
       'Create short video walkthroughs for key methods.',
       'Improve repository hygiene and documentation.',
       'Collaborate with media and engineering teams for advanced features.',
