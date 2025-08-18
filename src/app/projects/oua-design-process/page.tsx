@@ -76,7 +76,7 @@ export default function OuaDesignProcessPage() {
 
             <section id="scope">
                 <h3 className="text-2xl font-bold font-headline mb-4">Project Scope</h3>
-                <p className="text-foreground/80">{`The project spanned the development of 35 courses for Open Universities Australia (referred to as OUA) initiative, (six of which I was the lead Learning Designer), strategically designed to enhance the University of Adelaide's suite of fully online undergraduate offerings. The scope included courses for both the Bachelor of International Business and the Bachelor of Health Services Management programs with 12 shared courses amongst the two streams and culminating in a eChallenge Captstone. This initiative aimed to address the growing need for flexible education solutions, catering to the evolving landscape of higher education.`}</p>
+                <p className="text-foreground/80">{`The project spanned the development of 35 courses for Open Universities Australia (referred to as OUA) initiative, (six of which I was the lead Learning Designer), strategically designed to enhance the University of Adelaide's suite of fully online undergraduate offerings. The scope included courses for both the Bachelor of International Business and the Bachelor of Health Services Management programmes with 12 shared courses amongst the two streams and culminating in a eChallenge Captstone. This initiative aimed to address the growing need for flexible education solutions, catering to the evolving landscape of higher education.`}</p>
             </section>
             
             <Separator />

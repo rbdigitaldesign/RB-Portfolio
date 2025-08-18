@@ -97,16 +97,16 @@ Blog post data will be stored in a similar fashion in a file like `src/data/post
 
 ### Design Tokens
 
-The site's visual identity is controlled by design tokens located in `src/styles/brand-tokens.json`. These tokens define colors, typography, spacing, and more.
+The site's visual identity is controlled by design tokens located in `src/styles/brand-tokens.json`. These tokens define colours, typography, spacing, and more.
 
 While you can edit this file to keep a record of the design system, the actual styles are implemented as CSS variables in `src/app/globals.css`.
 
-To change a core color, you will need to:
+To change a core colour, you will need to:
 1.  Find the corresponding HSL variable in `src/app/globals.css` (e.g., `--primary`).
-2.  Convert your new hex color to HSL values.
+2.  Convert your new hex colour to HSL values.
 3.  Update the HSL values for both the light (`:root`) and dark (`.dark`) themes.
 
-Example for changing the primary color:
+Example for changing the primary colour:
 ```css
 /* In src/app/globals.css */
 :root {

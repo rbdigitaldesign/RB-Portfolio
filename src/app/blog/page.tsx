@@ -62,7 +62,7 @@ export default function BlogPage() {
                            </Link>
                         </CardTitle>
                         <CardDescription>
-                            {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            {new Date(post.publishedDate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow">

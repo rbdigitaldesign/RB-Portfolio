@@ -17,7 +17,7 @@ export default function AboutPage() {
     },
     {
       icon: <Dog className="h-5 w-5 text-primary" />,
-      text: "Enjoying tranquility at home or the dog park with our Kelpie cross, 'Jerry Boi Seinfeld'.",
+      text: "Enjoying tranquillity at home or the dog park with our Kelpie cross, 'Jerry Boi Seinfeld'.",
     },
     {
       icon: <BookOpen className="h-5 w-5 text-primary" />,
@@ -25,7 +25,7 @@ export default function AboutPage() {
     },
     {
       icon: <Music className="h-5 w-5 text-primary" />,
-      text: "Humming along to inspiring music and continually reminding myself to practice guitar.",
+      text: "Humming along to inspiring music and continually reminding myself to practise guitar.",
     },
     {
       icon: <Radio className="h-5 w-5 text-primary" />,
@@ -47,7 +47,7 @@ export default function AboutPage() {
         <div>
           <h1 className="text-4xl font-bold font-headline mb-2">About Me</h1>
           <p className="text-xl text-muted-foreground">
-            I build bridges between learning theory and user-centered design to create experiences that are not just usable, but also meaningful and memorable.
+            I build bridges between learning theory and user-centred design to create experiences that are not just usable, but also meaningful and memorable.
           </p>
         </div>
       </header>
@@ -59,7 +59,7 @@ export default function AboutPage() {
           <h2 id="profile-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><User /> Profile</h2>
           <div className="space-y-4 text-foreground/80">
             <p>
-              With over nine years of experience in Australia's technology and education sectors, I've developed a unique skill set that merges the rigor of learning design with the empathy of user experience (UX) design. My career began in tech support and evolved into roles where I could directly impact how people interact with and learn from technology.
+              With over nine years of experience in Australia's technology and education sectors, I've developed a unique skill set that merges the rigour of learning design with the empathy of user experience (UX) design. My career began in tech support and evolved into roles where I could directly impact how people interact with and learn from technology.
             </p>
             <p>
               Currently, as a Learning Designer at a Group of Eight university, I apply these principles to create engaging and effective online courses for thousands of students. I thrive on complex challenges and am passionate about using design to solve problems and improve people's lives.

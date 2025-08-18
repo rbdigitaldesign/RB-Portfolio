@@ -35,7 +35,7 @@ const LocalTOC = () => (
 );
 
 const projectContent = {
-  brief: `A UX-for-learning toolkit was needed to provide fast, repeatable, and accessible methods for course design. Success is defined by enabling learning designers and academics to consistently apply user-centered principles, improving the quality of educational experiences and streamlining the development process.`,
+  brief: `A UX-for-learning toolkit was needed to provide fast, repeatable, and accessible methods for course design. Success is defined by enabling learning designers and academics to consistently apply user-centred principles, improving the quality of educational experiences and streamlining the development process.`,
   problem: [
     `Inconsistent methods used across different course design projects.`,
     `Scattered artefacts and documentation leading to lost knowledge.`,
@@ -65,11 +65,11 @@ const projectContent = {
     ],
     processHighlights: {
       chatbox: 'Structured HTML on the fly; tailored CSS to the university’s brand palette; added JavaScript for search and a "scroll-to-top" button; received step-by-step deployment guidance.',
-      github: 'Followed beginner-friendly flows (initialize repository, commit changes, push to remote, deploy via GitHub Pages); learned to recover from mistakes late at night.',
+      github: 'Followed beginner-friendly flows (initialise repository, commit changes, push to remote, deploy via GitHub Pages); learned to recover from mistakes late at night.',
       toolkitShape: 'The site structure evolved to include: Home, Methodologies, Tools, Resources, and Contact, with a search.js file for functionality. Content was anchored in reputable sources like NN/g and IDF.',
       branding: 'Applied the university’s blue, purple, and limestone palette to ensure readability, consistency, and accessibility.'
     },
-    reflections: 'Skipping wireframes in favor of a fast build-and-learn cycle proved effective. The layout of the homepage and profile cards evolved through iteration. The "break one thing, fix three" loop became a familiar challenge, often solved with terse prompts when tired.',
+    reflections: 'Skipping wireframes in favour of a fast build-and-learn cycle proved effective. The layout of the homepage and profile cards evolved through iteration. The "break one thing, fix three" loop became a familiar challenge, often solved with terse prompts when tired.',
     outcome: [
       'A live prototype site successfully stood up on GitHub Pages.',
       'Structured guidance for educators was made available.',

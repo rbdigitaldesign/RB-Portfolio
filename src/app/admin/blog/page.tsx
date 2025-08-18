@@ -96,7 +96,7 @@ export default function AdminBlogPage() {
                 <li key={post.slug} className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
                     <h3 className="font-semibold">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground">{new Date(post.publishedDate).toLocaleDateString()}</p>
+                    <p className="text-sm text-muted-foreground">{new Date(post.publishedDate).toLocaleDateString('en-GB')}</p>
                   </div>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={() => handleShare(post.slug)}>

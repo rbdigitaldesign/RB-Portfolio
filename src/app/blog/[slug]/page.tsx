@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <header className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">{post.title}</h1>
         <div className="text-sm text-muted-foreground mb-4">
-          <span>Published on {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span> by <span>{post.author}</span>
+          <span>Published on {new Date(post.publishedDate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</span> by <span>{post.author}</span>
         </div>
         <div className="flex justify-center flex-wrap gap-2">
             {post.tags.map(tag => <Badge key={tag} variant="secondary">{tag}</Badge>)}
