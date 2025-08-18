@@ -246,7 +246,7 @@
     "category": "Coding Projects",
     "summary": "Reducing clicks with an accessible, reusable on-page nav for modules and topics.",
     "tags": ["Canvas LMS", "HTML", "CSS", "Component", "Navigation", "Accessibility", "Higher Education"],
-    "coverImage": "https://i.imgur.com/QMwbgwF.png",
+    "coverImage": "https://i.imgur.com/5MtXytM.png",
     "gallery": [],
     "overview": "A lightweight, consistent quick navigation element embedded on Canvas pages to jump between topics, assignments and key resources with fewer clicks.",
     "problem": "Frequent navigation requires multiple clicks and context switching. Patterns vary across courses, increasing cognitive load. Designers often lack theme access, restricting global changes.",
