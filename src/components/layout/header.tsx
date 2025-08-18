@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
@@ -17,6 +17,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet';
+import { useAuth } from '@/contexts/auth-context';
 
 const navLinks = [
   { href: '/', label: 'Projects' },
@@ -29,6 +30,7 @@ export function Header() {
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -76,9 +78,14 @@ export function Header() {
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
-          <Button asChild>
-            <Link href="/resume">View my Résumé</Link>
-          </Button>
+           {mounted && !loading && user && (
+            <Button asChild>
+              <Link href="/admin">
+                <Settings className="mr-2 h-4 w-4" />
+                Site Admin
+              </Link>
+            </Button>
+          )}
           <ThemeToggle />
         </nav>
 
@@ -98,11 +105,16 @@ export function Header() {
                     <NavLink href={link.href} label={link.label} className="text-lg" />
                   </SheetClose>
                 ))}
-                 <SheetClose asChild>
-                  <Button asChild className="mt-4">
-                    <Link href="/resume">View my Résumé</Link>
-                  </Button>
-                </SheetClose>
+                 {mounted && !loading && user && (
+                   <SheetClose asChild>
+                    <Button asChild className="mt-4">
+                      <Link href="/admin">
+                         <Settings className="mr-2 h-4 w-4" />
+                        Site Admin
+                      </Link>
+                    </Button>
+                  </SheetClose>
+                 )}
               </nav>
               <div className="absolute bottom-4 right-4">
                 <ThemeToggle />

@@ -7,6 +7,8 @@ import { ProjectsClient } from '@/components/projects-client';
 import projects from '@/data/projects.json';
 import type { Project } from '@/lib/types';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 
 export default function Home() {
   const typedProjects: Project[] = projects;
@@ -55,6 +57,15 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="text-center py-8">
+        <Button asChild size="lg">
+            <Link href="/resume">
+                <Download className="mr-2 h-5 w-5" />
+                View my Résumé
+            </Link>
+        </Button>
       </section>
 
       <div className="container mx-auto px-4">
