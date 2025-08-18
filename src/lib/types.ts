@@ -19,6 +19,7 @@ export type Project = {
   links?: {
     live?: string;
     github?: string;
+    page?: string;
   };
 };
 

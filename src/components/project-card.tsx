@@ -20,7 +20,8 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const href = `/projects/${project.slug}`;
+  const href = project.links?.page || `/projects/${project.slug}`;
+  const isExternal = href.startsWith('http');
 
   return (
     <Card className="flex flex-col h-full overflow-hidden transition-all duration-300 ease-in-out hover:shadow-medium focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
@@ -37,8 +38,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
         <Badge variant="secondary" className="w-fit">{project.category}</Badge>
         <CardTitle className="pt-2 font-headline">
-          <Link href={href} className="hover:underline">
-            {project.title}
+          <Link href={href} target={isExternal ? '_blank' : '_self'}>
+            <span className="hover:underline">{project.title}</span>
           </Link>
         </CardTitle>
         <CardDescription>{project.summary}</CardDescription>
@@ -52,8 +53,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild variant="link" className="p-0 h-auto">
-          <Link href={href} className="group">
-            View Case Study
+          <Link href={href} className="group" target={isExternal ? '_blank' : '_self'}>
+            {project.category === 'Publications' ? 'View Publications' : 'View Case Study'}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Button>

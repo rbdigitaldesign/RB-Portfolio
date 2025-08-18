@@ -13,10 +13,10 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 const projects: Project[] = projectsData;
 
 export async function generateStaticParams() {
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'publications', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
-  // Generate params only for projects that are NOT case studies
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
+  // Generate params only for projects that are NOT case studies and do not have a custom page link
   return projects
-    .filter(project => !caseStudySlugs.includes(project.slug))
+    .filter(project => !caseStudySlugs.includes(project.slug) && !project.links?.page)
     .map((project) => ({
       slug: project.slug,
     }));
@@ -28,16 +28,16 @@ function getProjectData(slug: string) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'publications', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
   // This page should only handle non-case-study projects.
   // If the slug is a case study, we let it fall through to its dedicated page.
-  if (caseStudySlugs.includes(slug)) {
+  if (caseStudySlugs.includes(slug) || project.links?.page) {
     // This will effectively be ignored because generateStaticParams filters them out,
     // but it's a good safeguard.
     return null;
   }
 
-  const otherProjects = projects.filter(p => !caseStudySlugs.includes(p.slug));
+  const otherProjects = projects.filter(p => !caseStudySlugs.includes(p.slug) && !p.links?.page);
   const currentIndexInOthers = otherProjects.findIndex(p => p.slug === slug);
   
   const prevProject = currentIndexInOthers > 0 ? otherProjects[currentIndexInOthers - 1] : null;
@@ -183,4 +183,3 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     </article>
   );
 }
-

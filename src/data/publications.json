@@ -1,0 +1,33 @@
+
+[
+    {
+        "id": "pub-001",
+        "title": "Example Publication One: The Rise of AI in Learning Design",
+        "authors": "Bartlett, R., & Doe, J.",
+        "publicationDate": "2024-08-15",
+        "journal": "Journal of Educational Technology",
+        "status": "published",
+        "link": "#",
+        "summary": "This paper explores the ethical implications and practical applications of artificial intelligence within modern pedagogical frameworks, offering a new model for AI-assisted curriculum development."
+    },
+    {
+        "id": "pub-002",
+        "title": "Example Publication Two: UX Principles for Engaging Online Courses",
+        "authors": "Bartlett, R.",
+        "publicationDate": "2023-11-20",
+        "journal": "International Conference on Human-Computer Interaction",
+        "status": "published",
+        "link": "#",
+        "summary": "A case study analysis of three online courses, identifying key user experience principles that correlate with higher student engagement and satisfaction."
+    },
+    {
+        "id": "pub-003",
+        "title": "Example Working Paper: Gamification in Corporate Training",
+        "authors": "Bartlett, R.",
+        "publicationDate": "2025-01-10",
+        "journal": "Internal Working Paper",
+        "status": "unpublished",
+        "link": "#",
+        "summary": "A preliminary investigation into the effectiveness of gamification strategies in mandatory corporate compliance training modules."
+    }
+]

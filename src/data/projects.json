@@ -314,6 +314,8 @@
     "duration": "Ongoing",
     "team": "Solo & Collaborative",
     "tools": ["Google Docs", "Zotero", "MS Word"],
-    "links": {}
+    "links": {
+      "page": "/publications"
+    }
   }
 ]
