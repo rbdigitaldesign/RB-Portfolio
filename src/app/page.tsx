@@ -43,8 +43,8 @@ export default function Home() {
           style={{ transform: `translateY(${offsetY * 0.2}px)` }}
         >
           <Image
-            src="https://i.imgur.com/wQFi674.jpeg"
-            alt="Innovation concept with lightbulbs and paper airplanes"
+            src="https://i.imgur.com/rnSenPk.png"
+            alt="Abstract background image with flowing lines"
             fill
             priority
             className="object-cover"
