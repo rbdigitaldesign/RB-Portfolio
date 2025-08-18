@@ -3,14 +3,13 @@
 
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-import { storage, db } from '@/lib/firebase';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { adminDb, adminStorage } from '@/lib/firebase';
 import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy, limit } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
 
-const postsCollection = collection(db, 'posts');
+const postsCollection = collection(adminDb, 'posts');
 
 const createSlug = (title: string) => {
   return title
@@ -28,7 +27,7 @@ export async function getAllPosts(): Promise<Post[]> {
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-    const posts = await getAllPosts(); // This is inefficient but simple for now.
+    const posts = await getAllPosts(); 
     const post = posts.find(p => p.slug === slug);
     return post || null;
 }
@@ -111,13 +110,19 @@ export async function addPost(formData: FormData) {
         const fileBuffer = Buffer.from(await file.arrayBuffer());
         const fileExtension = path.extname(file.name);
         const fileName = `${uuidv4()}${fileExtension}`;
-        const storageRef = ref(storage, `blog-covers/${fileName}`);
+        const bucket = adminStorage.bucket();
+        const fileUpload = bucket.file(`blog-covers/${fileName}`);
 
-        await uploadBytes(storageRef, fileBuffer, {
-            contentType: file.type,
+        await fileUpload.save(fileBuffer, {
+            metadata: {
+                contentType: file.type,
+            },
         });
-
-        finalCoverImageUrl = await getDownloadURL(storageRef);
+        
+        finalCoverImageUrl = await fileUpload.getSignedUrl({
+            action: 'read',
+            expires: '03-01-2500', // Far-future expiration date
+        }).then(urls => urls[0]);
     }
 
     const newPostData = {
@@ -188,7 +193,7 @@ export async function updatePost(formData: FormData) {
     }
 
     try {
-        const postRef = doc(db, 'posts', postId);
+        const postRef = doc(adminDb, 'posts', postId);
         const postSnap = await getDoc(postRef);
 
         if (!postSnap.exists()) {
@@ -216,9 +221,17 @@ export async function updatePost(formData: FormData) {
                 const fileBuffer = Buffer.from(await file.arrayBuffer());
                 const fileExtension = path.extname(file.name);
                 const fileName = `${uuidv4()}${fileExtension}`;
-                const storageRef = ref(storage, `blog-covers/${fileName}`);
-                await uploadBytes(storageRef, fileBuffer, { contentType: file.type });
-                finalCoverImageUrl = await getDownloadURL(storageRef);
+                const bucket = adminStorage.bucket();
+                const fileUpload = bucket.file(`blog-covers/${fileName}`);
+
+                await fileUpload.save(fileBuffer, {
+                    metadata: { contentType: file.type },
+                });
+                 
+                finalCoverImageUrl = await fileUpload.getSignedUrl({
+                    action: 'read',
+                    expires: '03-01-2500',
+                }).then(urls => urls[0]);
              }
         }
 
@@ -254,7 +267,7 @@ export async function updatePost(formData: FormData) {
 // --- DELETE POST ---
 export async function deletePost(postId: string) {
     try {
-        const postRef = doc(db, 'posts', postId);
+        const postRef = doc(adminDb, 'posts', postId);
         const postSnap = await getDoc(postRef);
 
         if (!postSnap.exists()) {
@@ -265,8 +278,13 @@ export async function deletePost(postId: string) {
         
         if (deletedPost.coverImage && deletedPost.coverImage.includes('firebasestorage.googleapis.com')) {
             try {
-                const imageRef = ref(storage, deletedPost.coverImage);
-                await deleteObject(imageRef);
+                const bucket = adminStorage.bucket();
+                // Extract the object path from the URL.
+                // URL format: https://firebasestorage.googleapis.com/v0/b/YOUR-BUCKET/o/OBJECT-PATH?alt=media&token=...
+                const url = new URL(deletedPost.coverImage);
+                // The pathname is /v0/b/design-portfolio-v2.appspot.com/o/blog-covers%2F...
+                const objectPath = decodeURIComponent(url.pathname.split('/o/')[1].split('?')[0]);
+                await bucket.file(objectPath).delete();
             } catch (storageError) {
                 console.warn(`Could not delete cover image from storage: ${storageError}`);
             }
