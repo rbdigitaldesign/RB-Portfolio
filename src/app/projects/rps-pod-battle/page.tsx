@@ -266,14 +266,6 @@ export default function RpsPodBattlePage() {
                         <a href="https://github.com/rbdigitaldesign/LEI-Pod-Battle.git" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                  </div>
-                 <Accordion type="single" collapsible className="w-full border-none mt-4">
-                    <AccordionItem value="item-1" className="border-b-0">
-                    <AccordionTrigger className="p-0 hover:no-underline text-sm font-medium text-primary hover:underline underline-offset-4">Read full build notes</AccordionTrigger>
-                    <AccordionContent className="pt-4 text-foreground/80">
-                        {projectContent.buildNotes}
-                    </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
             </section>
         </main>
         
@@ -354,7 +346,3 @@ export default function RpsPodBattlePage() {
     </CaseStudyLayout>
   );
 }
-
-    
-
-    
