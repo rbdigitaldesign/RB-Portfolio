@@ -106,7 +106,6 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
           description: 'Your blog post has been successfully updated.',
         });
         router.push('/admin/blog');
-        router.refresh(); 
       } else {
         throw new Error(result.error || 'An unknown error occurred');
       }

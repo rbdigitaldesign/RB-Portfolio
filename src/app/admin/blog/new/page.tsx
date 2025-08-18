@@ -82,7 +82,6 @@ export default function NewPostPage() {
           description: 'Your new blog post is now live.',
         });
         router.push('/admin/blog');
-        router.refresh(); 
       } else {
         throw new Error(result.error || 'An unknown error occurred');
       }
