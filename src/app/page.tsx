@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <>
       <section className="relative w-full h-[50vh] flex items-center justify-center text-foreground overflow-hidden">
-        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#568f90] to-background" />
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#568f90] to-background dark:from-[#2F4F4F] dark:to-background" />
         <div className="relative z-10 text-center p-8 max-w-4xl mx-auto flex flex-col items-center">
           <div className="bg-background/70 backdrop-blur-sm p-8 rounded-lg shadow-strong">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground">
@@ -70,3 +70,4 @@ export default function Home() {
     </>
   );
 }
+
