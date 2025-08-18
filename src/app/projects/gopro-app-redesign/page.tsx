@@ -101,7 +101,7 @@ export default function GoProProjectPage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://placehold.co/1200x675.png"
+                src="https://i.imgur.com/Ukax7tl.png"
                 alt="GoPro mobile app screens in dark theme showing magic movie flow"
                 fill
                 priority
