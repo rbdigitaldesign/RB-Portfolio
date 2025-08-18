@@ -79,7 +79,7 @@ export function Header() {
             <NavLink key={link.href} {...link} />
           ))}
            {mounted && !loading && user && (
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" size="sm">
               <Link href="/admin">
                 <Settings className="mr-2 h-4 w-4" />
                 Site Admin
