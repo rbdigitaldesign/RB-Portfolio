@@ -76,7 +76,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
             title: fetchedPost.title,
             summary: fetchedPost.summary,
             content: fetchedPost.content,
-            tags: fetchedPost.tags.join(', '),
+            tags: fetchedPost.tags ? fetchedPost.tags.join(', ') : '',
             publishedDate: new Date(fetchedPost.publishedDate),
             coverImageType: 'url',
             coverImageUrl: fetchedPost.coverImage,

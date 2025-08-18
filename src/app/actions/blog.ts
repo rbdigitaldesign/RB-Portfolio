@@ -4,12 +4,18 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { adminDb, adminStorage } from '@/lib/firebase';
-import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
 
-const postsCollection = collection(adminDb, 'posts');
+// Helper function to get the posts collection reference
+const getPostsCollection = () => {
+    if (!adminDb) {
+        throw new Error('Firestore admin database is not available.');
+    }
+    return collection(adminDb, 'posts');
+}
 
 const createSlug = (title: string) => {
   return title
@@ -21,6 +27,7 @@ const createSlug = (title: string) => {
 
 // --- GET POSTS ---
 export async function getAllPosts(): Promise<Post[]> {
+    const postsCollection = getPostsCollection();
     const q = query(postsCollection, orderBy('publishedDate', 'desc'));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Post));
@@ -135,7 +142,8 @@ export async function addPost(formData: FormData) {
       tags: tagsArray,
       coverImage: finalCoverImageUrl,
     };
-
+    
+    const postsCollection = getPostsCollection();
     const docRef = await addDoc(postsCollection, newPostData);
 
     revalidatePath('/admin/blog');
@@ -193,7 +201,8 @@ export async function updatePost(formData: FormData) {
     }
 
     try {
-        const postRef = doc(adminDb, 'posts', postId);
+        const postsCollection = getPostsCollection();
+        const postRef = doc(postsCollection, postId);
         const postSnap = await getDoc(postRef);
 
         if (!postSnap.exists()) {
@@ -267,7 +276,8 @@ export async function updatePost(formData: FormData) {
 // --- DELETE POST ---
 export async function deletePost(postId: string) {
     try {
-        const postRef = doc(adminDb, 'posts', postId);
+        const postsCollection = getPostsCollection();
+        const postRef = doc(postsCollection, postId);
         const postSnap = await getDoc(postRef);
 
         if (!postSnap.exists()) {
