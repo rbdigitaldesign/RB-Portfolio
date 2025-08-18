@@ -33,6 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="https://i.imgur.com/hdIZnWQ.png" type="image/png" />
+      </head>
       <body
         className={cn(
           'min-h-screen bg-background font-body antialiased',
