@@ -159,17 +159,6 @@ export default function RpsPodBattlePage() {
             </p>
             <p className="text-sm text-muted-foreground mt-2">Estimated reading time: {readingTime} minutes</p>
         </div>
-        <div className="flex flex-col items-center mt-6 gap-4">
-             <Button asChild size="lg">
-                <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">
-                    <Gamepad2 className="mr-2 h-5 w-5" />
-                    Play the Game!
-                </a>
-            </Button>
-            <StatusNote>
-              First live run scheduled for 27 August 2025 (Adelaide time); structured feedback to follow.
-            </StatusNote>
-        </div>
       </header>
       
       <div className="grid lg:grid-cols-4 gap-12">
@@ -377,10 +366,10 @@ export default function RpsPodBattlePage() {
                       className="rounded-lg object-contain"
                     />
                   </div>
-                  <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
                       <ArrowLeft className="h-6 w-6" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
                       <ArrowRight className="h-6 w-6" />
                   </Button>
               </DialogContent>
@@ -398,5 +387,3 @@ export default function RpsPodBattlePage() {
     </CaseStudyLayout>
   );
 }
-
-    
