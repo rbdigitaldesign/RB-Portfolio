@@ -319,7 +319,7 @@ export default function RpsPodBattlePage() {
                 <Separator />
                 <div>
                     <h4 className="font-semibold mb-1">Timeline</h4>
-                    <p className="text-muted-foreground">~1 week (evenings) + short daytime cycles; ~6 builds</p>
+                    <p className="text-muted-foreground">~1 week (evenings)</p>
                 </div>
                  <Separator />
                 <div>
@@ -377,10 +377,10 @@ export default function RpsPodBattlePage() {
                       className="rounded-lg object-contain"
                     />
                   </div>
-                  <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white opacity-100" onClick={handlePrev}>
+                  <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
                       <ArrowLeft className="h-6 w-6" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white opacity-100" onClick={handleNext}>
+                  <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
                       <ArrowRight className="h-6 w-6" />
                   </Button>
               </DialogContent>
