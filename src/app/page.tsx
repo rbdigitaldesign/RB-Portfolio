@@ -30,7 +30,7 @@ export default function Home() {
 
   const handleDownload = () => {
     toast({
-      title: "Résumé Download Started",
+      title: "Resume Download Started",
       description: "Your download should begin shortly.",
     })
   }
@@ -74,7 +74,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="text-center py-4">
+      <section className="text-center py-8">
         <Button asChild size="lg">
             <a 
               href="https://docs.google.com/document/d/1323RCNFuAi6XZl8nIbOo7y1r8n157PlpDtAwLHdSbFA/export?format=pdf" 
@@ -84,7 +84,7 @@ export default function Home() {
               onClick={handleDownload}
             >
                 <Download className="mr-2 h-5 w-5" />
-                Download Résumé
+                Download Resume
             </a>
         </Button>
       </section>
