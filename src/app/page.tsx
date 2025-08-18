@@ -9,10 +9,12 @@ import type { Project } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Home() {
   const typedProjects: Project[] = projects;
   const [offsetY, setOffsetY] = useState(0);
+  const { toast } = useToast();
 
   const handleScroll = () => {
     setOffsetY(window.pageYOffset);
@@ -25,6 +27,13 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const handleDownload = () => {
+    toast({
+      title: "Résumé Download Started",
+      description: "Your download should begin shortly.",
+    })
+  }
 
   return (
     <>
@@ -66,6 +75,7 @@ export default function Home() {
               target="_blank" 
               rel="noopener noreferrer"
               download="Rich_Bartlett_Resume.pdf"
+              onClick={handleDownload}
             >
                 <Download className="mr-2 h-5 w-5" />
                 Download Résumé
