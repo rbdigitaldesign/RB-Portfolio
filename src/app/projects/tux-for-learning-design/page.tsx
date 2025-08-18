@@ -114,12 +114,16 @@ const projectContent = {
 
 const galleryImages = [
     { src: 'https://i.imgur.com/tYwY7Xp.png', alt: 'overview of toolkit cards and canvas in use', hint: 'toolkit cards canvas' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'first live build of the toolkit on github pages showing navigation and search', hint: 'github pages home' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'repository layout illustrating assets, pages, and search.js', hint: 'repo structure' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'search interaction returning methods and resources', hint: 'search js' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'application of university colour palette to ensure readability and contrast', hint: 'brand tokens' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'before/after header and profile card alignment after css refinements', hint: 'header before after' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'evidence capture sheet linking insights to design choices', hint: 'decision trail' }
+    { src: 'https://i.imgur.com/MaiMjSF.png', alt: 'home page with search bar, main tool kit buttons, team info', hint: 'home page search team' },
+    { src: 'https://i.imgur.com/K3pvDbr.png', alt: 'Example of UX methods page', hint: 'ux methods page' },
+    { src: 'https://i.imgur.com/UfgW5a0.png', alt: 'UX/ review checklist tool, utilising a mix of Uni Quality framework and UX checklist to create a report for designers', hint: 'checklist tool report' },
+    { src: 'https://i.imgur.com/gZVNi9r.png', alt: 'Personas page, with PPTX developer by team mate Kelli Knuth', hint: 'personas page presentation' },
+    { src: 'https://i.imgur.com/t8NXYGY.png', alt: 'first live build of the toolkit on github pages showing navigation and search', hint: 'github pages home' },
+    { src: 'https://i.imgur.com/5uR1d9C.png', alt: 'repository layout illustrating assets, pages, and search.js', hint: 'repo structure' },
+    { src: 'https://i.imgur.com/z6STg4a.png', alt: 'search interaction returning methods and resources', hint: 'search js' },
+    { src: 'https://i.imgur.com/lxt9mG6.png', alt: 'application of university colour palette to ensure readability and contrast', hint: 'brand tokens' },
+    { src: 'https://i.imgur.com/jM8I4ht.png', alt: 'before/after header and profile card alignment after css refinements', hint: 'header before after' },
+    { src: 'https://i.imgur.com/4z3Y5r0.png', alt: 'evidence capture sheet linking insights to design choices', hint: 'decision trail' }
 ];
 
 function calculateReadingTime(text: string) {
@@ -437,6 +441,3 @@ export default function TuxForLearningDesignPage() {
     </CaseStudyLayout>
   );
 }
-
-
-
