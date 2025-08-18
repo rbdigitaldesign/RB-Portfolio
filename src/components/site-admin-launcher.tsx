@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Settings } from 'lucide-react';
+import { LogOut, Settings } from 'lucide-react';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -11,6 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -25,7 +27,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
 export default function SiteAdminLauncher() {
-  const { user, loading, login } = useAuth();
+  const { user, loading, login, logout } = useAuth();
   const [openSignIn, setOpenSignIn] = useState(false);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -50,7 +52,12 @@ export default function SiteAdminLauncher() {
             <Link href="/admin/blog">Blog management</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/admin/projects">Project management</Link>
+            <Link href="/admin">Admin dashboard</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive focus:bg-destructive/10">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
