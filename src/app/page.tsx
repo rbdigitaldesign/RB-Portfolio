@@ -61,10 +61,15 @@ export default function Home() {
 
       <section className="text-center py-8">
         <Button asChild size="lg">
-            <Link href="/resume">
+            <a 
+              href="https://docs.google.com/document/d/1323RCNFuAi6XZl8nIbOo7y1r8n157PlpDtAwLHdSbFA/export?format=pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              download="Rich_Bartlett_Resume.pdf"
+            >
                 <Download className="mr-2 h-5 w-5" />
-                View my Résumé
-            </Link>
+                Download Résumé
+            </a>
         </Button>
       </section>
 
