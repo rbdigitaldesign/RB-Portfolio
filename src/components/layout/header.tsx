@@ -17,8 +17,8 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet';
-import { useAuth } from '@/contexts/auth-context';
-import { Skeleton } from '../ui/skeleton';
+import SiteAdminLauncher from '@/components/site-admin-launcher';
+
 
 const navLinks = [
   { href: '/', label: 'Projects' },
@@ -31,7 +31,6 @@ export function Header() {
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { user, loading } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -80,18 +79,7 @@ export function Header() {
             <NavLink key={link.href} {...link} />
           ))}
           <div className="flex items-center gap-2">
-            {loading && <Skeleton className="h-9 w-28" />}
-            {!loading && user && (
-              <Button asChild variant="secondary" size="sm">
-                <Link href="/admin">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Site Admin
-                </Link>
-              </Button>
-            )}
-             {!loading && !user && process.env.NODE_ENV !== "production" && (
-                <span className="text-xs text-muted-foreground">not signed in</span>
-            )}
+             <SiteAdminLauncher />
           </div>
           <ThemeToggle />
         </nav>
@@ -113,17 +101,7 @@ export function Header() {
                   </SheetClose>
                 ))}
                  <div className="mt-4">
-                   {loading && <Skeleton className="h-10 w-full" />}
-                   {!loading && user && (
-                    <SheetClose asChild>
-                      <Button asChild className="w-full">
-                        <Link href="/admin">
-                           <Settings className="mr-2 h-4 w-4" />
-                          Site Admin
-                        </Link>
-                      </Button>
-                    </SheetClose>
-                   )}
+                    <SiteAdminLauncher />
                  </div>
               </nav>
               <div className="absolute bottom-4 right-4">
