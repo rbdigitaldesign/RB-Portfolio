@@ -57,7 +57,7 @@ export default function Home() {
               Rich Bartlett
             </h1>
             <p className="text-lg md:text-xl text-primary/90 dark:text-primary-foreground/90 font-medium mb-4">
-               <a href="https://www.advance-he.ac.uk/fellowship/fellowship" target="_blank" rel="noopener noreferrer" className="hover:underline">
+               <a href="https://www.advance-he.ac.uk/fellowship/fellowship" target="_blank" rel="noopener noreferrer" className="hover:underline font-semibold text-primary">
                 FHEA
               </a> — LDX Designer
             </p>
