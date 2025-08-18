@@ -153,7 +153,7 @@ export default function UxSurveyCaseStudyPage() {
                         </a>
                     </Button>
                     <Button asChild variant="outline">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a href="https://drive.google.com/file/d/1SHFHjdnFacnZ7lhXnHeI2uZXb4pprd9S/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                             <Download className="mr-2 h-4 w-4" /> Download Survey (PDF)
                         </a>
                     </Button>
@@ -197,7 +197,7 @@ export default function UxSurveyCaseStudyPage() {
                     <h4 className="font-semibold mb-1">Audience</h4>
                      <p className="text-muted-foreground">Learning Designers and adjacent roles</p>
                 </div>
-                 <Separator />
+                <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Focus</h4>
                      <p className="text-muted-foreground">Practices, confidence, experience, support preferences, barriers, platform preference</p>
