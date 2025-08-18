@@ -11,43 +11,17 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/auth-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const DesignToSolveLogo = () => (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      viewBox="0 0 400 60" 
-      aria-labelledby="dts-title" 
-      role="img"
-      className="w-full max-w-md h-auto"
-    >
-      <title id="dts-title">DesignToSolve Logo</title>
-      <desc id="dts-desc">The words 'DesignToSolve' in a stylized font.</desc>
-      <text 
-        x="50%" 
-        y="50%" 
-        dominantBaseline="middle" 
-        textAnchor="middle" 
-        className="font-headline text-5xl fill-current"
-      >
-        DesignToSolve
-      </text>
-    </svg>
-);
-
-
 export default function BlogPage() {
   const typedPosts: Post[] = posts;
   const { user, loading } = useAuth();
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
-      <header className="mb-12">
-        <div className="flex justify-between items-start mb-4">
-            <h1 className="text-4xl font-bold font-headline mb-2 sr-only">DesignToSolve</h1>
-            <DesignToSolveLogo />
-        </div>
-        <div className="text-lg text-muted-foreground space-y-4 max-w-3xl">
+      <header className="mb-12 text-center">
+        <h1 className="text-4xl font-bold font-headline mb-4">WHAT AM I ON ABOUT 🤔</h1>
+        <div className="text-lg text-muted-foreground space-y-4 max-w-3xl mx-auto">
           <p>
-            Design and learning aren’t always elegant. Here you’ll find ideas shaped by patterns in nature, sarcasm, and the occasional brain fart.
+            Design, learning, and biomimicry—served with sarcasm and the occasional brain fart.
           </p>
         </div>
       </header>
