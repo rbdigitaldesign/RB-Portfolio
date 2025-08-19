@@ -88,7 +88,7 @@ export default function AdminBlogPage() {
         title: "Post Deleted",
         description: "The blog post has been successfully deleted.",
       });
-      // Immediately remove the post from the local state for a responsive UI
+      
       setPosts(posts.filter(p => p.id !== postId));
 
     } catch (error) {
