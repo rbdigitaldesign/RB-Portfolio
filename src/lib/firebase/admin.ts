@@ -1,7 +1,6 @@
-
 // src/lib/firebase/admin.ts
 // Server-only Firebase Admin initialisation for App Hosting and local dev.
-import { initializeApp, getApps, App, cert, applicationDefault } from 'firebase-admin/app';
+import { initializeApp, getApps, App, cert } from 'firebase-admin/app';
 import { getAuth, Auth } from 'firebase-admin/auth';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
 import { getStorage, Storage } from 'firebase-admin/storage';
@@ -12,40 +11,27 @@ function initAdmin(): App {
     return existingApp;
   }
 
-  // Try Application Default Credentials first (for production App Hosting)
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+
+  if (!serviceAccountJson) {
+    // This will now be the primary error if the secret is not set up correctly.
+    throw new Error('FIREBASE_SERVICE_ACCOUNT_JSON environment variable is not set. Please add it to your secrets.');
+  }
+
   try {
+    const serviceAccount = JSON.parse(serviceAccountJson);
+    
+    // Explicitly using the parsed service account. This is the most reliable method.
     const app = initializeApp({
-      credential: applicationDefault(),
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      credential: cert(serviceAccount),
+      projectId: serviceAccount.project_id ?? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
       storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     });
-    // Attempt a quick Firestore call to validate credentials. If this fails, it will throw.
-    getFirestore(app);
-    console.log('Firebase Admin initialized with Application Default Credentials.');
+    console.log('Firebase Admin initialized with service account.');
     return app;
-  } catch (e: any) {
-    console.warn('Application Default Credentials failed, trying service account fallback.', e.message);
-    
-    // Fallback to service account JSON from environment variable (for local/preview)
-    const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-    if (!serviceAccountJson) {
-        console.error('Firebase Admin SDK initialization failed. Application Default Credentials failed and FIREBASE_SERVICE_ACCOUNT_JSON is not set.');
-        throw new Error('Could not initialize Firebase Admin SDK.');
-    }
-
-    try {
-        const serviceAccount = JSON.parse(serviceAccountJson);
-        const app = initializeApp({
-            credential: cert(serviceAccount),
-            projectId: serviceAccount.project_id ?? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-            storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-        });
-        console.log('Firebase Admin initialized with service account.');
-        return app;
-    } catch (parseError: any) {
-        console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON.', parseError.message);
-        throw new Error('Could not initialize Firebase Admin SDK due to invalid service account JSON.');
-    }
+  } catch (parseError: any) {
+    console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON.', parseError.message);
+    throw new Error('Could not initialize Firebase Admin SDK due to invalid service account JSON.');
   }
 }
 
