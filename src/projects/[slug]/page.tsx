@@ -1,4 +1,5 @@
 
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,10 +14,9 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 const projects: Project[] = projectsData;
 
 export async function generateStaticParams() {
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'publications', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025', 'communication-styles-quiz'];
-  // Generate params only for projects that are NOT case studies
+  // Filter out projects that have a custom page link, as they have dedicated pages.
   return projects
-    .filter(project => !caseStudySlugs.includes(project.slug))
+    .filter(project => !project.links?.page)
     .map((project) => ({
       slug: project.slug,
     }));
@@ -24,20 +24,11 @@ export async function generateStaticParams() {
 
 function getProjectData(slug: string) {
   const project = projects.find((p) => p.slug === slug);
-  if (!project) {
+  if (!project || project.links?.page) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'publications', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025', 'communication-styles-quiz'];
-  // This page should only handle non-case-study projects.
-  // If the slug is a case study, we let it fall through to its dedicated page.
-  if (caseStudySlugs.includes(slug)) {
-    // This will effectively be ignored because generateStaticParams filters them out,
-    // but it's a good safeguard.
-    return null;
-  }
-
-  const otherProjects = projects.filter(p => !caseStudySlugs.includes(p.slug));
+  const otherProjects = projects.filter(p => !p.links?.page);
   const currentIndexInOthers = otherProjects.findIndex(p => p.slug === slug);
   
   const prevProject = currentIndexInOthers > 0 ? otherProjects[currentIndexInOthers - 1] : null;
@@ -183,7 +174,3 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     </article>
   );
 }
-
-
-
-    

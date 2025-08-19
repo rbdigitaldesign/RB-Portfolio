@@ -15,7 +15,8 @@ const hasServiceAccount =
   process.env.FIREBASE_CLIENT_EMAIL &&
   process.env.FIREBASE_PRIVATE_KEY;
 
-
+// Only initialize the admin SDK if the service account details are present.
+// This prevents build errors in environments where they might be missing.
 if (hasServiceAccount) {
     try {
         const { initializeApp: initializeAdminApp, getApps: getAdminApps, getApp: getAdminAppFromServer, credential } = require('firebase-admin/app');
@@ -36,7 +37,7 @@ if (hasServiceAccount) {
 
           return initializeAdminApp({
             credential: credential.cert(serviceAccount),
-            storageBucket: "design-portfolio-v2.appspot.com",
+            storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
           });
         };
 
@@ -47,10 +48,9 @@ if (hasServiceAccount) {
     } catch (error) {
         console.error("Failed to initialize Firebase Admin SDK:", error);
     }
-} else {
-    console.warn("Firebase Admin SDK not initialized. Missing environment variables.");
+} else if (process.env.NODE_ENV !== 'test') { // Don't warn in test environments
+    console.warn("Firebase Admin SDK not initialized. Missing environment variables. This is expected during client-side rendering and build processes.");
 }
-
 
 export { 
   adminAuth,
