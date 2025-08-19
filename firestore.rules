@@ -1,21 +1,10 @@
-
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    // For this demonstration, we'll assume an 'admin' custom claim.
-    // In a real application, you would set this on your user account
-    // via the Firebase Admin SDK.
-    function isAdmin() {
-      return request.auth.token.admin == true;
-    }
-
+    // Allow read access to everyone for blog posts
     match /posts/{postId} {
-      // Anyone can read posts that are explicitly marked as published.
-      allow read: if resource.data.status == 'published';
-      
-      // Only authenticated admins can create, update, or delete posts.
-      allow write: if isAdmin();
+      allow read: if true;
+      allow write: if request.auth != null;
     }
   }
 }
