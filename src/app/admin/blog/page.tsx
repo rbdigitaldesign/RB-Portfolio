@@ -23,12 +23,14 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Skeleton } from "@/components/ui/skeleton";
 import { clientDb, clientStorage } from "@/lib/firebase/client";
+import { useRouter } from "next/navigation";
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
   const [origin, setOrigin] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   const fetchPosts = useCallback(async () => {
     setIsLoading(true);
