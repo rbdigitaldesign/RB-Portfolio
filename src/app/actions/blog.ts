@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -7,10 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
 
-// helper: get admin collection ref (server only)
+// This function now handles cases where adminDb might fail during build but works in the browser.
 const postsCol = () => {
   if (!adminDb) {
-    console.warn('Firestore admin database is not available (likely during build).');
+    console.warn('Firestore admin database is not available. This is expected during build time. Client-side fetching will be used.');
     return null;
   }
   return adminDb.collection('posts');
@@ -27,17 +28,28 @@ const createSlug = (title: string) =>
 export async function getAllPosts(): Promise<Post[]> {
   const col = postsCol();
   if (!col) return [];
-  const snap = await col.orderBy('publishedDate', 'desc').get();
-  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) } as Post));
+  try {
+    const snap = await col.orderBy('publishedDate', 'desc').get();
+    return snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) } as Post));
+  } catch(e) {
+      console.error("Error fetching all posts:", e);
+      // Return empty array on error to prevent crashing the client
+      return [];
+  }
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
   const col = postsCol();
   if (!col) return null;
-  const snap = await col.where('slug', '==', slug).limit(1).get();
-  if (snap.empty) return null;
-  const doc = snap.docs[0];
-  return { id: doc.id, ...(doc.data() as any) } as Post;
+  try {
+    const snap = await col.where('slug', '==', slug).limit(1).get();
+    if (snap.empty) return null;
+    const doc = snap.docs[0];
+    return { id: doc.id, ...(doc.data() as any) } as Post;
+  } catch(e) {
+     console.error(`Error fetching post with slug "${slug}":`, e);
+     return null;
+  }
 }
 
 // ---------- validation ----------

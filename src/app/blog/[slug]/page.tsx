@@ -1,7 +1,9 @@
 
+'use client';
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { getAllPosts } from '@/app/actions/blog';
+import { getPost } from '@/app/actions/blog';
 import type { Post } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -10,40 +12,59 @@ import html from 'remark-html';
 import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Home } from 'lucide-react';
+import { ArrowLeft, Home } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// generateStaticParams has been removed to switch to on-demand rendering,
-// which avoids build-time database access errors.
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
+  const [data, setData] = useState<{ post: Post; contentHtml: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-async function getPostData(slug: string) {
-  const posts = await getAllPosts();
-  const postIndex = posts.findIndex((p) => p.slug === slug);
-  
-  if (postIndex === -1) {
-    return null;
+  useEffect(() => {
+    async function getPostData() {
+      setIsLoading(true);
+      const post = await getPost(params.slug);
+      if (!post) {
+        setIsLoading(false);
+        notFound();
+        return;
+      }
+      
+      const processedContent = await remark()
+        .use(html)
+        .process(post.content);
+      const contentHtml = processedContent.toString();
+
+      setData({ post, contentHtml });
+      setIsLoading(false);
+    }
+    getPostData();
+  }, [params.slug]);
+
+  if (isLoading) {
+    return (
+      <article className="container mx-auto max-w-4xl py-16 px-4">
+        <header className="text-center mb-12">
+          <Skeleton className="h-12 w-3/4 mx-auto" />
+          <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+        </header>
+        <Skeleton className="relative w-full aspect-video mb-12 rounded-lg" />
+        <div className="prose dark:prose-invert max-w-none mx-auto space-y-4">
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-5/6" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-3/4" />
+        </div>
+      </article>
+    );
   }
-
-  const post = posts[postIndex];
-  
-  const processedContent = await remark()
-    .use(html)
-    .process(post.content);
-  const contentHtml = processedContent.toString();
-
-  const prevPost = postIndex > 0 ? posts[postIndex - 1] : null;
-  const nextPost = postIndex < posts.length - 1 ? posts[postIndex + 1] : null;
-
-  return { post, contentHtml, prevPost, nextPost };
-}
-
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const data = await getPostData(params.slug);
 
   if (!data) {
-    notFound();
+    return null; // notFound() is called in useEffect
   }
 
-  const { post, contentHtml, prevPost, nextPost } = data;
+  const { post, contentHtml } = data;
 
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
@@ -84,14 +105,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <Separator className="my-8" />
 
       <nav className="flex justify-between items-center">
-        {prevPost ? (
-          <Button variant="outline" asChild>
-            <Link href={`/blog/${prevPost.slug}`} className="group">
-              <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              Previous Post
-            </Link>
-          </Button>
-        ) : <div />}
+        <div />
 
         <Button variant="outline" asChild>
           <Link href="/blog">
@@ -99,15 +113,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
              Blog Home
           </Link>
         </Button>
-
-        {nextPost ? (
-          <Button variant="outline" asChild>
-            <Link href={`/blog/${nextPost.slug}`} className="group">
-              Next Post
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Button>
-        ) : <div />}
+        
+        <div />
       </nav>
 
     </article>

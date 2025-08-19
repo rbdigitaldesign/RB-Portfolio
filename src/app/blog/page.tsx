@@ -1,16 +1,37 @@
 
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import type { Post } from '@/lib/types';
 import { getAllPosts } from '../actions/blog';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export default async function BlogPage() {
-  const posts: Post[] = await getAllPosts();
+export default function BlogPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const bannerUrl = 'https://i.imgur.com/v5tofnA.png'; 
+
+  useEffect(() => {
+    async function fetchPosts() {
+      setIsLoading(true);
+      try {
+        const fetchedPosts = await getAllPosts();
+        setPosts(fetchedPosts);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+        // Optionally, show an error message to the user
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchPosts();
+  }, []);
 
   return (
     <>
@@ -32,7 +53,30 @@ export default async function BlogPage() {
       </section>
 
       <div className="container mx-auto max-w-4xl py-16 px-4">
-        {posts.length > 0 ? (
+        {isLoading ? (
+          <div className="grid gap-8">
+            <Card className="flex flex-col md:flex-row overflow-hidden">
+                <div className="md:w-1/3 relative min-h-[200px] md:min-h-full">
+                    <Skeleton className="w-full h-full" />
+                </div>
+                <div className="md:w-2/3 flex flex-col p-6">
+                    <Skeleton className="h-8 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-4" />
+                    <Skeleton className="h-16 w-full" />
+                </div>
+            </Card>
+            <Card className="flex flex-col md:flex-row overflow-hidden">
+                <div className="md:w-1/3 relative min-h-[200px] md:min-h-full">
+                    <Skeleton className="w-full h-full" />
+                </div>
+                <div className="md:w-2/3 flex flex-col p-6">
+                    <Skeleton className="h-8 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-4" />
+                    <Skeleton className="h-16 w-full" />
+                </div>
+            </Card>
+          </div>
+        ) : posts.length > 0 ? (
           <div className="grid gap-8">
             {posts.map((post) => (
               <Card key={post.slug} className="flex flex-col md:flex-row overflow-hidden">
