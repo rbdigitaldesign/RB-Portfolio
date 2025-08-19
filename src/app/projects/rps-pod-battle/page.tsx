@@ -303,7 +303,7 @@ export default function RpsPodBattlePage() {
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Tools</h4>
-                     <p className="text-muted-foreground">Firebase Studio, Firebase Hosting, Stackblitz, AI</p>
+                     <p className="text-muted-foreground">Firebase Studio, Firebase Hosting, AI</p>
                 </div>
                 <Separator />
                 <div>
