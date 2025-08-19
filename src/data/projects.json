@@ -141,7 +141,6 @@
     "tags": [
       "Coding Projects",
       "Firebase",
-      "Stackblitz",
       "Multiplayer",
       "AI-assisted"
     ],
@@ -155,7 +154,7 @@
     "year": 2025,
     "duration": "~1 week",
     "team": "Solo, with engineering partner",
-    "tools": ["Firebase Studio", "Firebase Hosting", "Stackblitz", "AI"],
+    "tools": ["Firebase Studio", "Firebase Hosting", "AI"],
     "links": {
       "live": "https://www.leipodbattle.com.au",
       "github": "https://github.com/rbdigitaldesign/LEI-Pod-Battle.git"
