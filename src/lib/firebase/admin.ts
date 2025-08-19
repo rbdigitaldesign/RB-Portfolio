@@ -1,3 +1,4 @@
+
 // src/lib/firebase/admin.ts
 // Server-only Firebase Admin initialisation for App Hosting and local dev.
 import { initializeApp, getApps, App, cert, applicationDefault } from 'firebase-admin/app';
@@ -20,6 +21,7 @@ function initAdmin(): App {
     });
     // Attempt a quick Firestore call to validate credentials. If this fails, it will throw.
     getFirestore(app);
+    console.log('Firebase Admin initialized with Application Default Credentials.');
     return app;
   } catch (e: any) {
     console.warn('Application Default Credentials failed, trying service account fallback.', e.message);
@@ -33,11 +35,13 @@ function initAdmin(): App {
 
     try {
         const serviceAccount = JSON.parse(serviceAccountJson);
-        return initializeApp({
+        const app = initializeApp({
             credential: cert(serviceAccount),
             projectId: serviceAccount.project_id ?? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
             storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
         });
+        console.log('Firebase Admin initialized with service account.');
+        return app;
     } catch (parseError: any) {
         console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON.', parseError.message);
         throw new Error('Could not initialize Firebase Admin SDK due to invalid service account JSON.');
