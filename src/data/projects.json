@@ -146,7 +146,7 @@
     ],
     "coverImage": "https://i.imgur.com/Orr8zIw.png",
     "gallery": [],
-    "overview": "Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.",
+    "overview": "Began as a novice to Firebase; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.",
     "problem": "Run a lightweight tournament many can follow on one call, minimal setup. Handle ties and bracket progression; clearly show who plays next. Keep interaction simple so pod managers can represent teams without confusion.",
     "process": "Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”. Paired with an engineer to stabilise real-time reads/writes and repair regressions from rapid AI-led edits.",
     "outcomes": "A working multiplayer tournament game deployed on Firebase Hosting. Facilitation model tested and ready for a live 50+ person event.",
@@ -215,6 +215,25 @@
     "duration": "3 Months",
     "team": "Educational Technology Team",
     "tools": ["Lucidchart", "Confluence", "Trello"],
+    "links": {}
+  },
+  {
+    "slug": "communication-styles-quiz",
+    "title": "Communication Styles Quiz",
+    "category": "Learning Design",
+    "summary": "A static PDF activity was transformed into an accessible, embeddable web quiz for the Create. Connect. Communicate. course. Built in collaboration with Media, the tool adds clear micro-interactions, printable results, and a streamlined single-choice flow that works standalone or inside Canvas.",
+    "tags": ["Interactive", "Quiz", "Canvas LMS", "Accessibility", "Collaboration"],
+    "coverImage": "https://i.imgur.com/P7Ztn9y.png",
+    "gallery": ["https://i.imgur.com/d1YEELa.png", "https://i.imgur.com/gXEIdcZ.png", "https://i.imgur.com/oovXd0j.png"],
+    "overview": "Converted a static “Communication Styles” PDF worksheet into a lightweight, mobile-friendly interactive quiz to guide learners through 23 quick selections, provide immediate feedback, and produce a printable summary.",
+    "problem": "The original PDF worksheet was not engaging, difficult to use on mobile devices, and did not provide instant feedback to the learners.",
+    "process": "Collaborated with the Media team to resolve conflicts in the source PDF, verify the live build and print-to-PDF flow, and implement quick UX wins like improved copy, subtle animations, and clearer controls, while keeping the core single-question-per-screen flow.",
+    "outcomes": "Replaced a multi-page PDF with a focused interactive that’s quicker to complete, easier to embed, and produces a clean PDF record. This created a repeatable pattern for future PDF-to-interactive conversions.",
+    "role": "Product/UX, copy review, academic liaison, QA",
+    "year": 2024,
+    "duration": "1 Week",
+    "team": "Rich Bartlett, Hui Mu (Media), Course Academics",
+    "tools": ["Custom JS/HTML/CSS", "Canvas LMS", "Browser print-to-PDF"],
     "links": {}
   },
   {
@@ -318,3 +337,5 @@
     }
   }
 ]
+
+    
