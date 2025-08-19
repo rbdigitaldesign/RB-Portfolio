@@ -13,11 +13,14 @@ function initAdmin(): App {
 
   // Try Application Default Credentials first (for production App Hosting)
   try {
-    return initializeApp({
+    const app = initializeApp({
       credential: applicationDefault(),
       projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
       storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     });
+    // Attempt a quick Firestore call to validate credentials. If this fails, it will throw.
+    getFirestore(app);
+    return app;
   } catch (e: any) {
     console.warn('Application Default Credentials failed, trying service account fallback.', e.message);
     
