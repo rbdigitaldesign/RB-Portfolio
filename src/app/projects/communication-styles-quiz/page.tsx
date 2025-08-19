@@ -72,6 +72,7 @@ const galleryImages = [
     { src: 'https://i.imgur.com/d1YEELa.png', alt: 'PDF version of quiz (pg1 – Rating communication style)' },
     { src: 'https://i.imgur.com/gXEIdcZ.png', alt: 'PDF version of quiz (pg2 – Scoring interpretation)' },
     { src: 'https://i.imgur.com/oovXd0j.png', alt: 'Interactive version' },
+    { src: 'https://i.imgur.com/P7Ztn9y.png', alt: 'Example of completed quiz' },
 ];
 
 export default function CommunicationStylesQuizPage() {
@@ -292,3 +293,5 @@ export default function CommunicationStylesQuizPage() {
     </CaseStudyLayout>
   );
 }
+
+    
