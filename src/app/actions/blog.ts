@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-import { adminDb, adminStorage } from '@/lib/firebase';
+import { adminDb, adminStorage } from '@/lib/firebase/admin';
 import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
@@ -14,6 +14,7 @@ const getPostsCollection = () => {
     if (!adminDb) {
         // Return null if the adminDb is not available.
         // This can happen during build time when server-side env vars are not set.
+        console.warn("Firestore admin database is not available. This is expected during build.");
         return null;
     }
     return collection(adminDb, 'posts');
@@ -65,8 +66,8 @@ const addPostSchema = z.object({
 
 export async function addPost(formData: FormData) {
   const postsCollection = getPostsCollection();
-  if (!postsCollection) {
-    return { success: false, error: 'Database service is not available.' };
+  if (!postsCollection || !adminStorage) {
+    return { success: false, error: 'Database or storage service is not available.' };
   }
 
   const rawFormData = {
@@ -179,8 +180,8 @@ const updatePostSchema = addPostSchema.extend({
 
 export async function updatePost(formData: FormData) {
     const postsCollection = getPostsCollection();
-    if (!postsCollection) {
-        return { success: false, error: 'Database service is not available.' };
+    if (!postsCollection || !adminStorage) {
+        return { success: false, error: 'Database or storage service is not available.' };
     }
     const rawFormData = {
         title: formData.get('title'),
@@ -289,8 +290,8 @@ export async function updatePost(formData: FormData) {
 // --- DELETE POST ---
 export async function deletePost(postId: string) {
     const postsCollection = getPostsCollection();
-    if (!postsCollection) {
-        return { success: false, error: 'Database service is not available.' };
+    if (!postsCollection || !adminStorage) {
+        return { success: false, error: 'Database or storage service is not available.' };
     }
     try {
         const postRef = doc(postsCollection, postId);
