@@ -25,26 +25,6 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { clientDb } from '@/lib/firebase/client';
 
-
-// This function now handles cases where adminDb might fail during build but works in the browser.
-const postsCol = () => {
-    try {
-        // Attempt to use adminDb if available (for server-side rendering if it works)
-        return adminDb.collection('posts');
-    } catch (e) {
-        // Fallback to clientDb if adminDb fails (for client-side fetching)
-        console.warn('Firestore admin database is not available. Falling back to client DB. This is expected during client-side rendering or build time.');
-        return collection(clientDb, 'posts');
-    }
-};
-
-const createSlug = (title: string) =>
-  title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-
 // ---------- reads ----------
 // These functions can be called from client components.
 export async function getAllPosts(): Promise<Post[]> {
