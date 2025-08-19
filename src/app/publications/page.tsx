@@ -2,10 +2,12 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Share2, ExternalLink } from 'lucide-react';
+import { Share2, ExternalLink, ArrowRight } from 'lucide-react';
 import publicationsData from '@/data/publications.json';
 import { useToast } from '@/hooks/use-toast';
 
@@ -18,6 +20,7 @@ type Publication = {
     status: 'published' | 'unpublished';
     link: string;
     summary: string;
+    coverImage?: string;
 }
 
 export default function PublicationsPage() {
@@ -25,7 +28,7 @@ export default function PublicationsPage() {
   const [publications] = useState<Publication[]>(publicationsData);
 
   const handleShare = (title: string, link: string) => {
-    const shareUrl = link !== '#' ? link : window.location.href;
+    const shareUrl = (link.startsWith('http') || link.startsWith('/')) ? new URL(link, window.location.origin).href : `${window.location.origin}${link}`;
     navigator.clipboard.writeText(shareUrl).then(() => {
       toast({
         title: "Link Copied!",
@@ -50,38 +53,55 @@ export default function PublicationsPage() {
         </p>
       </header>
 
-      <div className="space-y-8">
+      <div className="grid gap-8">
         {publications.map((pub) => (
-            <Card key={pub.id}>
-                <CardHeader>
-                    <div className="flex justify-between items-start">
-                        <CardTitle className="font-headline text-2xl pr-4">{pub.title}</CardTitle>
-                        <Badge variant={pub.status === 'published' ? 'default' : 'secondary'} className="capitalize flex-shrink-0">
-                            {pub.status}
-                        </Badge>
-                    </div>
-                    <CardDescription>
-                        {pub.authors} ({new Date(pub.publicationDate).getFullYear()}). Published in <em>{pub.journal}</em>.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-foreground/80">{pub.summary}</p>
-                </CardContent>
-                <CardFooter className="gap-2">
-                     <Button asChild>
-                        <a href={pub.link} target="_blank" rel="noopener noreferrer">
-                            Read Publication <ExternalLink className="ml-2 h-4 w-4" />
-                        </a>
-                    </Button>
-                    <Button variant="outline" onClick={() => handleShare(pub.title, pub.link)}>
-                        <Share2 className="mr-2 h-4 w-4" />
-                        Share
-                    </Button>
-                </CardFooter>
+            <Card key={pub.id} className="flex flex-col md:flex-row overflow-hidden">
+                {pub.coverImage && (
+                  <div className="md:w-1/3 relative min-h-[200px] md:min-h-full">
+                      <Image 
+                          src={pub.coverImage} 
+                          alt={`Cover image for ${pub.title}`}
+                          fill
+                          className="object-cover"
+                          data-ai-hint="publication cover abstract"
+                      />
+                  </div>
+                )}
+                <div className={`flex flex-col ${pub.coverImage ? 'md:w-2/3' : 'w-full'}`}>
+                    <CardHeader>
+                        <div className="flex justify-between items-start gap-2">
+                            <CardTitle className="font-headline text-2xl pr-4">
+                              <Link href={pub.link} className="hover:underline" target={pub.link.startsWith('http') ? '_blank' : '_self'}>
+                                {pub.title}
+                              </Link>
+                            </CardTitle>
+                            <Badge variant={pub.status === 'published' ? 'default' : 'secondary'} className="capitalize flex-shrink-0">
+                                {pub.status}
+                            </Badge>
+                        </div>
+                        <CardDescription>
+                            {pub.authors} ({new Date(pub.publicationDate).getFullYear()}). In <em>{pub.journal}</em>.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                        <p className="text-foreground/80">{pub.summary}</p>
+                    </CardContent>
+                    <CardFooter className="gap-2">
+                         <Button asChild variant="link" className="p-0 h-auto">
+                            <Link href={pub.link} className="group" target={pub.link.startsWith('http') ? '_blank' : '_self'}>
+                                {pub.link.startsWith('/') ? 'Read More' : 'Read Publication'}
+                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => handleShare(pub.title, pub.link)}>
+                            <Share2 className="mr-2 h-4 w-4" />
+                            Share
+                        </Button>
+                    </CardFooter>
+                </div>
             </Card>
         ))}
       </div>
     </div>
   );
 }
-

@@ -1,6 +1,17 @@
 
 [
     {
+        "id": "pub-004",
+        "title": "reframing: solving complex problems with learning design",
+        "authors": "ascilite 2025",
+        "publicationDate": "2025-07-07",
+        "journal": "submitted (unpublished)",
+        "status": "unpublished",
+        "link": "/publications/ascilite-reframing",
+        "summary": "Collaborative futures, learning design, systems thinking.",
+        "coverImage": "/images/publications/ascilite-reframing/cover.jpg"
+    },
+    {
         "id": "pub-001",
         "title": "Example Publication One: The Rise of AI in Learning Design",
         "authors": "Bartlett, R., & Doe, J.",
