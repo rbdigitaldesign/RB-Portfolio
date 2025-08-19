@@ -21,6 +21,7 @@ const fontHeadline = Merriweather({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002'),
   title: 'RB Digital Design | Rich Bartlett - LDX Designer Portfolio',
   description:
     'Portfolio of Rich Bartlett, a Learning Designer specializing in UX, UI, and educational technology to create intuitive and impactful experiences.',

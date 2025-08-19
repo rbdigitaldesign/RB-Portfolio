@@ -12,12 +12,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Home } from 'lucide-react';
 
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
+// generateStaticParams has been removed to switch to on-demand rendering,
+// which avoids build-time database access errors.
 
 async function getPostData(slug: string) {
   const posts = await getAllPosts();

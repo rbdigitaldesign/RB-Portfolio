@@ -12,7 +12,9 @@ import type { Post } from '@/lib/types';
 // Helper function to get the posts collection reference
 const getPostsCollection = () => {
     if (!adminDb) {
-        throw new Error('Firestore admin database is not available.');
+        // Return null if the adminDb is not available.
+        // This can happen during build time when server-side env vars are not set.
+        return null;
     }
     return collection(adminDb, 'posts');
 }
@@ -28,6 +30,10 @@ const createSlug = (title: string) => {
 // --- GET POSTS ---
 export async function getAllPosts(): Promise<Post[]> {
     const postsCollection = getPostsCollection();
+    // If the collection is not available (e.g., during build), return an empty array.
+    if (!postsCollection) {
+        return [];
+    }
     const q = query(postsCollection, orderBy('publishedDate', 'desc'));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Post));
@@ -58,6 +64,11 @@ const addPostSchema = z.object({
 });
 
 export async function addPost(formData: FormData) {
+  const postsCollection = getPostsCollection();
+  if (!postsCollection) {
+    return { success: false, error: 'Database service is not available.' };
+  }
+
   const rawFormData = {
     title: formData.get('title'),
     summary: formData.get('summary'),
@@ -143,7 +154,6 @@ export async function addPost(formData: FormData) {
       coverImage: finalCoverImageUrl,
     };
     
-    const postsCollection = getPostsCollection();
     const docRef = await addDoc(postsCollection, newPostData);
 
     revalidatePath('/admin/blog');
@@ -168,6 +178,10 @@ const updatePostSchema = addPostSchema.extend({
 });
 
 export async function updatePost(formData: FormData) {
+    const postsCollection = getPostsCollection();
+    if (!postsCollection) {
+        return { success: false, error: 'Database service is not available.' };
+    }
     const rawFormData = {
         title: formData.get('title'),
         summary: formData.get('summary'),
@@ -201,7 +215,6 @@ export async function updatePost(formData: FormData) {
     }
 
     try {
-        const postsCollection = getPostsCollection();
         const postRef = doc(postsCollection, postId);
         const postSnap = await getDoc(postRef);
 
@@ -275,8 +288,11 @@ export async function updatePost(formData: FormData) {
 
 // --- DELETE POST ---
 export async function deletePost(postId: string) {
+    const postsCollection = getPostsCollection();
+    if (!postsCollection) {
+        return { success: false, error: 'Database service is not available.' };
+    }
     try {
-        const postsCollection = getPostsCollection();
         const postRef = doc(postsCollection, postId);
         const postSnap = await getDoc(postRef);
 
