@@ -5,9 +5,12 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 export async function generateStaticParams() {
   // We will not pre-build any pages since we don't have a reliable way to get all slugs yet.
@@ -61,6 +64,17 @@ export default async function PublicationPage({ params }: { params: { slug: stri
                    prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent"
         dangerouslySetInnerHTML={{ __html: contentHtml }} 
       />
+
+      <Separator className="my-12" />
+
+      <nav className="flex justify-center">
+        <Button variant="outline" asChild>
+          <Link href="/publications" className="group">
+            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            View All Publications
+          </Link>
+        </Button>
+      </nav>
 
     </article>
   );
