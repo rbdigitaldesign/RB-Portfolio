@@ -8,7 +8,9 @@ import { PlusCircle, Share2, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Post } from "@/lib/types";
-import { deletePost, getAllPosts } from "@/app/actions/blog";
+import { getAllPosts } from "@/app/actions/blog";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { clientDb, clientStorage } from "@/lib/firebase/client";
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
@@ -58,17 +61,40 @@ export default function AdminBlogPage() {
   };
   
   const handleDelete = async (postId: string) => {
-    const result = await deletePost(postId);
-    if (result.success) {
+    try {
+      const postRef = doc(clientDb, 'posts', postId);
+      const postSnap = await getDoc(postRef);
+      if (!postSnap.exists()) {
+          throw new Error("Post to delete not found.");
+      }
+
+      const postData = postSnap.data();
+      
+      // Best-effort storage cleanup
+      if (postData.coverImage && postData.coverImage.includes('firebasestorage.googleapis.com')) {
+          try {
+              const imageRef = ref(clientStorage, postData.coverImage);
+              await deleteObject(imageRef);
+          } catch (storageError: any) {
+              if (storageError.code !== 'storage/object-not-found') {
+                console.warn(`Could not delete cover image from storage: ${storageError}`);
+              }
+          }
+      }
+
+      await deleteDoc(postRef);
+
       toast({
         title: "Post Deleted",
         description: "The blog post has been successfully deleted.",
       });
       setPosts(posts.filter(p => p.id !== postId));
-    } else {
+
+    } catch (error) {
+       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
        toast({
         title: "Error Deleting Post",
-        description: result.error || "An unexpected error occurred.",
+        description: `Failed to delete post: ${errorMessage}`,
         variant: "destructive",
       });
     }

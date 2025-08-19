@@ -8,25 +8,39 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { addPost } from '@/app/actions/blog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
+import { clientDb, clientStorage } from '@/lib/firebase/client';
+
+
+const createSlug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
   content: z.string().min(20, 'Content must be at least 20 characters.'),
   tags: z.string().refine(
-    (value) => value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
+    (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
   ).optional(),
   publishedDate: z.date().optional(),
@@ -74,34 +88,58 @@ export default function NewPostPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     
-    const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('summary', values.summary);
-    formData.append('content', values.content);
-    formData.append('tags', values.tags || '');
-    if (values.publishedDate) {
-        formData.append('publishedDate', values.publishedDate.toISOString());
-    }
-    formData.append('coverImageType', values.coverImageType);
-    if (values.coverImageType === 'url' && values.coverImageUrl) {
-      formData.append('coverImageUrl', values.coverImageUrl);
-    }
-    if (values.coverImageType === 'upload' && values.coverImageFile && values.coverImageFile.length > 0) {
-      formData.append('coverImageFile', values.coverImageFile[0]);
-    }
-
     try {
-      const result = await addPost(formData);
-      if (result.success) {
-        toast({
-          title: 'Post Published!',
-          description: 'Your new blog post is now live.',
-        });
-        router.push('/admin/blog');
-        router.refresh();
-      } else {
-        throw new Error(result.error || 'An unknown error occurred');
+      const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = values;
+      const slug = createSlug(title);
+      let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
+
+      const tagsArray =
+        values.tags?.split(',').map((t) => t.trim()).filter(Boolean) ?? ['General'];
+      if (tagsArray.length === 0) tagsArray.push('General');
+
+      // Check for duplicate slug
+      const q = query(collection(clientDb, 'posts'), where('slug', '==', slug));
+      const slugSnapshot = await getDocs(q);
+      if (!slugSnapshot.empty) {
+        throw new Error(`A post with the slug "${slug}" already exists. Please choose a different title.`);
       }
+
+      // Handle image upload
+      if (coverImageType === 'url' && coverImageUrl) {
+        finalCoverImageUrl = coverImageUrl;
+      } else if (coverImageType === 'upload') {
+        const file = values.coverImageFile?.[0] as File | null;
+        if (!file || file.size === 0) {
+          throw new Error('No file uploaded for upload type.');
+        }
+        const ext = path.extname(file.name);
+        const name = `${uuidv4()}${ext}`;
+        const storageRef = ref(clientStorage, `blog-covers/${name}`);
+        await uploadBytes(storageRef, file, { contentType: file.type });
+        finalCoverImageUrl = await getDownloadURL(storageRef);
+      }
+
+      const newPostData = {
+        slug,
+        title,
+        summary,
+        content,
+        author: 'Rich Bartlett',
+        publishedDate: publishedDate?.toISOString() || new Date().toISOString(),
+        tags: tagsArray,
+        coverImage: finalCoverImageUrl,
+      };
+
+      await addDoc(collection(clientDb, 'posts'), newPostData);
+      
+      toast({
+        title: 'Post Published!',
+        description: 'Your new blog post is now live.',
+      });
+
+      router.push('/admin/blog');
+      router.refresh(); // Re-fetches data on the admin page
+      
     } catch (error) {
        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
        toast({

@@ -8,20 +8,33 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
+import { doc, updateDoc, query, where, getDocs, collection } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { getPost, updatePost } from '@/app/actions/blog';
+import { getPost } from '@/app/actions/blog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Post } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { clientDb, clientStorage } from '@/lib/firebase/client';
+
+const createSlug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
@@ -95,40 +108,59 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!post || !post.id) return;
     setIsLoading(true);
-    
-    const formData = new FormData();
-    formData.append('postId', post.id);
-    formData.append('originalSlug', post.slug);
-    formData.append('title', values.title);
-    formData.append('summary', values.summary);
-    formData.append('content', values.content);
-    formData.append('tags', values.tags || '');
-    if (values.publishedDate) {
-        formData.append('publishedDate', values.publishedDate.toISOString());
-    }
-    formData.append('coverImageType', values.coverImageType);
-    if (values.coverImageType === 'url' && values.coverImageUrl) {
-      formData.append('coverImageUrl', values.coverImageUrl);
-    }
-    if (values.coverImageType === 'upload' && values.coverImageFile && values.coverImageFile.length > 0) {
-      formData.append('coverImageFile', values.coverImageFile[0]);
-    } else if (values.coverImageType === 'url' && post.coverImage.startsWith('https://')) {
-      // Keep existing image if no new one is provided
-       formData.append('coverImageUrl', post.coverImage);
-    }
 
     try {
-      const result = await updatePost(formData);
-      if (result.success) {
-        toast({
-          title: 'Post Updated!',
-          description: 'Your blog post has been successfully updated.',
-        });
-        router.push('/admin/blog');
-        router.refresh();
-      } else {
-        throw new Error(result.error || 'An unknown error occurred');
+      const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = values;
+      const newSlug = createSlug(title);
+
+      // Check for duplicate slug
+      if (post.slug !== newSlug) {
+        const q = query(collection(clientDb, 'posts'), where('slug', '==', newSlug));
+        const slugSnapshot = await getDocs(q);
+        if (!slugSnapshot.empty && slugSnapshot.docs[0].id !== post.id) {
+          throw new Error(`A post with the new slug "${newSlug}" already exists. Please choose a different title.`);
+        }
       }
+
+      let finalCoverImageUrl = post.coverImage;
+
+      // Handle image upload
+      if (coverImageType === 'url' && coverImageUrl) {
+        finalCoverImageUrl = coverImageUrl;
+      } else if (coverImageType === 'upload') {
+        const file = values.coverImageFile?.[0] as File | null;
+        if (file && file.size > 0) {
+            const ext = path.extname(file.name);
+            const name = `${uuidv4()}${ext}`;
+            const storageRef = ref(clientStorage, `blog-covers/${name}`);
+            await uploadBytes(storageRef, file, { contentType: file.type });
+            finalCoverImageUrl = await getDownloadURL(storageRef);
+        }
+      }
+
+      const tagsArray = values.tags?.split(',').map((t) => t.trim()).filter(Boolean) ?? post.tags ?? ['General'];
+
+      const updatedData = {
+        slug: newSlug,
+        title,
+        summary,
+        content,
+        tags: tagsArray,
+        publishedDate: publishedDate?.toISOString() || post.publishedDate,
+        coverImage: finalCoverImageUrl,
+      };
+
+      const postRef = doc(clientDb, 'posts', post.id);
+      await updateDoc(postRef, updatedData);
+
+      toast({
+        title: 'Post Updated!',
+        description: 'Your blog post has been successfully updated.',
+      });
+
+      router.push('/admin/blog');
+      router.refresh();
+
     } catch (error) {
        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
        toast({
