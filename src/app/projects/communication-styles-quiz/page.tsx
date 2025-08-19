@@ -11,7 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import type { Metadata } from 'next';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -293,11 +292,3 @@ export default function CommunicationStylesQuizPage() {
     </CaseStudyLayout>
   );
 }
-
-export const metadata: Metadata = {
-  title: 'Communication Styles Quiz — PDF to Interactive',
-  description: 'A collaborative Media × Learning Design build converting a PDF worksheet into an embeddable, printable interactive for Canvas.',
-};
-
-
-    
