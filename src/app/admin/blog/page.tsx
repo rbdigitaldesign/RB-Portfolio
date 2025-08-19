@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { PlusCircle, Share2, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { Post } from "@/lib/types";
 import { getAllPosts } from "@/app/actions/blog";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
@@ -21,7 +21,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { clientDb, clientStorage } from "@/lib/firebase/client";
 
@@ -30,18 +29,18 @@ export default function AdminBlogPage() {
   const [origin, setOrigin] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
+
+  const fetchPosts = useCallback(async () => {
+    setIsLoading(true);
+    const fetchedPosts = await getAllPosts();
+    setPosts(fetchedPosts);
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     setOrigin(window.location.origin);
-    async function fetchPosts() {
-        setIsLoading(true);
-        const fetchedPosts = await getAllPosts();
-        setPosts(fetchedPosts);
-        setIsLoading(false);
-    }
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   const handleShare = (slug: string) => {
     const postUrl = `${origin}/blog/${slug}`;
@@ -70,7 +69,6 @@ export default function AdminBlogPage() {
 
       const postData = postSnap.data();
       
-      // Best-effort storage cleanup
       if (postData.coverImage && postData.coverImage.includes('firebasestorage.googleapis.com')) {
           try {
               const imageRef = ref(clientStorage, postData.coverImage);
