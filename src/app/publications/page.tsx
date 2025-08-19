@@ -80,7 +80,7 @@ export default function PublicationsPage() {
                             </Badge>
                         </div>
                         <CardDescription>
-                            {pub.authors} ({new Date(pub.publicationDate).getFullYear()}). In <em>{pub.journal}</em>.
+                            {pub.authors}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -89,7 +89,7 @@ export default function PublicationsPage() {
                     <CardFooter className="gap-2">
                          <Button asChild variant="link" className="p-0 h-auto">
                             <Link href={pub.link} className="group" target={pub.link.startsWith('http') ? '_blank' : '_self'}>
-                                {pub.link.startsWith('/') ? 'Read More' : 'Read Publication'}
+                                Read Publication
                                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                             </Link>
                         </Button>
