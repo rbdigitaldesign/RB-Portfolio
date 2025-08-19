@@ -86,6 +86,7 @@ export default function AdminBlogPage() {
         title: "Post Deleted",
         description: "The blog post has been successfully deleted.",
       });
+      // Immediately remove the post from the local state for a responsive UI
       setPosts(posts.filter(p => p.id !== postId));
 
     } catch (error) {
@@ -96,7 +97,7 @@ export default function AdminBlogPage() {
         variant: "destructive",
       });
     }
-  }
+  };
 
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
@@ -164,7 +165,7 @@ export default function AdminBlogPage() {
                           <AlertDialogDescription>
                             This action cannot be undone. This will permanently delete the post
                             titled "{post.title}".
-                          </AlertDialogDescription>
+                          </Description>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
