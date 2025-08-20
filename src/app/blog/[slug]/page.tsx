@@ -7,8 +7,7 @@ import { getPost } from '@/app/actions/blog';
 import type { Post } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { remark } from 'remark';
-import html from 'remark-html';
+import ReactMarkdown from 'react-markdown';
 import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -17,25 +16,19 @@ import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const [data, setData] = useState<{ post: Post; contentHtml: string } | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getPostData() {
       setIsLoading(true);
-      const post = await getPost(params.slug);
-      if (!post) {
+      const fetchedPost = await getPost(params.slug);
+      if (!fetchedPost) {
         setIsLoading(false);
         notFound();
         return;
       }
-      
-      const processedContent = await remark()
-        .use(html)
-        .process(post.content);
-      const contentHtml = processedContent.toString();
-
-      setData({ post, contentHtml });
+      setPost(fetchedPost);
       setIsLoading(false);
     }
     getPostData();
@@ -60,11 +53,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     );
   }
 
-  if (!data) {
+  if (!post) {
     return null; // notFound() is called in useEffect
   }
-
-  const { post, contentHtml } = data;
 
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
@@ -93,8 +84,27 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         className="prose dark:prose-invert max-w-none mx-auto
                    prose-headings:font-headline prose-headings:text-primary dark:prose-headings:text-primary-foreground
                    prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent"
-        dangerouslySetInnerHTML={{ __html: contentHtml }} 
-      />
+      >
+        <ReactMarkdown
+            components={{
+                img: ({ node, ...props }) => {
+                    const { src, alt } = props;
+                    return (
+                        <div className="relative w-full aspect-video my-6 rounded-lg overflow-hidden shadow-medium">
+                            <Image 
+                                src={src || ''} 
+                                alt={alt || 'Blog post image'} 
+                                fill 
+                                className="object-contain" 
+                            />
+                        </div>
+                    )
+                },
+            }}
+        >
+            {post.content}
+        </ReactMarkdown>
+      </div>
       
       <Separator className="my-8" />
       
