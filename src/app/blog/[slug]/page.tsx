@@ -1,4 +1,3 @@
-
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -7,7 +6,6 @@ import { getPost } from '@/app/actions/blog';
 import type { Post } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import ReactMarkdown from 'react-markdown';
 import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -15,6 +13,25 @@ import { ArrowLeft, Home } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
+
+import sanitizeHtml from 'sanitize-html';
+import { marked } from 'marked';
+
+const toSafeHtml = (input: string) => {
+  const html = input.includes('<') ? input : (marked.parse(input || '') as string);
+  return sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img','h1','h2','h3','figure','figcaption','code','pre']),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ['src','alt','title','width','height','loading'],
+      a: ['href','name','target','rel'],
+      code: ['class'],
+    },
+    transformTags: {
+      a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer nofollow' }),
+    },
+  });
+};
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const [post, setPost] = useState<Post | null>(null);
@@ -94,27 +111,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         className="prose dark:prose-invert max-w-none mx-auto
                    prose-headings:font-headline prose-headings:text-primary dark:prose-headings:text-primary-foreground
                    prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent"
-      >
-        <ReactMarkdown
-            components={{
-                img: ({ node, ...props }) => {
-                    const { src, alt } = props;
-                    return (
-                        <div className="relative w-full aspect-video my-6 rounded-lg overflow-hidden shadow-medium">
-                            <Image 
-                                src={src || ''} 
-                                alt={alt || 'Blog post image'} 
-                                fill 
-                                className="object-contain" 
-                            />
-                        </div>
-                    )
-                },
-            }}
-        >
-            {post.content}
-        </ReactMarkdown>
-      </div>
+        dangerouslySetInnerHTML={{ __html: toSafeHtml(post.content) }}
+      />
       
       <Separator className="my-8" />
       

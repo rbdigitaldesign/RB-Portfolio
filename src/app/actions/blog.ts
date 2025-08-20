@@ -6,8 +6,29 @@ import { adminDb, adminStorage } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
+import sanitizeHtml from 'sanitize-html';
+import { marked } from 'marked';
+
 
 // --- helpers -----------------------------------------------------------------
+
+const sanitise = (html: string) =>
+  sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'figure', 'figcaption', 'code', 'pre']),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
+      a: ['href', 'name', 'target', 'rel'],
+      code: ['class'],
+    },
+    // ensure links are safe
+    transformTags: {
+      a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer nofollow' }),
+    },
+  });
+
+const toHtml = (markdown: string) => sanitise(marked.parse(markdown || '') as string);
+
 
 // Firestore collection (server/Admin SDK). Fail softly and report later.
 const postsCol = () => {
@@ -37,7 +58,8 @@ const tagsSchema = z
 const addPostSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   summary: z.string().min(1, 'Summary is required'),
-  content: z.string().min(1, 'Content is required'),
+  content: z.string().optional(),
+  contentHtml: z.string().optional(),
   tags: tagsSchema,
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
@@ -75,17 +97,19 @@ export async function addPost(formData: FormData) {
     title: formData.get('title'),
     summary: formData.get('summary'),
     content: formData.get('content'),
+    contentHtml: formData.get('contentHtml'),
     tags: formData.get('tags'),
     publishedDate: formData.get('publishedDate'),
     coverImageType: formData.get('coverImageType'),
     coverImageUrl: formData.get('coverImageUrl'),
     coverImageFile: formData.get('coverImageFile'),
   };
-
+  
   const parsed = addPostSchema.safeParse({
     title: raw.title,
     summary: raw.summary,
     content: raw.content,
+    contentHtml: raw.contentHtml,
     tags: raw.tags,
     publishedDate: raw.publishedDate,
     coverImageType: raw.coverImageType,
@@ -99,7 +123,13 @@ export async function addPost(formData: FormData) {
     };
   }
 
-  const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = parsed.data;
+  const { title, summary, content, contentHtml, coverImageType, coverImageUrl, publishedDate } = parsed.data;
+  
+  const finalContentHtml =
+  (contentHtml && contentHtml.trim().length > 0)
+    ? sanitise(contentHtml)
+    : toHtml(String(content ?? ''));
+
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
 
@@ -141,7 +171,7 @@ export async function addPost(formData: FormData) {
       slug,
       title,
       summary,
-      content,
+      content: finalContentHtml,
       author: 'Rich Bartlett',
       publishedDate: publishedDate || new Date().toISOString(),
       tags: tagsArray,
@@ -179,6 +209,7 @@ export async function updatePost(formData: FormData) {
     title: formData.get('title'),
     summary: formData.get('summary'),
     content: formData.get('content'),
+    contentHtml: formData.get('contentHtml'),
     tags: formData.get('tags'),
     publishedDate: formData.get('publishedDate'),
     coverImageType: formData.get('coverImageType'),
@@ -200,12 +231,19 @@ export async function updatePost(formData: FormData) {
     title,
     summary,
     content,
+    contentHtml,
     coverImageType,
     coverImageUrl,
     originalSlug,
     publishedDate,
     postId,
   } = parsed.data;
+
+  const finalContentHtml =
+  (contentHtml && contentHtml.trim().length > 0)
+    ? sanitise(contentHtml)
+    : toHtml(String(content ?? ''));
+
   const newSlug = createSlug(title);
 
   try {
@@ -248,7 +286,7 @@ export async function updatePost(formData: FormData) {
       slug: newSlug,
       title,
       summary,
-      content,
+      content: finalContentHtml,
       tags:
         parsed.data.tags?.split(',').map((t) => t.trim()).filter(Boolean) ??
         existing.tags ??

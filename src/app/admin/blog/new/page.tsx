@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -8,11 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-
+import { addPost } from '@/app/actions/blog';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -24,21 +19,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
-import { clientDb, clientStorage } from '@/lib/firebase/client';
-
-
-const createSlug = (title: string) =>
-  title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+import RichEditor from '@/components/rich-editor';
 
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
-  content: z.string().min(20, 'Content must be at least 20 characters.'),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -69,13 +55,14 @@ export default function NewPostPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [mode, setMode] = useState<'markdown' | 'html'>('html'); 
+  const [contentHtml, setContentHtml] = useState<string>('');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
       summary: '',
-      content: '',
       tags: '',
       publishedDate: new Date(),
       coverImageType: 'url',
@@ -85,67 +72,21 @@ export default function NewPostPage() {
 
   const coverImageType = form.watch('coverImageType');
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(data: FormData) {
     setIsLoading(true);
     
     try {
-      if (!clientDb) {
-        throw new Error('Database service is not available.');
+      const result = await addPost(data);
+      if (result.success) {
+        toast({
+          title: 'Post Published!',
+          description: 'Your new blog post is now live.',
+        });
+        router.push('/admin/blog');
+        router.refresh(); 
+      } else {
+        throw new Error(result.error ?? 'An unknown error occurred.');
       }
-      const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = values;
-      const slug = createSlug(title);
-      let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
-
-      const tagsArray =
-        values.tags?.split(',').map((t) => t.trim()).filter(Boolean) ?? ['General'];
-      if (tagsArray.length === 0) tagsArray.push('General');
-
-      // Check for duplicate slug
-      const q = query(collection(clientDb, 'posts'), where('slug', '==', slug));
-      const slugSnapshot = await getDocs(q);
-      if (!slugSnapshot.empty) {
-        throw new Error(`A post with the slug "${slug}" already exists. Please choose a different title.`);
-      }
-
-      // Handle image upload
-      if (coverImageType === 'url' && coverImageUrl) {
-        finalCoverImageUrl = coverImageUrl;
-      } else if (coverImageType === 'upload') {
-        if (!clientStorage) {
-            throw new Error('Storage service is not available for file uploads.');
-        }
-        const file = values.coverImageFile?.[0] as File | null;
-        if (!file || file.size === 0) {
-          throw new Error('No file uploaded for upload type.');
-        }
-        const ext = path.extname(file.name);
-        const name = `${uuidv4()}${ext}`;
-        const storageRef = ref(clientStorage, `blog-covers/${name}`);
-        await uploadBytes(storageRef, file, { contentType: file.type });
-        finalCoverImageUrl = await getDownloadURL(storageRef);
-      }
-
-      const newPostData = {
-        slug,
-        title,
-        summary,
-        content,
-        author: 'Rich Bartlett',
-        publishedDate: publishedDate?.toISOString() || new Date().toISOString(),
-        tags: tagsArray,
-        coverImage: finalCoverImageUrl,
-      };
-
-      await addDoc(collection(clientDb, 'posts'), newPostData);
-      
-      toast({
-        title: 'Post Published!',
-        description: 'Your new blog post is now live.',
-      });
-
-      router.push('/admin/blog');
-      router.refresh(); // Re-fetches data on the admin page
-      
     } catch (error) {
        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
        toast({
@@ -170,7 +111,7 @@ export default function NewPostPage() {
       <Card>
         <CardContent className="pt-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form action={onSubmit} className="space-y-8">
               <FormField
                 control={form.control}
                 name="title"
@@ -221,6 +162,7 @@ export default function NewPostPage() {
                         />
                       </PopoverContent>
                     </Popover>
+                    <input type="hidden" name="publishedDate" value={field.value?.toISOString()} />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -238,19 +180,36 @@ export default function NewPostPage() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Content</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <label className="font-medium">Content mode:</label>
+                  <button type="button" className={`px-2 py-1 border rounded ${mode==='html' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('html')}>WYSIWYG (HTML)</button>
+                  <button type="button" className={`px-2 py-1 border rounded ${mode==='markdown' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('markdown')}>Markdown</button>
+                </div>
+
+                {mode === 'html' ? (
+                  <>
+                    <RichEditor value={contentHtml} onChange={setContentHtml} />
+                    <input type="hidden" name="contentHtml" value={contentHtml} />
+                    <input type="hidden" name="content" value="" />
+                  </>
+                ) : (
+                  <FormField
+                    control={form.control}
+                    name="content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                            <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
+              </div>
+              
               <FormField
                 control={form.control}
                 name="tags"
@@ -279,6 +238,7 @@ export default function NewPostPage() {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                         className="flex flex-col space-y-1"
+                        name="coverImageType"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>

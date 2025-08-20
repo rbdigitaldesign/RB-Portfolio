@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -8,10 +7,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
-import { doc, updateDoc, query, where, getDocs, collection } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -21,25 +16,17 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { getPost } from '@/app/actions/blog';
+import { getPost, updatePost } from '@/app/actions/blog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Post } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { clientDb, clientStorage } from '@/lib/firebase/client';
-
-const createSlug = (title: string) =>
-  title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+import RichEditor from '@/components/rich-editor';
 
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
-  content: z.string().min(20, 'Content must be at least 20 characters.'),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -65,13 +52,14 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   const [isLoading, setIsLoading] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [mode, setMode] = useState<'markdown' | 'html'>('html'); 
+  const [contentHtml, setContentHtml] = useState<string>('');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
       summary: '',
-      content: '',
       tags: '',
       publishedDate: new Date(),
       coverImageType: 'url',
@@ -88,12 +76,23 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
         form.reset({
             title: fetchedPost.title,
             summary: fetchedPost.summary,
-            content: fetchedPost.content,
             tags: fetchedPost.tags ? fetchedPost.tags.join(', ') : '',
             publishedDate: new Date(fetchedPost.publishedDate),
             coverImageType: 'url',
             coverImageUrl: fetchedPost.coverImage,
         });
+        
+        // Handle content for editor
+        const isHtml = fetchedPost.content.includes('<');
+        if(isHtml){
+            setContentHtml(fetchedPost.content);
+            setMode('html');
+        } else {
+            // legacy markdown post
+            form.setValue('content', fetchedPost.content);
+            setMode('markdown');
+        }
+
       } else {
         toast({ title: 'Error', description: 'Post not found.', variant: 'destructive' });
         router.push('/admin/blog');
@@ -105,68 +104,22 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
 
   const coverImageType = form.watch('coverImageType');
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(data: FormData) {
     if (!post || !post.id) return;
     setIsLoading(true);
 
     try {
-      if (!clientDb) {
-        throw new Error('Database service is not available.');
-      }
-      const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = values;
-      const newSlug = createSlug(title);
-
-      // Check for duplicate slug
-      if (post.slug !== newSlug) {
-        const q = query(collection(clientDb, 'posts'), where('slug', '==', newSlug));
-        const slugSnapshot = await getDocs(q);
-        if (!slugSnapshot.empty && slugSnapshot.docs[0].id !== post.id) {
-          throw new Error(`A post with the new slug "${newSlug}" already exists. Please choose a different title.`);
+        const result = await updatePost(data);
+        if (result.success) {
+            toast({
+                title: 'Post Updated!',
+                description: 'Your blog post has been successfully updated.',
+            });
+            router.push('/admin/blog');
+            router.refresh();
+        } else {
+            throw new Error(result.error ?? 'An unknown error occurred.');
         }
-      }
-
-      let finalCoverImageUrl = post.coverImage;
-
-      // Handle image upload
-      if (coverImageType === 'url' && coverImageUrl) {
-        finalCoverImageUrl = coverImageUrl;
-      } else if (coverImageType === 'upload') {
-        if (!clientStorage) {
-            throw new Error('Storage service is not available for file uploads.');
-        }
-        const file = values.coverImageFile?.[0] as File | null;
-        if (file && file.size > 0) {
-            const ext = path.extname(file.name);
-            const name = `${uuidv4()}${ext}`;
-            const storageRef = ref(clientStorage, `blog-covers/${name}`);
-            await uploadBytes(storageRef, file, { contentType: file.type });
-            finalCoverImageUrl = await getDownloadURL(storageRef);
-        }
-      }
-
-      const tagsArray = values.tags?.split(',').map((t) => t.trim()).filter(Boolean) ?? post.tags ?? ['General'];
-
-      const updatedData = {
-        slug: newSlug,
-        title,
-        summary,
-        content,
-        tags: tagsArray,
-        publishedDate: publishedDate?.toISOString() || post.publishedDate,
-        coverImage: finalCoverImageUrl,
-      };
-
-      const postRef = doc(clientDb, 'posts', post.id);
-      await updateDoc(postRef, updatedData);
-
-      toast({
-        title: 'Post Updated!',
-        description: 'Your blog post has been successfully updated.',
-      });
-
-      router.push('/admin/blog');
-      router.refresh();
-
     } catch (error) {
        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
        toast({
@@ -209,7 +162,10 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       <Card>
         <CardContent className="pt-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form action={onSubmit} className="space-y-8">
+              <input type="hidden" name="postId" value={post?.id} />
+              <input type="hidden" name="originalSlug" value={post?.slug} />
+
               <FormField
                 control={form.control}
                 name="title"
@@ -260,6 +216,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                         />
                       </PopoverContent>
                     </Popover>
+                    <input type="hidden" name="publishedDate" value={field.value?.toISOString()} />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -277,19 +234,34 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Content</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <label className="font-medium">Content mode:</label>
+                  <button type="button" className={`px-2 py-1 border rounded ${mode==='html' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('html')}>WYSIWYG (HTML)</button>
+                  <button type="button" className={`px-2 py-1 border rounded ${mode==='markdown' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('markdown')}>Markdown</button>
+                </div>
+                {mode === 'html' ? (
+                  <>
+                    <RichEditor value={contentHtml} onChange={setContentHtml} />
+                    <input type="hidden" name="contentHtml" value={contentHtml} />
+                  </>
+                ) : (
+                  <FormField
+                    control={form.control}
+                    name="content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                            <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                 />
                 )}
-              />
+              </div>
+              
                <FormField
                 control={form.control}
                 name="tags"
@@ -325,6 +297,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                             }}
                             defaultValue={field.value}
                             className="flex flex-col space-y-1"
+                            name="coverImageType"
                         >
                             <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
