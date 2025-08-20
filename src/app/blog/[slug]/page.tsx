@@ -1,3 +1,4 @@
+
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -18,20 +19,27 @@ import sanitizeHtml from 'sanitize-html';
 import { marked } from 'marked';
 
 const toSafeHtml = (input: string) => {
+  // First, check if the input is likely HTML. If so, use it directly.
+  // Otherwise, parse it as Markdown.
   const html = input.includes('<') ? input : (marked.parse(input || '') as string);
+
+  // Then, sanitize the HTML to ensure it's safe.
   return sanitizeHtml(html, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img','h1','h2','h3','figure','figcaption','code','pre']),
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
-      img: ['src','alt','title','width','height','loading'],
+      img: ['src','alt','title','width','height','loading', 'class', 'style'], // allow style for resizing
       a: ['href','name','target','rel'],
       code: ['class'],
+      div: ['class'] // Allow class for containers
     },
+    // Ensure links are safe
     transformTags: {
       a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer nofollow' }),
     },
   });
 };
+
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const [post, setPost] = useState<Post | null>(null);
@@ -78,7 +86,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
        <nav className="mb-8">
-        <Button variant="outline" asChild>
+        <Button variant="blogHome" asChild>
           <Link href="/blog">
             <Home className="mr-2 h-4 w-4" />
              Blog Home
