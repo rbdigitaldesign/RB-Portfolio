@@ -15,12 +15,14 @@ import { marked } from 'marked';
 
 const sanitise = (html: string) =>
   sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'figure', 'figcaption', 'code', 'pre']),
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'figure', 'figcaption', 'code', 'pre', 'iframe', 'video']),
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
       img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
       a: ['href', 'name', 'target', 'rel'],
       code: ['class'],
+      iframe: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'title'],
+      video: ['src', 'width', 'height', 'controls']
     },
     // ensure links are safe
     transformTags: {
