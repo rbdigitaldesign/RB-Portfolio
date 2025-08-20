@@ -56,20 +56,20 @@ export default function BlogPage() {
         {isLoading ? (
           <div className="grid gap-8">
             <Card className="flex flex-col md:flex-row overflow-hidden">
-                <div className="md:w-2/5 relative min-h-[200px] md:min-h-full">
+                <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
                     <Skeleton className="w-full h-full" />
                 </div>
-                <div className="md:w-3/5 flex flex-col p-6">
+                <div className="md:w-1/2 flex flex-col p-6">
                     <Skeleton className="h-8 w-3/4 mb-2" />
                     <Skeleton className="h-4 w-1/2 mb-4" />
                     <Skeleton className="h-16 w-full" />
                 </div>
             </Card>
             <Card className="flex flex-col md:flex-row overflow-hidden">
-                <div className="md:w-2/5 relative min-h-[200px] md:min-h-full">
+                <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
                     <Skeleton className="w-full h-full" />
                 </div>
-                <div className="md:w-3/5 flex flex-col p-6">
+                <div className="md:w-1/2 flex flex-col p-6">
                     <Skeleton className="h-8 w-3/4 mb-2" />
                     <Skeleton className="h-4 w-1/2 mb-4" />
                     <Skeleton className="h-16 w-full" />
@@ -80,7 +80,7 @@ export default function BlogPage() {
           <div className="grid gap-8">
             {posts.map((post) => (
               <Card key={post.slug} className="flex flex-col md:flex-row overflow-hidden">
-                  <div className="md:w-2/5 relative min-h-[200px] md:min-h-full">
+                  <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
                       <Image 
                           src={post.coverImage} 
                           alt={`Cover image for ${post.title}`}
@@ -89,7 +89,7 @@ export default function BlogPage() {
                           data-ai-hint="abstract texture"
                       />
                   </div>
-                  <div className="md:w-3/5 flex flex-col">
+                  <div className="md:w-1/2 flex flex-col">
                       <CardHeader>
                           <CardTitle className="font-headline text-2xl">
                             <Link href={`/blog/${post.slug}`} className="hover:underline">
