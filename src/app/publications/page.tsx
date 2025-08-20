@@ -71,7 +71,7 @@ export default function PublicationsPage() {
                     <CardHeader>
                         <div className="flex justify-between items-start gap-2">
                             <CardTitle className="font-headline text-2xl pr-4">
-                              <Link href={pub.link} className="hover:underline" target={pub.link.startsWith('http') ? '_blank' : '_self'}>
+                              <Link href={pub.link} className="hover:underline" target={pub.link.startsWith('http') ? '_blank' : '_self'} rel={pub.link.startsWith('http') ? 'noopener noreferrer' : ''}>
                                 {pub.title}
                               </Link>
                             </CardTitle>
@@ -88,7 +88,7 @@ export default function PublicationsPage() {
                     </CardContent>
                     <CardFooter className="gap-2">
                          <Button asChild variant="link" className="p-0 h-auto">
-                            <Link href={pub.link} className="group" target={pub.link.startsWith('http') ? '_blank' : '_self'}>
+                            <Link href={pub.link} className="group" target={pub.link.startsWith('http') ? '_blank' : '_self'} rel={pub.link.startsWith('http') ? 'noopener noreferrer' : ''}>
                                 Read Publication
                                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                             </Link>

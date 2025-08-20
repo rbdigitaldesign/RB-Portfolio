@@ -38,7 +38,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
         <Badge variant="secondary" className="w-fit">{project.category}</Badge>
         <CardTitle className="pt-2 font-headline">
-          <Link href={href} target={isExternal ? '_blank' : '_self'}>
+          <Link href={href} target={isExternal ? '_blank' : '_self'} rel={isExternal ? "noopener noreferrer" : ""}>
             <span className="hover:underline">{project.title}</span>
           </Link>
         </CardTitle>
@@ -53,7 +53,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild variant="link" className="p-0 h-auto">
-          <Link href={href} className="group" target={isExternal ? '_blank' : '_self'}>
+          <Link href={href} className="group" target={isExternal ? '_blank' : '_self'} rel={isExternal ? "noopener noreferrer" : ""}>
             {project.category === 'Publications' ? 'View Publications' : 'View Case Study'}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
