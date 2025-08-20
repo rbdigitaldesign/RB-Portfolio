@@ -20,14 +20,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { clientDb, clientStorage } from "@/lib/firebase/client";
 import { useRouter } from "next/navigation";
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
-  const [origin, setOrigin] = useState('');
+  const [origin, setOrigin] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -46,57 +47,59 @@ export default function AdminBlogPage() {
 
   const handleShare = (slug: string) => {
     const postUrl = `${origin}/blog/${slug}`;
-    navigator.clipboard.writeText(postUrl).then(() => {
-      toast({
-        title: "Link Copied!",
-        description: "The blog post link has been copied to your clipboard.",
+    navigator.clipboard
+      .writeText(postUrl)
+      .then(() => {
+        toast({
+          title: "Link copied",
+          description: "The blog post link has been copied to your clipboard."
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+        toast({
+          title: "Error",
+          description: "Could not copy link to clipboard.",
+          variant: "destructive"
+        });
       });
-    }).catch(err => {
-      console.error('Failed to copy text: ', err);
-      toast({
-        title: "Error",
-        description: "Could not copy link to clipboard.",
-        variant: "destructive",
-      });
-    });
   };
-  
+
   const handleDelete = async (postId: string) => {
     try {
-      const postRef = doc(clientDb, 'posts', postId);
+      const postRef = doc(clientDb, "posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) {
-          throw new Error("Post to delete not found.");
+        throw new Error("Post to delete not found.");
       }
 
-      const postData = postSnap.data();
-      
-      if (postData.coverImage && postData.coverImage.includes('firebasestorage.googleapis.com')) {
-          try {
-              const imageRef = ref(clientStorage, postData.coverImage);
-              await deleteObject(imageRef);
-          } catch (storageError: any) {
-              if (storageError.code !== 'storage/object-not-found') {
-                console.warn(`Could not delete cover image from storage: ${storageError}`);
-              }
+      const postData = postSnap.data() as any;
+
+      if (postData.coverImage && postData.coverImage.includes("firebasestorage.googleapis.com")) {
+        try {
+          const imageRef = ref(clientStorage, postData.coverImage);
+          await deleteObject(imageRef);
+        } catch (storageError: any) {
+          if (storageError?.code !== "storage/object-not-found") {
+            console.warn(`Could not delete cover image from storage: ${storageError}`);
           }
+        }
       }
 
       await deleteDoc(postRef);
 
       toast({
-        title: "Post Deleted",
-        description: "The blog post has been successfully deleted.",
+        title: "Post deleted",
+        description: "The blog post has been successfully deleted."
       });
-      
-      setPosts(posts.filter(p => p.id !== postId));
 
+      setPosts((prev) => prev.filter((p) => p.id !== postId));
     } catch (error) {
-       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
-       toast({
-        title: "Error Deleting Post",
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
+      toast({
+        title: "Error deleting post",
         description: `Failed to delete post: ${errorMessage}`,
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -105,43 +108,43 @@ export default function AdminBlogPage() {
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <header className="flex justify-between items-center mb-12">
         <div>
-          <h1 className="text-4xl font-bold font-headline">Blog Management</h1>
-          <p className="text-xl text-muted-foreground">
-            Create and manage your blog posts.
-          </p>
+          <h1 className="text-4xl font-bold font-headline">Blog management</h1>
+          <p className="text-xl text-muted-foreground">Create and manage your blog posts.</p>
         </div>
         <div className="flex gap-2">
-            <Button asChild>
+          <Button asChild>
             <Link href="/admin/blog/new">
-                <PlusCircle className="mr-2 h-5 w-5" />
-                New Post
+              <PlusCircle className="mr-2 h-5 w-5" />
+              New post
             </Link>
-            </Button>
+          </Button>
         </div>
       </header>
 
       <Card>
         <CardHeader>
-            <CardTitle>Existing Posts</CardTitle>
-            <CardDescription>A list of your current blog posts.</CardDescription>
+          <CardTitle>Existing posts</CardTitle>
+          <CardDescription>A list of your current blog posts.</CardDescription>
         </CardHeader>
         <CardContent>
-           {isLoading ? (
-             <div className="space-y-4">
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
-             </div>
-           ) : posts.length > 0 ? (
-             <ul className="space-y-4">
+          {isLoading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+            </div>
+          ) : posts.length > 0 ? (
+            <ul className="space-y-4">
               {posts.map((post) => (
                 <li key={post.id} className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
                     <h3 className="font-semibold">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground">{new Date(post.publishedDate).toLocaleDateString('en-GB')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {new Date(post.publishedDate).toLocaleDateString("en-GB")}
+                    </p>
                   </div>
                   <div className="flex gap-2">
-                     <Button variant="outline" size="sm" asChild>
+                    <Button variant="outline" size="sm" asChild>
                       <Link href={`/blog/${post.slug}`} target="_blank">
                         <Eye className="mr-2 h-4 w-4" />
                         View
@@ -154,7 +157,7 @@ export default function AdminBlogPage() {
                     <Button variant="outline" size="sm" asChild>
                       <Link href={`/admin/blog/edit/${post.slug}`}>Edit</Link>
                     </Button>
-                     <AlertDialog>
+                    <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" size="sm">
                           <Trash2 className="mr-2 h-4 w-4" />
@@ -165,9 +168,9 @@ export default function AdminBlogPage() {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the post
-                            titled "{post.title}".
-                          </Description>
+                            This action cannot be undone. This will permanently delete the post titled "
+                            {post.title}".
+                          </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -181,9 +184,9 @@ export default function AdminBlogPage() {
                 </li>
               ))}
             </ul>
-           ) : (
+          ) : (
             <p className="text-center text-muted-foreground py-8">No posts yet. Create your first one!</p>
-           )}
+          )}
         </CardContent>
       </Card>
     </div>

@@ -25,7 +25,6 @@ import { useToast } from '@/hooks/use-toast';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
 import { clientDb, clientStorage } from '@/lib/firebase/client';
-import { revalidatePath } from 'next/cache';
 
 
 const createSlug = (title: string) =>
