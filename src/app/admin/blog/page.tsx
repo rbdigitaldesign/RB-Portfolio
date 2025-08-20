@@ -67,6 +67,9 @@ export default function AdminBlogPage() {
 
   const handleDelete = async (postId: string) => {
     try {
+      if (!clientDb) {
+        throw new Error('Database service is not available.');
+      }
       const postRef = doc(clientDb, "posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) {
@@ -76,13 +79,19 @@ export default function AdminBlogPage() {
       const postData = postSnap.data() as any;
 
       if (postData.coverImage && postData.coverImage.includes("firebasestorage.googleapis.com")) {
-        try {
-          const imageRef = ref(clientStorage, postData.coverImage);
-          await deleteObject(imageRef);
-        } catch (storageError: any) {
-          if (storageError?.code !== "storage/object-not-found") {
-            console.warn(`Could not delete cover image from storage: ${storageError}`);
-          }
+        // Only fail if storage is explicitly unavailable.
+        if (!clientStorage) {
+            console.warn('Storage service not available, skipping image deletion.');
+        } else {
+            try {
+              const imageRef = ref(clientStorage, postData.coverImage);
+              await deleteObject(imageRef);
+            } catch (storageError: any) {
+              // Log non-critical errors but don't block post deletion.
+              if (storageError?.code !== "storage/object-not-found") {
+                console.warn(`Could not delete cover image from storage, but proceeding with post deletion: ${storageError}`);
+              }
+            }
         }
       }
 

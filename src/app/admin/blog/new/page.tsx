@@ -89,6 +89,9 @@ export default function NewPostPage() {
     setIsLoading(true);
     
     try {
+      if (!clientDb) {
+        throw new Error('Database service is not available.');
+      }
       const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = values;
       const slug = createSlug(title);
       let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
@@ -108,6 +111,9 @@ export default function NewPostPage() {
       if (coverImageType === 'url' && coverImageUrl) {
         finalCoverImageUrl = coverImageUrl;
       } else if (coverImageType === 'upload') {
+        if (!clientStorage) {
+            throw new Error('Storage service is not available for file uploads.');
+        }
         const file = values.coverImageFile?.[0] as File | null;
         if (!file || file.size === 0) {
           throw new Error('No file uploaded for upload type.');

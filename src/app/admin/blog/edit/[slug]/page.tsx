@@ -110,6 +110,9 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     setIsLoading(true);
 
     try {
+      if (!clientDb) {
+        throw new Error('Database service is not available.');
+      }
       const { title, summary, content, coverImageType, coverImageUrl, publishedDate } = values;
       const newSlug = createSlug(title);
 
@@ -128,6 +131,9 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       if (coverImageType === 'url' && coverImageUrl) {
         finalCoverImageUrl = coverImageUrl;
       } else if (coverImageType === 'upload') {
+        if (!clientStorage) {
+            throw new Error('Storage service is not available for file uploads.');
+        }
         const file = values.coverImageFile?.[0] as File | null;
         if (file && file.size > 0) {
             const ext = path.extname(file.name);

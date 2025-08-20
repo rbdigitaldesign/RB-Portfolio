@@ -1,22 +1,18 @@
-
+// src/app/api/health/route.ts
 import { NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 
+// Ensure the route always runs dynamically (not during build)
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
-    // Attempt a simple read operation to check connectivity
-    await adminDb.doc('__health__/ping').get();
-    return NextResponse.json({ 
-        firestore: 'ok'
-    });
+    // Try a harmless read from Firestore
+    await adminDb.doc('health/ping').get();
+    return NextResponse.json({ firestore: 'ok' });
   } catch (e: any) {
-    // Provide a detailed error if the connection fails
     return NextResponse.json(
-      { 
-        firestore: 'error', 
-        detail: String(e?.message || e),
-        hint: 'This could be due to missing or incorrect service account credentials in the preview environment.'
-      },
+      { firestore: 'error', detail: String(e?.message || e) },
       { status: 500 }
     );
   }
