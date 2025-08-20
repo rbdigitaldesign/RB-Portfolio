@@ -61,8 +61,8 @@ const tagsSchema = z
 const addPostSchemaBase = z.object({
   title: z.string().min(1, 'Title is required'),
   summary: z.string().min(1, 'Summary is required'),
-  content: z.string().optional(),
-  contentHtml: z.string().optional(),
+  content: z.string().optional().transform(v => v ?? ''),
+  contentHtml: z.string().optional().transform(v => v ?? ''),
   tags: tagsSchema,
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
@@ -71,7 +71,7 @@ const addPostSchemaBase = z.object({
 
 const addPostSchema = addPostSchemaBase.refine(
   (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
-  { message: 'Post content is required.' }
+  { message: 'Post content is required.', path: ['contentHtml'] }
 );
 
 
@@ -179,14 +179,9 @@ export async function addPost(formData: FormData) {
       publishedDate: publishedDate || new Date().toISOString(),
       tags: tagsArray,
       coverImage: finalCoverImageUrl,
+      content: content ?? '',
+      contentHtml: sanitise(contentHtml ?? ''),
     };
-    
-    if (contentHtml && contentHtml.trim()) {
-      newPostData.contentHtml = sanitise(contentHtml);
-    }
-    if (content && content.trim()) {
-      newPostData.content = content;
-    }
     
     const docRef = await col.add(newPostData);
 
@@ -211,7 +206,7 @@ const updatePostSchemaBase = addPostSchemaBase.extend({
 
 const updatePostSchema = updatePostSchemaBase.refine(
   (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
-  { message: 'Post content is required.' }
+  { message: 'Post content is required.', path: ['contentHtml'] }
 );
 
 export async function updatePost(formData: FormData) {
@@ -302,20 +297,9 @@ export async function updatePost(formData: FormData) {
         ['General'],
       publishedDate: publishedDate || existing.publishedDate,
       coverImage: finalCoverImageUrl,
+      content: content ?? '',
+      contentHtml: sanitise(contentHtml ?? ''),
     };
-    
-    if (contentHtml && contentHtml.trim()) {
-      updated.contentHtml = sanitise(contentHtml);
-    }
-    if (content && content.trim()) {
-      updated.content = content;
-    } else {
-      // If content is empty/null in the form, but contentHtml has value, we can remove the old markdown.
-      // This is a safe way to clean up legacy data if the user explicitly saves from the new editor.
-      if (contentHtml && contentHtml.trim()) {
-        updated.content = null; 
-      }
-    }
 
     await postRef.update(updated);
 

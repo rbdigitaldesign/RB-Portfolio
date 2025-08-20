@@ -89,14 +89,14 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       if (fetchedPost) {
         setPost(fetchedPost);
         form.reset({
-            title: fetchedPost.title,
-            summary: fetchedPost.summary,
-            tags: fetchedPost.tags ? fetchedPost.tags.join(', ') : '',
+            title: fetchedPost.title ?? '',
+            summary: fetchedPost.summary ?? '',
+            tags: (fetchedPost.tags ?? []).join(', '),
             publishedDate: new Date(fetchedPost.publishedDate),
             coverImageType: 'url',
-            coverImageUrl: fetchedPost.coverImage,
-            content: fetchedPost.content || '',
-            contentHtml: fetchedPost.contentHtml || '',
+            coverImageUrl: fetchedPost.coverImage ?? '',
+            content: fetchedPost.content ?? '',
+            contentHtml: fetchedPost.contentHtml ?? '',
         });
       } else {
         toast({ title: 'Error', description: 'Post not found.', variant: 'destructive' });
@@ -116,7 +116,6 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
 
 
   const coverImageType = form.watch('coverImageType');
-  const contentHtmlValue = form.watch('contentHtml');
 
   async function onSubmit(formData: FormData) {
     if (!post || !post.id) return;
@@ -256,13 +255,17 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                   <FormItem>
                     <FormLabel>Content</FormLabel>
                      <FormControl>
-                        <RichEditor initialHtml={initialHtml} onChange={(html) => form.setValue('contentHtml', html, { shouldValidate: true, shouldDirty: true })} />
+                        <RichEditor 
+                            initialHtml={initialHtml ?? ''}
+                            onChange={(html) => form.setValue('contentHtml', html ?? '', { shouldValidate: true, shouldDirty: true })} 
+                        />
                      </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <input type="hidden" name="contentHtml" value={contentHtmlValue} />
+              <input type="hidden" name="contentHtml" value={form.watch('contentHtml') ?? ''} />
+              <input type="hidden" name="content" value={form.watch('content') ?? ''} />
               
                <FormField
                 control={form.control}

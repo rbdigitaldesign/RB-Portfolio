@@ -82,7 +82,6 @@ export default function NewPostPage() {
   });
 
   const coverImageType = form.watch('coverImageType');
-  const contentHtmlValue = form.watch('contentHtml');
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -200,14 +199,18 @@ export default function NewPostPage() {
                   <FormItem>
                     <FormLabel>Content</FormLabel>
                     <FormControl>
-                        <RichEditor initialHtml="" onChange={(html) => form.setValue('contentHtml', html, { shouldValidate: true, shouldDirty: true })} />
+                        <RichEditor 
+                            initialHtml="" 
+                            onChange={(html) => form.setValue('contentHtml', html ?? '', { shouldValidate: true, shouldDirty: true })} 
+                        />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <input type="hidden" name="contentHtml" value={contentHtmlValue} />
-              
+              <input type="hidden" name="contentHtml" value={form.watch('contentHtml') ?? ''} />
+              <input type="hidden" name="content" value={form.watch('content') ?? ''} />
+
               <FormField
                 control={form.control}
                 name="tags"
