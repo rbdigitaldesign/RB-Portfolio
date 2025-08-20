@@ -87,6 +87,10 @@
   .prose .image-container img {
     @apply max-w-[500px] max-h-[450px] w-auto h-auto object-contain shadow-none;
   }
+
+  .prose .blog-image-small {
+    @apply max-w-lg mx-auto;
+  }
 }
 
 .dark blockquote {
