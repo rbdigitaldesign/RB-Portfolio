@@ -96,3 +96,12 @@
 .dark blockquote {
   background: color-mix(in srgb, hsl(var(--primary)) 14%, transparent);
 }
+
+.blog-content img {
+  max-width: 680px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+}
