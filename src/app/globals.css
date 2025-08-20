@@ -108,6 +108,6 @@
 
 /* Special rule for the "simple-truths" post */
 .post-simple-truths img {
-    max-width: 275px !important; /* Use !important to override prose styles if needed */
+    max-width: 200px !important; /* Use !important to override prose styles if needed */
     margin: 1rem auto;
 }
