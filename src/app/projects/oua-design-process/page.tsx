@@ -111,7 +111,7 @@ export default function OuaDesignProcessPage() {
                         </div>
                     </div>
                      <div>
-                        <h4 className="font-bold font-headline text-lg mb-2">Showcase 3 - Reflections on the curriculum design process</h4>
+                        <h4 className="font-bold font-headline text-lg mb-2">Reflections on the curriculum design process</h4>
                         <div className="aspect-video">
                             <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/IHibmTs9hI0?si=vj3CG_EmvICGV9eY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
@@ -143,7 +143,7 @@ export default function OuaDesignProcessPage() {
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in large-scale curriculum design?</h3>
         <p className="text-muted-foreground mb-6">Happy to walk through the design process artefacts and learning frameworks used.</p>
         <Button asChild>
-            <Link href="/contact">Contact me</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
         </Button>
       </footer>
       <ScrollToTopButton />

@@ -101,7 +101,9 @@ export function Header() {
                   </SheetClose>
                 ))}
                  <div className="mt-4">
-                    <SiteAdminLauncher />
+                    <SheetClose asChild>
+                      <SiteAdminLauncher />
+                    </SheetClose>
                  </div>
               </nav>
               <div className="absolute bottom-4 right-4">

@@ -67,12 +67,12 @@ const codeSnippet = `
 </style>
 
 <nav class="rb-quicknav" aria-label="quick navigation">
-  <a href="/courses/XXXX/pages/schedule">schedule</a>
+  <a href="/courses/XXXX/pages/schedule" target="_blank" rel="noopener noreferrer">schedule</a>
   <a href="/courses/XXXX/pages/topic-1" class="is-active" aria-current="page">topic 1</a>
-  <a href="/courses/XXXX/pages/topic-2">topic 2</a>
-  <a href="/courses/XXXX/pages/topic-3">topic 3</a>
-  <a href="/courses/XXXX/pages/assignments">assignments</a>
-  <a href="/courses/XXXX/pages/resources">extra resources</a>
+  <a href="/courses/XXXX/pages/topic-2" target="_blank" rel="noopener noreferrer">topic 2</a>
+  <a href="/courses/XXXX/pages/topic-3" target="_blank" rel="noopener noreferrer">topic 3</a>
+  <a href="/courses/XXXX/pages/assignments" target="_blank" rel="noopener noreferrer">assignments</a>
+  <a href="/courses/XXXX/pages/resources" target="_blank" rel="noopener noreferrer">extra resources</a>
 </nav>
 `;
 
@@ -222,9 +222,9 @@ export default function CanvasQuickNavPage() {
                      <section id="resources">
                         <h3 className="text-2xl font-bold font-headline mb-4">Resources</h3>
                         <div className="flex flex-wrap gap-4">
-                            <Button asChild variant="outline"><a href="#">Download HTML snippet<Download className="ml-2 h-4 w-4" /></a></Button>
-                            <Button asChild variant="outline"><a href="#">Setup Guide (PDF)<Download className="ml-2 h-4 w-4" /></a></Button>
-                            <Button asChild variant="outline"><a href="#">A11y Checklist (PDF)<Download className="ml-2 h-4 w-4" /></a></Button>
+                            <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">Download HTML snippet<Download className="ml-2 h-4 w-4" /></a></Button>
+                            <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">Setup Guide (PDF)<Download className="ml-2 h-4 w-4" /></a></Button>
+                            <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">A11y Checklist (PDF)<Download className="ml-2 h-4 w-4" /></a></Button>
                         </div>
                     </section>
 
@@ -312,7 +312,7 @@ export default function CanvasQuickNavPage() {
                 <h3 className="text-2xl font-bold font-headline mb-2">Interested in accessible component design for LMS?</h3>
                 <p className="text-muted-foreground mb-6">I can walk you through the process of creating reusable, accessible components for Canvas.</p>
                 <Button asChild>
-                    <Link href="/contact">Contact me</Link>
+                    <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
                 </Button>
             </footer>
             <ScrollToTopButton />

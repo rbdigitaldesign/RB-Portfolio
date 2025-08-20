@@ -380,7 +380,7 @@ export default function RpsPodBattlePage() {
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in lightweight multiplayer for events?</h3>
         <p className="text-muted-foreground mb-6">I can walk through the Firebase Studio setup, state model, and facilitation pattern used for the live run.</p>
         <Button asChild>
-            <Link href="/contact">Contact me</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
         </Button>
       </footer>
       <ScrollToTopButton />

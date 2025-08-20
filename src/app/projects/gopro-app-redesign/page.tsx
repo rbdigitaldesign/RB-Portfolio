@@ -167,7 +167,7 @@ export default function GoProProjectPage() {
                           <li>Consistent back placement (top-left)</li>
                       </ul>
                       <div className="aspect-video">
-                        <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/7YSr5GE1a0ZScvi1J4CYnm/GoPro-Lo-Fi--Final-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe>
+                        <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/7YSr5GE1a0ZScvi1J4CYnm/GoPro-Lo-Fi--Final-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg" title="Figma embed"></iframe>
                       </div>
                   </div>
 
@@ -176,7 +176,7 @@ export default function GoProProjectPage() {
                       <p className="my-2"><strong>Success criteria:</strong> faster than QUIKSTORY; new features with familiarity; practical usefulness that encourages in-app editing.</p>
                        <Image src="https://i.imgur.com/rpf1Z6Q.png" width={800} height={450} alt="Hi-fi prototype overview" className="rounded-lg shadow-medium mb-4" />
                        <div className="aspect-video mb-4">
-                        <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/UgLZ101OVxbo3vU0mD1vTj/GoPro-Hi-Fi-V2--Final---V2-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe>
+                        <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/UgLZ101OVxbo3vU0mD1vTj/GoPro-Hi-Fi-V2--Final---V2-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg" title="Figma embed"></iframe>
                        </div>
                        <Button asChild>
                           <a href="https://www.figma.com/proto/UgLZ101OVxbo3vU0mD1vTj/GoPro-Hi-Fi-V2--Final---V2-?node-id=0-2&p=f&t=smZhJZFLLrWsO9Md-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=0%3A2" target="_blank" rel="noopener noreferrer">
@@ -336,7 +336,7 @@ export default function GoProProjectPage() {
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in the process behind the polish?</h3>
         <p className="text-muted-foreground mb-6">I can walk you through research artefacts and test recordings on request.</p>
         <Button asChild>
-            <Link href="/contact">Contact me</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
         </Button>
       </footer>
       <ScrollToTopButton />

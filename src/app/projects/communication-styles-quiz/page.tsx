@@ -188,7 +188,7 @@ export default function CommunicationStylesQuizPage() {
              <section id="demo">
                 <h3 className="text-2xl font-bold font-headline mb-4">Embedded Quiz (interactive)</h3>
                  <div className="w-full aspect-video">
-                    <iframe className="w-full h-full rounded-lg shadow-medium border" src="https://mediaproduction.adelaide.edu.au/hms-interactives/#/communication-styles-quiz"></iframe>
+                    <iframe className="w-full h-full rounded-lg shadow-medium border" src="https://mediaproduction.adelaide.edu.au/hms-interactives/#/communication-styles-quiz" title="Communication Styles Quiz"></iframe>
                  </div>
             </section>
             
@@ -286,12 +286,10 @@ export default function CommunicationStylesQuizPage() {
         <h3 className="text-2xl font-bold font-headline mb-2">Want to turn static content into engaging interactives?</h3>
         <p className="text-muted-foreground mb-6">Happy to walk through the collaboration process between Learning Design and Media teams.</p>
         <Button asChild>
-            <Link href="/contact">Contact me</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
         </Button>
       </footer>
       <ScrollToTopButton />
     </CaseStudyLayout>
   );
 }
-
-    
