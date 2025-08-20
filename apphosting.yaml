@@ -8,13 +8,12 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: design-portfolio-v2
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
-    value: design-portfolio-v2.firebasestorage.app
+    value: design-portfolio-v2.appspot.com
   - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
     value: "738515003817"
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
     value: 1:738515003817:web:e996b105dcaf8f4e827cb8
 
-  # ✅ bind the secret as an env var available at RUNTIME
   - variable: FIREBASE_SERVICE_ACCOUNT_JSON
     secret: projects/738515003817/secrets/FIREBASE_SERVICE_ACCOUNT_JSON/versions/latest
     availability:
