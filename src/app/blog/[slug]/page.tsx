@@ -1,3 +1,4 @@
+
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -59,6 +60,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
+       <nav className="mb-8">
+        <Button variant="outline" asChild>
+          <Link href="/blog">
+            <Home className="mr-2 h-4 w-4" />
+             Blog Home
+          </Link>
+        </Button>
+      </nav>
+
       <header className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">{post.title}</h1>
         <div className="text-sm text-muted-foreground mb-4">
@@ -111,21 +121,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       <div className="flex justify-center">
         <BlogPostActions slug={post.slug} />
       </div>
-
-      <Separator className="my-8" />
-
-      <nav className="flex justify-between items-center">
-        <div />
-
-        <Button variant="outline" asChild>
-          <Link href="/blog">
-            <Home className="mr-2 h-4 w-4" />
-             Blog Home
-          </Link>
-        </Button>
-        
-        <div />
-      </nav>
+      
       <ScrollToTopButton />
     </article>
   );
