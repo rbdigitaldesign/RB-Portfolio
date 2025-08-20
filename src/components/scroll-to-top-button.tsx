@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -33,11 +34,11 @@ export function ScrollToTopButton() {
 
   return (
     <Button
-      variant="outline"
+      variant="scrollToTop"
       size="lg"
       onClick={scrollToTop}
       className={cn(
-        'fixed bottom-8 right-8 z-50 h-12 w-12 rounded-full transition-opacity duration-300 md:right-16',
+        'fixed bottom-8 right-8 z-50 h-14 w-14 rounded-full shadow-lg transition-opacity duration-300 md:right-16',
         isVisible ? 'opacity-100' : 'opacity-0'
       )}
       aria-label="Scroll to top"

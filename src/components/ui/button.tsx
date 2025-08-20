@@ -20,6 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         blogHome: "bg-[#37605f] text-primary-foreground hover:bg-accent hover:text-accent-foreground",
+        scrollToTop: "bg-[#37605f] text-primary-foreground hover:bg-[#37605f]/90",
       },
       size: {
         default: "h-10 px-4 py-2",
