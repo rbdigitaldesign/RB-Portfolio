@@ -14,6 +14,7 @@ import { ArrowLeft, Home } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
+import { cn } from '@/lib/utils';
 
 import sanitizeHtml from 'sanitize-html';
 import { marked } from 'marked';
@@ -83,6 +84,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     return null; // notFound() is called in useEffect
   }
 
+  const isSpecialPost = post.slug === 'simple-truths-we-often-overlook-in-learning-design';
+
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
        <nav className="mb-8">
@@ -116,10 +119,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       </div>
 
       <div 
-        className="prose dark:prose-invert max-w-none mx-auto blog-content
-                   prose-headings:font-headline prose-headings:text-primary dark:prose-headings:text-primary-foreground
-                   prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent
-                   prose-img:max-w-[680px] prose-img:w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-lg"
+        className={cn(
+          "prose dark:prose-invert max-w-none mx-auto blog-content",
+          "prose-headings:font-headline prose-headings:text-primary dark:prose-headings:text-primary-foreground",
+          "prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent",
+          "prose-img:max-w-[680px] prose-img:w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-lg",
+          isSpecialPost && "post-simple-truths"
+        )}
         dangerouslySetInnerHTML={{ __html: toSafeHtml(post.content) }}
       />
       

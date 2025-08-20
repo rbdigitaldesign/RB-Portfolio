@@ -105,3 +105,9 @@
   margin: 1rem auto;
   border-radius: 0.5rem;
 }
+
+/* Special rule for the "simple-truths" post */
+.post-simple-truths img {
+    max-width: 500px !important; /* Use !important to override prose styles if needed */
+    margin: 1rem auto;
+}
