@@ -1,4 +1,3 @@
-
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -14,6 +13,7 @@ import Link from 'next/link';
 import { ArrowLeft, Home } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const [post, setPost] = useState<Post | null>(null);
@@ -126,7 +126,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         
         <div />
       </nav>
-
+      <ScrollToTopButton />
     </article>
   );
 }
