@@ -1,7 +1,27 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
+runtime: nodejs20
+
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyAm2iVhW1oc70gRXxet1ocqz4NCF1cG1xY
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: design-portfolio-v2.firebaseapp.com
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: design-portfolio-v2
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: design-portfolio-v2.firebasestorage.app
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "738515003817"
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:738515003817:web:e996b105dcaf8f4e827cb8
+
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
+
+secrets:
+  - secret: FIREBASE_SERVICE_ACCOUNT_JSON
+    name: projects/738515003817/secrets/FIREBASE_SERVICE_ACCOUNT_JSON/versions/latest
