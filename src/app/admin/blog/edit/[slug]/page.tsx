@@ -1,12 +1,14 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Code } from 'lucide-react';
+import { marked } from 'marked';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -22,11 +24,19 @@ import type { Post } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import RichEditor from '@/components/rich-editor';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 
-const formSchema = z.object({
+const formSchemaBase = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
+  content: z.string().optional(),
+  contentHtml: z.string().optional(),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -35,14 +45,19 @@ const formSchema = z.object({
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
-}).refine(data => {
-    if (data.coverImageType === 'url') {
-        return !!data.coverImageUrl;
-    }
+});
+
+const formSchema = formSchemaBase.refine(data => {
+    if (data.coverImageType === 'url') return !!data.coverImageUrl;
     return true;
 }, {
     message: 'Please provide an image URL.',
     path: ['coverImageUrl'],
+}).refine(data => {
+    return (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim());
+}, {
+    message: 'Post content is required.',
+    path: ['contentHtml'], // Point error to the main content area
 });
 
 
@@ -52,9 +67,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   const [isLoading, setIsLoading] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [mode, setMode] = useState<'markdown' | 'html'>('html'); 
-  const [contentHtml, setContentHtml] = useState<string>('');
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,6 +77,8 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       publishedDate: new Date(),
       coverImageType: 'url',
       coverImageUrl: '',
+      content: '',
+      contentHtml: '',
     },
   });
   
@@ -80,19 +95,9 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
             publishedDate: new Date(fetchedPost.publishedDate),
             coverImageType: 'url',
             coverImageUrl: fetchedPost.coverImage,
+            content: fetchedPost.content || '',
+            contentHtml: fetchedPost.contentHtml || '',
         });
-        
-        // Handle content for editor
-        const isHtml = fetchedPost.content.includes('<');
-        if(isHtml){
-            setContentHtml(fetchedPost.content);
-            setMode('html');
-        } else {
-            // legacy markdown post
-            form.setValue('content', fetchedPost.content);
-            setMode('markdown');
-        }
-
       } else {
         toast({ title: 'Error', description: 'Post not found.', variant: 'destructive' });
         router.push('/admin/blog');
@@ -102,14 +107,23 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     fetchPost();
   }, [params.slug, form, router, toast]);
 
-  const coverImageType = form.watch('coverImageType');
+  const initialHtml = useMemo(() => {
+    if (!post) return '';
+    return post.contentHtml && post.contentHtml.trim().length > 0
+      ? post.contentHtml
+      : (post.content ? marked.parse(post.content) as string : '');
+  }, [post]);
 
-  async function onSubmit(data: FormData) {
+
+  const coverImageType = form.watch('coverImageType');
+  const contentHtmlValue = form.watch('contentHtml');
+
+  async function onSubmit(formData: FormData) {
     if (!post || !post.id) return;
     setIsLoading(true);
 
     try {
-        const result = await updatePost(data);
+        const result = await updatePost(formData);
         if (result.success) {
             toast({
                 title: 'Post Updated!',
@@ -235,32 +249,20 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                 )}
               />
 
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <label className="font-medium">Content mode:</label>
-                  <button type="button" className={`px-2 py-1 border rounded ${mode==='html' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('html')}>WYSIWYG (HTML)</button>
-                  <button type="button" className={`px-2 py-1 border rounded ${mode==='markdown' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('markdown')}>Markdown</button>
-                </div>
-                {mode === 'html' ? (
-                  <>
-                    <RichEditor value={contentHtml} onChange={setContentHtml} />
-                    <input type="hidden" name="contentHtml" value={contentHtml} />
-                  </>
-                ) : (
-                  <FormField
-                    control={form.control}
-                    name="content"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                            <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                 />
+              <FormField
+                control={form.control}
+                name="contentHtml"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Content</FormLabel>
+                     <FormControl>
+                        <RichEditor initialHtml={initialHtml} onChange={(html) => form.setValue('contentHtml', html, { shouldValidate: true, shouldDirty: true })} />
+                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
+              />
+              <input type="hidden" name="contentHtml" value={contentHtmlValue} />
               
                <FormField
                 control={form.control}
@@ -351,7 +353,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                             type="file"
                             accept="image/png, image/jpeg, image/gif"
                             onChange={(event) => {
-                                onChange(event.target.files);
+                                onChange(event.target.files?.[0]);
                             }}
                           />
                         </FormControl>
@@ -360,6 +362,33 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                     )}
                   />
               )}
+
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>
+                    <span className="flex items-center gap-2 text-sm text-muted-foreground"><Code className="h-4 w-4" /> Advanced: Edit raw Markdown</span>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <FormField
+                      control={form.control}
+                      name="content"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Markdown Content</FormLabel>
+                          <FormControl>
+                              <Textarea placeholder="Legacy markdown content." className="min-h-[200px] font-mono text-xs" {...field} />
+                          </FormControl>
+                           <FormDescription>
+                            This field is for legacy posts. New posts should use the rich editor above.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
 
               <div className="flex gap-4">
                 <Button type="submit" disabled={isLoading}>

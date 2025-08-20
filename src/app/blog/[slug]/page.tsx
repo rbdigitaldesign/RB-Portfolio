@@ -10,39 +10,31 @@ import { Separator } from '@/components/ui/separator';
 import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Home } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
-
-import sanitizeHtml from 'sanitize-html';
 import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
 
-const toSafeHtml = (input: string) => {
-  // First, check if the input is likely HTML. If so, use it directly.
-  // Otherwise, parse it as Markdown.
-  const html = input.includes('<') ? input : (marked.parse(input || '') as string);
+function renderPostHtml(post: Post | null) {
+  if (!post) return { __html: '' };
 
-  // Then, sanitize the HTML to ensure it's safe.
-  return sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img','h1','h2','h3','figure','figcaption','code','pre']),
-    allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes,
-      img: ['src','alt','title','width','height','loading', 'class', 'style'], // allow style for resizing
-      a: ['href','name','target','rel'],
-      code: ['class'],
-      div: ['class'] // Allow class for containers
-    },
-    // Ensure links are safe
-    transformTags: {
-      a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer nofollow' }),
-    },
+  const html = post.contentHtml?.trim()
+    ? post.contentHtml
+    : (post.content ? (marked.parse(post.content) as string) : '');
+
+  const safeHtml = DOMPurify.sanitize(html || '', {
+    ADD_TAGS: ['iframe', 'video'], 
+    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] 
   });
-};
+  
+  return { __html: safeHtml };
+}
 
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ params }: { params: { slug:string } }) {
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -126,7 +118,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           "prose-img:max-w-[680px] prose-img:w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-lg",
           isSpecialPost && "post-simple-truths"
         )}
-        dangerouslySetInnerHTML={{ __html: toSafeHtml(post.content) }}
+        dangerouslySetInnerHTML={renderPostHtml(post)}
       />
       
       <Separator className="my-8" />

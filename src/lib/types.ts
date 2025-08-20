@@ -28,7 +28,8 @@ export interface Post {
   slug: string;
   title: string;
   summary: string;
-  content: string;
+  content?: string; // For legacy markdown
+  contentHtml?: string; // For new rich text content
   author: string;
   publishedDate: string;
   tags: string[];

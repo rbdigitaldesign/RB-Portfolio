@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -55,7 +56,7 @@ const tagsSchema = z
   )
   .optional();
 
-const addPostSchema = z.object({
+const addPostSchemaBase = z.object({
   title: z.string().min(1, 'Title is required'),
   summary: z.string().min(1, 'Summary is required'),
   content: z.string().optional(),
@@ -65,6 +66,12 @@ const addPostSchema = z.object({
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
 });
+
+const addPostSchema = addPostSchemaBase.refine(
+  (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
+  { message: 'Post content is required.' }
+);
+
 
 // --- reads -------------------------------------------------------------------
 
@@ -125,11 +132,6 @@ export async function addPost(formData: FormData) {
 
   const { title, summary, content, contentHtml, coverImageType, coverImageUrl, publishedDate } = parsed.data;
   
-  const finalContentHtml =
-  (contentHtml && contentHtml.trim().length > 0)
-    ? sanitise(contentHtml)
-    : toHtml(String(content ?? ''));
-
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
 
@@ -167,17 +169,23 @@ export async function addPost(formData: FormData) {
       finalCoverImageUrl = (await obj.getSignedUrl({ action: 'read', expires: '03-01-2500' }))[0];
     }
 
-    const newPostData = {
+    const newPostData: any = {
       slug,
       title,
       summary,
-      content: finalContentHtml,
       author: 'Rich Bartlett',
       publishedDate: publishedDate || new Date().toISOString(),
       tags: tagsArray,
       coverImage: finalCoverImageUrl,
     };
-
+    
+    if (contentHtml && contentHtml.trim()) {
+      newPostData.contentHtml = sanitise(contentHtml);
+    }
+    if (content && content.trim()) {
+      newPostData.content = content;
+    }
+    
     const docRef = await col.add(newPostData);
 
     revalidatePath('/admin/blog');
@@ -194,10 +202,15 @@ export async function addPost(formData: FormData) {
 
 // --- update ------------------------------------------------------------------
 
-const updatePostSchema = addPostSchema.extend({
+const updatePostSchemaBase = addPostSchemaBase.extend({
   originalSlug: z.string(),
   postId: z.string(),
 });
+
+const updatePostSchema = updatePostSchemaBase.refine(
+  (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
+  { message: 'Post content is required.' }
+);
 
 export async function updatePost(formData: FormData) {
   const col = postsCol();
@@ -239,11 +252,6 @@ export async function updatePost(formData: FormData) {
     postId,
   } = parsed.data;
 
-  const finalContentHtml =
-  (contentHtml && contentHtml.trim().length > 0)
-    ? sanitise(contentHtml)
-    : toHtml(String(content ?? ''));
-
   const newSlug = createSlug(title);
 
   try {
@@ -282,11 +290,10 @@ export async function updatePost(formData: FormData) {
       }
     }
 
-    const updated = {
+    const updated: any = {
       slug: newSlug,
       title,
       summary,
-      content: finalContentHtml,
       tags:
         parsed.data.tags?.split(',').map((t) => t.trim()).filter(Boolean) ??
         existing.tags ??
@@ -294,6 +301,19 @@ export async function updatePost(formData: FormData) {
       publishedDate: publishedDate || existing.publishedDate,
       coverImage: finalCoverImageUrl,
     };
+    
+    if (contentHtml && contentHtml.trim()) {
+      updated.contentHtml = sanitise(contentHtml);
+    }
+    if (content && content.trim()) {
+      updated.content = content;
+    } else {
+      // If content is empty/null in the form, but contentHtml has value, we can remove the old markdown.
+      // This is a safe way to clean up legacy data if the user explicitly saves from the new editor.
+      if (contentHtml && contentHtml.trim()) {
+        updated.content = null; 
+      }
+    }
 
     await postRef.update(updated);
 

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,7 @@ import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Code } from 'lucide-react';
 import { addPost } from '@/app/actions/blog';
 
 import { Button } from '@/components/ui/button';
@@ -20,11 +21,18 @@ import { useToast } from '@/hooks/use-toast';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
 import RichEditor from '@/components/rich-editor';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-
-const formSchema = z.object({
+const formSchemaBase = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
+  content: z.string().optional(),
+  contentHtml: z.string().optional(),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -33,30 +41,31 @@ const formSchema = z.object({
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
-}).refine(data => {
-    if (data.coverImageType === 'url') {
-        return !!data.coverImageUrl;
-    }
+});
+
+const formSchema = formSchemaBase.refine(data => {
+    if (data.coverImageType === 'url') return !!data.coverImageUrl;
     return true;
 }, {
     message: 'Please provide an image URL.',
     path: ['coverImageUrl'],
 }).refine(data => {
-    if (data.coverImageType === 'upload') {
-        return !!data.coverImageFile && data.coverImageFile.length > 0;
-    }
+    if (data.coverImageType === 'upload') return !!data.coverImageFile;
     return true;
 }, {
     message: 'Please select a file to upload.',
     path: ['coverImageFile'],
+}).refine(data => {
+    return (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim());
+}, {
+    message: 'Post content is required.',
+    path: ['contentHtml'],
 });
 
 export default function NewPostPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [mode, setMode] = useState<'markdown' | 'html'>('html'); 
-  const [contentHtml, setContentHtml] = useState<string>('');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,10 +76,13 @@ export default function NewPostPage() {
       publishedDate: new Date(),
       coverImageType: 'url',
       coverImageUrl: '',
+      content: '',
+      contentHtml: ''
     },
   });
 
   const coverImageType = form.watch('coverImageType');
+  const contentHtmlValue = form.watch('contentHtml');
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -181,34 +193,20 @@ export default function NewPostPage() {
                 )}
               />
               
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <label className="font-medium">Content mode:</label>
-                  <button type="button" className={`px-2 py-1 border rounded ${mode==='html' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('html')}>WYSIWYG (HTML)</button>
-                  <button type="button" className={`px-2 py-1 border rounded ${mode==='markdown' ? 'bg-gray-100 dark:bg-muted' : ''}`} onClick={() => setMode('markdown')}>Markdown</button>
-                </div>
-
-                {mode === 'html' ? (
-                  <>
-                    <RichEditor value={contentHtml} onChange={setContentHtml} />
-                    <input type="hidden" name="contentHtml" value={contentHtml} />
-                    <input type="hidden" name="content" value="" />
-                  </>
-                ) : (
-                  <FormField
-                    control={form.control}
-                    name="content"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                            <Textarea placeholder="Write your full blog post content here. Markdown is supported." className="min-h-[300px]" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              <FormField
+                control={form.control}
+                name="contentHtml"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Content</FormLabel>
+                    <FormControl>
+                        <RichEditor initialHtml="" onChange={(html) => form.setValue('contentHtml', html, { shouldValidate: true, shouldDirty: true })} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
+              />
+              <input type="hidden" name="contentHtml" value={contentHtmlValue} />
               
               <FormField
                 control={form.control}
@@ -292,7 +290,7 @@ export default function NewPostPage() {
                             type="file"
                             accept="image/png, image/jpeg, image/gif"
                             onChange={(event) => {
-                                onChange(event.target.files);
+                                onChange(event.target.files?.[0]);
                             }}
                           />
                         </FormControl>
@@ -301,6 +299,32 @@ export default function NewPostPage() {
                     )}
                   />
               )}
+
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>
+                    <span className="flex items-center gap-2 text-sm text-muted-foreground"><Code className="h-4 w-4" /> Advanced: Edit raw Markdown</span>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <FormField
+                      control={form.control}
+                      name="content"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Markdown Content</FormLabel>
+                          <FormControl>
+                              <Textarea placeholder="Legacy markdown content." className="min-h-[200px] font-mono text-xs" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            For compatibility with old posts. New posts should use the rich editor above.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
 
               <div className="flex gap-4">
                 <Button type="submit" disabled={isLoading}>

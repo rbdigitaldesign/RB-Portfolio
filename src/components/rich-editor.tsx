@@ -1,51 +1,82 @@
+
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
+import { Bold, Italic, List, ListOrdered, Heading2, Link as LinkIcon, Code, Eraser } from 'lucide-react';
 
 type Props = {
-  value?: string;                 // initial HTML
+  initialHtml?: string;
   onChange: (html: string) => void;
   height?: number;
 };
 
-export default function RichEditor({ value = '', onChange, height = 320 }: Props) {
+const ToolbarButton = ({ onClick, children, isActive }: { onClick: () => void, children: React.ReactNode, isActive?: boolean }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`p-2 border rounded-md transition-colors ${isActive ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
+    >
+      {children}
+    </button>
+);
+
+
+export default function RichEditor({ initialHtml = '', onChange, height = 320 }: Props) {
   const editor = useEditor({
-    extensions: [StarterKit],
-    content: value || '<p></p>',
+    extensions: [
+        StarterKit.configure({ heading: { levels: [2, 3] } }),
+        Link.configure({ openOnClick: true, autolink: true }),
+    ],
+    content: initialHtml,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
     editorProps: {
       attributes: {
         class:
-          'prose dark:prose-invert max-w-none p-3 border rounded-xl focus:outline-none min-h-[180px]',
+          'prose dark:prose-invert max-w-none focus:outline-none',
       },
     },
   });
 
-  // make sure external resets propagate
-  useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || '<p></p>', false);
+  const setLink = useCallback(() => {
+    if (!editor) return;
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('URL', previousUrl);
+
+    if (url === null) return;
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+      return;
     }
-  }, [value, editor]);
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  }, [editor]);
+
+  // Ensure external changes propagate to the editor
+  React.useEffect(() => {
+    if (editor && initialHtml !== editor.getHTML()) {
+      editor.commands.setContent(initialHtml || '<p></p>', false);
+    }
+  }, [initialHtml, editor]);
 
   if (!editor) return null;
 
   return (
-    <div className="space-y-2">
-      <div className="flex gap-2 flex-wrap">
-        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className="px-2 py-1 border rounded">Bold</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className="px-2 py-1 border rounded">Italic</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className="px-2 py-1 border rounded">• List</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className="px-2 py-1 border rounded">1. List</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className="px-2 py-1 border rounded">H2</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()} className="px-2 py-1 border rounded">{'<>'}</button>
-        <button type="button" onClick={() => editor.commands.clearContent()} className="px-2 py-1 border rounded">Clear</button>
+    <div className="space-y-2 border rounded-xl p-2">
+      <div className="flex gap-1 flex-wrap border-b pb-2 mb-2">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')}><Bold size={16} /></ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive('italic')}><Italic size={16} /></ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} isActive={editor.isActive('heading', { level: 2 })}><Heading2 size={16} /></ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')}><List size={16} /></ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleOrderedList().run()} isActive={editor.isActive('orderedList')}><ListOrdered size={16} /></ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleCodeBlock().run()} isActive={editor.isActive('codeBlock')}><Code size={16} /></ToolbarButton>
+        <ToolbarButton onClick={setLink} isActive={editor.isActive('link')}><LinkIcon size={16} /></ToolbarButton>
+        <ToolbarButton onClick={() => editor.commands.clearContent(true)}><Eraser size={16} /></ToolbarButton>
       </div>
-      <div style={{ minHeight: height, height }} className="overflow-auto">
+      <div style={{ minHeight: height }} className="p-2 overflow-auto">
         <EditorContent editor={editor} />
       </div>
     </div>
