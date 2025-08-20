@@ -1,6 +1,4 @@
-// Server-only Firebase Admin initialisation: ADC first, optional SA JSON fallback.
-// Never throw at import time just because a secret is missing.
-
+// src/lib/firebase/admin.ts
 import { App, getApps, initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -10,7 +8,7 @@ function createAdminApp(): App {
   const existing = getApps()[0];
   if (existing) return existing;
 
-  // 1) try ADC (works on App Hosting once metadata is available)
+  // 1) try ADC first
   try {
     return initializeApp({
       credential: applicationDefault(),
@@ -18,7 +16,7 @@ function createAdminApp(): App {
       storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     });
   } catch (_adcError) {
-    // 2) if a JSON secret is present, use it
+    // 2) fallback to secret if present
     const json = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
     if (json) {
       const sa = JSON.parse(json);
@@ -32,9 +30,9 @@ function createAdminApp(): App {
         storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       });
     }
-    // 3) last resort: return a dummy app so exports exist; they will throw only when used
+    // 3) lazy-fail only when used
     const msg = 'Firebase Admin not initialised: ADC unavailable and FIREBASE_SERVICE_ACCOUNT_JSON not set.';
-    // @ts-ignore – create a minimal App-like object that will throw on access
+    // @ts-ignore
     return {
       get name() { throw new Error(msg); },
       options: {},
