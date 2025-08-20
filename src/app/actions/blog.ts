@@ -2,8 +2,6 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
-import { adminDb, adminStorage } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
