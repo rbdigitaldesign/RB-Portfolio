@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -30,13 +29,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import DOMPurify from 'isomorphic-dompurify';
 
 
 const formSchemaBase = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
-  content: z.string().optional(),
-  contentHtml: z.string().optional(),
+  content: z.string().optional().transform(v => v ?? ''),
+  contentHtml: z.string().optional().transform(v => v ?? ''),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -111,7 +111,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     if (!post) return '';
     return post.contentHtml && post.contentHtml.trim().length > 0
       ? post.contentHtml
-      : (post.content ? marked.parse(post.content) as string : '');
+      : (post.content ? DOMPurify.sanitize(marked.parse(post.content) as string) : '');
   }, [post]);
 
 
@@ -145,7 +145,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     }
   }
 
-  if (isFetching) {
+  if (isFetching || !post) {
     return (
         <div className="container mx-auto max-w-4xl py-16 px-4">
             <header className="mb-12">
@@ -176,8 +176,8 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
         <CardContent className="pt-6">
           <Form {...form}>
             <form action={onSubmit} className="space-y-8">
-              <input type="hidden" name="postId" value={post?.id} />
-              <input type="hidden" name="originalSlug" value={post?.slug} />
+              <input type="hidden" name="postId" value={post.id} />
+              <input type="hidden" name="originalSlug" value={post.slug} />
 
               <FormField
                 control={form.control}
@@ -202,6 +202,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            type="button"
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
@@ -251,12 +252,12 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
               <FormField
                 control={form.control}
                 name="contentHtml"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Content</FormLabel>
                      <FormControl>
                         <RichEditor 
-                            initialHtml={initialHtml ?? ''}
+                            initialHtml={initialHtml}
                             onChange={(html) => form.setValue('contentHtml', html ?? '', { shouldValidate: true, shouldDirty: true })} 
                         />
                      </FormControl>

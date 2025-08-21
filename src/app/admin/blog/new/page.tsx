@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -31,8 +30,8 @@ import {
 const formSchemaBase = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
-  content: z.string().optional(),
-  contentHtml: z.string().optional(),
+  content: z.string().optional().transform(v => v ?? ''),
+  contentHtml: z.string().optional().transform(v => v ?? ''),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -146,6 +145,7 @@ export default function NewPostPage() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            type="button"
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
@@ -195,7 +195,7 @@ export default function NewPostPage() {
               <FormField
                 control={form.control}
                 name="contentHtml"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Content</FormLabel>
                     <FormControl>

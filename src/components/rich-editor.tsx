@@ -1,155 +1,208 @@
 'use client';
-import React, {useEffect, useState} from 'react';
+
+import { useEffect, useMemo, useRef } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-// A tiny helper to register Cmd/Ctrl+K shortcuts
-const LinkShortcuts = Link.extend({
-  addKeyboardShortcuts() {
-    return {
-      // Open link dialog
-      'Mod-k': () => {
-        // trigger a custom event the component listens for
-        (this.editor as any).commands.dispatchCustomEvent?.('open-link-dialog');
-        return true;
-      },
-      // Remove link
-      'Shift-Mod-k': () => this.editor.commands.unsetLink(),
-    };
-  },
-});
+// Simple toolbar button
+function Tb({
+  onClick,
+  active = false,
+  children,
+  title,
+}: {
+  onClick: () => void;
+  active?: boolean;
+  children: React.ReactNode;
+  title: string;
+}) {
+  return (
+    <button
+      type="button" // <— CRITICAL: never submit the parent form
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+      title={title}
+      aria-pressed={active}
+      className={cn(
+        'inline-flex items-center rounded-md px-3 py-1.5 text-sm',
+        'border border-border/60 bg-muted hover:bg-muted/70',
+        active ? 'ring-2 ring-primary/40' : '',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60'
+      )}
+    >
+      {children}
+    </button>
+  );
+}
 
-type Props = {
+export default function RichEditor({
+  initialHtml = '',
+  onChange,
+}: {
   initialHtml?: string;
-  onChange?: (html: string) => void;
-  className?: string;
-};
-
-export default function RichEditor({ initialHtml = '', onChange, className }: Props) {
-  const [showLinkUI, setShowLinkUI] = useState(false);
-  const [url, setUrl] = useState('');
-
+  onChange: (html: string) => void;
+}) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ heading: { levels: [2,3,4] }}),
-      LinkShortcuts.configure({
-        openOnClick: false,
+      StarterKit.configure({
+        bulletList: { keepMarks: true },
+        orderedList: { keepMarks: true },
+      }),
+      Link.configure({
+        openOnClick: false, // we’ll handle clicks to avoid navigating away
         autolink: true,
-        HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' },
+        protocols: ['http', 'https', 'mailto', 'tel'],
       }),
     ],
-    content: initialHtml,
-    editorProps: {
-      attributes: { class: 'prose prose-neutral dark:prose-invert min-h-[180px] focus:outline-none' },
+    content: initialHtml || '',
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
     },
-    onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
+    editorProps: {
+      attributes: {
+        class:
+          'min-h-[240px] w-full rounded-md border border-input bg-background p-3 text-sm leading-6 focus:outline-none',
+      },
+      handleClickOn: (view, pos, node, nodePos, event) => {
+        // prevent clicking <a> tags from navigating away in admin screens
+        const target = event.target as HTMLElement;
+        if (target.closest('a')) {
+          event.preventDefault();
+          return true;
+        }
+        return false;
+      },
+    },
   });
 
-  // let the extension tell us to open the dialog
+  // Keyboard shortcuts (Cmd/Ctrl-B, Cmd/Ctrl-I, Cmd/Ctrl-K)
   useEffect(() => {
     if (!editor) return;
-    (editor.commands as any).dispatchCustomEvent = (name: string) => {
-      if (name === 'open-link-dialog') {
-        const prev = editor.getAttributes('link')?.href ?? '';
-        setUrl(prev);
-        setShowLinkUI(true);
+    function onKey(e: KeyboardEvent) {
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod) return;
+      // Bold
+      if (e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        editor.chain().focus().toggleBold().run();
       }
-    };
+      // Italic
+      if (e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        editor.chain().focus().toggleItalic().run();
+      }
+      // Link
+      if (e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const url = window.prompt('Enter URL') || '';
+        if (!url) {
+          editor.chain().focus().unsetLink().run();
+        } else {
+          editor
+            .chain()
+            .focus()
+            .extendMarkRange('link')
+            .setLink({ href: url })
+            .run();
+        }
+      }
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [editor]);
 
   if (!editor) return null;
 
-  const applyLink = () => {
-    // empty => remove
-   if (!url) {
-      editor.chain().focus().unsetLink().run();
-    } else {
-      // ensure selection (expand if cursor is inside a word)
-      if (editor.state.selection.empty) editor.commands.selectParentNode();
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-    setShowLinkUI(false);
-    editor.chain().focus().run();
-  };
-
   return (
-    <div className={cn('rounded-lg border', className)}>
+    <div className="space-y-2">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-1 border-b bg-muted/40 p-2">
-        <Button size="sm" variant={editor.isActive('bold') ? 'default' : 'outline'}
-          aria-label="Bold (Cmd+B)" title="Bold (Cmd+B)"
-          onClick={() => editor.chain().focus().toggleBold().run()}>
+      <div
+        role="toolbar"
+        aria-label="Formatting"
+        className="flex flex-wrap gap-2 rounded-md border border-border/60 bg-muted p-2"
+      >
+        <Tb
+          title="Bold (⌘/Ctrl+B)"
+          active={editor.isActive('bold')}
+          onClick={() => editor.chain().focus().toggleBold().run()}
+        >
           Bold
-        </Button>
-        <Button size="sm" variant={editor.isActive('italic') ? 'default' : 'outline'}
-          aria-label="Italic (Cmd+I)" title="Italic (Cmd+I)"
-          onClick={() => editor.chain().focus().toggleItalic().run()}>
+        </Tb>
+        <Tb
+          title="Italic (⌘/Ctrl+I)"
+          active={editor.isActive('italic')}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+        >
           Italic
-        </Button>
-        <Button size="sm" variant={editor.isActive('bulletList') ? 'default' : 'outline'}
-          aria-label="Bullet list" title="Bullet list"
-          onClick={() => editor.chain().focus().toggleBulletList().run()}>
+        </Tb>
+        <Tb
+          title="Bullet list"
+          active={editor.isActive('bulletList')}
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+        >
           • List
-        </Button>
-        <Button size="sm" variant={editor.isActive('orderedList') ? 'default' : 'outline'}
-          aria-label="Numbered list" title="Numbered list"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+        </Tb>
+        <Tb
+          title="Numbered list"
+          active={editor.isActive('orderedList')}
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        >
           1. List
-        </Button>
-        <div className="ml-1 h-6 w-px bg-border" aria-hidden />
-        <Button size="sm" variant={editor.isActive('link') ? 'default' : 'outline'}
-          aria-label="Add link (Cmd+K)" title="Add link (Cmd+K)"
+        </Tb>
+        <Tb
+          title="Blockquote"
+          active={editor.isActive('blockquote')}
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        >
+          Quote
+        </Tb>
+        <Tb
+          title="Code block"
+          active={editor.isActive('codeBlock')}
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        >
+          Code
+        </Tb>
+        <Tb
+          title="Link (⌘/Ctrl+K)"
+          active={editor.isActive('link')}
           onClick={() => {
-            const prev = editor.getAttributes('link')?.href ?? '';
-            setUrl(prev);
-            setShowLinkUI(true);
-          }}>
-          Link
-        </Button>
-        <Button size="sm" variant="outline"
-          aria-label="Remove link (Shift+Cmd+K)" title="Remove link (Shift+Cmd+K)"
-          onClick={() => editor.chain().focus().unsetLink().run()}>
-          Unlink
-        </Button>
-      </div>
-
-      {/* Editable area */}
-      <div className="p-3">
-        <EditorContent editor={editor} />
-      </div>
-
-      {/* Minimal, accessible link dialog */}
-      {showLinkUI && (
-        <div
-          role="dialog" aria-modal="true" aria-label="Insert link"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') setShowLinkUI(false);
-            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) applyLink();
+            const url = window.prompt('Enter URL') || '';
+            if (!url) {
+              editor.chain().focus().unsetLink().run();
+            } else {
+              editor
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .setLink({ href: url })
+                .run();
+            }
           }}
         >
-          <div className="w-full max-w-md rounded-lg bg-background p-4 shadow-lg outline outline-1 outline-border">
-            <label className="block text-sm font-medium mb-2" htmlFor="editor-link-input">
-              URL
-            </label>
-            <input
-              id="editor-link-input"
-              className="w-full rounded-md border px-3 py-2 outline-none focus-visible:ring"
-              placeholder="https://example.com"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              autoFocus
-            />
-            <div className="mt-3 flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setShowLinkUI(false)}>Cancel</Button>
-              <Button onClick={applyLink} title="Apply (Cmd+Enter)">Apply</Button>
-            </div>
-          </div>
-        </div>
-      )}
+          Link
+        </Tb>
+        <Tb
+          title="Remove link"
+          onClick={() => editor.chain().focus().unsetLink().run()}
+        >
+          Unlink
+        </Tb>
+        <Tb title="Undo" onClick={() => editor.chain().focus().undo().run()}>
+          Undo
+        </Tb>
+        <Tb title="Redo" onClick={() => editor.chain().focus().redo().run()}>
+          Redo
+        </Tb>
+      </div>
+
+      {/* Editor */}
+      <EditorContent editor={editor} />
     </div>
   );
 }
