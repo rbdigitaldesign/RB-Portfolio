@@ -165,10 +165,10 @@ export default function BlogPage() {
                   <div className="md:w-1/2 flex flex-col">
                       <CardHeader>
                           {post.series && (
-                                <Link href={`/blog/series/${encodeURIComponent(post.series)}`} className="text-sm font-semibold text-primary hover:underline flex items-center gap-2 -mt-2 mb-2">
+                                <div className="text-sm font-semibold text-muted-foreground flex items-center gap-2 -mt-2 mb-2">
                                     <Library className="h-4 w-4" />
                                     {post.series}
-                                </Link>
+                                </div>
                           )}
                           <CardTitle className="font-headline text-2xl">
                             <Link href={`/blog/${post.slug}`} className="hover:underline">
