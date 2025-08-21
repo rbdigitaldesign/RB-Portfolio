@@ -92,14 +92,6 @@ function buildImgClass({
   return `${IMAGE_BASE} ${s} ${a}`;
 }
 
-function coerceWidthFromAttrs(attrs: any) {
-  if (!attrs) return 100;
-  if (attrs['data-width']) return Number(attrs['data-width']) || 100;
-  const m = /width:\s*(\d+)%/.exec(attrs.style || '');
-  return m ? Number(m[1]) : 100;
-}
-
-
 export default function RichEditor({
   initialHtml = '',
   onChange,
@@ -169,7 +161,7 @@ export default function RichEditor({
             const clean = DOMPurify.sanitize(html, {
                 USE_PROFILES: { html: true },
                 ALLOWED_TAGS: ['p','br','strong','em','u','s','ul','ol','li','blockquote','code','pre','a','img','figure','figcaption','iframe','h2','h3','h4'],
-                ALLOWED_ATTR: ['href','title','target','rel','src','alt','width','height','loading','referrerpolicy','class','style','data-width','allow','allowfullscreen'],
+                ALLOWED_ATTR: ['href','title','target','rel','src','alt','width','height','loading','referrerpolicy','class','style','allow','allowfullscreen'],
             });
             if (clean) {
                 editor?.commands.insertContent(clean);
@@ -182,33 +174,11 @@ export default function RichEditor({
     }
   });
   
-  const [imgWidthPct, setImgWidthPct] = useState<number>(100);
-
-  // Only set content once after mount
   useEffect(() => {
     if (!editor) return;
     editor.commands.setContent(initialHtml || '', false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
-
-
-   useEffect(() => {
-    if (!editor) return;
-
-    const update = () => {
-      if (!editor.isActive('image')) return;
-      const attrs = editor.getAttributes('image') || {};
-      setImgWidthPct(coerceWidthFromAttrs(attrs));
-    };
-
-    editor.on('selectionUpdate', update);
-    editor.on('transaction', update);
-    return () => {
-      editor.off('selectionUpdate', update);
-      editor.off('transaction', update);
-    };
-  }, [editor]);
-
 
   if (!editor) return null;
 
@@ -223,7 +193,6 @@ export default function RichEditor({
       alt: '',
       class: buildImgClass({ size: 'md', align: 'center' }),
       style: 'width:100%;',
-      'data-width': '100',
       loading: 'lazy',
       referrerpolicy: 'no-referrer',
       rel: 'noreferrer',
@@ -308,50 +277,17 @@ export default function RichEditor({
           }}
         >
           <div className="flex items-center gap-2 p-2 bg-background border rounded-lg shadow-md">
-            <span className="text-xs text-muted-foreground">Width</span>
-            <input
-              type="range"
-              min={30}
-              max={100}
-              step={5}
-              value={imgWidthPct}
-              className="w-40"
-              onChange={(e) => {
-                const w = Number(e.target.value);
-                setImgWidthPct(w);
-                updateImageAttrs(editor, { style: `width:${w}%`, 'data-width': String(w) });
-              }}
-            />
-            <button
-              type="button"
-              className={TOOLBTN}
-              title="Left"
-              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'left' }) })}
-            >⟵</button>
-            <button
-              type="button"
-              className={TOOLBTN}
-              title="Center"
-              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'center' }) })}
-            >⦿</button>
-            <button
-              type="button"
-              className={TOOLBTN}
-              title="Right"
-              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'right' }) })}
-            >⟶</button>
-            <button
-              type="button"
-              className={TOOLBTN}
-              title="Reset"
-              onClick={() => {
-                setImgWidthPct(100);
-                updateImageAttrs(editor, {
-                  class: buildImgClass({ size: 'md', align: 'center' }),
-                  style: 'width:100%',
-                  'data-width': '100',
-                });
-              }}
+            <button type="button" className={TOOLBTN} title="Left"
+              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'left' }) })}>⟵</button>
+            <button type="button" className={TOOLBTN} title="Center"
+              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'center' }) })}>⦿</button>
+            <button type="button" className={TOOLBTN} title="Right"
+              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'right' }) })}>⟶</button>
+            <button type="button" className={TOOLBTN} title="Reset"
+              onClick={() => updateImageAttrs(editor, {
+                class: buildImgClass({ size: 'md', align: 'center' }),
+                style: 'width:100%',
+              })}
             >Reset</button>
           </div>
         </BubbleMenu>
@@ -362,5 +298,3 @@ export default function RichEditor({
     </div>
   );
 }
-
-    
