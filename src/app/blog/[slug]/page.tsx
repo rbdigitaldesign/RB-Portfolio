@@ -15,7 +15,7 @@ import { useEffect, useState, use } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
-import { mdToSafeHtml } from '@/lib/md';
+import { mdToHtmlSafe } from '@/lib/md';
 
 
 export default function BlogPostPage() {
@@ -67,7 +67,7 @@ export default function BlogPostPage() {
   const html = post.contentHtml?.trim()
     ? post.contentHtml
     : post.content
-    ? mdToSafeHtml(post.content)
+    ? mdToHtmlSafe(post.content)
     : '';
 
   return (
