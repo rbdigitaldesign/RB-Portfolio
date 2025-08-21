@@ -44,6 +44,19 @@ export default function TermsOfServicePage() {
         <p>
           These terms and conditions are governed by and construed in accordance with the laws of South Australia, Australia and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
         </p>
+        <h2>6. Intellectual Property and Employer Content</h2>
+        <p>
+          This website is a personal portfolio intended to showcase my professional experience, skills, and projects. While I may reference work undertaken during my employment or collaboration with organisations such as the University of Adelaide, Adelaide University, or other institutions and employers, all views, opinions, and interpretations expressed here are solely my own and do not represent those of any employer or client.
+        </p>
+        <p>
+          Any materials, descriptions, or examples included on this site are shared in good faith for educational and illustrative purposes. Where such materials relate to work undertaken as part of my employment or contracts, they are either publicly available, sufficiently anonymised, or adapted to respect confidentiality obligations.
+        </p>
+        <p>
+          Nothing on this website should be construed as granting rights to use, reproduce, or commercialise any intellectual property belonging to the University of Adelaide, Adelaide University, or any other employer, past or present.
+        </p>
+        <p>
+          Any ideas or projects I share that arose in the course of my professional work are presented for demonstration purposes only. Rights to exploit or commercialise such ideas may be subject to the intellectual property policies of my employer(s) at the time the ideas were conceived. Users of this site should not assume any license or transfer of such rights.
+        </p>
       </div>
     </div>
   );
