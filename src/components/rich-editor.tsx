@@ -6,7 +6,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
-import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo } from 'lucide-react';
+import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 
@@ -85,10 +85,11 @@ export default function RichEditor({
       aria-label={label}
       onClick={(e) => { e.preventDefault(); onClick(); }}
       disabled={isDisabled}
+      aria-pressed={!!isActive}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm",
+        "inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm text-foreground",
         "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        isActive ? "bg-muted" : "bg-background",
+        "aria-pressed:bg-muted bg-background",
         isDisabled && "opacity-50 cursor-not-allowed"
       )}
     >
@@ -110,7 +111,7 @@ export default function RichEditor({
             <Italic className="h-4 w-4" />
         </ToolbarButton>
         <ToolbarButton label="Heading 2" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} isActive={editor.isActive('heading', { level: 2 })}>
-            <span className="font-bold text-xs">H2</span>
+            <Heading2 className="h-4 w-4" />
         </ToolbarButton>
         <ToolbarButton label="Bulleted list" onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')}>
             <List className="h-4 w-4" />
@@ -150,4 +151,3 @@ export default function RichEditor({
     </div>
   );
 }
-
