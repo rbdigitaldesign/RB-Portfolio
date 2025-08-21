@@ -2,15 +2,21 @@
 import Link from 'next/link';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-muted text-muted-foreground mt-auto">
-      <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between py-6 px-4">
-        <div className="text-sm mb-4 sm:mb-0 text-center sm:text-left">
+      <div className="container mx-auto flex flex-col items-center justify-between py-6 px-4 gap-4 sm:flex-row">
+        <div className="text-sm text-center sm:text-left">
             <p>&copy; {currentYear} RB Digital Design. All Rights Reserved.</p>
+            <div className="flex gap-2 justify-center sm:justify-start mt-1">
+                <Link href="/privacy-policy" className="text-xs hover:underline">Privacy Policy</Link>
+                <Separator orientation="vertical" className="h-4" />
+                <Link href="/terms-of-service" className="text-xs hover:underline">Terms of Service</Link>
+            </div>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="ghost" size="icon" asChild>
