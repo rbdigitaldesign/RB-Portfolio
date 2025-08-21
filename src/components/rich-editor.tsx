@@ -49,109 +49,79 @@ export default function RichEditor({ initialHtml = '', onChange }: Props) {
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap gap-1 rounded-md bg-muted/70 p-1">
-        <button
-          type="button"
-          title="Bold (⌘/Ctrl+B)"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-          data-active={editor.isActive('bold')}
-        >
-          Bold
-        </button>
-
-        <button
-          type="button"
-          title="Italic (⌘/Ctrl+I)"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-          data-active={editor.isActive('italic')}
-        >
-          Italic
-        </button>
-
-        <button
-          type="button"
-          title="Bulleted list"
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-          data-active={editor.isActive('bulletList')}
-        >
-          • List
-        </button>
-
-        <button
-          type="button"
-          title="Numbered list"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-          data-active={editor.isActive('orderedList')}
-        >
-          1. List
-        </button>
-
-        <button
-          type="button"
-          title="Quote"
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-          data-active={editor.isActive('blockquote')}
-        >
-          Quote
-        </button>
-
-        <button
-          type="button"
-          title="Code"
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-          data-active={editor.isActive('codeBlock')}
-        >
-          Code
-        </button>
-
-        <button
-          type="button"
-          title="Link (⌘/Ctrl+K)"
-          onClick={() => {
-            const url = window.prompt('Enter URL');
-            if (!url) return;
-            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-          }}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          Link
-        </button>
-
-        <button
-          type="button"
-          title="Unlink"
-          onClick={() => editor.chain().focus().unsetLink().run()}
-          disabled={!editor.isActive('link')}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
-        >
-          Unlink
-        </button>
-
-        <button
-          type="button"
-          title="Undo (⌘/Ctrl+Z)"
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!canUndo}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
-        >
-          Undo
-        </button>
-
-        <button
-          type="button"
-          title="Redo (⌘/Ctrl+Shift+Z)"
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!canRedo}
-          className="px-3 py-1 text-xs rounded-md border bg-background hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
-        >
-          Redo
-        </button>
+      <div
+        role="toolbar"
+        aria-label="Formatting"
+        className="mb-2 inline-flex flex-wrap gap-1 rounded-md border bg-background px-1 py-1 shadow-sm"
+      >
+        {[
+          {
+            label: 'B',
+            title: 'Bold (⌘/Ctrl+B)',
+            active: editor.isActive('bold'),
+            onClick: () => editor.chain().focus().toggleBold().run(),
+          },
+          {
+            label: 'I',
+            title: 'Italic (⌘/Ctrl+I)',
+            active: editor.isActive('italic'),
+            onClick: () => editor.chain().focus().toggleItalic().run(),
+          },
+          {
+            label: 'H2',
+            title: 'Heading 2',
+            active: editor.isActive('heading', { level: 2 }),
+            onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+          },
+          {
+            label: '•',
+            title: 'Bulleted list',
+            active: editor.isActive('bulletList'),
+            onClick: () => editor.chain().focus().toggleBulletList().run(),
+          },
+          {
+            label: '1.',
+            title: 'Numbered list',
+            active: editor.isActive('orderedList'),
+            onClick: () => editor.chain().focus().toggleOrderedList().run(),
+          },
+          {
+            label: '<>',
+            title: 'Code block',
+            active: editor.isActive('codeBlock'),
+            onClick: () => editor.chain().focus().toggleCodeBlock().run(),
+          },
+          {
+            label: '🔗',
+            title: 'Link (⌘/Ctrl+K)',
+            active: editor.isActive('link'),
+            onClick: () => {
+              const url = window.prompt('Enter URL');
+              if (url) editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+            },
+          },
+          {
+            label: '⌫',
+            title: 'Unlink',
+            active: false,
+            onClick: () => editor.chain().focus().unsetLink().run(),
+          },
+        ].map((b, i) => (
+          <button
+            key={i}
+            type="button"
+            title={b.title}
+            onClick={b.onClick}
+            className={[
+              'min-w-8 rounded-md border px-2 py-1 text-xs leading-none',
+              'hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              b.active ? 'bg-primary/10 text-primary' : 'bg-background'
+            ].join(' ')}
+            aria-pressed={b.active || false}
+          >
+            {b.label}
+          </button>
+        ))}
       </div>
 
       <div className="rounded-md border bg-background p-3">

@@ -30,7 +30,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { sanitizeHtml } from '@/lib/sanitize';
+import { markdownToSafeHtml } from '@/lib/markdown';
 
 
 const formSchemaBase = z.object({
@@ -114,7 +114,7 @@ export default function EditPostPage({ params }: { params: Promise<{ slug: strin
     if (!post) return '';
     return post.contentHtml && post.contentHtml.trim().length > 0
       ? post.contentHtml
-      : (post.content ? sanitizeHtml(marked.parse(post.content) as string) : '');
+      : markdownToSafeHtml(post.content || '');
   }, [post]);
 
 

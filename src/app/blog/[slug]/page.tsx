@@ -15,19 +15,16 @@ import { useEffect, useState, use } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
-import { marked } from 'marked';
-import { sanitizeHtml } from '@/lib/sanitize';
+import { markdownToSafeHtml } from '@/lib/markdown';
 
 function renderPostHtml(post: Post | null) {
   if (!post) return { __html: '' };
 
   const html = post.contentHtml?.trim()
     ? post.contentHtml
-    : (post.content ? (marked.parse(post.content) as string) : '');
+    : markdownToSafeHtml(post.content || '');
 
-  const safeHtml = sanitizeHtml(html || '');
-  
-  return { __html: safeHtml };
+  return { __html: html };
 }
 
 
