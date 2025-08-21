@@ -11,22 +11,11 @@ import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
-import { mdToSafeHtml } from '@/lib/markdown';
-
-
-function renderPostHtml(post: Post | null) {
-  if (!post) return { __html: '' };
-
-  const html = post.contentHtml?.trim()
-    ? post.contentHtml
-    : mdToSafeHtml(post.content || '');
-
-  return { __html: html };
-}
+import { mdToSafeHtml } from '@/lib/md';
 
 
 export default function BlogPostPage() {
@@ -74,7 +63,12 @@ export default function BlogPostPage() {
   }
 
   const isSpecialPost = post.slug === 'simple-truths-we-often-overlook-in-learning-design';
-  const html = post.contentHtml?.trim() ? post.contentHtml : mdToSafeHtml(post.content ?? '');
+  
+  const html = post.contentHtml?.trim()
+    ? post.contentHtml
+    : post.content
+    ? mdToSafeHtml(post.content)
+    : '';
 
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">

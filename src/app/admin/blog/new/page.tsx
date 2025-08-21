@@ -31,8 +31,7 @@ import {
 const formSchemaBase = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
-  content: z.string().optional().transform(v => v ?? ''),
-  contentHtml: z.string().optional().transform(v => v ?? ''),
+  contentHtml: z.string().min(1, 'Content is required.'),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -41,9 +40,6 @@ const formSchemaBase = z.object({
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
-}).refine(d => (d.content?.trim() || d.contentHtml?.trim()), { 
-    message: 'Post content is required.', 
-    path: ['contentHtml'] 
 });
 
 const formSchema = formSchemaBase.refine(data => {
@@ -76,7 +72,6 @@ export default function NewPostPage() {
       publishedDate: new Date(),
       coverImageType: 'url',
       coverImageUrl: '',
-      content: '',
       contentHtml: ''
     },
   });
@@ -89,8 +84,7 @@ export default function NewPostPage() {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('summary', data.summary);
-    formData.append('content', data.content ?? '');
-    formData.append('contentHtml', data.contentHtml ?? '');
+    formData.append('contentHtml', data.contentHtml);
     if (data.tags) formData.append('tags', data.tags);
     if (data.publishedDate) formData.append('publishedDate', data.publishedDate.toISOString());
     formData.append('coverImageType', data.coverImageType);
@@ -310,32 +304,6 @@ export default function NewPostPage() {
                     )}
                   />
               )}
-
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>
-                    <span className="flex items-center gap-2 text-sm text-muted-foreground"><Code className="h-4 w-4" /> Advanced: Edit raw Markdown</span>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <FormField
-                      control={form.control}
-                      name="content"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Markdown Content</FormLabel>
-                          <FormControl>
-                              <Textarea placeholder="Legacy markdown content." className="min-h-[200px] font-mono text-xs" {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            For compatibility with old posts. New posts should use the rich editor above.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
 
               <div className="flex gap-4">
                 <Button type="submit" disabled={isLoading}>

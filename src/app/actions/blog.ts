@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
 import { sanitizeHtml } from '@/lib/sanitize';
+import { mdToHtmlSafe } from '@/lib/md';
 
 // --- helpers -----------------------------------------------------------------
 
@@ -39,31 +40,32 @@ const postsCol = () => {
 
 // --- validation schemas ------------------------------------------------------
 
-const addPostSchemaBase = z.object({
-  title: z.string().min(1, 'Title is required'),
-  summary: z.string().min(1, 'Summary is required'),
-  content: z.string().optional().transform(v => v ?? ''),
-  contentHtml: z.string().optional().transform(v => v ?? ''),
+const addPostSchema = z.object({
+  title: z.string().min(3),
+  summary: z.string().min(3),
+  contentHtml: z.string().min(1, 'Content is required.'),
   tags: tagsSchema,
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
 });
 
-const addPostSchema = addPostSchemaBase.refine(
-  (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
-  { message: 'Post content is required.', path: ['contentHtml'] }
-);
 
-const updatePostSchemaBase = addPostSchemaBase.extend({
-  originalSlug: z.string(),
+const updatePostSchema = z.object({
   postId: z.string(),
+  originalSlug: z.string(),
+  title: z.string().min(3),
+  summary: z.string().min(3),
+  contentHtml: z.string().optional(),
+  content: z.string().optional().nullable(), // legacy
+  tags: tagsSchema,
+  publishedDate: z.string().datetime('Invalid date format').optional(),
+  coverImageType: z.enum(['url', 'upload']),
+  coverImageUrl: z.string().optional(),
+}).refine(d => (d.contentHtml && d.contentHtml.trim().length > 0) || (d.content && d.content.trim().length > 0), {
+  message: 'Content required (HTML or legacy Markdown).',
+  path: ['contentHtml'],
 });
-
-const updatePostSchema = updatePostSchemaBase.refine(
-  (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
-  { message: 'Post content is required.', path: ['contentHtml'] }
-);
 
 
 // --- reads -------------------------------------------------------------------
@@ -95,7 +97,6 @@ export async function addPost(formData: FormData) {
   const raw = {
     title: formData.get('title'),
     summary: formData.get('summary'),
-    content: formData.get('content'),
     contentHtml: formData.get('contentHtml'),
     tags: formData.get('tags'),
     publishedDate: formData.get('publishedDate'),
@@ -107,7 +108,6 @@ export async function addPost(formData: FormData) {
   const parsed = addPostSchema.safeParse({
     title: raw.title,
     summary: raw.summary,
-    content: raw.content,
     contentHtml: raw.contentHtml,
     tags: raw.tags,
     publishedDate: raw.publishedDate,
@@ -122,7 +122,7 @@ export async function addPost(formData: FormData) {
     };
   }
 
-  const { title, summary, content, contentHtml, coverImageType, coverImageUrl, publishedDate } = parsed.data;
+  const { title, summary, contentHtml, coverImageType, coverImageUrl, publishedDate } = parsed.data;
   
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
@@ -167,7 +167,6 @@ export async function addPost(formData: FormData) {
       publishedDate: publishedDate || new Date().toISOString(),
       tags: tagsArray,
       coverImage: finalCoverImageUrl,
-      content: content ?? '',
       contentHtml: sanitizeHtml(contentHtml ?? ''),
     };
     
@@ -216,15 +215,15 @@ export async function updatePost(formData: FormData) {
   }
 
   const {
+    postId,
+    originalSlug,
     title,
     summary,
     content,
     contentHtml,
     coverImageType,
     coverImageUrl,
-    originalSlug,
     publishedDate,
-    postId,
   } = parsed.data;
 
   const newSlug = createSlug(title);
@@ -265,6 +264,12 @@ export async function updatePost(formData: FormData) {
       }
     }
 
+    const finalHtml = contentHtml?.trim()
+      ? contentHtml
+      : content?.trim()
+      ? mdToHtmlSafe(content)
+      : '';
+
     const updated: any = {
       slug: newSlug,
       title,
@@ -275,8 +280,7 @@ export async function updatePost(formData: FormData) {
         ['General'],
       publishedDate: publishedDate || existing.publishedDate,
       coverImage: finalCoverImageUrl,
-      content: content ?? '',
-      contentHtml: sanitizeHtml(contentHtml ?? ''),
+      contentHtml: sanitizeHtml(finalHtml),
     };
 
     await postRef.update(updated);
