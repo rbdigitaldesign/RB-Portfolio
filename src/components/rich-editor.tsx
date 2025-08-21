@@ -10,6 +10,7 @@ import { Image as TipTapImage } from '@tiptap/extension-image';
 import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2, Image as ImageIcon } from 'lucide-react';
 import DOMPurify from 'isomorphic-dompurify';
 import he from 'he';
+import { NodeSelection } from 'prosemirror-state';
 
 
 const TOOLBTN =
@@ -39,41 +40,41 @@ const IMAGE_BASE = 'mx-auto my-4 h-auto rounded-md';
 const SIZE_PRESETS = { sm: 'max-w-md', md: 'max-w-xl', full: 'w-full' } as const;
 const ALIGN_PRESETS = { left: 'float-left mr-4', center: 'mx-auto', right: 'float-right ml-4' } as const;
 
-const imageExt = TipTapImage.configure({
+const imageExt = TipTapImage.extend({
+    selectable: true,
+}).configure({
   inline: false,
   HTMLAttributes: {
     class: `${IMAGE_BASE} ${SIZE_PRESETS.md} ${ALIGN_PRESETS.center}`,
     loading: 'lazy',
     referrerpolicy: 'no-referrer',
-    rel: 'noreferrer',
   },
 });
 
 function updateImageAttrs(editor: any, attrs: Record<string, any>) {
   if (!editor) return;
 
-  const { state } = editor;
-  const { from, to } = state.selection;
-
-  let imgPos: number | null = null;
-
-  state.doc.nodesBetween(from, to, (node: any, pos: number) => {
-    if (node.type?.name === 'image') {
-      imgPos = pos;
-      return false;
-    }
-  });
-
-  if (imgPos == null && editor.isActive('image')) {
+  if (editor.isActive('image')) {
     editor.chain().focus().updateAttributes('image', attrs).run();
     return;
   }
 
-  if (imgPos != null) {
+  const { state } = editor;
+  const { from, to } = state.selection;
+  let pos: number | null = null;
+
+  state.doc.nodesBetween(from, to, (node: any, p: number) => {
+    if (node.type?.name === 'image') {
+      pos = p;
+      return false;
+    }
+  });
+
+  if (pos != null) {
     editor
       .chain()
       .focus()
-      .setNodeSelection(imgPos)
+      .setNodeSelection(pos)
       .updateAttributes('image', attrs)
       .run();
   }
@@ -119,6 +120,15 @@ export default function RichEditor({
       onChange?.(editor.getHTML());
     },
     editorProps: {
+      handleClickOn(view, pos, node, nodePos, event, direct) {
+        if (node.type?.name === 'image') {
+          const tr = view.state.tr.setSelection(NodeSelection.create(view.state.doc, nodePos));
+          view.dispatch(tr);
+          view.focus();
+          return true; // prevent default
+        }
+        return false;
+      },
       attributes: {
         class: 'prose dark:prose-invert max-w-none min-h-[240px] focus:outline-none',
       },
@@ -266,8 +276,13 @@ export default function RichEditor({
        {editor && (
         <BubbleMenu
           editor={editor}
-          shouldShow={({ editor }) => editor.isActive('image')}
-          tippyOptions={{ placement: 'top', offset: [0, 8] }}
+          shouldShow={({ state, editor }) => {
+            const sel = state.selection;
+            // @ts-ignore
+            const isNodeSel = sel instanceof NodeSelection && sel.node?.type?.name === 'image';
+            return isNodeSel || editor.isActive('image');
+          }}
+          tippyOptions={{ placement: 'top', offset: [0, 8], zIndex: 9999 }}
         >
           <div className="flex items-center gap-2 p-2 bg-background border rounded-lg shadow-md">
             <span className="text-xs text-muted-foreground">Width</span>
@@ -310,14 +325,14 @@ export default function RichEditor({
                 setImgWidthPct(100);
                 updateImageAttrs(editor, {
                   class: buildImgClass({ size: 'md', align: 'center' }),
-                  style: '',
+                  style: 'width:100%;',
                 });
               }}
             >Reset</button>
           </div>
         </BubbleMenu>
       )}
-      <div className="min-h-[240px] px-4 pb-4 pt-2">
+      <div className="relative overflow-visible min-h-[240px] px-4 pb-4 pt-2">
         <EditorContent editor={editor} />
       </div>
     </div>
