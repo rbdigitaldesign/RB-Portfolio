@@ -1,5 +1,19 @@
+
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
+
+const renderer = new marked.Renderer();
+const linkRenderer = renderer.link;
+renderer.link = (href, title, text) => {
+  const html = linkRenderer.call(renderer, href, title, text);
+  // Add target="_blank" and rel="noopener noreferrer" to external links
+  if (href && (href.startsWith('http') || href.startsWith('//'))) {
+    return html.replace(/^<a /, '<a target="_blank" rel="noopener noreferrer" ');
+  }
+  // For internal links, just return the original HTML
+  return html;
+};
+
 
 // Keep HTML simple & safe
 marked.setOptions({
@@ -7,6 +21,7 @@ marked.setOptions({
   gfm: true,
   mangle: false,
   headerIds: true,
+  renderer: renderer, // Use our custom renderer
 });
 
 export function mdToHtmlSafe(md: string): string {
@@ -21,8 +36,7 @@ export function mdToHtmlSafe(md: string): string {
     ADD_ATTR: ['target','rel','class','loading','referrerpolicy', 'src', 'alt', 'title'],
   });
 
-  // Post-process: make external links safe + images responsive
+  // Post-process: make images responsive
   return clean
-    .replaceAll('<a ', '<a target="_blank" rel="noopener noreferrer" ')
     .replaceAll('<img ', '<img loading="lazy" class="blog-img" ');
 }
