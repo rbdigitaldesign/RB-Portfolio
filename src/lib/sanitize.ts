@@ -8,6 +8,9 @@ export function sanitizeHtml(html: string): string {
       // only allow width property
       if (!/^width:\s*\d+(\.\d+)?%$/.test(data.attrValue)) {
         data.keepAttr = false;
+      } else {
+        // Keep the style if it matches
+        return;
       }
     }
   });
@@ -19,3 +22,5 @@ export function sanitizeHtml(html: string): string {
     ],
   });
 }
+
+    
