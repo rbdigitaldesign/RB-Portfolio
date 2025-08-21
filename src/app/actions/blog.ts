@@ -7,41 +7,9 @@ import { adminDb, adminStorage } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import type { Post } from '@/lib/types';
-import sanitizeHtml from 'sanitize-html';
-import { marked } from 'marked';
-
+import { sanitizeHtml } from '@/lib/sanitize';
 
 // --- helpers -----------------------------------------------------------------
-
-const sanitise = (html: string) =>
-  sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'figure', 'figcaption', 'code', 'pre', 'iframe', 'video']),
-    allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes,
-      img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
-      a: ['href', 'name', 'target', 'rel'],
-      code: ['class'],
-      iframe: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'title'],
-      video: ['src', 'width', 'height', 'controls']
-    },
-    // ensure links are safe
-    transformTags: {
-      a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer nofollow' }),
-    },
-  });
-
-const toHtml = (markdown: string) => sanitise(marked.parse(markdown || '') as string);
-
-
-// Firestore collection (server/Admin SDK). Fail softly and report later.
-const postsCol = () => {
-  try {
-    return adminDb.collection('posts');
-  } catch (e) {
-    console.error('Failed to get Firestore collection:', e);
-    return null;
-  }
-};
 
 const createSlug = (title: string) =>
   title
@@ -58,6 +26,19 @@ const tagsSchema = z
   )
   .optional();
 
+// Firestore collection (server/Admin SDK). Fail softly and report later.
+const postsCol = () => {
+  try {
+    return adminDb.collection('posts');
+  } catch (e) {
+    console.error('Failed to get Firestore collection:', e);
+    return null;
+  }
+};
+
+
+// --- validation schemas ------------------------------------------------------
+
 const addPostSchemaBase = z.object({
   title: z.string().min(1, 'Title is required'),
   summary: z.string().min(1, 'Summary is required'),
@@ -70,6 +51,16 @@ const addPostSchemaBase = z.object({
 });
 
 const addPostSchema = addPostSchemaBase.refine(
+  (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
+  { message: 'Post content is required.', path: ['contentHtml'] }
+);
+
+const updatePostSchemaBase = addPostSchemaBase.extend({
+  originalSlug: z.string(),
+  postId: z.string(),
+});
+
+const updatePostSchema = updatePostSchemaBase.refine(
   (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
   { message: 'Post content is required.', path: ['contentHtml'] }
 );
@@ -97,7 +88,6 @@ export async function getPost(slug: string): Promise<Post | null> {
 
 export async function addPost(formData: FormData) {
   const col = postsCol();
-  // ⬅️ Firestore is the only hard requirement up-front
   if (!col) {
     return { success: false, error: 'Database service is not available.' };
   }
@@ -142,7 +132,6 @@ export async function addPost(formData: FormData) {
   if (tagsArray.length === 0) tagsArray.push('General');
 
   try {
-    // unique slug check
     const dup = await adminDb.collection('posts').where('slug', '==', slug).limit(1).get();
     if (!dup.empty) {
       return {
@@ -151,7 +140,6 @@ export async function addPost(formData: FormData) {
       };
     }
 
-    // Only require Storage when actually uploading
     if (coverImageType === 'url' && coverImageUrl) {
       finalCoverImageUrl = coverImageUrl;
     } else if (coverImageType === 'upload') {
@@ -180,7 +168,7 @@ export async function addPost(formData: FormData) {
       tags: tagsArray,
       coverImage: finalCoverImageUrl,
       content: content ?? '',
-      contentHtml: sanitise(contentHtml ?? ''),
+      contentHtml: sanitizeHtml(contentHtml ?? ''),
     };
     
     const docRef = await col.add(newPostData);
@@ -198,16 +186,6 @@ export async function addPost(formData: FormData) {
 }
 
 // --- update ------------------------------------------------------------------
-
-const updatePostSchemaBase = addPostSchemaBase.extend({
-  originalSlug: z.string(),
-  postId: z.string(),
-});
-
-const updatePostSchema = updatePostSchemaBase.refine(
-  (data) => (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim()),
-  { message: 'Post content is required.', path: ['contentHtml'] }
-);
 
 export async function updatePost(formData: FormData) {
   const col = postsCol();
@@ -298,7 +276,7 @@ export async function updatePost(formData: FormData) {
       publishedDate: publishedDate || existing.publishedDate,
       coverImage: finalCoverImageUrl,
       content: content ?? '',
-      contentHtml: sanitise(contentHtml ?? ''),
+      contentHtml: sanitizeHtml(contentHtml ?? ''),
     };
 
     await postRef.update(updated);

@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
@@ -61,12 +62,14 @@ const formSchema = formSchemaBase.refine(data => {
     path: ['contentHtml'],
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 export default function NewPostPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
@@ -82,11 +85,22 @@ export default function NewPostPage() {
 
   const coverImageType = form.watch('coverImageType');
 
-  async function onSubmit(data: FormData) {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsLoading(true);
+
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'coverImageFile' && value instanceof File) {
+        formData.append(key, value);
+      } else if (key === 'publishedDate' && value instanceof Date) {
+        formData.append(key, value.toISOString());
+      } else if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    });
     
     try {
-      const result = await addPost(data);
+      const result = await addPost(formData);
       if (result.success) {
         toast({
           title: 'Post Published!',
@@ -121,7 +135,7 @@ export default function NewPostPage() {
       <Card>
         <CardContent className="pt-6">
           <Form {...form}>
-            <form action={onSubmit} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="title"
@@ -173,7 +187,6 @@ export default function NewPostPage() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <input type="hidden" name="publishedDate" value={field.value?.toISOString()} />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -208,8 +221,6 @@ export default function NewPostPage() {
                   </FormItem>
                 )}
               />
-              <input type="hidden" name="contentHtml" value={form.watch('contentHtml') ?? ''} />
-              <input type="hidden" name="content" value={form.watch('content') ?? ''} />
 
               <FormField
                 control={form.control}
@@ -239,7 +250,6 @@ export default function NewPostPage() {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                         className="flex flex-col space-y-1"
-                        name="coverImageType"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>

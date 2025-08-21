@@ -16,7 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
 import { marked } from 'marked';
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 function renderPostHtml(post: Post | null) {
   if (!post) return { __html: '' };
@@ -25,10 +25,7 @@ function renderPostHtml(post: Post | null) {
     ? post.contentHtml
     : (post.content ? (marked.parse(post.content) as string) : '');
 
-  const safeHtml = DOMPurify.sanitize(html || '', {
-    ADD_TAGS: ['iframe', 'video'], 
-    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] 
-  });
+  const safeHtml = sanitizeHtml(html || '');
   
   return { __html: safeHtml };
 }

@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
@@ -29,7 +30,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 
 const formSchemaBase = z.object({
@@ -60,6 +61,7 @@ const formSchema = formSchemaBase.refine(data => {
     path: ['contentHtml'], // Point error to the main content area
 });
 
+type FormValues = z.infer<typeof formSchema>;
 
 export default function EditPostPage({ params }: { params: { slug: string } }) {
   const router = useRouter();
@@ -68,7 +70,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   const [post, setPost] = useState<Post | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
@@ -111,15 +113,29 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     if (!post) return '';
     return post.contentHtml && post.contentHtml.trim().length > 0
       ? post.contentHtml
-      : (post.content ? DOMPurify.sanitize(marked.parse(post.content) as string) : '');
+      : (post.content ? sanitizeHtml(marked.parse(post.content) as string) : '');
   }, [post]);
 
 
   const coverImageType = form.watch('coverImageType');
 
-  async function onSubmit(formData: FormData) {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!post || !post.id) return;
     setIsLoading(true);
+
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'coverImageFile' && value instanceof File) {
+        formData.append(key, value);
+      } else if (key === 'publishedDate' && value instanceof Date) {
+        formData.append(key, value.toISOString());
+      } else if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    });
+
+    formData.append('postId', post.id);
+    formData.append('originalSlug', post.slug);
 
     try {
         const result = await updatePost(formData);
@@ -175,10 +191,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       <Card>
         <CardContent className="pt-6">
           <Form {...form}>
-            <form action={onSubmit} className="space-y-8">
-              <input type="hidden" name="postId" value={post.id} />
-              <input type="hidden" name="originalSlug" value={post.slug} />
-
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="title"
@@ -230,7 +243,6 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                         />
                       </PopoverContent>
                     </Popover>
-                    <input type="hidden" name="publishedDate" value={field.value?.toISOString()} />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -265,8 +277,6 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                   </FormItem>
                 )}
               />
-              <input type="hidden" name="contentHtml" value={form.watch('contentHtml') ?? ''} />
-              <input type="hidden" name="content" value={form.watch('content') ?? ''} />
               
                <FormField
                 control={form.control}
@@ -303,7 +313,6 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
                             }}
                             defaultValue={field.value}
                             className="flex flex-col space-y-1"
-                            name="coverImageType"
                         >
                             <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
