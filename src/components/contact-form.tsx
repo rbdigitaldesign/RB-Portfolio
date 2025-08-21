@@ -59,10 +59,8 @@ export function ContactForm() {
   })
 
   const handleRecaptchaReady = useCallback(() => {
-    if (window.grecaptcha?.enterprise) {
-        window.grecaptcha.enterprise.ready(() => {
-            setIsRecaptchaReady(true);
-        });
+    if (window.grecaptcha?.ready) {
+      window.grecaptcha.ready(() => setIsRecaptchaReady(true));
     }
   }, []);
 
@@ -80,7 +78,7 @@ export function ContactForm() {
     }
 
     try {
-        const token = await window.grecaptcha.enterprise.execute(siteKey, { action: 'submit' });
+        const token = await window.grecaptcha.execute(siteKey, { action: 'submit' });
 
         const formData = new FormData();
         formData.append('name', values.name);
@@ -114,7 +112,7 @@ export function ContactForm() {
   return (
     <>
     <Script
-        src={`https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`}
+        src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
         onLoad={handleRecaptchaReady}
         async
         defer
@@ -175,6 +173,13 @@ export function ContactForm() {
                 </Button>
             </form>
             </Form>
+             <p className="mt-4 text-xs text-center text-muted-foreground">
+              This site is protected by reCAPTCHA and the Google{" "}
+              <a className="underline" href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>{" "}
+              and{" "}
+              <a className="underline" href="https://policies.google.com/terms" target="_blank" rel="noreferrer">Terms of Service</a>{" "}
+              apply.
+            </p>
         </CardContent>
     </Card>
     </>

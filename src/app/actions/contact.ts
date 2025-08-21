@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -18,21 +19,32 @@ async function verifyRecaptcha(token: string) {
     console.error('reCAPTCHA secret key is not set.');
     // In a real app, you might want to fail open or closed depending on your security posture.
     // For this example, we'll fail open in dev but could fail closed in prod.
-    return { success: process.env.NODE_ENV !== 'production' };
+    return { success: process.env.NODE_ENV !== 'production', score: 0 };
   }
 
-  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify`;
+  const params = new URLSearchParams();
+  params.set('secret', secretKey);
+  params.set('response', token);
 
   try {
-    const response = await fetch(verificationUrl, { method: 'POST' });
+    const response = await fetch(verificationUrl, { 
+        method: 'POST',
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+        cache: 'no-store',
+    });
     const data = await response.json();
     
-    // For v3, success just means the token was valid. We also need to check the score.
-    // A score of 0.5 is a common threshold.
-    return data.success && data.score >= 0.5;
+    return { 
+        success: data.success, 
+        score: data.score,
+        action: data.action,
+        errorCodes: data['error-codes']
+    };
   } catch (error) {
     console.error('Error verifying reCAPTCHA:', error);
-    return false;
+    return { success: false, score: 0 };
   }
 }
 
@@ -56,13 +68,16 @@ export async function sendContactMessage(formData: FormData) {
   
   const { name, email, message, recaptchaToken } = parsed.data;
 
-  const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
-  if (!isRecaptchaValid) {
+  const recaptchaResult = await verifyRecaptcha(recaptchaToken);
+  
+  if (!recaptchaResult.success || (recaptchaResult.score ?? 0) < 0.5 || recaptchaResult.action !== 'submit') {
+    console.error('reCAPTCHA verification failed', recaptchaResult);
     return {
       success: false,
       error: 'Failed to verify reCAPTCHA. Please try again.',
     };
   }
+
 
   const to = 'rbdigitaldesign11@gmail.com';
   const subject = `New message from ${name} via your portfolio`;
