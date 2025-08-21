@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { mdToHtmlSafe } from '@/lib/md';
 import DOMPurify from 'isomorphic-dompurify';
 import { marked } from 'marked';
+import he from 'he';
 
 
 export default function BlogPostPage() {
@@ -70,8 +71,10 @@ export default function BlogPostPage() {
     (post.contentHtml && post.contentHtml.trim())
       ? post.contentHtml
       : (post.content ? marked.parse(post.content) as string : '');
+  
+  const decoded = he.decode(rawHtml);
 
-  const cleanHtml = DOMPurify.sanitize(rawHtml, {
+  const cleanHtml = DOMPurify.sanitize(decoded, {
     ALLOWED_TAGS: [
       'p','br','strong','em','u','s','ul','ol','li','blockquote','pre','code',
       'a','h2','h3','h4','hr','img','figure','figcaption'

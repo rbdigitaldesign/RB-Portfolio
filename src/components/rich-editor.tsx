@@ -6,6 +6,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
 import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2, Image as ImageIcon } from 'lucide-react';
 import DOMPurify from 'isomorphic-dompurify';
 
@@ -52,6 +53,14 @@ export default function RichEditor({
         protocols: ['http', 'https', 'mailto'],
         HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' },
       }),
+      Image.configure({
+        allowBase64: false,
+        HTMLAttributes: { 
+          loading: 'lazy', 
+          referrerpolicy: 'no-referrer', 
+          class: 'mx-auto my-4 max-w-full h-auto rounded-md' 
+        },
+      }),
     ],
     content: initialHtml,
     onUpdate: ({ editor }) => {
@@ -79,9 +88,7 @@ export default function RichEditor({
           const direct = isDirectImageUrl(text) ? text : toDirectImgur(text);
           if (direct) {
             event.preventDefault();
-            const html = `<img src="${direct}" alt="" loading="lazy" referrerpolicy="no-referrer" class="mx-auto my-4 max-w-full h-auto rounded-md" />`;
-            const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: ['img'], ALLOWED_ATTR: ['src','alt','loading','referrerpolicy','class'] });
-            editor?.commands.insertContent(clean);
+            editor?.chain().focus().setImage({ src: direct, alt: '' }).run();
             return true;
           }
         }
@@ -134,9 +141,7 @@ export default function RichEditor({
         alert('Please provide a direct image URL or a valid Imgur link (e.g. imgur.com/xxxx).');
         return;
     }
-    const html = `<img src="${src}" alt="" loading="lazy" referrerpolicy="no-referrer" class="mx-auto my-4 max-w-full h-auto rounded-md" />`;
-    const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: ['img'], ALLOWED_ATTR: ['src','alt','loading','referrerpolicy','class'] });
-    editor.chain().focus().insertContent(clean).run();
+    editor.chain().focus().setImage({ src: src, alt: '' }).run();
   };
 
   return (

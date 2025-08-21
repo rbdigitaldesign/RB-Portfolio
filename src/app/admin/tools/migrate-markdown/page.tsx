@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export default function MigrateMarkdownPage() {
   const [pending, start] = useTransition();
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{ migrated: number } | null>(null);
 
   return (
     <div className="container max-w-xl py-12">
