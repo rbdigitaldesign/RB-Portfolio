@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect } from 'react';
@@ -5,7 +6,8 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
-import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2 } from 'lucide-react';
+import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2, Image as ImageIcon } from 'lucide-react';
+import DOMPurify from 'isomorphic-dompurify';
 
 const TOOLBTN =
   "inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background text-foreground " +
@@ -13,6 +15,22 @@ const TOOLBTN =
   "transition-colors disabled:opacity-50 disabled:pointer-events-none " +
   "[aria-pressed=true]:bg-muted [aria-pressed=true]:text-foreground";
 
+function toDirectImgur(urlStr: string): string | null {
+  try {
+    const u = new URL(urlStr);
+    if (u.hostname === 'i.imgur.com') return urlStr;
+    if (u.hostname === 'imgur.com' || u.hostname === 'www.imgur.com') {
+      const id = u.pathname.split('/').filter(Boolean).pop();
+      if (!id) return null;
+      return `https://i.imgur.com/${id}.jpg`;
+    }
+  } catch {}
+  return null;
+}
+
+function isDirectImageUrl(urlStr: string): boolean {
+  return /\.(png|jpe?g|gif|webp)$/i.test(urlStr);
+}
 
 export default function RichEditor({
   initialHtml = '',
@@ -39,7 +57,7 @@ export default function RichEditor({
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
-     editorProps: {
+    editorProps: {
       attributes: {
         class: 'prose dark:prose-invert max-w-none min-h-[240px] focus:outline-none',
       },
@@ -48,11 +66,40 @@ export default function RichEditor({
         if (mod && event.key.toLowerCase() === 'k') {
           event.preventDefault();
           const href = window.prompt('Enter URL', editor?.getAttributes('link')?.href ?? '');
-          if (href) { // Note: an empty prompt returns "", which is falsy; cancel returns null.
+          if (href) {
             editor?.chain().focus().extendMarkRange('link').setLink({ href }).run();
           }
           return true;
         }
+        return false;
+      },
+      handlePaste(view, event, slice) {
+        const text = event.clipboardData?.getData('text/plain')?.trim();
+        if (text && /^https?:\/\//i.test(text)) {
+          const direct = isDirectImageUrl(text) ? text : toDirectImgur(text);
+          if (direct) {
+            event.preventDefault();
+            const html = `<img src="${direct}" alt="" loading="lazy" referrerpolicy="no-referrer" class="mx-auto my-4 max-w-full h-auto rounded-md" />`;
+            const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: ['img'], ALLOWED_ATTR: ['src','alt','loading','referrerpolicy','class'] });
+            editor?.commands.insertContent(clean);
+            return true;
+          }
+        }
+        
+        const html = event.clipboardData?.getData('text/html');
+        if (html) {
+            event.preventDefault();
+            const clean = DOMPurify.sanitize(html, {
+                USE_PROFILES: { html: true },
+                ALLOWED_TAGS: ['p','br','strong','em','u','s','ul','ol','li','blockquote','code','pre','a','img','figure','figcaption','iframe','h2','h3','h4'],
+                ALLOWED_ATTR: ['href','title','target','rel','src','alt','width','height','loading','referrerpolicy','class','allow','allowfullscreen'],
+            });
+            if (clean) {
+                editor?.commands.insertContent(clean);
+                return true;
+            }
+        }
+
         return false;
       }
     }
@@ -60,7 +107,6 @@ export default function RichEditor({
 
    useEffect(() => {
     if (!editor) return;
-    // Don't reset content if it's the same, to avoid cursor jumps
     if (editor.getHTML() !== initialHtml) {
         editor.commands.setContent(initialHtml || '', false);
     }
@@ -70,6 +116,28 @@ export default function RichEditor({
 
   const canUndo = !!editor.can().undo?.();
   const canRedo = !!editor.can().redo?.();
+  
+  const handleImageInsert = () => {
+    const imgUrl = window.prompt('Enter image URL (including Imgur links)');
+    if (!imgUrl) return;
+
+    const input = imgUrl.trim();
+    let src = '';
+    if (isDirectImageUrl(input)) {
+        src = input;
+    } else {
+        const direct = toDirectImgur(input);
+        if (direct) src = direct;
+    }
+
+    if (!src) {
+        alert('Please provide a direct image URL or a valid Imgur link (e.g. imgur.com/xxxx).');
+        return;
+    }
+    const html = `<img src="${src}" alt="" loading="lazy" referrerpolicy="no-referrer" class="mx-auto my-4 max-w-full h-auto rounded-md" />`;
+    const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: ['img'], ALLOWED_ATTR: ['src','alt','loading','referrerpolicy','class'] });
+    editor.chain().focus().insertContent(clean).run();
+  };
 
   return (
     <div className="rounded-xl border bg-background shadow-sm">
@@ -99,6 +167,9 @@ export default function RichEditor({
         <button type="button" aria-label="Code" aria-pressed={editor?.isActive('codeBlock') ?? false} className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().toggleCodeBlock().run()}>
           <Code className="h-4 w-4" />
         </button>
+         <button type="button" aria-label="Image" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={handleImageInsert}>
+          <ImageIcon className="h-4 w-4" />
+        </button>
         <button type="button" aria-label="Link" aria-pressed={editor?.isActive('link') ?? false} className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => {
             const current = editor?.getAttributes('link')?.href ?? '';
             const href = window.prompt('Enter URL', current || 'https://');
@@ -107,7 +178,7 @@ export default function RichEditor({
           }}>
           <LinkIcon className="h-4 w-4" />
         </button>
-        <button type="button" aria-label="Unlink" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().unsetLink().run()}>
+        <button type="button" aria-label="Unlink" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}>
           <Link2Off className="h-4 w-4" />
         </button>
         <div className="ml-auto flex items-center gap-1">
