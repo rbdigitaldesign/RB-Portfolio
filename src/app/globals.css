@@ -112,3 +112,12 @@
     max-width: 150px !important; /* Use !important to override prose styles if needed */
     margin: 1rem auto;
 }
+
+.blog-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+.blog-prose p > img {
+  margin: 1rem 0;
+}

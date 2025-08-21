@@ -11,11 +11,13 @@ import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
 import { mdToHtmlSafe } from '@/lib/md';
+import DOMPurify from 'isomorphic-dompurify';
+import { marked } from 'marked';
 
 
 export default function BlogPostPage() {
@@ -64,11 +66,21 @@ export default function BlogPostPage() {
 
   const isSpecialPost = post.slug === 'simple-truths-we-often-overlook-in-learning-design';
   
-  const html = post.contentHtml?.trim()
-    ? post.contentHtml
-    : post.content
-    ? mdToHtmlSafe(post.content)
-    : '';
+  const rawHtml =
+    (post.contentHtml && post.contentHtml.trim())
+      ? post.contentHtml
+      : (post.content ? marked.parse(post.content) as string : '');
+
+  const cleanHtml = DOMPurify.sanitize(rawHtml, {
+    ALLOWED_TAGS: [
+      'p','br','strong','em','u','s','ul','ol','li','blockquote','pre','code',
+      'a','h2','h3','h4','hr','img','figure','figcaption'
+    ],
+    ALLOWED_ATTR: [
+      'href','title','target','rel',
+      'src','alt','width','height','loading','referrerpolicy','class'
+    ],
+  });
 
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
@@ -109,7 +121,7 @@ export default function BlogPostPage() {
           "prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent",
           isSpecialPost && "post-simple-truths"
         )}
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={{ __html: cleanHtml }}
       />
       
       <Separator className="my-8" />
