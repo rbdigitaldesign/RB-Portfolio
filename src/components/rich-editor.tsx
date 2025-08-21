@@ -6,40 +6,59 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
+import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-type Props = {
+
+export default function RichEditor({
+  initialHtml = '',
+  onChange,
+}: {
   initialHtml?: string;
   onChange?: (html: string) => void;
-};
-
-export default function RichEditor({ initialHtml = '', onChange }: Props) {
+}) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
+      StarterKit.configure({ 
         history: false,
+        heading: { levels: [2, 3] },
       }),
-      History.configure({
-        depth: 100,
-        newGroupDelay: 500,
-      }),
+      History.configure({ depth: 100 }),
       Link.configure({
         openOnClick: false,
-        HTMLAttributes: {
-          target: '_blank',
-          rel: 'noopener noreferrer',
-        },
+        autolink: true,
+        protocols: ['http', 'https', 'mailto'],
       }),
     ],
     content: initialHtml,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
+     editorProps: {
+      attributes: {
+        class: 'prose dark:prose-invert max-w-none min-h-[240px] focus:outline-none',
+      },
+      handleKeyDown(view, event) {
+        const mod = event.metaKey || event.ctrlKey;
+        if (mod && event.key.toLowerCase() === 'k') {
+          event.preventDefault();
+          const href = window.prompt('Enter URL', editor?.getAttributes('link')?.href ?? '');
+          if (href) { // Note: an empty prompt returns "", which is falsy; cancel returns null.
+            editor?.chain().focus().extendMarkRange('link').setLink({ href }).run();
+          }
+          return true;
+        }
+        return false;
+      }
+    }
   });
 
-  useEffect(() => {
+   useEffect(() => {
     if (!editor) return;
-    editor.commands.setContent(initialHtml || '', false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Don't reset content if it's the same, to avoid cursor jumps
+    if (editor.getHTML() !== initialHtml) {
+        editor.commands.setContent(initialHtml || '', false);
+    }
   }, [initialHtml, editor]);
 
   if (!editor) return null;
@@ -47,86 +66,88 @@ export default function RichEditor({ initialHtml = '', onChange }: Props) {
   const canUndo = !!editor.can().undo?.();
   const canRedo = !!editor.can().redo?.();
 
+  const ToolbarButton = ({
+    label,
+    onClick,
+    isActive,
+    isDisabled,
+    children,
+  }: {
+    label: string;
+    onClick: () => void;
+    isActive?: boolean;
+    isDisabled?: boolean;
+    children: React.ReactNode;
+  }) => (
+    <button
+      type="button"
+      title={label}
+      aria-label={label}
+      onClick={(e) => { e.preventDefault(); onClick(); }}
+      disabled={isDisabled}
+      className={cn(
+        "inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm",
+        "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        isActive ? "bg-muted" : "bg-background",
+        isDisabled && "opacity-50 cursor-not-allowed"
+      )}
+    >
+      {children}
+    </button>
+  );
+
   return (
-    <div className="space-y-2">
+    <div className="rounded-xl border bg-background shadow-sm">
       <div
         role="toolbar"
         aria-label="Formatting"
-        className="mb-2 inline-flex flex-wrap gap-1 rounded-md border bg-background px-1 py-1 shadow-sm"
+        className="sticky top-0 z-10 -mx-4 mb-3 flex flex-wrap items-center gap-1 rounded-t-xl border-b bg-card px-3 py-2 shadow-sm sm:mx-0"
       >
-        {[
-          {
-            label: 'B',
-            title: 'Bold (⌘/Ctrl+B)',
-            active: editor.isActive('bold'),
-            onClick: () => editor.chain().focus().toggleBold().run(),
-          },
-          {
-            label: 'I',
-            title: 'Italic (⌘/Ctrl+I)',
-            active: editor.isActive('italic'),
-            onClick: () => editor.chain().focus().toggleItalic().run(),
-          },
-          {
-            label: 'H2',
-            title: 'Heading 2',
-            active: editor.isActive('heading', { level: 2 }),
-            onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-          },
-          {
-            label: '•',
-            title: 'Bulleted list',
-            active: editor.isActive('bulletList'),
-            onClick: () => editor.chain().focus().toggleBulletList().run(),
-          },
-          {
-            label: '1.',
-            title: 'Numbered list',
-            active: editor.isActive('orderedList'),
-            onClick: () => editor.chain().focus().toggleOrderedList().run(),
-          },
-          {
-            label: '<>',
-            title: 'Code block',
-            active: editor.isActive('codeBlock'),
-            onClick: () => editor.chain().focus().toggleCodeBlock().run(),
-          },
-          {
-            label: '🔗',
-            title: 'Link (⌘/Ctrl+K)',
-            active: editor.isActive('link'),
-            onClick: () => {
-              const url = window.prompt('Enter URL');
-              if (url) editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-            },
-          },
-          {
-            label: '⌫',
-            title: 'Unlink',
-            active: false,
-            onClick: () => editor.chain().focus().unsetLink().run(),
-          },
-        ].map((b, i) => (
-          <button
-            key={i}
-            type="button"
-            title={b.title}
-            onClick={b.onClick}
-            className={[
-              'min-w-8 rounded-md border px-2 py-1 text-xs leading-none',
-              'hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-              b.active ? 'bg-primary/10 text-primary' : 'bg-background'
-            ].join(' ')}
-            aria-pressed={b.active || false}
-          >
-            {b.label}
-          </button>
-        ))}
+        <ToolbarButton label="Bold (Cmd+B)" onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')}>
+            <Bold className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton label="Italic (Cmd+I)" onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive('italic')}>
+            <Italic className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton label="Heading 2" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} isActive={editor.isActive('heading', { level: 2 })}>
+            <span className="font-bold text-xs">H2</span>
+        </ToolbarButton>
+        <ToolbarButton label="Bulleted list" onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')}>
+            <List className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton label="Numbered list" onClick={() => editor.chain().focus().toggleOrderedList().run()} isActive={editor.isActive('orderedList')}>
+            <ListOrdered className="h-4 w-4" />
+        </ToolbarButton>
+         <ToolbarButton label="Blockquote" onClick={() => editor.chain().focus().toggleBlockquote().run()} isActive={editor.isActive('blockquote')}>
+            <Quote className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton label="Code block" onClick={() => editor.chain().focus().toggleCodeBlock().run()} isActive={editor.isActive('codeBlock')}>
+            <Code className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton label="Link (Cmd+K)" onClick={() => {
+            const href = window.prompt('Enter URL', editor.getAttributes('link')?.href ?? '');
+            if (href) {
+                editor.chain().focus().extendMarkRange('link').setLink({ href }).run();
+            }
+        }} isActive={editor.isActive('link')}>
+            <LinkIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton label="Unlink" onClick={() => editor.chain().focus().unsetLink().run()} isDisabled={!editor.isActive('link')}>
+            <Link2Off className="h-4 w-4" />
+        </ToolbarButton>
+        <div className="ml-auto flex items-center gap-1">
+            <ToolbarButton label="Undo (Cmd+Z)" onClick={() => editor.chain().focus().undo().run()} isDisabled={!canUndo}>
+                <Undo className="h-4 w-4" />
+            </ToolbarButton>
+            <ToolbarButton label="Redo (Cmd+Shift+Z)" onClick={() => editor.chain().focus().redo().run()} isDisabled={!canRedo}>
+                <Redo className="h-4 w-4" />
+            </ToolbarButton>
+        </div>
       </div>
-
-      <div className="rounded-md border bg-background p-3">
-        <EditorContent editor={editor} className="prose max-w-none focus:outline-none" />
+      <div className="min-h-[240px] px-4 pb-4 pt-2">
+        <EditorContent editor={editor} />
       </div>
     </div>
   );
 }
+

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { getPost } from '@/app/actions/blog';
 import type { Post } from '@/lib/types';
@@ -11,30 +11,32 @@ import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
-import { markdownToSafeHtml } from '@/lib/markdown';
+import { mdToSafeHtml } from '@/lib/markdown';
+
 
 function renderPostHtml(post: Post | null) {
   if (!post) return { __html: '' };
 
   const html = post.contentHtml?.trim()
     ? post.contentHtml
-    : markdownToSafeHtml(post.content || '');
+    : mdToSafeHtml(post.content || '');
 
   return { __html: html };
 }
 
 
-export default function BlogPostPage({ params }: { params: Promise<{ slug:string }> }) {
-  const { slug } = use(params);
+export default function BlogPostPage() {
+  const { slug } = useParams() as { slug: string };
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getPostData() {
+      if (!slug) return;
       setIsLoading(true);
       const fetchedPost = await getPost(slug);
       if (!fetchedPost) {
@@ -72,6 +74,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug:string
   }
 
   const isSpecialPost = post.slug === 'simple-truths-we-often-overlook-in-learning-design';
+  const html = post.contentHtml?.trim() ? post.contentHtml : mdToSafeHtml(post.content ?? '');
 
   return (
     <article className="container mx-auto max-w-4xl py-16 px-4">
@@ -110,10 +113,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug:string
           "prose dark:prose-invert max-w-none mx-auto blog-content",
           "prose-headings:font-headline prose-headings:text-primary dark:prose-headings:text-primary-foreground",
           "prose-a:text-primary hover:prose-a:text-accent dark:prose-a:text-accent",
-          "prose-img:max-w-[680px] prose-img:w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-lg",
           isSpecialPost && "post-simple-truths"
         )}
-        dangerouslySetInnerHTML={renderPostHtml(post)}
+        dangerouslySetInnerHTML={{ __html: html }}
       />
       
       <Separator className="my-8" />

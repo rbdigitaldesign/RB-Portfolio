@@ -4,11 +4,10 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useRouter } from 'next/navigation';
-import { use, useEffect, useMemo, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Code } from 'lucide-react';
-import { marked } from 'marked';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -30,7 +29,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { markdownToSafeHtml } from '@/lib/markdown';
+import { mdToSafeHtml } from '@/lib/markdown';
 
 
 const formSchemaBase = z.object({
@@ -46,6 +45,9 @@ const formSchemaBase = z.object({
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
+}).refine(d => (d.content?.trim() || d.contentHtml?.trim()), { 
+    message: 'Post content is required.', 
+    path: ['contentHtml'] 
 });
 
 const formSchema = formSchemaBase.refine(data => {
@@ -54,17 +56,12 @@ const formSchema = formSchemaBase.refine(data => {
 }, {
     message: 'Please provide an image URL.',
     path: ['coverImageUrl'],
-}).refine(data => {
-    return (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim());
-}, {
-    message: 'Post content is required.',
-    path: ['contentHtml'], // Point error to the main content area
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function EditPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function EditPostPage() {
+  const { slug } = useParams() as { slug: string };
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +84,7 @@ export default function EditPostPage({ params }: { params: Promise<{ slug: strin
   
   useEffect(() => {
     async function fetchPost() {
+      if (!slug) return;
       setIsFetching(true);
       const fetchedPost = await getPost(slug);
       if (fetchedPost) {
@@ -112,9 +110,9 @@ export default function EditPostPage({ params }: { params: Promise<{ slug: strin
 
   const initialHtml = useMemo(() => {
     if (!post) return '';
-    return post.contentHtml && post.contentHtml.trim().length > 0
+    return post.contentHtml?.trim()
       ? post.contentHtml
-      : markdownToSafeHtml(post.content || '');
+      : mdToSafeHtml(post.content || '');
   }, [post]);
 
 
@@ -125,16 +123,15 @@ export default function EditPostPage({ params }: { params: Promise<{ slug: strin
     setIsLoading(true);
 
     const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === 'coverImageFile' && value instanceof File) {
-        formData.append(key, value);
-      } else if (key === 'publishedDate' && value instanceof Date) {
-        formData.append(key, value.toISOString());
-      } else if (value !== undefined && value !== null) {
-        formData.append(key, String(value));
-      }
-    });
-
+    formData.append('title', data.title);
+    formData.append('summary', data.summary);
+    formData.append('content', data.content ?? '');
+    formData.append('contentHtml', data.contentHtml ?? '');
+    if (data.tags) formData.append('tags', data.tags);
+    if (data.publishedDate) formData.append('publishedDate', data.publishedDate.toISOString());
+    formData.append('coverImageType', data.coverImageType);
+    if (data.coverImageUrl) formData.append('coverImageUrl', data.coverImageUrl);
+    if (data.coverImageFile) formData.append('coverImageFile', data.coverImageFile);
     formData.append('postId', post.id);
     formData.append('originalSlug', post.slug);
 

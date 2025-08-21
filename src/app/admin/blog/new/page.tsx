@@ -41,6 +41,9 @@ const formSchemaBase = z.object({
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
+}).refine(d => (d.content?.trim() || d.contentHtml?.trim()), { 
+    message: 'Post content is required.', 
+    path: ['contentHtml'] 
 });
 
 const formSchema = formSchemaBase.refine(data => {
@@ -55,11 +58,6 @@ const formSchema = formSchemaBase.refine(data => {
 }, {
     message: 'Please select a file to upload.',
     path: ['coverImageFile'],
-}).refine(data => {
-    return (data.contentHtml && data.contentHtml.trim()) || (data.content && data.content.trim());
-}, {
-    message: 'Post content is required.',
-    path: ['contentHtml'],
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -89,15 +87,15 @@ export default function NewPostPage() {
     setIsLoading(true);
 
     const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === 'coverImageFile' && value instanceof File) {
-        formData.append(key, value);
-      } else if (key === 'publishedDate' && value instanceof Date) {
-        formData.append(key, value.toISOString());
-      } else if (value !== undefined && value !== null) {
-        formData.append(key, String(value));
-      }
-    });
+    formData.append('title', data.title);
+    formData.append('summary', data.summary);
+    formData.append('content', data.content ?? '');
+    formData.append('contentHtml', data.contentHtml ?? '');
+    if (data.tags) formData.append('tags', data.tags);
+    if (data.publishedDate) formData.append('publishedDate', data.publishedDate.toISOString());
+    formData.append('coverImageType', data.coverImageType);
+    if (data.coverImageUrl) formData.append('coverImageUrl', data.coverImageUrl);
+    if (data.coverImageFile) formData.append('coverImageFile', data.coverImageFile);
     
     try {
       const result = await addPost(formData);
