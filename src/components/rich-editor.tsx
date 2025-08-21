@@ -92,6 +92,13 @@ function buildImgClass({
   return `${IMAGE_BASE} ${s} ${a}`;
 }
 
+function coerceWidthFromAttrs(attrs: any) {
+  if (!attrs) return 100;
+  if (attrs['data-width']) return Number(attrs['data-width']) || 100;
+  const m = /width:\s*(\d+)%/.exec(attrs.style || '');
+  return m ? Number(m[1]) : 100;
+}
+
 
 export default function RichEditor({
   initialHtml = '',
@@ -116,6 +123,7 @@ export default function RichEditor({
       imageExt,
     ],
     content: initialHtml,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
@@ -161,7 +169,7 @@ export default function RichEditor({
             const clean = DOMPurify.sanitize(html, {
                 USE_PROFILES: { html: true },
                 ALLOWED_TAGS: ['p','br','strong','em','u','s','ul','ol','li','blockquote','code','pre','a','img','figure','figcaption','iframe','h2','h3','h4'],
-                ALLOWED_ATTR: ['href','title','target','rel','src','alt','width','height','loading','referrerpolicy','class','allow','allowfullscreen'],
+                ALLOWED_ATTR: ['href','title','target','rel','src','alt','width','height','loading','referrerpolicy','class','style','data-width','allow','allowfullscreen'],
             });
             if (clean) {
                 editor?.commands.insertContent(clean);
@@ -176,14 +184,21 @@ export default function RichEditor({
   
   const [imgWidthPct, setImgWidthPct] = useState<number>(100);
 
+  // Only set content once after mount
   useEffect(() => {
+    if (!editor) return;
+    editor.commands.setContent(initialHtml || '', false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor]);
+
+
+   useEffect(() => {
     if (!editor) return;
 
     const update = () => {
       if (!editor.isActive('image')) return;
       const attrs = editor.getAttributes('image') || {};
-      const m = /width:\s*(\d+)%/.exec(attrs.style || '');
-      setImgWidthPct(m ? Number(m[1]) : 100);
+      setImgWidthPct(coerceWidthFromAttrs(attrs));
     };
 
     editor.on('selectionUpdate', update);
@@ -194,13 +209,6 @@ export default function RichEditor({
     };
   }, [editor]);
 
-
-   useEffect(() => {
-    if (!editor) return;
-    if (editor.getHTML() !== initialHtml) {
-        editor.commands.setContent(initialHtml || '', false);
-    }
-  }, [initialHtml, editor]);
 
   if (!editor) return null;
 
@@ -215,6 +223,7 @@ export default function RichEditor({
       alt: '',
       class: buildImgClass({ size: 'md', align: 'center' }),
       style: 'width:100%;',
+      'data-width': '100',
       loading: 'lazy',
       referrerpolicy: 'no-referrer',
       rel: 'noreferrer',
@@ -276,13 +285,27 @@ export default function RichEditor({
        {editor && (
         <BubbleMenu
           editor={editor}
+          tippyOptions={{
+            placement: 'top',
+            offset: [0, 8],
+            zIndex: 9999,
+            appendTo: () => document.body,
+            getReferenceClientRect: () => {
+              const { state, view } = editor;
+              const sel = state.selection as any;
+              if (sel instanceof NodeSelection) {
+                const dom = view.nodeDOM(sel.from) as HTMLElement | null;
+                return dom?.getBoundingClientRect?.() ?? null;
+              }
+              return null;
+            },
+          }}
           shouldShow={({ state, editor }) => {
             const sel = state.selection;
             // @ts-ignore
             const isNodeSel = sel instanceof NodeSelection && sel.node?.type?.name === 'image';
             return isNodeSel || editor.isActive('image');
           }}
-          tippyOptions={{ placement: 'top', offset: [0, 8], zIndex: 9999 }}
         >
           <div className="flex items-center gap-2 p-2 bg-background border rounded-lg shadow-md">
             <span className="text-xs text-muted-foreground">Width</span>
@@ -296,7 +319,7 @@ export default function RichEditor({
               onChange={(e) => {
                 const w = Number(e.target.value);
                 setImgWidthPct(w);
-                updateImageAttrs(editor, { style: `width:${w}%;` });
+                updateImageAttrs(editor, { style: `width:${w}%`, 'data-width': String(w) });
               }}
             />
             <button
@@ -325,7 +348,8 @@ export default function RichEditor({
                 setImgWidthPct(100);
                 updateImageAttrs(editor, {
                   class: buildImgClass({ size: 'md', align: 'center' }),
-                  style: 'width:100%;',
+                  style: 'width:100%',
+                  'data-width': '100',
                 });
               }}
             >Reset</button>
