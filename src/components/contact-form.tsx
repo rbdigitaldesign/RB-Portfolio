@@ -3,12 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { sendContactMessage } from "@/app/actions/contact"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -35,6 +36,7 @@ const formSchema = z.object({
 
 export function ContactForm() {
   const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,16 +47,34 @@ export function ContactForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // This is a stub. In a real app, you would send this to a serverless function.
-    console.log(values)
-    
-    toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. I'll get back to you soon.",
-    })
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('email', values.email);
+    formData.append('message', values.message);
 
-    form.reset()
+    try {
+      const result = await sendContactMessage(formData);
+      if (result.success) {
+        toast({
+          title: "Message Sent!",
+          description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+        form.reset();
+      } else {
+        throw new Error(result.error ?? 'An unknown error occurred.');
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
+      toast({
+        title: "Error",
+        description: `Failed to send message: ${errorMessage}`,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -72,7 +92,7 @@ export function ContactForm() {
                     <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="Your Name" {...field} />
+                        <Input placeholder="Your Name" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -85,7 +105,7 @@ export function ContactForm() {
                     <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input placeholder="your.email@example.com" {...field} />
+                        <Input placeholder="your.email@example.com" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -102,13 +122,16 @@ export function ContactForm() {
                         placeholder="Tell me about your project or just say hello!"
                         className="resize-none"
                         {...field}
+                        disabled={isLoading}
                         />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
-                <Button type="submit" className="w-full">Send Message</Button>
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Sending..." : "Send Message"}
+                </Button>
             </form>
             </Form>
         </CardContent>
