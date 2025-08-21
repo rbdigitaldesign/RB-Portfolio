@@ -1,8 +1,8 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
-import { EditorContent, useEditor, type Editor } from '@tiptap/react';
+import React, { useEffect, useState } from 'react';
+import { EditorContent, useEditor, type Editor, BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
@@ -35,40 +35,59 @@ function isDirectImageUrl(urlStr: string): boolean {
   return /\.(png|jpe?g|gif|webp)$/i.test(urlStr);
 }
 
+const IMAGE_BASE = 'mx-auto my-4 h-auto rounded-md';
+const SIZE_PRESETS = { sm: 'max-w-md', md: 'max-w-xl', full: 'w-full' } as const;
+const ALIGN_PRESETS = { left: 'float-left mr-4', center: 'mx-auto', right: 'float-right ml-4' } as const;
 
-const IMAGE_BASE = 'mx-auto my-4 h-auto rounded-md'; // shared classes
-const SIZE_PRESETS = {
-  sm:  'max-w-md',   // ~28rem wide cap
-  md:  'max-w-xl',   // ~36rem wide cap
-  full:'w-full',     // fill container width
-} as const;
-
-const ALIGN_PRESETS = {
-  left:  'float-left mr-4',
-  center:'mx-auto',
-  right: 'float-right ml-4',
-} as const;
-
-// Make sure Image is configured; keep any config you already have
 const imageExt = TipTapImage.configure({
   inline: false,
-  HTMLAttributes: { class: `${IMAGE_BASE} ${SIZE_PRESETS.md} ${ALIGN_PRESETS.center}` },
+  HTMLAttributes: {
+    class: `${IMAGE_BASE} ${SIZE_PRESETS.md} ${ALIGN_PRESETS.center}`,
+    loading: 'lazy',
+    referrerpolicy: 'no-referrer',
+    rel: 'noreferrer',
+  },
 });
 
-// helper to apply attrs to the selected image node
-function updateSelectedImage(editor: Editor | null, attrs: Partial<{ class: string }>) {
+function updateImageAttrs(editor: any, attrs: Record<string, any>) {
   if (!editor) return;
-  const isImage = editor.isActive('image');
-  if (!isImage) return; // only act if selection is on an image
-  editor.chain().focus().updateAttributes('image', attrs).run();
+
+  const { state } = editor;
+  const { from, to } = state.selection;
+
+  let imgPos: number | null = null;
+
+  state.doc.nodesBetween(from, to, (node: any, pos: number) => {
+    if (node.type?.name === 'image') {
+      imgPos = pos;
+      return false;
+    }
+  });
+
+  if (imgPos == null && editor.isActive('image')) {
+    editor.chain().focus().updateAttributes('image', attrs).run();
+    return;
+  }
+
+  if (imgPos != null) {
+    editor
+      .chain()
+      .focus()
+      .setNodeSelection(imgPos)
+      .updateAttributes('image', attrs)
+      .run();
+  }
 }
 
-// utilities to compose class strings consistently
-function buildImgClass({ size, align }: { size?: keyof typeof SIZE_PRESETS; align?: keyof typeof ALIGN_PRESETS }) {
+function buildImgClass({
+  size,
+  align,
+}: {
+  size?: keyof typeof SIZE_PRESETS;
+  align?: keyof typeof ALIGN_PRESETS;
+}) {
   const s = size ? SIZE_PRESETS[size] : SIZE_PRESETS.md;
   const a = align ? ALIGN_PRESETS[align] : ALIGN_PRESETS.center;
-  // remove any previous size/align tokens by rebuilding from base,
-  // so we don’t accumulate classes
   return `${IMAGE_BASE} ${s} ${a}`;
 }
 
@@ -144,6 +163,27 @@ export default function RichEditor({
       }
     }
   });
+  
+  const [imgWidthPct, setImgWidthPct] = useState<number>(100);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const update = () => {
+      if (!editor.isActive('image')) return;
+      const attrs = editor.getAttributes('image') || {};
+      const m = /width:\s*(\d+)%/.exec(attrs.style || '');
+      setImgWidthPct(m ? Number(m[1]) : 100);
+    };
+
+    editor.on('selectionUpdate', update);
+    editor.on('transaction', update);
+    return () => {
+      editor.off('selectionUpdate', update);
+      editor.off('transaction', update);
+    };
+  }, [editor]);
+
 
    useEffect(() => {
     if (!editor) return;
@@ -158,29 +198,16 @@ export default function RichEditor({
   const canRedo = !!editor.can().redo?.();
   
   const handleImageInsert = () => {
-    const imgUrl = window.prompt('Enter image URL (including Imgur links)');
-    if (!imgUrl) return;
-
-    const input = imgUrl.trim();
-    let src = '';
-    if (isDirectImageUrl(input)) {
-        src = input;
-    } else {
-        const direct = toDirectImgur(input);
-        if (direct) src = direct;
-    }
-
-    if (!src) {
-        alert('Please provide a direct image URL or a valid Imgur link (e.g. imgur.com/xxxx).');
-        return;
-    }
-
-    const size = (window.prompt('Size? sm | md | full (default md)') || 'md') as 'sm' | 'md' | 'full';
-
-    editor.chain().focus().setImage({ 
-        src: src, 
-        alt: '',
-        class: buildImgClass({ size, align: 'center' }),
+    const url = window.prompt('Paste image URL (https://…)');
+    if (!url) return;
+    editor?.chain().focus().setImage({
+      src: url,
+      alt: '',
+      class: buildImgClass({ size: 'md', align: 'center' }),
+      style: 'width:100%;',
+      loading: 'lazy',
+      referrerpolicy: 'no-referrer',
+      rel: 'noreferrer',
     }).run();
   };
 
@@ -189,7 +216,7 @@ export default function RichEditor({
       <div
         role="toolbar"
         aria-label="Formatting"
-        className="sticky top-0 z-10 -mx-4 mb-3 flex flex-wrap items-center gap-2 border-b bg-background px-4 py-2 sm:mx-0"
+        className="sticky top-0 z-30 bg-background border-b rounded-t-md px-2 py-2 flex flex-wrap items-center gap-1"
       >
         <button type="button" aria-label="Bold" aria-pressed={editor?.isActive('bold') ?? false} className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().toggleBold().run()}>
           <Bold className="h-4 w-4" />
@@ -226,36 +253,6 @@ export default function RichEditor({
         <button type="button" aria-label="Unlink" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}>
           <Link2Off className="h-4 w-4" />
         </button>
-
-        <div className="flex items-center gap-1">
-            <span className="text-xs text-muted-foreground mr-1">Size</span>
-            <button
-                type="button"
-                className={TOOLBTN}
-                aria-pressed={false}
-                title="Small"
-                onClick={() => updateSelectedImage(editor, { class: buildImgClass({ size: 'sm' }) })}
-                disabled={!editor?.isActive('image')}
-            >S</button>
-
-            <button
-                type="button"
-                className={TOOLBTN}
-                aria-pressed={false}
-                title="Medium"
-                onClick={() => updateSelectedImage(editor, { class: buildImgClass({ size: 'md' }) })}
-                disabled={!editor?.isActive('image')}
-            >M</button>
-
-            <button
-                type="button"
-                className={TOOLBTN}
-                aria-pressed={false}
-                title="Full width"
-                onClick={() => updateSelectedImage(editor, { class: buildImgClass({ size: 'full' }) })}
-                disabled={!editor?.isActive('image')}
-            >Full</button>
-        </div>
         
         <div className="ml-auto flex items-center gap-1">
           <button type="button" aria-label="Undo" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().undo().run()} disabled={!canUndo}>
@@ -266,9 +263,64 @@ export default function RichEditor({
           </button>
         </div>
       </div>
+       {editor && (
+        <BubbleMenu
+          editor={editor}
+          shouldShow={({ editor }) => editor.isActive('image')}
+          tippyOptions={{ placement: 'top', offset: [0, 8] }}
+        >
+          <div className="flex items-center gap-2 p-2 bg-background border rounded-lg shadow-md">
+            <span className="text-xs text-muted-foreground">Width</span>
+            <input
+              type="range"
+              min={30}
+              max={100}
+              step={5}
+              value={imgWidthPct}
+              className="w-40"
+              onChange={(e) => {
+                const w = Number(e.target.value);
+                setImgWidthPct(w);
+                updateImageAttrs(editor, { style: `width:${w}%;` });
+              }}
+            />
+            <button
+              type="button"
+              className={TOOLBTN}
+              title="Left"
+              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'left' }) })}
+            >⟵</button>
+            <button
+              type="button"
+              className={TOOLBTN}
+              title="Center"
+              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'center' }) })}
+            >⦿</button>
+            <button
+              type="button"
+              className={TOOLBTN}
+              title="Right"
+              onClick={() => updateImageAttrs(editor, { class: buildImgClass({ align: 'right' }) })}
+            >⟶</button>
+            <button
+              type="button"
+              className={TOOLBTN}
+              title="Reset"
+              onClick={() => {
+                setImgWidthPct(100);
+                updateImageAttrs(editor, {
+                  class: buildImgClass({ size: 'md', align: 'center' }),
+                  style: '',
+                });
+              }}
+            >Reset</button>
+          </div>
+        </BubbleMenu>
+      )}
       <div className="min-h-[240px] px-4 pb-4 pt-2">
         <EditorContent editor={editor} />
       </div>
     </div>
   );
 }
+
