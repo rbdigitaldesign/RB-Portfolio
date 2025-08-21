@@ -2,13 +2,15 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { EditorContent, useEditor, type Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
+import { Image as TipTapImage } from '@tiptap/extension-image';
 import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2, Image as ImageIcon } from 'lucide-react';
 import DOMPurify from 'isomorphic-dompurify';
+import he from 'he';
+
 
 const TOOLBTN =
   "inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background text-foreground " +
@@ -33,6 +35,44 @@ function isDirectImageUrl(urlStr: string): boolean {
   return /\.(png|jpe?g|gif|webp)$/i.test(urlStr);
 }
 
+
+const IMAGE_BASE = 'mx-auto my-4 h-auto rounded-md'; // shared classes
+const SIZE_PRESETS = {
+  sm:  'max-w-md',   // ~28rem wide cap
+  md:  'max-w-xl',   // ~36rem wide cap
+  full:'w-full',     // fill container width
+} as const;
+
+const ALIGN_PRESETS = {
+  left:  'float-left mr-4',
+  center:'mx-auto',
+  right: 'float-right ml-4',
+} as const;
+
+// Make sure Image is configured; keep any config you already have
+const imageExt = TipTapImage.configure({
+  inline: false,
+  HTMLAttributes: { class: `${IMAGE_BASE} ${SIZE_PRESETS.md} ${ALIGN_PRESETS.center}` },
+});
+
+// helper to apply attrs to the selected image node
+function updateSelectedImage(editor: Editor | null, attrs: Partial<{ class: string }>) {
+  if (!editor) return;
+  const isImage = editor.isActive('image');
+  if (!isImage) return; // only act if selection is on an image
+  editor.chain().focus().updateAttributes('image', attrs).run();
+}
+
+// utilities to compose class strings consistently
+function buildImgClass({ size, align }: { size?: keyof typeof SIZE_PRESETS; align?: keyof typeof ALIGN_PRESETS }) {
+  const s = size ? SIZE_PRESETS[size] : SIZE_PRESETS.md;
+  const a = align ? ALIGN_PRESETS[align] : ALIGN_PRESETS.center;
+  // remove any previous size/align tokens by rebuilding from base,
+  // so we don’t accumulate classes
+  return `${IMAGE_BASE} ${s} ${a}`;
+}
+
+
 export default function RichEditor({
   initialHtml = '',
   onChange,
@@ -53,14 +93,7 @@ export default function RichEditor({
         protocols: ['http', 'https', 'mailto'],
         HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' },
       }),
-      Image.configure({
-        allowBase64: false,
-        HTMLAttributes: { 
-          loading: 'lazy', 
-          referrerpolicy: 'no-referrer', 
-          class: 'mx-auto my-4 max-w-full h-auto rounded-md' 
-        },
-      }),
+      imageExt,
     ],
     content: initialHtml,
     onUpdate: ({ editor }) => {
@@ -141,7 +174,14 @@ export default function RichEditor({
         alert('Please provide a direct image URL or a valid Imgur link (e.g. imgur.com/xxxx).');
         return;
     }
-    editor.chain().focus().setImage({ src: src, alt: '' }).run();
+
+    const size = (window.prompt('Size? sm | md | full (default md)') || 'md') as 'sm' | 'md' | 'full';
+
+    editor.chain().focus().setImage({ 
+        src: src, 
+        alt: '',
+        class: buildImgClass({ size, align: 'center' }),
+    }).run();
   };
 
   return (
@@ -172,7 +212,7 @@ export default function RichEditor({
         <button type="button" aria-label="Code" aria-pressed={editor?.isActive('codeBlock') ?? false} className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().toggleCodeBlock().run()}>
           <Code className="h-4 w-4" />
         </button>
-         <button type="button" aria-label="Image" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={handleImageInsert}>
+        <button type="button" aria-label="Image" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={handleImageInsert}>
           <ImageIcon className="h-4 w-4" />
         </button>
         <button type="button" aria-label="Link" aria-pressed={editor?.isActive('link') ?? false} className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => {
@@ -186,6 +226,37 @@ export default function RichEditor({
         <button type="button" aria-label="Unlink" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}>
           <Link2Off className="h-4 w-4" />
         </button>
+
+        <div className="flex items-center gap-1">
+            <span className="text-xs text-muted-foreground mr-1">Size</span>
+            <button
+                type="button"
+                className={TOOLBTN}
+                aria-pressed={false}
+                title="Small"
+                onClick={() => updateSelectedImage(editor, { class: buildImgClass({ size: 'sm' }) })}
+                disabled={!editor?.isActive('image')}
+            >S</button>
+
+            <button
+                type="button"
+                className={TOOLBTN}
+                aria-pressed={false}
+                title="Medium"
+                onClick={() => updateSelectedImage(editor, { class: buildImgClass({ size: 'md' }) })}
+                disabled={!editor?.isActive('image')}
+            >M</button>
+
+            <button
+                type="button"
+                className={TOOLBTN}
+                aria-pressed={false}
+                title="Full width"
+                onClick={() => updateSelectedImage(editor, { class: buildImgClass({ size: 'full' }) })}
+                disabled={!editor?.isActive('image')}
+            >Full</button>
+        </div>
+        
         <div className="ml-auto flex items-center gap-1">
           <button type="button" aria-label="Undo" className={TOOLBTN} onMouseDown={(e) => e.preventDefault()} onClick={() => editor?.chain().focus().undo().run()} disabled={!canUndo}>
             <Undo className="h-4 w-4" />
