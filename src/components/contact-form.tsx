@@ -66,48 +66,51 @@ export function ContactForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    
-    if (!isRecaptchaReady) {
-        toast({
-            title: "Error",
-            description: "reCAPTCHA is not ready. Please wait a moment and try again.",
-            variant: "destructive",
-        });
-        setIsLoading(false);
-        return;
-    }
 
     try {
-        const token = await window.grecaptcha.execute(siteKey, { action: 'submit' });
+        const action = "contact_submit";
+
+        // Ensure grecaptcha is ready
+        await new Promise<void>((resolve) => {
+            if (window.grecaptcha?.ready) {
+                window.grecaptcha.ready(() => resolve());
+            } else {
+                resolve(); // fallback
+            }
+        });
+
+        const token = await window.grecaptcha.execute(siteKey, { action });
 
         const formData = new FormData();
-        formData.append('name', values.name);
-        formData.append('email', values.email);
-        formData.append('message', values.message);
-        formData.append('recaptchaToken', token);
+        formData.append("name", values.name);
+        formData.append("email", values.email);
+        formData.append("message", values.message);
+        formData.append("recaptchaToken", token);
+        formData.append("recaptchaAction", action);
 
         const result = await sendContactMessage(formData);
 
         if (result.success) {
             toast({
-            title: "Message Sent!",
-            description: "Thanks for reaching out. I'll get back to you soon.",
+                title: "Message Sent!",
+                description: "Thanks for reaching out. I'll get back to you soon.",
             });
             form.reset();
         } else {
-            throw new Error(result.error ?? 'An unknown error occurred.');
+            throw new Error(result.error ?? "An unknown error occurred.");
         }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
-      toast({
-        title: "Error",
-        description: `Failed to send message: ${errorMessage}`,
-        variant: "destructive",
-      });
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
+        toast({
+            title: "Error",
+            description: `Failed to send message: ${errorMessage}`,
+            variant: "destructive",
+        });
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  }
+}
+
 
   return (
     <>
