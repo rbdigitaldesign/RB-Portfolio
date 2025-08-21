@@ -5,7 +5,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { use, useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Code } from 'lucide-react';
 import { marked } from 'marked';
@@ -63,7 +63,8 @@ const formSchema = formSchemaBase.refine(data => {
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function EditPostPage({ params }: { params: { slug: string } }) {
+export default function EditPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +88,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   useEffect(() => {
     async function fetchPost() {
       setIsFetching(true);
-      const fetchedPost = await getPost(params.slug);
+      const fetchedPost = await getPost(slug);
       if (fetchedPost) {
         setPost(fetchedPost);
         form.reset({
@@ -107,7 +108,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
       setIsFetching(false);
     }
     fetchPost();
-  }, [params.slug, form, router, toast]);
+  }, [slug, form, router, toast]);
 
   const initialHtml = useMemo(() => {
     if (!post) return '';

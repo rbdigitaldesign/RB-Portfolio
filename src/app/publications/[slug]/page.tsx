@@ -40,7 +40,8 @@ async function getPublicationContent(slug: string) {
 }
 
 export default async function PublicationPage({ params }: { params: { slug: string } }) {
-  const publication = await getPublicationContent(params.slug);
+  const { slug } = params;
+  const publication = await getPublicationContent(slug);
 
   if (!publication) {
     notFound();

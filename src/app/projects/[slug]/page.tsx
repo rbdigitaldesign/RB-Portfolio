@@ -46,8 +46,9 @@ function getProjectData(slug: string) {
   return { project, prevProject, nextProject };
 }
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-  const data = getProjectData(params.slug);
+export default async function ProjectPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+  const data = getProjectData(slug);
 
   if (!data) {
     notFound();

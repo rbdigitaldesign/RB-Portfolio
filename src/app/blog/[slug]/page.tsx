@@ -11,7 +11,7 @@ import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { cn } from '@/lib/utils';
@@ -31,14 +31,15 @@ function renderPostHtml(post: Post | null) {
 }
 
 
-export default function BlogPostPage({ params }: { params: { slug:string } }) {
+export default function BlogPostPage({ params }: { params: Promise<{ slug:string }> }) {
+  const { slug } = use(params);
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getPostData() {
       setIsLoading(true);
-      const fetchedPost = await getPost(params.slug);
+      const fetchedPost = await getPost(slug);
       if (!fetchedPost) {
         setIsLoading(false);
         notFound();
@@ -48,7 +49,7 @@ export default function BlogPostPage({ params }: { params: { slug:string } }) {
       setIsLoading(false);
     }
     getPostData();
-  }, [params.slug]);
+  }, [slug]);
 
   if (isLoading) {
     return (
@@ -121,7 +122,7 @@ export default function BlogPostPage({ params }: { params: { slug:string } }) {
       <Separator className="my-8" />
       
       <div className="flex justify-center">
-        <BlogPostActions slug={post.slug} />
+        <BlogPostActions slug={slug} />
       </div>
       
       <ScrollToTopButton />
