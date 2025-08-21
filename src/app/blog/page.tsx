@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,10 +11,15 @@ import { ArrowRight, Library } from 'lucide-react';
 import type { Post } from '@/lib/types';
 import { getAllPosts } from '../actions/blog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTag, setActiveTag] = useState('All');
+  const [activeSeries, setActiveSeries] = useState('All');
+
   const bannerUrl = 'https://i.imgur.com/v5tofnA.png'; 
 
   useEffect(() => {
@@ -25,13 +30,42 @@ export default function BlogPage() {
         setPosts(fetchedPosts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
-        // Optionally, show an error message to the user
       } finally {
         setIsLoading(false);
       }
     }
     fetchPosts();
   }, []);
+
+  const allTags = useMemo(() => {
+    const tags = new Set<string>(['All']);
+    posts.forEach(p => {
+      p.tags.forEach(tag => tags.add(tag));
+    });
+    return Array.from(tags).sort();
+  }, [posts]);
+
+  const allSeries = useMemo(() => {
+    const series = new Set<string>(['All']);
+    posts.forEach(p => {
+      if (p.series) series.add(p.series);
+    });
+    return Array.from(series).sort();
+  }, [posts]);
+
+  const filteredPosts = useMemo(() => {
+    let filtered = posts;
+
+    if (activeTag !== 'All') {
+      filtered = filtered.filter((p) => p.tags.includes(activeTag));
+    }
+    
+    if (activeSeries !== 'All') {
+      filtered = filtered.filter((p) => p.series === activeSeries);
+    }
+
+    return filtered;
+  }, [posts, activeTag, activeSeries]);
 
   return (
     <>
@@ -53,6 +87,45 @@ export default function BlogPage() {
       </section>
 
       <div className="container mx-auto max-w-4xl py-16 px-4">
+        <div className="mb-8 flex flex-col items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
+              <Select onValueChange={setActiveTag} value={activeTag}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a tag" />
+                </SelectTrigger>
+                <SelectContent>
+                  {allTags.map((tag) => (
+                    <SelectItem key={tag} value={tag}>
+                      {tag}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+             {allSeries.length > 1 && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground">Filter by series:</span>
+                 <Select onValueChange={setActiveSeries} value={activeSeries}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a series" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {allSeries.map((series) => (
+                      <SelectItem key={series} value={series}>
+                        {series}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <Separator className="mb-12" />
+
         {isLoading ? (
           <div className="grid gap-8">
             <Card className="flex flex-col md:flex-row overflow-hidden">
@@ -76,9 +149,9 @@ export default function BlogPage() {
                 </div>
             </Card>
           </div>
-        ) : posts.length > 0 ? (
+        ) : filteredPosts.length > 0 ? (
           <div className="grid gap-8">
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
               <Card key={post.slug} className="flex flex-col md:flex-row overflow-hidden">
                   <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
                       <Image 
@@ -122,8 +195,9 @@ export default function BlogPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center">
-            <p className="text-muted-foreground">No blog posts have been published yet. Check back soon!</p>
+          <div className="text-center py-16">
+            <h3 className="text-2xl font-headline">No Posts Found</h3>
+            <p className="text-muted-foreground mt-2">Try adjusting your filter criteria.</p>
           </div>
         )}
       </div>
