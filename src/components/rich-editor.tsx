@@ -6,11 +6,10 @@ import StarterKit from '@tiptap/starter-kit';
 import History from '@tiptap/extension-history';
 import Link from '@tiptap/extension-link';
 import { Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Link2Off, Undo, Redo, Heading2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const TOOLBTN =
   "inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background text-foreground " +
-  "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring " +
+  "hover:bg-[#37605f]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring " +
   "transition-colors disabled:opacity-50 disabled:pointer-events-none " +
   "[aria-pressed=true]:bg-muted [aria-pressed=true]:text-foreground";
 
