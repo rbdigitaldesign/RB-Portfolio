@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Library } from 'lucide-react';
 import type { Post } from '@/lib/types';
 import { getAllPosts } from '../actions/blog';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -91,6 +91,12 @@ export default function BlogPage() {
                   </div>
                   <div className="md:w-1/2 flex flex-col">
                       <CardHeader>
+                          {post.series && (
+                                <Link href={`/blog/series/${encodeURIComponent(post.series)}`} className="text-sm font-semibold text-primary hover:underline flex items-center gap-2 -mt-2 mb-2">
+                                    <Library className="h-4 w-4" />
+                                    {post.series}
+                                </Link>
+                          )}
                           <CardTitle className="font-headline text-2xl">
                             <Link href={`/blog/${post.slug}`} className="hover:underline">
                               {post.title}

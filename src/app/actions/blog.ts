@@ -45,6 +45,7 @@ const addPostSchema = z.object({
   summary: z.string().min(3),
   contentHtml: z.string().min(1, 'Content is required.'),
   tags: tagsSchema,
+  series: z.string().optional(),
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
@@ -59,6 +60,7 @@ const updatePostSchema = z.object({
   contentHtml: z.string().optional(),
   content: z.string().optional().nullable(), // legacy
   tags: tagsSchema,
+  series: z.string().optional(),
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
@@ -86,6 +88,16 @@ export async function getPost(slug: string): Promise<Post | null> {
   return { id: d.id, ...(d.data() as any) } as Post;
 }
 
+export async function getPostsBySeries(series: string): Promise<Post[]> {
+  const col = postsCol();
+  if (!col) return [];
+  const snap = await col
+    .where('series', '==', series)
+    .orderBy('publishedDate', 'asc') // Order chronologically for a series
+    .get();
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) } as Post));
+}
+
 // --- create ------------------------------------------------------------------
 
 export async function addPost(formData: FormData) {
@@ -99,6 +111,7 @@ export async function addPost(formData: FormData) {
     summary: formData.get('summary'),
     contentHtml: formData.get('contentHtml'),
     tags: formData.get('tags'),
+    series: formData.get('series'),
     publishedDate: formData.get('publishedDate'),
     coverImageType: formData.get('coverImageType'),
     coverImageUrl: formData.get('coverImageUrl'),
@@ -110,6 +123,7 @@ export async function addPost(formData: FormData) {
     summary: raw.summary,
     contentHtml: raw.contentHtml,
     tags: raw.tags,
+    series: raw.series,
     publishedDate: raw.publishedDate,
     coverImageType: raw.coverImageType,
     coverImageUrl: raw.coverImageUrl,
@@ -122,7 +136,7 @@ export async function addPost(formData: FormData) {
     };
   }
 
-  const { title, summary, contentHtml, coverImageType, coverImageUrl, publishedDate } = parsed.data;
+  const { title, summary, contentHtml, coverImageType, coverImageUrl, publishedDate, series } = parsed.data;
   
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
@@ -169,12 +183,19 @@ export async function addPost(formData: FormData) {
       coverImage: finalCoverImageUrl,
       contentHtml: sanitizeHtml(contentHtml ?? ''),
     };
+
+    if (series) {
+      newPostData.series = series;
+    }
     
     const docRef = await col.add(newPostData);
 
     revalidatePath('/admin/blog');
     revalidatePath('/blog');
     revalidatePath(`/blog/${slug}`);
+    if (series) {
+        revalidatePath(`/blog/series/${encodeURIComponent(series)}`);
+    }
 
     return { success: true, post: { id: docRef.id, ...newPostData } };
   } catch (error) {
@@ -198,6 +219,7 @@ export async function updatePost(formData: FormData) {
     content: formData.get('content'),
     contentHtml: formData.get('contentHtml'),
     tags: formData.get('tags'),
+    series: formData.get('series'),
     publishedDate: formData.get('publishedDate'),
     coverImageType: formData.get('coverImageType'),
     coverImageUrl: formData.get('coverImageUrl'),
@@ -224,6 +246,7 @@ export async function updatePost(formData: FormData) {
     coverImageType,
     coverImageUrl,
     publishedDate,
+    series
   } = parsed.data;
 
   const newSlug = createSlug(title);
@@ -281,6 +304,7 @@ export async function updatePost(formData: FormData) {
       publishedDate: publishedDate || existing.publishedDate,
       coverImage: finalCoverImageUrl,
       contentHtml: sanitizeHtml(finalHtml),
+      series: series || null,
     };
 
     await postRef.update(updated);
@@ -289,6 +313,10 @@ export async function updatePost(formData: FormData) {
     revalidatePath('/blog');
     if (originalSlug !== newSlug) revalidatePath(`/blog/${originalSlug}`);
     revalidatePath(`/blog/${newSlug}`);
+    if (series) revalidatePath(`/blog/series/${encodeURIComponent(series)}`);
+    if (existing.series && existing.series !== series) {
+        revalidatePath(`/blog/series/${encodeURIComponent(existing.series)}`);
+    }
 
     return { success: true, post: { id: postId, ...existing, ...updated } };
   } catch (error) {
@@ -332,6 +360,10 @@ export async function deletePost(postId: string) {
     revalidatePath('/admin/blog');
     revalidatePath('/blog');
     revalidatePath(`/blog/${deleted.slug}`);
+    if (deleted.series) {
+        revalidatePath(`/blog/series/${encodeURIComponent(deleted.series)}`);
+    }
+
 
     return { success: true };
   } catch (error) {

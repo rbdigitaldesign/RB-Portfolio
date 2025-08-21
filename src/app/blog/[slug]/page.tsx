@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { BlogPostActions } from '@/components/blog-post-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, Library } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
@@ -97,6 +97,14 @@ export default function BlogPostPage() {
       </nav>
 
       <header className="text-center mb-12">
+        {post.series && (
+            <div className="mb-4">
+                <Link href={`/blog/series/${encodeURIComponent(post.series)}`} className="text-sm font-semibold text-primary hover:underline flex items-center justify-center gap-2">
+                    <Library className="h-4 w-4" />
+                    Part of the "{post.series}" series
+                </Link>
+            </div>
+        )}
         <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">{post.title}</h1>
         <div className="text-sm text-muted-foreground mb-4">
           <span>Published on {new Date(post.publishedDate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</span> by <span>{post.author}</span>

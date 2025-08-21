@@ -34,4 +34,5 @@ export interface Post {
   publishedDate: string;
   tags: string[];
   coverImage: string;
+  series?: string;
 }

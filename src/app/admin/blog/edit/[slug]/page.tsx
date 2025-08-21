@@ -36,6 +36,7 @@ const formSchemaBase = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   summary: z.string().min(10, 'Summary must be at least 10 characters.'),
   contentHtml: z.string().min(1, 'Content is required.'),
+  series: z.string().optional(),
   tags: z.string().refine(
     (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
     { message: 'You can add a maximum of 3 tags.' }
@@ -70,6 +71,7 @@ export default function EditPostPage() {
       title: '',
       summary: '',
       tags: '',
+      series: '',
       publishedDate: new Date(),
       coverImageType: 'url',
       coverImageUrl: '',
@@ -94,6 +96,7 @@ export default function EditPostPage() {
             title: fetchedPost.title ?? '',
             summary: fetchedPost.summary ?? '',
             tags: (fetchedPost.tags ?? []).join(', '),
+            series: fetchedPost.series ?? '',
             publishedDate: new Date(fetchedPost.publishedDate),
             coverImageType: 'url',
             coverImageUrl: fetchedPost.coverImage ?? '',
@@ -129,6 +132,7 @@ export default function EditPostPage() {
     formData.append('summary', data.summary);
     formData.append('contentHtml', data.contentHtml);
     if (data.tags) formData.append('tags', data.tags);
+    if (data.series) formData.append('series', data.series);
     if (data.publishedDate) formData.append('publishedDate', data.publishedDate.toISOString());
     formData.append('coverImageType', data.coverImageType);
     if (data.coverImageUrl) formData.append('coverImageUrl', data.coverImageUrl);
@@ -288,6 +292,23 @@ export default function EditPostPage() {
                     </FormControl>
                     <FormDescription>
                         Enter up to 3 tags, separated by commas.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="series"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Series Name (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. My Awesome Series" {...field} />
+                    </FormControl>
+                     <FormDescription>
+                        If this post is part of a series, enter the name here.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
