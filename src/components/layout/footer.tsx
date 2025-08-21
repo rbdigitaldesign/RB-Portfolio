@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
@@ -27,6 +27,11 @@ export function Footer() {
           <Button variant="ghost" size="icon" asChild>
             <a href="https://github.com/rbdigitaldesign" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <Github className="h-5 w-5" />
+            </a>
+          </Button>
+           <Button variant="ghost" size="icon" asChild>
+            <a href="https://www.instagram.com/rb_digital_design_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <Instagram className="h-5 w-5" />
             </a>
           </Button>
           <Button variant="ghost" size="icon" asChild>
