@@ -291,14 +291,16 @@ export default function WellnessProjectPage() {
             </div>
       </section>
 
-      <footer className="mt-24 text-center bg-muted/50 py-12 rounded-lg">
+      <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Bring wellness into platforms riders already use</h3>
-        <p className="text-muted-foreground mb-6">Interested in the cross-sector model (platforms + retailers + charities)? I can walk through research artefacts and testing in detail.</p>
+        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Interested in the cross-sector model (platforms + retailers + charities)? I can walk through research artefacts and testing in detail.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>
         </Button>
-      </footer>
+      </Card>
       <ScrollToTopButton />
     </CaseStudyLayout>
   );
 }
+
+    

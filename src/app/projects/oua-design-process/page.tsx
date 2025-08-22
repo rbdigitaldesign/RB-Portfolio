@@ -139,14 +139,16 @@ export default function OuaDesignProcessPage() {
           </Card>
         </aside>
       </div>
-      <footer className="mt-24 text-center bg-muted/50 py-12 rounded-lg">
+      <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in large-scale curriculum design?</h3>
-        <p className="text-muted-foreground mb-6">Happy to walk through the design process artefacts and learning frameworks used.</p>
+        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through the design process artefacts and learning frameworks used.</p>
         <Button asChild>
             <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
         </Button>
-      </footer>
+      </Card>
       <ScrollToTopButton />
     </CaseStudyLayout>
   );
 }
+
+    

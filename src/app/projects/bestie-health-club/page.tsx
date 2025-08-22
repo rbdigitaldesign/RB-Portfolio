@@ -321,14 +321,16 @@ export default function BestieHealthClubProjectPage() {
             </div>
       </section>
 
-      <footer className="mt-24 text-center bg-muted/50 py-12 rounded-lg">
+      <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Want help moving from MVP to minimum lovable?</h3>
-        <p className="text-muted-foreground mb-6">Happy to walk through discovery artefacts, test plans, and the implementation-ready UI kit.</p>
+        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through discovery artefacts, test plans, and the implementation-ready UI kit.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>
         </Button>
-      </footer>
+      </Card>
       <ScrollToTopButton />
     </CaseStudyLayout>
   );
 }
+
+    

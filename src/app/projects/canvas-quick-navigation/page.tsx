@@ -308,14 +308,16 @@ export default function CanvasQuickNavPage() {
                 </aside>
             </div>
 
-            <footer className="mt-24 text-center bg-muted/50 py-12 rounded-lg">
-                <h3 className="text-2xl font-bold font-headline mb-2">Interested in accessible component design for LMS?</h3>
-                <p className="text-muted-foreground mb-6">I can walk you through the process of creating reusable, accessible components for Canvas.</p>
-                <Button asChild>
-                    <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
-                </Button>
-            </footer>
+            <Card className="mt-24 text-center p-8 md:p-12">
+              <h3 className="text-2xl font-bold font-headline mb-2">Interested in accessible component design for LMS?</h3>
+              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk you through the process of creating reusable, accessible components for Canvas.</p>
+              <Button asChild>
+                  <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
+              </Button>
+            </Card>
             <ScrollToTopButton />
         </CaseStudyLayout>
     );
 }
+
+    
