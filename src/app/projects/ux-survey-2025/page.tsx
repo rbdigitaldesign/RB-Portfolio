@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink, Download, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -96,6 +97,10 @@ export default function UxSurveyCaseStudyPage() {
 
   return (
     <CaseStudyLayout>
+        <ProjectNavigation 
+            prevProject={{slug: 'trip-approve-onboarding'}}
+            nextProject={{slug: 'ux-group-user-testing'}}
+        />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
@@ -274,5 +279,7 @@ export default function UxSurveyCaseStudyPage() {
     </CaseStudyLayout>
   );
 }
+
+    
 
     
