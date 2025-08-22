@@ -199,6 +199,25 @@
     "links": {}
   },
   {
+    "slug": "when-not-to-code",
+    "title": "When not to code: why simple tools sometimes work best",
+    "category": "Learning Design",
+    "summary": "A short exploration of in-class vibe-checks using Mentimeter, a bespoke Firebase Studio app, and a Miro board, highlighting why existing tools can be the best choice.",
+    "tags": ["learning design", "ux", "prototyping", "higher education"],
+    "coverImage": "https://i.imgur.com/aoNlNGl.png",
+    "gallery": [],
+    "overview": "A short, fast exploration of ways to run an in-class vibe/mental-health check-in.",
+    "problem": "Academics asked for a quick way to sense how a cohort was feeling during workshops that was low friction, visually interpretable, and easy to reuse in Canvas.",
+    "process": "Explored Mentimeter's AI, built a bespoke prototype in Firebase Studio, and tested a first-time Miro approach. Compared the options against the core need.",
+    "outcomes": "The Miro board approach was adopted as a template. The key insight was that for this context, an existing platform that fit the workflow was superior to a custom app, avoiding unnecessary engineering overhead.",
+    "role": "Learning Design, Prototyping, Facilitation Support",
+    "year": 2025,
+    "duration": "2-3 days",
+    "team": "Dr Elysia Sokolenko, Dr Bonnie Williams, Anna Leonard",
+    "tools": ["Mentimeter (AI)", "Firebase Studio", "Miro", "Canvas (LMS)"],
+    "links": {}
+  },
+  {
     "slug": "oua-design-process",
     "title": "OUA Design Process",
     "category": "Learning Design",
@@ -337,5 +356,3 @@
     }
   }
 ]
-
-    
