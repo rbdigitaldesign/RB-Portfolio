@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import StatusNote from '@/components/StatusNote';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -106,6 +107,10 @@ export default function FlockHackathonProjectPage() {
 
   return (
     <CaseStudyLayout>
+        <ProjectNavigation 
+            prevProject={{slug: 'ux-group-user-testing'}}
+            nextProject={{slug: 'rps-pod-battle'}}
+        />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image

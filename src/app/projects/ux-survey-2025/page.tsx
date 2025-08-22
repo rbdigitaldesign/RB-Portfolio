@@ -275,6 +275,14 @@ export default function UxSurveyCaseStudyPage() {
               </DialogContent>
             </Dialog>
       </section>
+
+      <Card className="mt-24 text-center p-8 md:p-12">
+        <h3 className="text-2xl font-bold font-headline mb-2">Interested in this research?</h3>
+        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">This case study is a living document. Feel free to reach out if you have any questions or would like to discuss the findings.</p>
+        <Button asChild>
+            <Link href="/contact">Contact me</Link>
+        </Button>
+      </Card>
       <ScrollToTopButton />
     </CaseStudyLayout>
   );

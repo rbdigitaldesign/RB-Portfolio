@@ -1,6 +1,10 @@
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { ProjectNavigation } from '@/components/project-navigation';
+import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 
 export default function RedesigningCourseOrientationPage() {
   return (
@@ -25,6 +29,14 @@ export default function RedesigningCourseOrientationPage() {
           This case study for the "Redesigning Course Orientation" project is currently under construction. Please check back later!
         </p>
       </div>
+       <Card className="mt-24 text-center p-8 md:p-12">
+        <h3 className="text-2xl font-bold font-headline mb-2">Interested in this project?</h3>
+        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">This case study is coming soon, but feel free to reach out if you have any questions in the meantime.</p>
+        <Button asChild>
+            <Link href="/contact">Contact me</Link>
+        </Button>
+      </Card>
+      <ScrollToTopButton />
     </div>
   );
 }

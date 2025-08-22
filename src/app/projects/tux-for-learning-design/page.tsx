@@ -12,6 +12,7 @@ import { ExternalLink, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import StatusNote from '@/components/StatusNote';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -158,6 +159,10 @@ export default function TuxForLearningDesignPage() {
 
   return (
     <CaseStudyLayout>
+        <ProjectNavigation 
+            prevProject={{slug: 'rps-pod-battle'}}
+            nextProject={{slug: 'canvas-quick-navigation'}}
+        />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image

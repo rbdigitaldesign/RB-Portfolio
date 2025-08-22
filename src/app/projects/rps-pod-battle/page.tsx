@@ -381,7 +381,7 @@ export default function RpsPodBattlePage() {
             </Dialog>
       </section>
 
-      <Card className="mt-24 text-center p-8 md:p-12 bg-muted/50">
+      <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in lightweight multiplayer for events?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk through the Firebase Studio setup, state model, and facilitation pattern used for the live run.</p>
         <Button asChild>

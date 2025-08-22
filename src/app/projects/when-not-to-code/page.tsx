@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -71,6 +72,10 @@ export default function WhenNotToCodePage() {
 
   return (
     <CaseStudyLayout>
+        <ProjectNavigation 
+            prevProject={{slug: 'canvas-quick-navigation'}}
+            nextProject={{slug: 'oua-design-process'}}
+        />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
