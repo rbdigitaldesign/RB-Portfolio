@@ -71,7 +71,7 @@ const projectContent = {
     challenges: `Sharpening target segment; robust policies; limited time for interviews.`,
     next: `Validate a niche creator group; prototype governance flows; test fee scenarios; pilot with local partners.`,
   },
-  fullResearch: `The extended write-up covers the origin story (Heaps Good Dev Slack); team naming; the expert wall; Business Model Canvas sessions; rapid survey takeaways; mentor notes; judges’ feedback; and post-event context (the platform is inactive as of 2024).`
+  fullResearch: `The extended write-up covers the origin story (Heaps Good Dev Slack); team naming; the expert wall; Business Model Canvas sessions; mentor notes; judges’ feedback; and post-event context (the platform is inactive as of 2024).`
 };
 
 const galleryImages = [

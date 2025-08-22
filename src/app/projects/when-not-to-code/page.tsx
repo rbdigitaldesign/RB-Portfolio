@@ -143,6 +143,7 @@ export default function WhenNotToCodePage() {
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                     <img src="https://i.imgur.com/UT5LkAU.png" alt="VibeCheck second iteration home page" className="rounded-md shadow-md" />
                     <img src="https://i.imgur.com/xQ7UcOY.png" alt="VibeCheck second iteration results page" className="rounded-md shadow-md" />
+                    <img src="https://i.imgur.com/Yo6MIoX.png" alt="VibeCheck login" />
                 </div>
                  <h4 className="font-bold font-headline text-lg mt-6 mb-2">Iteration to match the Miro heat map</h4>
                  <p className="text-foreground/80">After seeing Elysia’s heat-bar design in Miro, I forked the Firebase Studio project to test whether the bespoke tool could mirror that look and feel (gradients, simple sliders, relatable labels).</p>
