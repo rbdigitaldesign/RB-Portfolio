@@ -21,7 +21,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
     return (
       <nav className="flex justify-between items-center">
         {prevProject ? (
-          <Button variant="outline" asChild>
+          <Button variant="secondary" asChild>
             <Link href={`/projects/${prevProject.slug}`} className="group">
               <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
               Previous
@@ -29,7 +29,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
           </Button>
         ) : <div />}
         {nextProject ? (
-          <Button variant="outline" asChild>
+          <Button variant="secondary" asChild>
             <Link href={`/projects/${nextProject.slug}`} className="group">
               Next
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -43,7 +43,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
   return (
     <nav className="flex justify-between items-center mb-8 flex-wrap gap-4">
       {prevProject ? (
-        <Button variant="outline" asChild>
+        <Button variant="secondary" asChild>
           <Link href={`/projects/${prevProject.slug}`} className="group">
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Previous
@@ -51,7 +51,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
         </Button>
       ) : <div className="flex-1" />}
       
-      <Button variant="outline" asChild>
+      <Button variant="secondary" asChild>
         <Link href="/#projects-gallery">
           <Home className="mr-2 h-4 w-4" />
           Projects Home
@@ -59,7 +59,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
       </Button>
 
       {nextProject ? (
-        <Button variant="outline" asChild>
+        <Button variant="secondary" asChild>
           <Link href={`/projects/${nextProject.slug}`} className="group">
             Next
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
