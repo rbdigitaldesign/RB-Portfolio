@@ -27,7 +27,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
               Previous
             </Link>
           </Button>
-        ) : <div />}
+        ) : <div className="flex-1" />}
         {nextProject ? (
           <Button variant="secondary" asChild>
             <Link href={`/projects/${nextProject.slug}`} className="group">
@@ -35,7 +35,7 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
-        ) : <div />}
+        ) : <div className="flex-1 text-right" />}
       </nav>
     );
   }
