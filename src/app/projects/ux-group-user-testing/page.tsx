@@ -1,8 +1,14 @@
+
 import Image from 'next/image';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 export default function UxGroupUserTestingPage() {
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
+        <ProjectNavigation 
+            prevProject={{slug: 'ux-survey-2025'}}
+            nextProject={{slug: 'flock-hackathon'}}
+        />
       <div className="text-center">
          <div className="relative w-full max-w-md mx-auto aspect-video mb-8 rounded-lg overflow-hidden shadow-strong">
             <Image

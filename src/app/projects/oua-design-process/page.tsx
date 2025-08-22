@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -39,6 +40,10 @@ const projectTimeline = [
 export default function OuaDesignProcessPage() {
   return (
     <CaseStudyLayout>
+        <ProjectNavigation 
+            prevProject={{slug: 'when-not-to-code'}}
+            nextProject={{slug: 'communication-styles-quiz'}}
+        />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image

@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { ProjectNavigation } from '@/components/project-navigation';
 
 
-export default function H5pStudentHandbookConversionPage() {
+export default function LmsTabbedNavigationPage() {
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
-      <ProjectNavigation 
-            prevProject={{slug: 'expandable-references-ux'}}
-            nextProject={null}
+        <ProjectNavigation 
+            prevProject={{slug: 'oua-design-process'}}
+            nextProject={{slug: 'ux-group-user-testing'}}
         />
       <div className="text-center">
         <div className="relative w-full max-w-md mx-auto aspect-video mb-8 rounded-lg overflow-hidden shadow-strong">
@@ -23,7 +23,7 @@ export default function H5pStudentHandbookConversionPage() {
         </div>
         <h1 className="text-4xl font-bold font-headline mb-2">Case Study Coming Soon</h1>
         <p className="text-xl text-muted-foreground">
-          This case study for the "H5P Student Handbook Conversion" project is currently under construction. Please check back later!
+          This case study for the "LMS Tabbed Navigation" project is currently under construction. Please check back later!
         </p>
       </div>
     </div>

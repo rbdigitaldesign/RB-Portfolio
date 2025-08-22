@@ -18,6 +18,7 @@ import {
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import StatusNote from '@/components/StatusNote';
 import ReactMarkdown from 'react-markdown';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
   return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
@@ -79,6 +80,10 @@ const codeSnippet = `
 export default function CanvasQuickNavPage() {
     return (
         <CaseStudyLayout>
+            <ProjectNavigation 
+                prevProject={{slug: 'tux-for-learning-design'}}
+                nextProject={{slug: 'when-not-to-code'}}
+            />
             <header className="mb-12">
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
                     <Image
@@ -271,7 +276,7 @@ export default function CanvasQuickNavPage() {
                         <Separator />
                          <div>
                             <h4 className="font-semibold mb-1">Role</h4>
-                            <p className="text-muted-foreground">Rich Bartlett — Product Owner, UX/UI, Prototyper</p>
+                            <p className="text-muted-foreground">Product Owner, UX/UI, Prototyper</p>
                         </div>
                         <Separator />
                         <div>
