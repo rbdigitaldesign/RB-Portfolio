@@ -14,7 +14,7 @@ const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
 const TimelineItem = ({ year, title, duration }: { year: string, title: string, duration: string }) => (
   <li className="mb-4 flex items-start">
     <div className="flex flex-col items-center mr-4">
-      <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
+      <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs">
         {year}
       </div>
       <div className="w-px h-8 bg-border"></div>
@@ -150,5 +150,3 @@ export default function OuaDesignProcessPage() {
     </CaseStudyLayout>
   );
 }
-
-    
