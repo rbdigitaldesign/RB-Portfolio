@@ -203,7 +203,12 @@
     "title": "When not to code: why simple tools sometimes work best",
     "category": "Coding Projects",
     "summary": "A short exploration of in-class vibe-checks using Mentimeter, a bespoke Firebase Studio app, and a Miro board, highlighting why existing tools can be the best choice.",
-    "tags": ["learning design", "ux", "prototyping", "higher education"],
+    "tags": [
+      "Learning Design",
+      "UX",
+      "Prototyping",
+      "Higher Education"
+    ],
     "coverImage": "https://i.imgur.com/aoNlNGl.png",
     "gallery": [],
     "overview": "A short, fast exploration of ways to run an in-class vibe/mental-health check-in. I mocked up options in Mentimeter (using its AI tool), built a bespoke prototype in Firebase Studio (“VibeCheck”), and tested a first-time Miro approach created by Dr Elysia Sokolenko.\nHeadline insight: where an existing platform already fits the workflow (Canvas + Miro), building a custom app can be unnecessary overhead.",
@@ -214,7 +219,12 @@
     "year": 2025,
     "duration": "2-3 days",
     "team": "Dr Elysia Sokolenko, Dr Bonnie Williams, Anna Leonard",
-    "tools": ["Mentimeter (AI)", "Firebase Studio", "Miro", "Canvas (LMS)"],
+    "tools": [
+      "Mentimeter (AI)",
+      "Firebase Studio",
+      "Miro",
+      "Canvas (LMS)"
+    ],
     "links": {}
   },
   {
