@@ -302,7 +302,7 @@ export default function GoProProjectPage() {
                     <h4 className="font-semibold mb-1">Timeline</h4>
                      <p className="text-muted-foreground">1 March – 16 April 2021 (6 weeks) → Discover & Research ~2 weeks; Design & Testing ~4 weeks</p>
                 </div>
-                <Separator />
+                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Device</h4>
                      <p className="text-muted-foreground">iOS (iPhone 11 Pro, 375 × 812)</p>
@@ -337,11 +337,11 @@ export default function GoProProjectPage() {
             </div>
       </section>
 
-      <Card className="mt-24 text-center p-8 md:p-12 bg-muted/50">
+      <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in the process behind the polish?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk you through research artefacts and test recordings on request.</p>
         <Button asChild>
-            <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>
+            <Link href="/contact">Contact me</Link>
         </Button>
       </Card>
       <ScrollToTopButton />

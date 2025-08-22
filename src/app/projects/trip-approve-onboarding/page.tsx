@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 // This would ideally be in a separate layout component
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
@@ -119,6 +120,10 @@ export default function TripApproveProjectPage() {
 
   return (
     <CaseStudyLayout>
+        <ProjectNavigation 
+            prevProject={{slug: 'wellness-features-delivery-apps'}}
+            nextProject={{slug: 'bestie-health-club'}}
+        />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
@@ -357,5 +362,3 @@ export default function TripApproveProjectPage() {
     </CaseStudyLayout>
   );
 }
-
-    
