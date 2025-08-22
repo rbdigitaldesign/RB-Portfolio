@@ -7,8 +7,8 @@ export default function H5pStudentHandbookConversionPage() {
   return (
     <div className="container mx-auto max-w-4xl py-16 px-4">
       <ProjectNavigation 
-            prevProject={{slug: 'expandable-references-ux'}}
-            nextProject={null}
+            prevProject={{slug: 'tux-for-learning-design'}}
+            nextProject={{slug: 'personal-professional-development-course-design'}}
         />
       <div className="text-center">
         <div className="relative w-full max-w-md mx-auto aspect-video mb-8 rounded-lg overflow-hidden shadow-strong">
