@@ -51,12 +51,14 @@ export function ProjectNavigation({ prevProject, nextProject, bottom = false }: 
         </Button>
       ) : <div className="flex-1" />}
       
-      <Button variant="secondary" asChild>
-        <Link href="/#projects-gallery">
-          <Home className="mr-2 h-4 w-4" />
-          Projects Home
-        </Link>
-      </Button>
+      <div className="flex-shrink-0">
+        <Button variant="secondary" asChild>
+          <Link href="/#projects-gallery">
+            <Home className="mr-2 h-4 w-4" />
+            Projects Home
+          </Link>
+        </Button>
+      </div>
 
       {nextProject ? (
         <Button variant="secondary" asChild>
