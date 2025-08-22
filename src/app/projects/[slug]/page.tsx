@@ -9,11 +9,12 @@ import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ProjectNavigation } from '@/components/project-navigation';
 
 const projects: Project[] = projectsData;
 
 export async function generateStaticParams() {
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025', 'when-not-to-code'];
   // Generate params only for projects that are NOT case studies and do not have a custom page link
   return projects
     .filter(project => !caseStudySlugs.includes(project.slug) && !project.links?.page)
@@ -28,7 +29,7 @@ function getProjectData(slug: string) {
     return null;
   }
   
-  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025'];
+  const caseStudySlugs = ['gopro-app-redesign', 'wellness-features-delivery-apps', 'bestie-health-club', 'trip-approve-onboarding', 'flock-hackathon', 'personal-professional-development-course-design', 'oua-design-process', 'lms-tabbed-navigation', 'ux-group-user-testing', 'h5p-student-handbook-conversion', 'tux-for-learning-design', 'canvas-quick-navigation', 'expandable-references-ux', 'rps-pod-battle', 'ux-survey-2025', 'when-not-to-code'];
   // This page should only handle non-case-study projects.
   // If the slug is a case study, we let it fall through to its dedicated page.
   if (caseStudySlugs.includes(slug) || project.links?.page) {
@@ -58,6 +59,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
   return (
     <article className="container mx-auto max-w-6xl py-16 px-4">
+      <ProjectNavigation 
+        prevProject={prevProject ? {slug: prevProject.slug} : null}
+        nextProject={nextProject ? {slug: nextProject.slug} : null}
+      />
       <header className="text-center mb-12">
         <Badge variant="secondary" className="mb-2">{project.category}</Badge>
         <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">{project.title}</h1>
@@ -163,24 +168,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
       
       <Separator className="my-16" />
 
-      <nav className="flex justify-between items-center">
-        {prevProject ? (
-          <Button variant="outline" asChild>
-            <Link href={`/projects/${prevProject.slug}`} className="group">
-              <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              Previous
-            </Link>
-          </Button>
-        ) : <div />}
-        {nextProject ? (
-          <Button variant="outline" asChild>
-            <Link href={`/projects/${nextProject.slug}`} className="group">
-              Next
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Button>
-        ) : <div />}
-      </nav>
+      <ProjectNavigation 
+        bottom
+        prevProject={prevProject ? {slug: prevProject.slug} : null}
+        nextProject={nextProject ? {slug: nextProject.slug} : null}
+      />
     </article>
   );
 }

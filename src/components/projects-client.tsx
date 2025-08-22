@@ -55,7 +55,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   };
 
   return (
-    <section className="py-12">
+    <section id="projects-gallery" className="py-12">
       <div className="mb-8 flex flex-col items-center gap-4">
         <div className="flex flex-wrap justify-center gap-2">
           {categories.map((category) => (
