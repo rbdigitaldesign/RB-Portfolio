@@ -1,4 +1,3 @@
-
 import React from "react";
 import Image from "next/image";
 import { ananias } from "@/styles/fonts";
@@ -13,7 +12,7 @@ export default function BlogHero() {
               id="blog-hero-title"
               className={`${ananias.className} text-white tracking-[0.02em] text-[clamp(1.6rem,6vw,3.2rem)] text-center`}
             >
-              WHAT AM I ON ABOUT
+              WHAT THE FEK AM I ON ABOUT?!
             </h1>
             <Image
               src="/icons/brain-fart.svg"
