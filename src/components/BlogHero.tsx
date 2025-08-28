@@ -26,7 +26,7 @@ export default function BlogHero() {
           </div>
 
           <p className="mx-auto max-w-5xl pb-8 text-center text-white/95 text-[clamp(.95rem,2.2vw,1.1rem)] font-semibold whitespace-nowrap mt-2">
-            A blog about: Design, learning, and biomimicry – Warning: best served with a scoop of sarcasm and beware of occasional brain fart.
+            Design, learning, biomimicry — warning: may contain sarcasm and brain farts.
           </p>
         </div>
       </div>
