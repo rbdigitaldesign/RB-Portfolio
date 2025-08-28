@@ -15,7 +15,7 @@ export default function BlogHero() {
               WHAT AM I ON ABOUT
             </h1>
             <Image
-              src="/icons/Brain_Fart.svg"
+              src="/icons/brain-fart.svg"
               alt=""
               aria-hidden="true"
               width={48}
@@ -30,7 +30,7 @@ export default function BlogHero() {
           </p>
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-6 md:h-8 bg-gradient-to-b from-transparent to-white/70" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-6 md:h-8 bg-gradient-to-b from-transparent to-white/30" />
     </header>
   );
 }
