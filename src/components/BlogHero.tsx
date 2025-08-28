@@ -18,8 +18,8 @@ export default function BlogHero() {
               src="/icons/brain-fart.svg"
               alt=""
               aria-hidden="true"
-              width={48}
-              height={48}
+              width={64}
+              height={64}
               className="translate-y-1"
               priority={false}
             />
