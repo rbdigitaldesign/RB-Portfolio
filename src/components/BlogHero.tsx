@@ -19,8 +19,8 @@ export default function BlogHero() {
               src="/icons/brain-fart.svg"
               alt=""
               aria-hidden="true"
-              width={80}
-              height={80}
+              width={96}
+              height={96}
               className="translate-y-1"
               priority={false}
             />
