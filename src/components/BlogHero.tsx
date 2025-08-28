@@ -1,3 +1,4 @@
+
 import React from "react";
 import Image from "next/image";
 import { ananias } from "@/styles/fonts";
@@ -18,8 +19,8 @@ export default function BlogHero() {
               src="/icons/brain-fart.svg"
               alt=""
               aria-hidden="true"
-              width={64}
-              height={64}
+              width={80}
+              height={80}
               className="translate-y-1"
               priority={false}
             />
