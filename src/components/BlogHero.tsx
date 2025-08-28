@@ -1,3 +1,4 @@
+
 import React from "react";
 import Image from "next/image";
 import { ananias } from "@/styles/fonts";
@@ -25,7 +26,7 @@ export default function BlogHero() {
             />
           </div>
 
-          <p className="mx-auto max-w-5xl pb-8 text-center text-white/95 text-[clamp(.95rem,2.2vw,1.1rem)] font-semibold whitespace-nowrap mt-2">
+          <p className="mx-auto max-w-5xl pb-8 text-center text-white/95 text-[clamp(.95rem,2.2vw,1.1rem)] font-semibold mt-2">
             Design, learning, biomimicry — warning: blog may contain sarcasm and brain farts.
           </p>
         </div>
