@@ -1,4 +1,5 @@
 import React from "react";
+import { ananias } from "@/styles/fonts";
 
 export default function BlogHero(){
   return (
@@ -10,7 +11,8 @@ export default function BlogHero(){
             <h1
               id="blog-hero-title"
               className={[
-                "font-ananias text-white tracking-[0.02em]",
+                ananias.className,
+                "text-white tracking-[0.02em]",
                 "text-[clamp(1.6rem,6vw,3.2rem)]",
                 "text-center"
               ].join(" ")}

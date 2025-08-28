@@ -49,16 +49,6 @@
   }
 }
 
-@font-face{
-  font-family:"Ananias";
-  src:url("/fonts/ananias.woff2") format("woff2"),
-      url("/fonts/ananias.woff") format("woff");
-  font-display:swap;
-  font-weight:400;
-  font-style:normal;
-}
-.font-ananias{ font-family:"Ananias", system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-
 @layer base {
   html {
     @apply scroll-smooth;
