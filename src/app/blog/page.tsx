@@ -13,14 +13,13 @@ import { getAllPosts } from '../actions/blog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import BlogHero from "@/components/BlogHero";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTag, setActiveTag] = useState('All');
   const [activeSeries, setActiveSeries] = useState('All');
-
-  const bannerUrl = 'https://i.imgur.com/v5tofnA.png'; 
 
   useEffect(() => {
     async function fetchPosts() {
@@ -69,22 +68,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <section className="bg-[#568f90]">
-         <div className="container mx-auto px-4 banner">
-          {bannerUrl && (
-            <div className="relative w-full h-auto aspect-[1900/225]">
-               <Image
-                src={bannerUrl}
-                alt="What Am I On About – blog banner"
-                fill
-                priority
-                className="object-contain"
-                sizes="100vw"
-              />
-            </div>
-          )}
-        </div>
-      </section>
+      <BlogHero />
 
       <div className="container mx-auto max-w-4xl py-16 px-4">
         <div className="mb-8 flex flex-col items-center gap-4">
