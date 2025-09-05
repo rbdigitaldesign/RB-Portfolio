@@ -30,10 +30,14 @@ export function mdToHtmlSafe(md: string): string {
   // allow images & links; strip scripts/styles
   const clean = DOMPurify.sanitize(rawHtml, {
     ALLOWED_TAGS: [
-      'p','br','strong','em','blockquote','code','pre','ul','ol','li','a',
-      'h1','h2','h3','h4','h5','h6','img','hr', 'figure', 'figcaption'
+      'p','br','strong','em','blockquote','code','pre','ul','ol','li','a','h1','h2','h3','h4','h5','h6','img','hr','figure','figcaption',
+      'div','span','svg','path'
     ],
-    ADD_ATTR: ['target','rel','class','loading','referrerpolicy', 'src', 'alt', 'title'],
+    ALLOWED_ATTR: [
+      'class','id','role','aria-label','aria-hidden','tabindex',
+      'href','title','alt','target','rel','loading','decoding',
+      'viewBox','focusable','xmlns','fill','stroke','stroke-width','d'
+    ],
   });
 
   // Post-process: make images responsive
