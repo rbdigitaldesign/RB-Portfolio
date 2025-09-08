@@ -300,7 +300,6 @@ export default function RpsPodBattlePage() {
                     </Button>
                  </div>
             </section>
-
         </main>
         
         <aside className="lg:col-span-1">
@@ -347,27 +346,6 @@ export default function RpsPodBattlePage() {
           </Card>
         </aside>
       </div>
-
-       <section id="iteration-gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Iteration screenshots (v1.1)</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {iterationGalleryImages.map((img, index) => (
-                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
-                     onClick={() => { setSelectedIndex(galleryImages.length + index); setOpen(true); }}>
-                  <Image 
-                    src={img.src} 
-                    alt={img.alt} 
-                    fill 
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-white text-center text-sm">{img.alt}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-      </section>
 
        <section id="gallery" className="mt-16">
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
@@ -469,6 +447,27 @@ export default function RpsPodBattlePage() {
               </div>
           </div>
         </section>
+        
+        <section id="iteration-gallery" className="mt-16">
+            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Iteration screenshots (v1.1)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {iterationGalleryImages.map((img, index) => (
+                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                     onClick={() => { setSelectedIndex(galleryImages.length + index); setOpen(true); }}>
+                  <Image 
+                    src={img.src} 
+                    alt={img.alt} 
+                    fill 
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p className="text-white text-center text-sm">{img.alt}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+      </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in lightweight multiplayer for events?</h3>
