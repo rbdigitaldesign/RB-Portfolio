@@ -63,6 +63,18 @@ const galleryImages = [
     { src: 'https://i.imgur.com/CV9pcHi.jpeg', alt: 'Phone screen sketch', title: 'Sketch mock 12' },
 ];
 
+const PhoneFrame = ({ children }: { children: React.ReactNode }) => (
+    <div className="relative aspect-[9/19.5] w-full max-w-[250px] mx-auto border-4 border-black rounded-3xl overflow-hidden shadow-lg">
+        <div className="absolute top-0 left-0 right-0 h-6 bg-black flex justify-center items-end">
+            <div className="w-16 h-2 bg-gray-800 rounded-b-md"></div>
+        </div>
+        <div className="w-full h-full pt-6">
+            {children}
+        </div>
+    </div>
+);
+
+
 export default function WellnessFeaturesPage() {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -231,7 +243,7 @@ export default function WellnessFeaturesPage() {
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Round 2 — hi-fi testing (12 tests: 6 moderated, 6 unmoderated incl. riders)</h4>
                  <p className="text-foreground/80"><strong>Findings:</strong> explanation of new features still needed tightening; “star” was a poor metaphor for credits; map legend ate space.<br/><strong>Iterations</strong> renamed Climate Credits → Credits; switched to coin-stack icon; removed persistent legend; improved copy and micro-interactions.</p>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Hi-fi prototype</h4>
-                 <div className="aspect-video"><iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/proto/ZQgjE1b0NUoU3yM7H7CKFJ/V2---Deliveroo-High-Fi?kind=proto&node-id=313-1087&page-id=0%3A1&scaling=min-zoom&viewport=114%2C815%2C0.06224198266863823&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe></div>
+                 <div className="w-full" style={{height: '600px'}}><iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)', width: '100%', height: '100%'}} src="https://embed.figma.com/proto/ZQgjE1b0NUoU3yM7H7CKFJ/V2---Deliveroo-High-Fi?kind=proto&node-id=313-1087&page-id=0%3A1&scaling=min-zoom&viewport=114%2C815%2C0.06224198266863823&embed-host=share" allowFullScreen className="rounded-lg"></iframe></div>
             </section>
 
             <Separator />
@@ -306,8 +318,8 @@ export default function WellnessFeaturesPage() {
 
        <section id="gallery" className="mt-16">
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {galleryImages.map((img, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {galleryImages.slice(0, 11).map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
                      onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
@@ -322,6 +334,24 @@ export default function WellnessFeaturesPage() {
                     </div>
                 </div>
               ))}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+               {galleryImages.slice(11).map((img, index) => (
+                 <div key={index + 11} className="group relative cursor-pointer rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                      onClick={() => { setSelectedIndex(index + 11); setOpen(true); }}>
+                    <PhoneFrame>
+                        <Image 
+                            src={img.src} 
+                            alt={img.alt} 
+                            fill 
+                            className="object-cover"
+                        />
+                    </PhoneFrame>
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <p className="text-white text-center text-xs">{img.title}</p>
+                    </div>
+                 </div>
+               ))}
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
