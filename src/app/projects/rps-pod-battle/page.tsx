@@ -300,68 +300,7 @@ export default function RpsPodBattlePage() {
                     </Button>
                  </div>
             </section>
-            
-            <Separator />
 
-            <section id="post-run-iteration">
-              <h3 className="text-2xl font-bold font-headline mb-4">Post-run iteration (v1.1)</h3>
-              <p className="text-foreground/80 mb-6">Following the first live tournament and colleague feedback, I shipped a small uplift to improve reliability, flow, and facilitation speed. These changes preserve the core experience while reducing accidental starts and streamlining the match loop.</p>
-              
-              <div className="space-y-8">
-                <div>
-                  <h4 className="font-bold font-headline text-lg">Why we iterated (from observations & feedback)</h4>
-                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
-                    <li>A few folks wanted to jump back in immediately after the first run, surfacing small friction points worth fixing.</li>
-                    <li>We observed the risk of a tournament starting unexpectedly (accidental click or flaky state).</li>
-                    <li>We wanted to simplify the flow and remove distractions to keep the pace high.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-bold font-headline text-lg">What changed in v1.1</h4>
-                  <ol className="list-decimal list-outside space-y-4 pl-5 text-foreground/80 mt-2">
-                    <li>
-                      <strong className="font-semibold text-foreground">Ready gate to prevent accidental starts</strong>
-                      <p className="mt-1"><strong className="font-medium">Before:</strong> The tournament could begin as soon as “Start tournament” was pressed.<br/>
-                      <strong className="font-medium">Now:</strong> Each pod page includes a Ready button. The bracket only launches once all pods have clicked Ready. This prevents accidental starts and any edge-case auto-starts from backend state glitches.<br/>
-                      <strong className="font-medium">Result:</strong> A deliberate, human-confirmed start that gives facilitators confidence and reduces “false starts”.</p>
-                    </li>
-                    <li>
-                      <strong className="font-semibold text-foreground">Roster & seeding tweaks for better brackets</strong>
-                       <p className="mt-1"><strong className="font-medium">Merged pod:</strong> Travis + Associate Director are now combined as “The Big Bosses.”<br/>
-                       <strong className="font-medium">Balancing entrants:</strong> Added Cox and a new AI bot “The Terminator” to keep bracket numbers even.<br/>
-                       <strong className="font-medium">AI behaviour:</strong> Bots are intentionally biased to lose against human players, keeping the event people-first while cleanly filling the bracket.<br/>
-                       <strong className="font-medium">Result:</strong> Cleaner seeding, simpler facilitation, and less lonely solo play for Travis 😊.</p>
-                    </li>
-                    <li>
-                      <strong className="font-semibold text-foreground">Faster match loop (removed intro & chat overlay)</strong>
-                      <p className="mt-1">Removed the “Hollywood intro” screen.<br/>
-                      Removed the LEI chat box overlay.<br/>
-                      <strong className="font-medium">Result:</strong> Fewer distractions and quicker round-to-round progression.</p>
-                    </li>
-                  </ol>
-                </div>
-
-                <div>
-                  <h4 className="font-bold font-headline text-lg">Impact</h4>
-                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
-                    <li><strong className="font-semibold text-foreground">Reliability:</strong> Human-confirmed “Ready” gate stops accidental tournament starts.</li>
-                    <li><strong className="font-semibold text-foreground">Clarity:</strong> Pod consolidation and bracket balancing keep play smooth.</li>
-                    <li><strong className="font-semibold text-foreground">Speed:</strong> Removing non-essentials tightens the loop and reduces downtime.</li>
-                  </ul>
-                </div>
-                
-                 <div>
-                  <h4 className="font-bold font-headline text-lg">What’s next (still on the roadmap)</h4>
-                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
-                    <li>Optional spectator mode</li>
-                    <li>Subtle sound cues for match state transitions</li>
-                    <li>Defensive checks around slow clients and retries</li>
-                    <li>Expanded keyboard-only facilitation and alt text coverage</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
         </main>
         
         <aside className="lg:col-span-1">
@@ -470,6 +409,66 @@ export default function RpsPodBattlePage() {
               </DialogContent>
             </Dialog>
       </section>
+      
+       <section id="post-run-iteration" className="mt-16">
+          <h3 className="text-3xl font-bold font-headline mb-6 text-center">Post-run iteration (v1.1)</h3>
+          <div className="max-w-2xl mx-auto space-y-8">
+              <p className="text-foreground/80 text-center">Following the first live tournament and colleague feedback, I shipped a small uplift to improve reliability, flow, and facilitation speed. These changes preserve the core experience while reducing accidental starts and streamlining the match loop.</p>
+              
+              <div>
+                <h4 className="font-bold font-headline text-xl mb-2">Why we iterated (from observations & feedback)</h4>
+                <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
+                  <li>A few folks wanted to jump back in immediately after the first run, surfacing small friction points worth fixing.</li>
+                  <li>We observed the risk of a tournament starting unexpectedly (accidental click or flaky state).</li>
+                  <li>We wanted to simplify the flow and remove distractions to keep the pace high.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-bold font-headline text-xl mb-2">What changed in v1.1</h4>
+                <ol className="list-decimal list-outside space-y-4 pl-5 text-foreground/80">
+                  <li>
+                    <strong className="font-semibold text-foreground">Ready gate to prevent accidental starts</strong>
+                    <p className="mt-1"><strong className="font-medium">Before:</strong> The tournament could begin as soon as “Start tournament” was pressed.<br/>
+                    <strong className="font-medium">Now:</strong> Each pod page includes a Ready button. The bracket only launches once all pods have clicked Ready. This prevents accidental starts and any edge-case auto-starts from backend state glitches.<br/>
+                    <strong className="font-medium">Result:</strong> A deliberate, human-confirmed start that gives facilitators confidence and reduces “false starts”.</p>
+                  </li>
+                  <li>
+                    <strong className="font-semibold text-foreground">Roster & seeding tweaks for better brackets</strong>
+                     <p className="mt-1"><strong className="font-medium">Merged pod:</strong> Travis + Associate Director are now combined as “The Big Bosses.”<br/>
+                     <strong className="font-medium">Balancing entrants:</strong> Added Cox and a new AI bot “The Terminator” to keep bracket numbers even.<br/>
+                     <strong className="font-medium">AI behaviour:</strong> Bots are intentionally biased to lose against human players, keeping the event people-first while cleanly filling the bracket.<br/>
+                     <strong className="font-medium">Result:</strong> Cleaner seeding, simpler facilitation, and less lonely solo play for Travis 😊.</p>
+                  </li>
+                  <li>
+                    <strong className="font-semibold text-foreground">Faster match loop (removed intro & chat overlay)</strong>
+                    <p className="mt-1">Removed the “Hollywood intro” screen.<br/>
+                    Removed the LEI chat box overlay.<br/>
+                    <strong className="font-medium">Result:</strong> Fewer distractions and quicker round-to-round progression.</p>
+                  </li>
+                </ol>
+              </div>
+
+              <div>
+                <h4 className="font-bold font-headline text-xl mb-2">Impact</h4>
+                <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
+                  <li><strong className="font-semibold text-foreground">Reliability:</strong> Human-confirmed “Ready” gate stops accidental tournament starts.</li>
+                  <li><strong className="font-semibold text-foreground">Clarity:</strong> Pod consolidation and bracket balancing keep play smooth.</li>
+                  <li><strong className="font-semibold text-foreground">Speed:</strong> Removing non-essentials tightens the loop and reduces downtime.</li>
+                </ul>
+              </div>
+              
+               <div>
+                <h4 className="font-bold font-headline text-xl mb-2">What’s next (still on the roadmap)</h4>
+                <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
+                  <li>Optional spectator mode</li>
+                  <li>Subtle sound cues for match state transitions</li>
+                  <li>Defensive checks around slow clients and retries</li>
+                  <li>Expanded keyboard-only facilitation and alt text coverage</li>
+                </ul>
+              </div>
+          </div>
+        </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Interested in lightweight multiplayer for events?</h3>
