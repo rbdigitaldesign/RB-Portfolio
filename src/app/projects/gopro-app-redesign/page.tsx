@@ -3,13 +3,16 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+
 
 // This would ideally be in a separate layout component
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
@@ -35,18 +38,18 @@ const LocalTOC = () => (
 );
 
 const galleryImages = [
-    { src: 'https://i.imgur.com/hxXTWzW.jpeg', title: 'Quantitative findings' },
-    { src: 'https://i.imgur.com/bKW3d6O.jpeg', title: 'Contextual Enquiry' },
-    { src: 'https://i.imgur.com/X4YgN3i.jpeg', title: 'User journey mapping' },
-    { src: 'https://i.imgur.com/Jz6QZpI.png', title: 'Storyboarding' },
-    { src: 'https://i.imgur.com/0w253yc.png', title: 'mood board' },
-    { src: 'https://i.imgur.com/QEmm6ZK.png', title: 'User persona' },
-    { src: 'https://i.imgur.com/3wntbwt.jpeg', title: 'Affinity Mapping' },
-    { src: 'https://i.imgur.com/99tUgnl.png', title: 'Wireframe sketches' },
-    { src: 'https://i.imgur.com/3lc38C6.png', title: 'Prioritisation Matrix' },
-    { src: 'https://i.imgur.com/ZvuBGbV.png', title: 'User Flow Matrix' },
-    { src: 'https://i.imgur.com/lHgtCIX.png', title: 'User Flow Diagram' },
-    { src: 'https://i.imgur.com/CxpQUvR.png', title: 'Before and After images of the Home screen (left) and Editing screens (right)' },
+    { src: 'https://i.imgur.com/hxXTWzW.jpeg', title: 'Quantitative findings', hint: 'quantitative findings chart' },
+    { src: 'https://i.imgur.com/bKW3d6O.jpeg', title: 'Contextual Enquiry', hint: 'contextual enquiry photo' },
+    { src: 'https://i.imgur.com/X4YgN3i.jpeg', title: 'User journey mapping', hint: 'journey map diagram' },
+    { src: 'https://i.imgur.com/Jz6QZpI.png', title: 'Storyboarding', hint: 'storyboard illustration' },
+    { src: 'https://i.imgur.com/0w253yc.png', title: 'mood board', hint: 'mood board collage' },
+    { src: 'https://i.imgur.com/QEmm6ZK.png', title: 'User persona', hint: 'persona document' },
+    { src: 'https://i.imgur.com/3wntbwt.jpeg', title: 'Affinity Mapping', hint: 'affinity map photo' },
+    { src: 'https://i.imgur.com/99tUgnl.png', title: 'Wireframe sketches', hint: 'wireframe sketch' },
+    { src: 'https://i.imgur.com/3lc38C6.png', title: 'Prioritisation Matrix', hint: 'prioritisation matrix diagram' },
+    { src: 'https://i.imgur.com/ZvuBGbV.png', title: 'User Flow Matrix', hint: 'user flow matrix diagram' },
+    { src: 'https://i.imgur.com/lHgtCIX.png', title: 'User Flow Diagram', hint: 'user flow diagram' },
+    { src: 'https://i.imgur.com/CxpQUvR.png', title: 'Before and After images of the Home screen (left) and Editing screens (right)', hint: 'before after comparison' },
 ]
 
 // Estimated reading time
@@ -67,6 +70,26 @@ const BannerHeading = ({ children }: { children: React.ReactNode }) => (
 
 export default function GoProProjectPage() {
   const readingTime = 4; // Hardcoded based on content
+  const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleNext = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (!open) return;
+        if (e.key === 'ArrowRight') handleNext();
+        else if (e.key === 'ArrowLeft') handlePrev();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, handleNext, handlePrev]);
 
   return (
     <CaseStudyLayout>
@@ -321,12 +344,14 @@ export default function GoProProjectPage() {
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="group relative aspect-[4/3] rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                <div key={index} className="group relative cursor-pointer aspect-[4/3] rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
                     src={img.src} 
                     alt={img.title} 
                     fill 
                     className="object-cover"
+                    data-ai-hint={img.hint}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -335,6 +360,24 @@ export default function GoProProjectPage() {
                 </div>
               ))}
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                  <div className="relative aspect-video">
+                    <Image 
+                      src={galleryImages[selectedIndex].src} 
+                      alt={galleryImages[selectedIndex].title} 
+                      fill
+                      className="rounded-lg object-contain"
+                    />
+                  </div>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                      <ArrowLeft className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                      <ArrowRight className="h-6 w-6" />
+                  </Button>
+              </DialogContent>
+            </Dialog>
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">

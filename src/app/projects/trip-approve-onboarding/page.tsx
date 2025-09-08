@@ -1,12 +1,15 @@
 
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, Quote } from 'lucide-react';
+import { ExternalLink, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -15,6 +18,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 // This would ideally be in a separate layout component
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
@@ -96,16 +100,16 @@ const projectContent = {
 };
 
 const galleryImages = [
-    { src: 'https://placehold.co/1200x800.png', alt: 'Before: old email verification screen', hint: 'app screen before', value: 'Before: old email verification screen' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'After: new verification with clear redirect', hint: 'app screen after', value: 'After: new verification with clear redirect' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Manager checklist with direct links to set-up tasks', hint: 'app screen manager', value: 'Manager checklist with direct links to set-up tasks' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'CSV upload option for bulk user import', hint: 'app screen csv', value: 'CSV upload option for bulk user import' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Simplified approval rights assignment screen', hint: 'app screen rights', value: 'Simplified approval rights assignment screen' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Employee onboarding checklist', hint: 'app screen employee', value: 'Employee onboarding checklist' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Employee travel preferences screen', hint: 'app screen preferences', value: 'Employee travel preferences screen' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Information architecture overview diagram', hint: 'diagram ia', value: 'Information architecture overview diagram' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fidelity wireframe of manager flow', hint: 'wireframe manager', value: 'Mid-fidelity wireframe of manager flow' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fidelity wireframe of employee flow', hint: 'wireframe employee', value: 'Mid-fidelity wireframe of employee flow' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Before: old email verification screen', hint: 'app screen before' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'After: new verification with clear redirect', hint: 'app screen after' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Manager checklist with direct links to set-up tasks', hint: 'app screen manager' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'CSV upload option for bulk user import', hint: 'app screen csv' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Simplified approval rights assignment screen', hint: 'app screen rights' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Employee onboarding checklist', hint: 'app screen employee' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Employee travel preferences screen', hint: 'app screen preferences' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Information architecture overview diagram', hint: 'diagram ia' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fidelity wireframe of manager flow', hint: 'wireframe manager' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fidelity wireframe of employee flow', hint: 'wireframe employee' },
 ];
 
 function calculateReadingTime(text: string) {
@@ -117,6 +121,26 @@ function calculateReadingTime(text: string) {
 export default function TripApproveProjectPage() {
   const allText = Object.values(projectContent).flat().join(' ');
   const readingTime = calculateReadingTime(allText);
+  const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleNext = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (!open) return;
+        if (e.key === 'ArrowRight') handleNext();
+        else if (e.key === 'ArrowLeft') handlePrev();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, handleNext, handlePrev]);
 
   return (
     <CaseStudyLayout>
@@ -331,10 +355,11 @@ export default function TripApproveProjectPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery (Before & After)</h3>
+            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
@@ -344,11 +369,29 @@ export default function TripApproveProjectPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm">{img.value}</p>
+                      <p className="text-white text-center text-sm">{img.alt}</p>
                     </div>
                 </div>
               ))}
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                  <div className="relative aspect-video">
+                    <Image 
+                      src={galleryImages[selectedIndex].src} 
+                      alt={galleryImages[selectedIndex].alt} 
+                      fill
+                      className="rounded-lg object-contain"
+                    />
+                  </div>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                      <ArrowLeft className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                      <ArrowRight className="h-6 w-6" />
+                  </Button>
+              </DialogContent>
+            </Dialog>
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">

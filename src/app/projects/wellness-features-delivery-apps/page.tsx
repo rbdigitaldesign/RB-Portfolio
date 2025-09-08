@@ -1,12 +1,15 @@
 
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -15,6 +18,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 // This would ideally be in a separate layout component
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
@@ -73,16 +77,16 @@ const projectContent = {
 };
 
 const galleryImages = [
-    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fi wireframe of the main wellness screen', hint: 'wireframe screen', value: 'Map markers showing nearest water and shade to reduce heat exposure during shifts' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Mid-fi wireframe of the check-in flow', hint: 'wireframe flow', value: 'Daily check-ins to report wellbeing and earn credits' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi map screen showing water and shade markers', hint: 'app screen map', value: 'Hi-fi map with clear markers for water and shade' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi check-in screen with mood selectors', hint: 'app screen check-in', value: 'Intuitive check-in flow with simple UI elements' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Credits screen showing balance and redemption options', hint: 'app screen credits', value: 'Clear display of earned credits and how to redeem them' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Language selection screen during onboarding', hint: 'app screen language', value: 'Multilingual support from the very first screen' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi prototype screen for the main dashboard', hint: 'app screen dashboard', value: 'Dashboard integrating wellness features seamlessly' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi prototype screen showing weather alerts', hint: 'app screen alert', value: 'Contextual weather alerts to inform riders' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Diagram of the user flow for checking in and earning credits', hint: 'user flow diagram', value: 'Visualising the user journey for the credit system' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Storyboard illustrating a rider using the wellness features', hint: 'storyboard illustration', value: 'A storyboard showing the feature in a real-world context' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Map markers showing nearest water and shade to reduce heat exposure during shifts', hint: 'wireframe screen' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Daily check-ins to report wellbeing and earn credits', hint: 'wireframe flow' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Hi-fi map with clear markers for water and shade', hint: 'app screen map' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Intuitive check-in flow with simple UI elements', hint: 'app screen check-in' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Clear display of earned credits and how to redeem them', hint: 'app screen credits' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Multilingual support from the very first screen', hint: 'app screen language' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Dashboard integrating wellness features seamlessly', hint: 'app screen dashboard' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Contextual weather alerts to inform riders', hint: 'app screen alert' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'Visualising the user journey for the credit system', hint: 'user flow diagram' },
+    { src: 'https://placehold.co/1200x800.png', alt: 'A storyboard showing the feature in a real-world context', hint: 'storyboard illustration' },
 ]
 
 // Estimated reading time
@@ -95,6 +99,26 @@ function calculateReadingTime(text: string) {
 export default function WellnessProjectPage() {
   const allText = Object.values(projectContent).flat().join(' ');
   const readingTime = calculateReadingTime(allText);
+  const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleNext = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (!open) return;
+        if (e.key === 'ArrowRight') handleNext();
+        else if (e.key === 'ArrowLeft') handlePrev();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, handleNext, handlePrev]);
 
   return (
     <CaseStudyLayout>
@@ -279,7 +303,8 @@ export default function WellnessProjectPage() {
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
@@ -289,11 +314,29 @@ export default function WellnessProjectPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm">{img.value}</p>
+                      <p className="text-white text-center text-sm">{img.alt}</p>
                     </div>
                 </div>
               ))}
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                  <div className="relative aspect-video">
+                    <Image 
+                      src={galleryImages[selectedIndex].src} 
+                      alt={galleryImages[selectedIndex].alt} 
+                      fill
+                      className="rounded-lg object-contain"
+                    />
+                  </div>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                      <ArrowLeft className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                      <ArrowRight className="h-6 w-6" />
+                  </Button>
+              </DialogContent>
+            </Dialog>
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">

@@ -35,17 +35,17 @@ const LocalTOC = () => (
 );
 
 const galleryImages = [
-    { src: 'https://i.imgur.com/JuPBs0w.png', alt: 'Mentimeter mockup 1' },
-    { src: 'https://i.imgur.com/ag31b1x.png', alt: 'Mentimeter mockup 2' },
-    { src: 'https://i.imgur.com/5glc4iX.png', alt: 'Mentimeter mockup 3' },
-    { src: 'https://i.imgur.com/y6SH5D2.png', alt: 'VibeCheck first iteration home' },
-    { src: 'https://i.imgur.com/Dd6ECHE.png', alt: 'VibeCheck first iteration results' },
-    { src: 'https://i.imgur.com/UT5LkAU.png', alt: 'VibeCheck second iteration home' },
-    { src: 'https://i.imgur.com/xQ7UcOY.png', alt: 'VibeCheck second iteration results' },
-    { src: 'https://i.imgur.com/Yo6MIoX.png', alt: 'VibeCheck login' },
-    { src: 'https://i.imgur.com/5CcD80E.png', alt: 'Firebase fork with heat bars' },
-    { src: 'https://i.imgur.com/aoNlNGl.png', alt: 'Miro heat maps overview' },
-    { src: 'https://i.imgur.com/k9JCff0.png', alt: 'Miro heat maps close-up' },
+    { src: 'https://i.imgur.com/JuPBs0w.png', alt: 'Mentimeter mockup 1', hint: 'mentimeter mockup' },
+    { src: 'https://i.imgur.com/ag31b1x.png', alt: 'Mentimeter mockup 2', hint: 'mentimeter mockup' },
+    { src: 'https://i.imgur.com/5glc4iX.png', alt: 'Mentimeter mockup 3', hint: 'mentimeter mockup' },
+    { src: 'https://i.imgur.com/y6SH5D2.png', alt: 'VibeCheck first iteration home', hint: 'vibecheck prototype' },
+    { src: 'https://i.imgur.com/Dd6ECHE.png', alt: 'VibeCheck first iteration results', hint: 'vibecheck prototype' },
+    { src: 'https://i.imgur.com/UT5LkAU.png', alt: 'VibeCheck second iteration home', hint: 'vibecheck prototype' },
+    { src: 'https://i.imgur.com/xQ7UcOY.png', alt: 'VibeCheck second iteration results', hint: 'vibecheck prototype' },
+    { src: 'https://i.imgur.com/Yo6MIoX.png', alt: 'VibeCheck login', hint: 'vibecheck prototype' },
+    { src: 'https://i.imgur.com/5CcD80E.png', alt: 'Firebase fork with heat bars', hint: 'firebase prototype' },
+    { src: 'https://i.imgur.com/aoNlNGl.png', alt: 'Miro heat maps overview', hint: 'miro board' },
+    { src: 'https://i.imgur.com/k9JCff0.png', alt: 'Miro heat maps close-up', hint: 'miro board' },
 ];
 
 export default function WhenNotToCodePage() {
@@ -135,7 +135,7 @@ export default function WhenNotToCodePage() {
             </section>
             
             <Separator />
-
+            
             <section id="firebase">
                 <h3 className="text-2xl font-bold font-headline mb-4">Bespoke exploration — Firebase Studio “VibeCheck”</h3>
                 <p className="text-foreground/80">In parallel I built a lightweight prototype to see what extra value a custom tool could offer: circumplex mood input, individual rows, class distribution, AI summary, and QR sharing.</p>
@@ -290,7 +290,7 @@ export default function WhenNotToCodePage() {
                     alt={img.alt} 
                     fill 
                     className="object-cover"
-                    data-ai-hint="vibe check prototype"
+                    data-ai-hint={img.hint}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -331,5 +331,3 @@ export default function WhenNotToCodePage() {
     </CaseStudyLayout>
   );
 }
-
-    

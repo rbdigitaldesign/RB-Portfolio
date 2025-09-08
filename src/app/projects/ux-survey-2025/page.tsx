@@ -60,14 +60,14 @@ const projectContent = {
 };
 
 const galleryImages = [
-    { src: 'https://i.imgur.com/yyiwP9x.png', alt: 'Chart showing UX practices used' },
-    { src: 'https://i.imgur.com/XYxWnyR.png', alt: 'Chart showing confidence in applying UX' },
-    { src: 'https://i.imgur.com/w0Em2Eq.png', alt: 'Chart showing experience with UX' },
-    { src: 'https://i.imgur.com/pdwOiU5.png', alt: 'Chart showing interest in learning more about UX' },
-    { src: 'https://i.imgur.com/cgzEKVy.png', alt: 'Chart showing preferred support formats for UX' },
-    { src: 'https://i.imgur.com/gtGPfnS.png', alt: 'Chart showing barriers to using UX' },
-    { src: 'https://i.imgur.com/kf9KGK2.png', alt: 'Chart showing preferred platform for future UX resources' },
-    { src: 'https://i.imgur.com/vWexSJc.png', alt: 'List of open-ended themes from the survey' },
+    { src: 'https://i.imgur.com/yyiwP9x.png', alt: 'Chart showing UX practices used', hint: 'ux practices chart' },
+    { src: 'https://i.imgur.com/XYxWnyR.png', alt: 'Chart showing confidence in applying UX', hint: 'ux confidence chart' },
+    { src: 'https://i.imgur.com/w0Em2Eq.png', alt: 'Chart showing experience with UX', hint: 'ux experience chart' },
+    { src: 'https://i.imgur.com/pdwOiU5.png', alt: 'Chart showing interest in learning more about UX', hint: 'ux interest chart' },
+    { src: 'https://i.imgur.com/cgzEKVy.png', alt: 'Chart showing preferred support formats for UX', hint: 'ux support chart' },
+    { src: 'https://i.imgur.com/gtGPfnS.png', alt: 'Chart showing barriers to using UX', hint: 'ux barriers chart' },
+    { src: 'https://i.imgur.com/kf9KGK2.png', alt: 'Chart showing preferred platform for future UX resources', hint: 'ux platform chart' },
+    { src: 'https://i.imgur.com/vWexSJc.png', alt: 'List of open-ended themes from the survey', hint: 'survey themes' },
 ];
 
 export default function UxSurveyCaseStudyPage() {
@@ -287,7 +287,3 @@ export default function UxSurveyCaseStudyPage() {
     </CaseStudyLayout>
   );
 }
-
-    
-
-    

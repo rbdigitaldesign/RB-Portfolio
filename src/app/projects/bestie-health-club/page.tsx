@@ -1,12 +1,15 @@
 
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, Quote } from 'lucide-react';
+import { ExternalLink, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -15,6 +18,8 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+
 
 // This would ideally be in a separate layout component
 const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
@@ -100,6 +105,27 @@ const galleryImages = [
 ];
 
 export default function BestieHealthClubProjectPage() {
+  const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleNext = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (!open) return;
+        if (e.key === 'ArrowRight') handleNext();
+        else if (e.key === 'ArrowLeft') handlePrev();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, handleNext, handlePrev]);
+
   return (
     <CaseStudyLayout>
         <ProjectNavigation 
@@ -271,7 +297,8 @@ export default function BestieHealthClubProjectPage() {
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
-                <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
@@ -286,6 +313,24 @@ export default function BestieHealthClubProjectPage() {
                 </div>
               ))}
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                  <div className="relative aspect-video">
+                    <Image 
+                      src={galleryImages[selectedIndex].src} 
+                      alt={galleryImages[selectedIndex].alt} 
+                      fill
+                      className="rounded-lg object-contain"
+                    />
+                  </div>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                      <ArrowLeft className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                      <ArrowRight className="h-6 w-6" />
+                  </Button>
+              </DialogContent>
+            </Dialog>
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
@@ -299,4 +344,3 @@ export default function BestieHealthClubProjectPage() {
     </CaseStudyLayout>
   );
 }
-
