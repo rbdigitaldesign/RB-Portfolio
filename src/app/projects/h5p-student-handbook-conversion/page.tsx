@@ -67,6 +67,7 @@ const galleryImages = [
     { src: 'https://i.imgur.com/BYnoct8.png', alt: 'Clear navigation of the handbook on the left panel', hint: 'h5p navigation' },
     { src: 'https://i.imgur.com/OQke1Gj.png', alt: 'Course Objectives in a table layout', hint: 'h5p table' },
     { src: 'https://i.imgur.com/clKuy35.png', alt: 'Course presentation within the handbook', hint: 'h5p presentation' },
+    { src: 'https://i.imgur.com/yKiePri.png', alt: 'Contact sheet for 49 pages of content', hint: 'pdf contact sheet' }
 ];
 
 export default function H5PStudentHandbookConversionPage() {
