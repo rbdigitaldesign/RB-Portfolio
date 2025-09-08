@@ -256,6 +256,19 @@ export default function UxGroupUserTestingPage() {
                      <p className="text-muted-foreground">Navigation, course information, roadmap clarity, banners</p>
                 </div>
                 <Separator />
+                 <div>
+                    <h4 className="font-semibold mb-1">Team & roles</h4>
+                    <p className="text-muted-foreground">
+                        <strong>UX subgroup contributors:</strong><br/>
+                        Tim Churchward — lead designer for the Dynamic Home<br/>
+                        Rich Bartlett — research and facilitation<br/>
+                        Kelli Knuth — research and facilitation<br/>
+                        Alex Price — research and facilitation<br/><br/>
+                        <strong>Reference/team coordination:</strong><br/>
+                        Kat Alchin, Josh Cramp, Andrew Beatton
+                    </p>
+                </div>
+                <Separator />
                 <div>
                     <h4 className="font-semibold mb-1">Outcome</h4>
                      <p className="text-muted-foreground">Dynamic Home endorsed; roadmap and course-info patterns refined; banner tool updates proposed</p>
