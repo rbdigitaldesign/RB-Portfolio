@@ -143,13 +143,6 @@ export default function WellnessFeaturesPage() {
                 <h3 className="text-2xl font-bold font-headline mb-4">Project scope & team</h3>
                 <p className="text-foreground/80">Humanitech’s brief (Australian Red Cross):
 Define what it means to empower a community through technology; identify themes worth exploring; map lived experience; develop concepts; and prototype solutions that prioritise psychosocial wellbeing and livelihoods.</p>
-                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div><strong>Scope:</strong> Research technologies that empower communities, Engage affected groups and synthesise themes, Create journey maps, concepts, user flows, Build mid- and high-fidelity prototypes</div>
-                    <div><strong>Tools:</strong> Figma, Miro, Canva, Zoom, UseBerry, Trello, Slack, Google Suite</div>
-                    <div><strong>Team:</strong> Osama Mah, Ash Cheuk</div>
-                    <div><strong>My role:</strong> Team lead / client contact, UX researcher, UI designer, co-presenter</div>
-                    <div><strong>Timeline (6 weeks):</strong> Discover (1.5w) · Define (1.5w) · Develop (1.5w) · Deliver (1.5w)</div>
-                </div>
             </section>
             
             <Separator />
