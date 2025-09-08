@@ -35,7 +35,6 @@ const LocalTOC = () => (
       <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
       <li><a href="#feedback" className="hover:text-primary">Client feedback</a></li>
       <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-      <li><a href="#prototype" className="hover:text-primary">Interactive prototype</a></li>
     </ul>
   </nav>
 );
@@ -48,35 +47,36 @@ const Testimonial = ({ quote, author, company }: { quote: string, author: string
 );
 
 const projectContent = {
-  brief: `Discover needs, pains, and gains for first-time dog owners; validate the MVP; recommend UX/UI improvements without changing core flows.`,
+  brief: `Discover needs, pains, and gains for first-time dog owners; validate the live MVP; and recommend UX/UI improvements that preserve existing engineering flows.`,
   problem: [
-    `The web MVP existed, but key ideas needed evidence before build.`,
-    `Unclear UI in onboarding/home/profile; health assessment flow felt long.`,
-    `Owners see vets every 6–12 months; supplementary telehealth could fill gaps.`,
+    `The web MVP existed, but ideas needed evidence before build.`,
+    `Onboarding/home/profile lacked clarity; health-assessment felt long.`,
+    `Owners typically see vets every 6–12 months—leaving guidance gaps between visits.`,
   ],
-  challenge: `What needs, pains, and gains do dog owners have—especially in the first two years— and how should the app evolve to support them?`,
+  challenge: `“What do first-time dog owners actually need in the first two years—and how should the app evolve to support them?”`,
   solution: [
-    `**Clarified value and flows** in sign-up/login and home CTAs`,
-    `**Engagement milestones** to recognise progress and prompt care`,
-    `**Faster profile build** with compressed steps and progress feedback`,
-    `**Assessment results overhaul** with clearer meaning and next actions`,
+    `**Clearer starts:** crisper sign-up/login, strong CTAs on Home.`,
+    `**Momentum:** milestone markers to recognise progress and prompt care.`,
+    `**Faster setup:** compressed profile build with progress feedback.`,
+    `**Results that act:** redesigned assessment results with “what this means” and “what to do next.”`,
   ],
-  solutionNote: `*Designs adhered to existing MVP structure for feasibility.*`,
+  solutionNote: `All changes respected the current MVP flow for feasibility.`,
   approach: {
-    discovery: `Qualitative interviews (5+ owners, varied backgrounds), quantitative survey on habits and pet health, competitive review of Australian tele-vet providers.`,
-    synthesis: `Affinity mapping, personas, and opportunity areas (triage, forgotten questions, behaviour tips).`,
-    prototyping: `Replicated the MVP in Figma; defined clearer test scripts; ran short usability sessions to validate UI changes; iterated on language and component clarity.`,
+    discovery: `8 qualitative interviews; 41-response survey on habits/health; AU tele-vet competitor review (4 focal competitors).`,
+    synthesis: `Affinity mapping, personas, opportunity areas (triage, “forgot-to-ask” questions, behaviour tips).`,
+    prototyping: `Replicated the MVP in Figma; tighter test scripts; short moderated sessions; iterations on language, hierarchy, and component clarity.`,
   },
   insights: [
-      `First 1–2 years rarely show overwhelming issues, but timely guidance is valued.`,
-      `Owners want reassurance between vet visits; telehealth and concise tips support this.`,
-      `Unclear labelling and long sequences reduced completion motivation.`,
+      `First 1–2 years rarely exhibit persistent problems—but timely reassurance matters.`,
+      `Tele-health add-ons fill the “between-visits” gap.`,
+      `Long sequences + unclear labels reduced motivation and completion.`,
   ],
   outcomes: [
-      `Redesigned home and profile screens improved clarity and calls to action.`,
-      `Milestones added structure and motivation for care routines.`,
-      `Compressed profile build reduced perceived effort.`,
-      `Results screens now highlight “what this means” and “what to do next”.`,
+      `Home & profile screens clarified purpose and next actions.`,
+      `Milestones added structure and motivation.`,
+      `Profile build felt lighter with compressed steps.`,
+      `Results screens now guide action, not just report status.`,
+      `Recommendations positioned the product to shift from MVP → MLP.`
   ],
   testimonial: {
       quote: `While not all elements of Rich’s redesign will be implemented in our MVP version, a number of key ideas will be. These will help take the MVP from ‘rational and functional’ to more of a minimum lovable product… greater appeal and engagement, without adding more functionality at this early stage.`,
@@ -84,34 +84,22 @@ const projectContent = {
       company: 'Founder, Bestie Health Club'
   },
   reflection: {
-    worked: `MVP-faithful redesign; milestone framing; streamlined results.`,
-    challenges: `Early tests varied in scripts; some processes initially under-tested.`,
-    next: `Broaden test scope; refine health assessment cadence; consider light tele-vet handoff patterns.`,
-  },
-  fullResearch: `The extended write-up covers the interview plan and screener; survey highlights; competitor SWOT (AU tele-vet); persona summary; testing protocol changes (think-aloud, scope expansion); constraints (adhere to existing flows); and IP protection (blurred artefacts).`
+    worked: `MVP-faithful redesign; milestone framing; clearer results.`,
+    challenges: `Early test scripts varied; limited process coverage in the first round.`,
+    next: `Broaden test scope; refine assessment cadence; explore light tele-vet hand-off patterns.`,
+  }
 };
 
 const galleryImages = [
-    { src: 'https://placehold.co/1200x800.png', alt: 'Before: Original homepage design', hint: 'app screen before', value: 'Before: Original homepage design with unclear calls to action.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'After: Redesigned homepage with clear CTAs', hint: 'app screen after', value: 'After: Redesigned homepage with clearer primary actions and navigation.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Before: Original profile creation flow', hint: 'app screen before', value: 'Before: Multi-step profile creation that felt lengthy.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'After: Condensed profile build with clearer steps', hint: 'app screen after', value: 'After: A condensed profile builder with improved progress feedback.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Milestone tracking feature UI', hint: 'app screen feature', value: 'Milestone markers to recognise progress and prompt proactive pet care.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Redesigned health assessment results screen', hint: 'app screen results', value: 'Overhauled assessment results with simpler summaries and clear next actions.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Comparison of user flows before and after redesign', hint: 'user flow diagram', value: 'Visual comparison of user flows, highlighting streamlined pathways.' },
-    { src: 'https://placehold.co/1200x800.png', alt: 'Summary of the primary user persona', hint: 'persona document', value: 'A summary of the primary user persona for first-time dog owners.' },
+    { src: 'https://i.imgur.com/j6YBUah.png', alt: 'Project Canvas overview', hint: 'project canvas' },
+    { src: 'https://i.imgur.com/GfUmirx.jpeg', alt: 'Competitor overview (tele-vet, AU)', hint: 'competitor analysis' },
+    { src: 'https://i.imgur.com/1iAomdl.png', alt: 'Early UI sketches', hint: 'ui sketch' },
+    { src: 'https://i.imgur.com/cHRuMG0.jpeg', alt: 'Figma prototype (blurred to protect IP)', hint: 'figma prototype' },
+    { src: 'https://i.imgur.com/upW0RHX.jpeg', alt: 'Competitor analysis boards (blurred)', hint: 'miro board analysis' },
+    { src: 'https://i.imgur.com/B0atzVi.png', alt: 'User persona #1 (blurred to protect IP)', hint: 'persona document' },
 ];
 
-function calculateReadingTime(text: string) {
-    const wordsPerMinute = 200;
-    const wordCount = text.split(/\s+/).length;
-    return Math.ceil(wordCount / wordsPerMinute);
-}
-
 export default function BestieHealthClubProjectPage() {
-  const allText = Object.values(projectContent).flat().join(' ');
-  const readingTime = calculateReadingTime(allText);
-
   return (
     <CaseStudyLayout>
         <ProjectNavigation 
@@ -121,8 +109,8 @@ export default function BestieHealthClubProjectPage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://placehold.co/1200x675.png"
-                alt="Screens from a pet health web app showing onboarding, milestones, and assessment"
+                src="https://i.imgur.com/ii2Rb5x.jpeg"
+                alt="Hero image for Bestie Health Club discovery and MVP uplift."
                 fill
                 priority
                 className="object-cover"
@@ -136,7 +124,9 @@ export default function BestieHealthClubProjectPage() {
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               From minimum viable to minimum lovable for first-time dog owners
             </p>
-            <p className="text-sm text-muted-foreground mt-2">Estimated reading time: {readingTime} minutes</p>
+            <p className="text-md text-muted-foreground mt-4 max-w-3xl mx-auto">
+              A discovery-led engagement to understand early dog-owner needs, validate Bestie’s MVP, and uplift key journeys (onboarding, home, profile, assessment) without changing core flows—moving from MVP to Minimum Lovable Product.
+            </p>
         </div>
       </header>
       
@@ -164,25 +154,26 @@ export default function BestieHealthClubProjectPage() {
 
              <section id="challenge">
                 <h3 className="text-2xl font-bold font-headline mb-4">The design challenge</h3>
-                <p className="text-foreground/80 italic">“{projectContent.challenge}”</p>
+                <p className="text-foreground/80 italic">{projectContent.challenge}</p>
             </section>
 
             <Separator />
 
             <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The solution</h3>
-                <ol className="list-decimal list-outside space-y-2 pl-5 text-foreground/80">
+                <h3 className="text-2xl font-bold font-headline mb-4">The solution (overview)</h3>
+                <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.solution.map((item, i) => 
                      <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                    )}
-                </ol>
+                </ul>
                 <p className="mt-4 text-sm text-muted-foreground">{projectContent.solutionNote}</p>
             </section>
 
             <Separator />
 
             <section id="approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design approach</h3>
+                <h3 className="text-2xl font-bold font-headline mb-4">Process</h3>
+                 <p className="text-foreground/80 mb-4">Discovery → Synthesis → Prototyping & Tests (Double Diamond)</p>
                 <div className="space-y-4">
                     <div>
                         <h4 className="font-bold font-headline text-lg">Discovery</h4>
@@ -234,30 +225,6 @@ export default function BestieHealthClubProjectPage() {
                     <li><strong className="font-semibold">Next:</strong> {projectContent.reflection.next}</li>
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="prototype">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Interactive prototype</h3>
-                 <p className="text-foreground/80 mb-4">Try the clickable flows.</p>
-                 <div className="flex flex-wrap gap-4 items-center">
-                    <Button asChild>
-                        <a href="#" target="_blank" rel="noopener noreferrer">View Prototype <ExternalLink className="ml-2 h-4 w-4" /></a>
-                    </Button>
-                    <Button variant="link" asChild>
-                        <a href="#gallery">See UI before/after</a>
-                    </Button>
-                    <Accordion type="single" collapsible className="w-full border-none">
-                      <AccordionItem value="item-1" className="border-b-0">
-                        <AccordionTrigger className="p-0 hover:no-underline text-sm font-medium text-primary hover:underline underline-offset-4">Read full research details</AccordionTrigger>
-                        <AccordionContent className="pt-4 text-foreground/80">
-                           {projectContent.fullResearch}
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                 </div>
-            </section>
-
         </main>
         
         <aside className="lg:col-span-1">
@@ -267,38 +234,33 @@ export default function BestieHealthClubProjectPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
                 <div>
-                    <h4 className="font-semibold mb-1">Client/Brief</h4>
-                    <p className="text-muted-foreground">Bestie Health Club — define owner needs, test MVP, refine UX/UI</p>
+                    <h4 className="font-semibold mb-1">Role</h4>
+                    <p className="text-muted-foreground">UX/UI Designer (Discovery, Testing, UI uplift)</p>
                 </div>
                 <Separator />
                 <div>
                     <h4 className="font-semibold mb-1">Team</h4>
                     <p className="text-muted-foreground">Amanda Falconer (Founder), Jonathan Milgate (Dev), Jordan Boswood (Dev), Rich Bartlett (UX/UI)</p>
                 </div>
-                 <Separator />
-                <div>
-                    <h4 className="font-semibold mb-1">Role</h4>
-                    <p className="text-muted-foreground">UX/UI Designer (Discovery, Testing, UI Uplift)</p>
-                </div>
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Tools</h4>
-                     <p className="text-muted-foreground">Canva, Zoom, Trello, Slack, Google Suite, Otter.ai</p>
+                     <p className="text-muted-foreground">Canva, Zoom, Trello, Slack, Google Suite, Otter.ai, Figma</p>
                 </div>
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Timeline</h4>
-                     <p className="text-muted-foreground">Discovery 30 Mar → 11 Apr 2021, Testing 18–23 May 2021, UI Uplift 24–28 May 2021</p>
+                     <p className="text-muted-foreground">Discovery (30 Mar–11 Apr 2021) • Testing (18–23 May 2021) • UI uplift (24–28 May 2021)</p>
                 </div>
-                 <Separator />
-                <div>
+                <Separator />
+                 <div>
                     <h4 className="font-semibold mb-1">Audience</h4>
                      <p className="text-muted-foreground">First-time dog owners in Australia</p>
                 </div>
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Methods</h4>
-                     <p className="text-muted-foreground">5+ qualitative interviews, quantitative survey, competitive analysis (AU tele-vet)</p>
+                     <p className="text-muted-foreground">8 interviews • 41-response survey • AU tele-vet competitive analysis (4)</p>
                 </div>
             </CardContent>
           </Card>
@@ -306,7 +268,7 @@ export default function BestieHealthClubProjectPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery (Before & After)</h3>
+            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
@@ -319,7 +281,7 @@ export default function BestieHealthClubProjectPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm">{img.value}</p>
+                      <p className="text-white text-center text-sm">{img.alt}</p>
                     </div>
                 </div>
               ))}
@@ -337,3 +299,4 @@ export default function BestieHealthClubProjectPage() {
     </CaseStudyLayout>
   );
 }
+
