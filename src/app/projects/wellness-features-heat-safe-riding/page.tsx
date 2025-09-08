@@ -111,7 +111,7 @@ export default function WellnessFeaturesPage() {
       <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://i.imgur.com/KxsmBhl.png"
+                src="https://i.imgur.com/Kw74ciO.jpeg"
                 alt="Hi-fi usability testing of wellness features inside the Deliveroo rider app concept"
                 fill
                 priority
@@ -397,5 +397,3 @@ Define what it means to empower a community through technology; identify themes 
     </CaseStudyLayout>
   );
 }
-
-    
