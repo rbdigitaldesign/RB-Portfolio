@@ -331,7 +331,7 @@
     "category": "Learning Design",
     "summary": "Converting a static PDF student handbook into an interactive and engaging H5P module.",
     "tags": ["H5P", "AU", "Instructional Design", "Accessibility"],
-    "coverImage": "https://i.imgur.com/zUVWgvo.png",
+    "coverImage": "https://i.imgur.com/cg26sK1.png",
     "gallery": [],
     "overview": "This project aimed to transform a dense, text-heavy PDF student handbook into an interactive H5P resource to improve student engagement and information retention.",
     "problem": "Analytics showed that very few students were accessing or reading the PDF handbook, leading to missed information and common, repeated questions to support staff.",
@@ -366,5 +366,3 @@
     }
   }
 ]
-
-    
