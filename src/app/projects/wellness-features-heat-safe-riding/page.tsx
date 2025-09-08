@@ -49,6 +49,9 @@ const galleryImages = [
     { src: 'https://i.imgur.com/Lqvncof.png', alt: 'Diagram mapping stakeholder priorities', title: 'Problem scale' },
     { src: 'https://i.imgur.com/SpQdEkW.jpeg', alt: 'Team prioritising ideas with stickers', title: 'Dot voting as a team' },
     { src: 'https://i.imgur.com/KxsmBhl.png', alt: 'Participant using the prototype', title: 'Hi-fi usability testing' },
+];
+
+const sketchImages = [
     { src: 'https://i.imgur.com/Ei7QRx5.png', alt: 'Phone screen sketch', title: 'Sketch mock 1' },
     { src: 'https://i.imgur.com/x2aO11N.png', alt: 'Phone screen sketch', title: 'Sketch mock 2' },
     { src: 'https://i.imgur.com/0FRJBkN.png', alt: 'Phone screen sketch', title: 'Sketch mock 3' },
@@ -62,6 +65,8 @@ const galleryImages = [
     { src: 'https://i.imgur.com/0kjNxx2.png', alt: 'Phone screen sketch', title: 'Sketch mock 11' },
     { src: 'https://i.imgur.com/CV9pcHi.jpeg', alt: 'Phone screen sketch', title: 'Sketch mock 12' },
 ];
+
+const allGalleryImages = [...galleryImages, ...sketchImages];
 
 const PhoneFrame = ({ children }: { children: React.ReactNode }) => (
     <div className="relative aspect-[9/19.5] w-full max-w-[250px] mx-auto border-4 border-black rounded-3xl overflow-hidden shadow-lg">
@@ -80,11 +85,11 @@ export default function WellnessFeaturesPage() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleNext = useCallback(() => {
-    setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+    setSelectedIndex((prevIndex) => (prevIndex + 1) % allGalleryImages.length);
   }, []);
 
   const handlePrev = useCallback(() => {
-    setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
+    setSelectedIndex((prevIndex) => (prevIndex - 1 + allGalleryImages.length) % allGalleryImages.length);
   }, []);
 
   useEffect(() => {
@@ -136,7 +141,8 @@ export default function WellnessFeaturesPage() {
         <main className="lg:col-span-2 space-y-12">
             <section id="intro">
                 <h3 className="text-2xl font-bold font-headline mb-4">Project scope & team</h3>
-                <p className="text-foreground/80">Humanitech’s brief (Australian Red Cross): Define what it means to empower a community through technology; identify themes worth exploring; map lived experience; develop concepts; and prototype solutions that prioritise psychosocial wellbeing and livelihoods.</p>
+                <p className="text-foreground/80">Humanitech’s brief (Australian Red Cross):
+Define what it means to empower a community through technology; identify themes worth exploring; map lived experience; develop concepts; and prototype solutions that prioritise psychosocial wellbeing and livelihoods.</p>
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div><strong>Scope:</strong> Research technologies that empower communities, Engage affected groups and synthesise themes, Create journey maps, concepts, user flows, Build mid- and high-fidelity prototypes</div>
                     <div><strong>Tools:</strong> Figma, Miro, Canva, Zoom, UseBerry, Trello, Slack, Google Suite</div>
@@ -319,7 +325,7 @@ export default function WellnessFeaturesPage() {
        <section id="gallery" className="mt-16">
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {galleryImages.slice(0, 11).map((img, index) => (
+              {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
                      onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
@@ -335,10 +341,13 @@ export default function WellnessFeaturesPage() {
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
-               {galleryImages.slice(11).map((img, index) => (
-                 <div key={index + 11} className="group relative cursor-pointer rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
-                      onClick={() => { setSelectedIndex(index + 11); setOpen(true); }}>
+        </section>
+        <section id="sketches" className="mt-16">
+            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Sketch Mocks</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+               {sketchImages.map((img, index) => (
+                 <div key={index} className="group relative cursor-pointer rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                      onClick={() => { setSelectedIndex(galleryImages.length + index); setOpen(true); }}>
                     <PhoneFrame>
                         <Image 
                             src={img.src} 
@@ -353,25 +362,26 @@ export default function WellnessFeaturesPage() {
                  </div>
                ))}
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
-                  <div className="relative aspect-video">
-                    <Image 
-                      src={galleryImages[selectedIndex].src} 
-                      alt={galleryImages[selectedIndex].alt} 
-                      fill
-                      className="rounded-lg object-contain"
-                    />
-                  </div>
-                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
-                      <ArrowLeft className="h-6 w-6" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
-                      <ArrowRight className="h-6 w-6" />
-                  </Button>
-              </DialogContent>
-            </Dialog>
-      </section>
+       </section>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+            <div className="relative aspect-video">
+              <Image 
+                src={allGalleryImages[selectedIndex].src} 
+                alt={allGalleryImages[selectedIndex].alt} 
+                fill
+                className="rounded-lg object-contain"
+              />
+            </div>
+            <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                <ArrowLeft className="h-6 w-6" />
+            </Button>
+            <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                <ArrowRight className="h-6 w-6" />
+            </Button>
+        </DialogContent>
+      </Dialog>
 
       <ScrollToTopButton />
     </CaseStudyLayout>
