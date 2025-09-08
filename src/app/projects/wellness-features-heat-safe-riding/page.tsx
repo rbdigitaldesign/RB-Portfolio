@@ -304,18 +304,28 @@ Define what it means to empower a community through technology; identify themes 
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
                 <div>
-                    <h4 className="font-semibold mb-1">Audience</h4>
-                    <p className="text-muted-foreground">Delivery riders in hot urban environments</p>
+                  <h4 className="font-semibold mb-1">Scope</h4>
+                  <p className="text-muted-foreground">Research technologies that empower communities, Engage affected groups and synthesise themes, Create journey maps, concepts, user flows, Build mid- and high-fidelity prototypes</p>
                 </div>
-                 <Separator />
+                <Separator />
                 <div>
-                    <h4 className="font-semibold mb-1">Team</h4>
-                    <p className="text-muted-foreground">Osama Mah, Ash Cheuk, Rich Bartlett</p>
+                  <h4 className="font-semibold mb-1">Tools</h4>
+                  <p className="text-muted-foreground">Figma, Miro, Canva, Zoom, UseBerry, Trello, Slack, Google Suite</p>
                 </div>
-                 <Separator />
-                 <div>
-                    <h4 className="font-semibold mb-1">My Role</h4>
-                    <p className="text-muted-foreground">Team lead, client contact, UX researcher, UI designer, co-presenter</p>
+                <Separator />
+                <div>
+                  <h4 className="font-semibold mb-1">Team</h4>
+                  <p className="text-muted-foreground">Osama Mah, Ash Cheuk</p>
+                </div>
+                <Separator />
+                <div>
+                  <h4 className="font-semibold mb-1">My role</h4>
+                  <p className="text-muted-foreground">Team lead / client contact, UX researcher, UI designer, co-presenter</p>
+                </div>
+                <Separator />
+                <div>
+                  <h4 className="font-semibold mb-1">Timeline (6 weeks)</h4>
+                  <p className="text-muted-foreground">Discover (1.5w) · Define (1.5w) · Develop (1.5w) · Deliver (1.5w)</p>
                 </div>
             </CardContent>
           </Card>
@@ -387,3 +397,5 @@ Define what it means to empower a community through technology; identify themes 
     </CaseStudyLayout>
   );
 }
+
+    
