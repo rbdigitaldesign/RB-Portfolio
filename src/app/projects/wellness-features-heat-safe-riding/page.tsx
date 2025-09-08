@@ -227,7 +227,28 @@ Define what it means to empower a community through technology; identify themes 
                     <li>Daily check-ins to earn credits redeemable at partner vendors.</li>
                     <li>Quick tips on heat stress & a compact weather panel.</li>
                 </ul>
-                 <h4 className="font-bold font-headline text-lg mt-4 mb-2">Mid-fi prototype (walkthrough)</h4>
+                <section id="sketches" className="mt-8">
+                    <h4 className="font-bold font-headline text-lg mb-4">Sketch Mocks</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                       {sketchImages.map((img, index) => (
+                         <div key={index} className="group relative cursor-pointer rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                              onClick={() => { setSelectedIndex(galleryImages.length + index); setOpen(true); }}>
+                            <PhoneFrame>
+                                <Image 
+                                    src={img.src} 
+                                    alt={img.alt} 
+                                    fill 
+                                    className="object-cover"
+                                />
+                            </PhoneFrame>
+                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <p className="text-white text-center text-xs">{img.title}</p>
+                            </div>
+                         </div>
+                       ))}
+                    </div>
+               </section>
+                 <h4 className="font-bold font-headline text-lg mt-8 mb-2">Mid-fi prototype (walkthrough)</h4>
                  <div className="aspect-video mb-4"><iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/WHP6vo5uMQZOSNSITdDNU1/Redo-Mid-Fi--Delivery-Rider---Copy-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe></div>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Humanitech mid-fi video with voice-over</h4>
                  <div className="aspect-video"><iframe width="560" height="315" src="https://www.youtube.com/embed/lcVawe5UNks?si=4SdRX1zt5MBlFEdJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-full rounded-lg"></iframe></div>
@@ -296,7 +317,7 @@ Define what it means to empower a community through technology; identify themes 
               <CardTitle className="font-headline text-xl">Quick facts</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
-                <div>
+                 <div>
                   <h4 className="font-semibold mb-1">Scope</h4>
                   <p className="text-muted-foreground">Research technologies that empower communities, Engage affected groups and synthesise themes, Create journey maps, concepts, user flows, Build mid- and high-fidelity prototypes</p>
                 </div>
@@ -343,27 +364,6 @@ Define what it means to empower a community through technology; identify themes 
                     </div>
                 </div>
               ))}
-            </div>
-        </section>
-        <section id="sketches" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Sketch Mocks</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-               {sketchImages.map((img, index) => (
-                 <div key={index} className="group relative cursor-pointer rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
-                      onClick={() => { setSelectedIndex(galleryImages.length + index); setOpen(true); }}>
-                    <PhoneFrame>
-                        <Image 
-                            src={img.src} 
-                            alt={img.alt} 
-                            fill 
-                            className="object-cover"
-                        />
-                    </PhoneFrame>
-                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-xs">{img.title}</p>
-                    </div>
-                 </div>
-               ))}
             </div>
        </section>
 
