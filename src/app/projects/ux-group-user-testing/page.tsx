@@ -36,16 +36,19 @@ const LocalTOC = () => (
 );
 
 const galleryImages = [
-    { src: 'https://i.imgur.com/yDylY67.jpeg', alt: 'A student and facilitator during a one-on-one usability test', hint: 'user testing' },
-    { src: 'https://i.imgur.com/Fufl9bG.jpeg', alt: 'Small group of students sharing feedback with facilitators', hint: 'group discussion' },
-    { src: 'https://i.imgur.com/IBVcXjL.jpeg', alt: 'Students using laptops and phones to submit survey responses', hint: 'survey response' },
-    { src: 'https://i.imgur.com/b7bXELv.jpeg', alt: 'Large Miro board showing research lanes and sticky notes', hint: 'miro board' },
-    { src: 'https://i.imgur.com/DTKxzVY.jpeg', alt: 'Miro frame defining the problem, constraints, and design question', hint: 'design question' },
-    { src: 'https://i.imgur.com/vzQPwjU.jpeg', alt: 'Miro column with examples, issues and early concepts', hint: 'miro concepts' },
-    { src: 'https://i.imgur.com/QyGP980.jpeg', alt: 'Miro frame with early UI ideas and poll feedback', hint: 'miro ideation' },
-    { src: 'https://i.imgur.com/VEWgxzo.jpeg', alt: 'Miro panel comparing module/page naming options', hint: 'miro comparison' },
-    { src: 'https://i.imgur.com/BE0yHNt.png', alt: 'Early static mock exploring content layout and quick navigation', hint: 'static mock' },
-    { src: 'https://i.imgur.com/4MxDl7v.png', alt: 'Prototype screenshot of the Dynamic Home page with integrated navigation', hint: 'prototype screenshot' }
+    { src: 'https://i.imgur.com/yDylY67.jpeg', alt: 'A student and facilitator during a one-on-one usability test', hint: 'User testing in progress (1:1 session)' },
+    { src: 'https://i.imgur.com/Fufl9bG.jpeg', alt: 'Small group of students sharing feedback with facilitators', hint: 'Group discussion after testing' },
+    { src: 'https://i.imgur.com/IBVcXjL.jpeg', alt: 'Students using laptops and phones to submit survey responses', hint: 'Students completing the JotForm survey' },
+    { src: 'https://i.imgur.com/4YlqXC6.png', alt: 'Building the survey in JotForm, showing question types', hint: 'Building the JotForm survey (1)' },
+    { src: 'https://i.imgur.com/YvjODJB.png', alt: 'Configuring conditional logic in the JotForm survey builder', hint: 'Building the JotForm survey (2)' },
+    { src: 'https://i.imgur.com/Bvywvg0.png', alt: 'Setting up the thank you page and redirects in JotForm', hint: 'Building the JotForm survey (3)' },
+    { src: 'https://i.imgur.com/b7bXELv.jpeg', alt: 'Large Miro board showing research lanes and sticky notes', hint: 'UX subgroup’s Miro board (overview)' },
+    { src: 'https://i.imgur.com/DTKxzVY.jpeg', alt: 'Miro frame defining the problem, constraints, and design question', hint: 'Framing the design challenge' },
+    { src: 'https://i.imgur.com/vzQPwjU.jpeg', alt: 'Miro column with examples, issues and early concepts', hint: 'Initial research lane' },
+    { src: 'https://i.imgur.com/QyGP980.jpeg', alt: 'Miro frame with early UI ideas and poll feedback', hint: 'Ideation Station' },
+    { src: 'https://i.imgur.com/VEWgxzo.jpeg', alt: 'Miro panel comparing module/page naming options', hint: 'Prototype solutions' },
+    { src: 'https://i.imgur.com/BE0yHNt.png', alt: 'Early static mock exploring content layout and quick navigation', hint: 'Rich’s pre-design home-page contribution' },
+    { src: 'https://i.imgur.com/4MxDl7v.png', alt: 'Prototype screenshot of the Dynamic Home page with integrated navigation', hint: 'Early Dynamic Home by Tim' }
 ];
 
 export default function UxGroupUserTestingPage() {
@@ -293,7 +296,7 @@ export default function UxGroupUserTestingPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-center text-sm">{img.alt}</p>
+                      <p className="text-white text-center text-sm">{img.hint}</p>
                     </div>
                 </div>
               ))}
