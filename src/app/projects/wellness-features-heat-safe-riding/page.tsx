@@ -249,7 +249,7 @@ Define what it means to empower a community through technology; identify themes 
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Round 2 — hi-fi testing (12 tests: 6 moderated, 6 unmoderated incl. riders)</h4>
                  <p className="text-foreground/80"><strong>Findings:</strong> explanation of new features still needed tightening; “star” was a poor metaphor for credits; map legend ate space.<br/><strong>Iterations</strong> renamed Climate Credits → Credits; switched to coin-stack icon; removed persistent legend; improved copy and micro-interactions.</p>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Hi-fi prototype</h4>
-                 <div className="w-full" style={{height: '600px'}}><iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)', width: '100%', height: '100%'}} src="https://embed.figma.com/proto/ZQgjE1b0NUoU3yM7H7CKFJ/V2---Deliveroo-High-Fi?kind=proto&node-id=313-1087&page-id=0%3A1&scaling=min-zoom&viewport=114%2C815%2C0.06224198266863823&embed-host=share" allowFullScreen className="rounded-lg"></iframe></div>
+                 <div className="w-full" style={{height: '750px'}}><iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)', width: '100%', height: '100%'}} src="https://embed.figma.com/proto/ZQgjE1b0NUoU3yM7H7CKFJ/V2---Deliveroo-High-Fi?kind=proto&node-id=313-1087&page-id=0%3A1&scaling=min-zoom&viewport=114%2C815%2C0.06224198266863823&embed-host=share" allowFullScreen className="rounded-lg"></iframe></div>
             </section>
 
             <Separator />
