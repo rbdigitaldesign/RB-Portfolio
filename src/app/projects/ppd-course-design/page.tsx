@@ -61,6 +61,11 @@ export default function PpdCourseDesignPage() {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
+    setOpen(true);
+  };
+
   const handleNext = useCallback(() => {
     setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
   }, []);
@@ -78,6 +83,8 @@ export default function PpdCourseDesignPage() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open, handleNext, handlePrev]);
+
+  const findImageIndex = (src: string) => galleryImages.findIndex(img => img.src === src);
 
   return (
     <CaseStudyLayout>
@@ -156,7 +163,7 @@ export default function PpdCourseDesignPage() {
             <section id="alignment">
                 <h3 className="text-2xl font-bold font-headline mb-4">Constructive alignment</h3>
                 <p className="text-foreground/80">We began with a full constructive alignment pass—mapping outcomes to assessments, weekly activities and resources across 12 weeks.</p>
-                <Image src="https://i.imgur.com/d7AFaMh.jpeg" alt="12-week PPD planning board: outcomes, assessments and weekly tasks" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/d7AFaMh.jpeg" alt="12-week PPD planning board: outcomes, assessments and weekly tasks" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/d7AFaMh.jpeg'))} />
                 <p className="text-foreground/80 mt-4">Assessments scaffold into a final portfolio that evidences growth and readiness for the business environment. A week-by-week guide clarifies expectations and milestones. Design was iteratively refined via stakeholder feedback and collaboration.</p>
             </section>
             
@@ -165,7 +172,7 @@ export default function PpdCourseDesignPage() {
             <section id="concept_map">
                 <h3 className="text-2xl font-bold font-headline mb-4">Concept map</h3>
                 <p className="text-foreground/80">The initial planning board was distilled into a concept map—a navigable, student-friendly visual that keeps the structure obvious and the journey clear.</p>
-                <Image src="https://i.imgur.com/WRbjIbv.jpeg" alt="Concept map simplifying the PPD course structure for students" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/WRbjIbv.jpeg" alt="Concept map simplifying the PPD course structure for students" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/WRbjIbv.jpeg'))} />
                 <p className="text-foreground/80 mt-4">The map emphasises hierarchy, colour and flow so learners can see how topics connect and where they’re heading each week.</p>
             </section>
 
@@ -183,13 +190,7 @@ export default function PpdCourseDesignPage() {
                         <div 
                             key={image.src}
                             className="group relative cursor-pointer aspect-square rounded-lg overflow-hidden shadow-md"
-                            onClick={() => {
-                                const galleryIndex = galleryImages.findIndex(gi => gi.src === image.src);
-                                if (galleryIndex !== -1) {
-                                    setSelectedIndex(galleryIndex);
-                                    setOpen(true);
-                                }
-                            }}
+                            onClick={() => handleImageClick(findImageIndex(image.src))}
                         >
                             <Image src={image.src} alt={image.alt} fill className="object-cover" />
                              <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -206,9 +207,9 @@ export default function PpdCourseDesignPage() {
             <section id="personas">
                 <h3 className="text-2xl font-bold font-headline mb-4">Personas & narrative</h3>
                 <p className="text-foreground/80">Story drives memory (Simmons, 2006), so we embedded a light narrative through two personas—Sarah and Alex—inspired by 16personalities MBTI patterns. Students follow their choices across Determine → Develop → Grow → Reflect → Apply and map their own growth alongside.</p>
-                <Image src="https://i.imgur.com/ZmlHyvo.jpeg" alt="Three emotional journey maps showing highs and lows across the PPD journey" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
-                <Image src="https://i.imgur.com/csdmzNv.jpeg" alt="Sarah and Alex: final journey maps across five stages" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
-                <Image src="https://i.imgur.com/mJf5gtS.png" alt="Persona overview styled to UoA branding" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/ZmlHyvo.jpeg" alt="Three emotional journey maps showing highs and lows across the PPD journey" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/ZmlHyvo.jpeg'))} />
+                <Image src="https://i.imgur.com/csdmzNv.jpeg" alt="Sarah and Alex: final journey maps across five stages" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/csdmzNv.jpeg'))} />
+                <Image src="https://i.imgur.com/mJf5gtS.png" alt="Persona overview styled to UoA branding" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/mJf5gtS.png'))} />
                 <p className="text-foreground/80 mt-4">Inclusivity note: we used gender-neutral language and AI-assisted imagery to reflect diverse identities.</p>
             </section>
 
@@ -217,7 +218,7 @@ export default function PpdCourseDesignPage() {
             <section id="ux_copy">
                 <h3 className="text-2xl font-bold font-headline mb-4">UX copy & student resources</h3>
                 <p className="text-foreground/80">We wrote UX copy to make optional resources feel invitational, not remedial—“Dive into PPD with selected reads that mirror the diversity and potential of your personal growth journey.”</p>
-                <Image src="https://i.imgur.com/wZ7uEQO.png" alt="Student resources card and framing copy" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/wZ7uEQO.png" alt="Student resources card and framing copy" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/wZ7uEQO.png'))} />
                 <p className="text-foreground/80 mt-4">Each resource has a short overview so learners can decide quickly what’s useful and why it matters to their goals.</p>
             </section>
             
@@ -226,7 +227,7 @@ export default function PpdCourseDesignPage() {
             <section id="visual_concepts">
                 <h3 className="text-2xl font-bold font-headline mb-4">Visual concepts — Maslow’s hierarchy</h3>
                 <p className="text-foreground/80">To reduce cognitive load, we translated text-heavy theory into concise visuals. Example: Maslow’s hierarchy, using a calm monochrome palette and simple icons for fast scanning.</p>
-                <Image src="https://i.imgur.com/8T0yIKx.png" alt="Minimal, icon-based Maslow hierarchy for quick comprehension" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/8T0yIKx.png" alt="Minimal, icon-based Maslow hierarchy for quick comprehension" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/8T0yIKx.png'))} />
             </section>
 
             <Separator />
@@ -234,7 +235,7 @@ export default function PpdCourseDesignPage() {
             <section id="presentations">
                 <h3 className="text-2xl font-bold font-headline mb-4">Presentations (embedded)</h3>
                 <p className="text-foreground/80">We also built mini-presentations inside the LMS for targeted lessons—e.g., Professionalism (respect, dress, punctuality, time management).</p>
-                <Image src="https://i.imgur.com/3fajjWX.jpeg" alt="Professionalism mini-deck visual" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/3fajjWX.jpeg" alt="Professionalism mini-deck visual" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/3fajjWX.jpeg'))} />
                 <div style={{position: 'relative', width: '100%', height: 0, paddingTop: '56.25%', boxShadow: '0 2px 8px rgba(63,69,81,0.16)', marginTop: '1.2em', borderRadius: '8px', overflow: 'hidden'}}>
                     <iframe loading="lazy" style={{position: 'absolute', width: '100%', height: '100%', top: 0, left: 0, border: 0}} src="https://www.canva.com/design/DAGF_2MTSus/L-uWgBF1JtKAwcVYdVItbw/view?embed" allowFullScreen></iframe>
                 </div>
@@ -246,7 +247,7 @@ export default function PpdCourseDesignPage() {
             <section id="assessments">
                 <h3 className="text-2xl font-bold font-headline mb-4">Assessment exemplars</h3>
                 <p className="text-foreground/80">Assessments build to a professional portfolio in Microsoft Sway. We supplied:<br/>a branded banner,<br/>step-by-step guidance and links,<br/>a duplicate-ready Sway template so students focus on content—not layout.</p>
-                <Image src="https://i.imgur.com/jeu3Z5y.jpeg" alt="Assessment exemplar materials for building a Sway portfolio" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/jeu3Z5y.jpeg" alt="Assessment exemplar materials for building a Sway portfolio" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/jeu3Z5y.jpeg'))} />
             </section>
 
             <Separator />
@@ -254,8 +255,8 @@ export default function PpdCourseDesignPage() {
             <section id="visualising_data">
                 <h3 className="text-2xl font-bold font-headline mb-4">Visualising data & inclusion content</h3>
                 <p className="text-foreground/80">We transformed raw copy on diversity and inclusion into scannable graphs/infographics with the media team—improving comprehension and retention.</p>
-                <Image src="https://i.imgur.com/Ye3mdd6.png" alt="Raw text prior to visual uplift" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
-                <Image src="https://i.imgur.com/nfzOA70.png" alt="Final infographic and graph set used in the LMS" width={800} height={450} className="mt-4 rounded-lg shadow-md" />
+                <Image src="https://i.imgur.com/Ye3mdd6.png" alt="Raw text prior to visual uplift" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/Ye3mdd6.png'))} />
+                <Image src="https://i.imgur.com/nfzOA70.png" alt="Final infographic and graph set used in the LMS" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/nfzOA70.png'))} />
             </section>
 
             <Separator />
@@ -272,7 +273,7 @@ export default function PpdCourseDesignPage() {
               <CardTitle className="font-headline text-xl">Quick Facts</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
-                <section id="intro">
+                <section id="intro-aside">
                     <h4 className="font-semibold mb-1">Scope</h4>
                     <p className="text-muted-foreground">The Personal Professional Development course equips students with practical professional skills and a strong sense of professional identity. It blends theory with application so learners can navigate ethics, build personal learning ecosystems, and work cooperatively.</p>
                 </section>
@@ -282,7 +283,7 @@ export default function PpdCourseDesignPage() {
                     <p className="text-muted-foreground">Canva · Canvas (LMS) · Zoom</p>
                 </section>
                 <Separator />
-                <section id="team">
+                <section id="team-aside">
                     <h4 className="font-semibold mb-1">Team & Timeline</h4>
                     <p className="text-muted-foreground">
                         <strong>Authors:</strong> Stella Bachtis, Rea Bachtis<br/>
@@ -301,7 +302,7 @@ export default function PpdCourseDesignPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
-                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
+                     onClick={() => handleImageClick(index)}>
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
@@ -316,25 +317,27 @@ export default function PpdCourseDesignPage() {
                 </div>
               ))}
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
-                  <div className="relative aspect-video">
+        </section>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                <div className="relative aspect-video">
                     <Image 
-                      src={galleryImages[selectedIndex].src} 
-                      alt={galleryImages[selectedIndex].alt} 
-                      fill
-                      className="rounded-lg object-contain"
+                        src={galleryImages[selectedIndex].src} 
+                        alt={galleryImages[selectedIndex].alt} 
+                        fill
+                        className="rounded-lg object-contain"
                     />
-                  </div>
-                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
-                      <ArrowLeft className="h-6 w-6" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
-                      <ArrowRight className="h-6 w-6" />
-                  </Button>
-              </DialogContent>
-            </Dialog>
-      </section>
+                </div>
+                <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                    <ArrowLeft className="h-6 w-6" />
+                </Button>
+                <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                    <ArrowRight className="h-6 w-6" />
+                </Button>
+            </DialogContent>
+        </Dialog>
+
 
       <Card className="mt-24 text-center p-8 md:p-12">
         <h3 className="text-2xl font-bold font-headline mb-2">Need help translating complex ideas into engaging learning?</h3>

@@ -61,6 +61,11 @@ export default function OuaOrientationRedesignPage() {
     const [open, setOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const handleImageClick = (index: number) => {
+        setSelectedIndex(index);
+        setOpen(true);
+    };
+    
     const handleNext = useCallback(() => {
         setSelectedIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
     }, []);
@@ -114,6 +119,7 @@ export default function OuaOrientationRedesignPage() {
         <main className="lg:col-span-2 space-y-12 prose dark:prose-invert max-w-none">
             <section id="overview">
                 <h3>Overview</h3>
+                <img src="https://i.imgur.com/ypMmfTs.png" alt="Overview of redesigned OUA orientation sequence pages" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(0)} />
                 <p>When I joined the Online Programs Team, one of my first tasks was to re-imagine orientation for OUA students. Guided by my manager Tim and working closely with my colleague Sinead, we audited existing orientation patterns across courses, then shaped a version that fits OUA learners: informative, engaging, and easy to navigate online.</p>
             </section>
             
@@ -138,7 +144,7 @@ export default function OuaOrientationRedesignPage() {
             <section id="phase1">
                 <h3>Phase 1 — Evaluation</h3>
                 <p>Current OUA MyUni Orientation (critique)</p>
-                <img src="https://i.imgur.com/gWovhCt.png" alt="Critique of current OUA orientation sequences" className="rounded-md shadow-md" />
+                <img src="https://i.imgur.com/gWovhCt.png" alt="Critique of current OUA orientation sequences" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(1)} />
                 <p>Sinead produced a detailed review covering copy, videos, visuals, HTML, and Google comment threads. Together we captured strengths, gaps, and actionable fixes—becoming the foundation for our redesign plan.</p>
                 <h4>Ideas for iteration</h4>
                 <ul>
@@ -155,14 +161,16 @@ export default function OuaOrientationRedesignPage() {
             <section id="collab_figma">
                 <h3>Collaborative design (Figma)</h3>
                 <p>We explored sequence and layout options together and individually in Figma, aligning with the UoA Style Guide for consistency and accessibility.</p>
-                <iframe style={{border: '1px solid rgba(0,0,0,.1)', width: '100%', height: '450px', borderRadius: '8px'}} src="https://embed.figma.com/design/nj2YTaMyxgCvazvW3qTcnj/Orientation-Workshop-before-and-after?node-id=0-1&embed-host=share" allowFullScreen></iframe>
+                <div className="aspect-video mt-4">
+                  <iframe style={{border: "1px solid rgba(0, 0, 0, 0.1)", width: '100%', height: '450px', borderRadius: '8px'}} src="https://embed.figma.com/design/nj2YTaMyxgCvazvW3qTcnj/Orientation-Workshop-before-and-after?node-id=0-1&embed-host=share" allowFullScreen></iframe>
+                </div>
             </section>
 
             <Separator />
 
             <section id="phase2">
                 <h3>Phase 2 — Student engagement</h3>
-                <img src="https://i.imgur.com/2CoZxAy.png" alt="Requirements scoped for Students as Partners" className="rounded-md shadow-md" />
+                <img src="https://i.imgur.com/2CoZxAy.png" alt="Requirements scoped for Students as Partners" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(2)} />
                 <p>We scoped collaboration with a Students as Partners cohort reflecting our OUA audience to ground decisions in authentic needs and expectations.</p>
             </section>
             
@@ -170,7 +178,7 @@ export default function OuaOrientationRedesignPage() {
 
             <section id="phase3">
                 <h3>Phase 3 — Workshop development & facilitation</h3>
-                <img src="https://i.imgur.com/c8GRodH.png" alt="Workshop preparation plan and materials" className="rounded-md shadow-md" />
+                <img src="https://i.imgur.com/c8GRodH.png" alt="Workshop preparation plan and materials" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(3)} />
                 <p>We prepared pre-workshop quizzes, a facilitator script, and a Miro activity board stored in a shared drive. Activities included:</p>
                 <ul>
                     <li>Orientation feedback (sticky notes + arrows + emoji reactions)</li>
@@ -178,15 +186,15 @@ export default function OuaOrientationRedesignPage() {
                     <li>Card sort of orientation pages for logic and flow</li>
                     <li>Workshop feedback via emoji + comments</li>
                 </ul>
-                <img src="https://i.imgur.com/BtiAQZB.png" alt="Workshop running live on Zoom" className="rounded-md shadow-md" />
+                <img src="https://i.imgur.com/BtiAQZB.png" alt="Workshop running live on Zoom" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(4)} />
             </section>
 
             <Separator />
 
             <section id="workshop_action">
                 <h3>Workshop in action</h3>
-                <img src="https://i.imgur.com/ACo8ze0.jpeg" alt="Miro board with interactive activities" className="rounded-md shadow-md" />
-                <img src="https://i.imgur.com/9vtA4bH.jpeg" alt="Overview of student feedback captured in Miro" className="rounded-md shadow-md mt-4" />
+                <img src="https://i.imgur.com/ACo8ze0.jpeg" alt="Miro board with interactive activities" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(5)} />
+                <img src="https://i.imgur.com/9vtA4bH.jpeg" alt="Overview of student feedback captured in Miro" className="mt-4 rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(6)} />
                 <p>Nine students joined online. Keeping cameras on helped sustain engagement and let us read reactions in real time.</p>
             </section>
 
@@ -195,9 +203,9 @@ export default function OuaOrientationRedesignPage() {
             <section id="phase4">
                 <h3>Phase 4 — Data synthesis & design decisions</h3>
                 <div className="insights-row my-4">
-                    <img src="https://i.imgur.com/o4fCNH3.png" alt="Sinead’s insights" className="rounded-md shadow-md" />
-                    <img src="https://i.imgur.com/bREUY4l.jpeg" alt="Rich’s insights" className="rounded-md shadow-md" />
-                    <img src="https://i.imgur.com/HlRj5Iv.jpeg" alt="Collaborative synthesis" className="rounded-md shadow-md" />
+                    <img src="https://i.imgur.com/o4fCNH3.png" alt="Sinead’s insights" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(7)} />
+                    <img src="https://i.imgur.com/bREUY4l.jpeg" alt="Rich’s insights" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(8)} />
+                    <img src="https://i.imgur.com/HlRj5Iv.jpeg" alt="Collaborative synthesis" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(9)} />
                 </div>
                 <h4>Key takeaways from students</h4>
                 <ul>
@@ -234,10 +242,10 @@ export default function OuaOrientationRedesignPage() {
                 <h3>Iterations beyond the workshop</h3>
                 <p>The work continued—technology and policy shifted, so did the UX. We introduced cue boxes, refined assessment timelines, and explored ChatGPT integration for targeted student support.</p>
                 <div className="iphone-row my-4">
-                    <img src="https://i.imgur.com/8X3YxWz.png" alt="Iteration 1" className="rounded-md shadow-md" />
-                    <img src="https://i.imgur.com/7gGaVp3.png" alt="Iteration 2" className="rounded-md shadow-md" />
-                    <img src="https://i.imgur.com/VdUgOHi.png" alt="Iteration 3" className="rounded-md shadow-md" />
-                    <img src="https://i.imgur.com/IqwFbZm.png" alt="Iteration 4" className="rounded-md shadow-md" />
+                    <img src="https://i.imgur.com/8X3YxWz.png" alt="Iteration 1" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(10)} />
+                    <img src="https://i.imgur.com/7gGaVp3.png" alt="Iteration 2" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(11)} />
+                    <img src="https://i.imgur.com/VdUgOHi.png" alt="Iteration 3" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(12)} />
+                    <img src="https://i.imgur.com/IqwFbZm.png" alt="Iteration 4" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(13)} />
                 </div>
             </section>
 
@@ -319,7 +327,7 @@ export default function OuaOrientationRedesignPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
-                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
+                     onClick={() => handleImageClick(index)}>
                   <Image 
                     src={img.src} 
                     alt={img.alt} 
@@ -357,4 +365,3 @@ export default function OuaOrientationRedesignPage() {
     </CaseStudyLayout>
   );
 }
-
