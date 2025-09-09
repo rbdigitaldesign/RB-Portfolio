@@ -161,3 +161,16 @@
 .biomimicry-card .bio-icon svg{ width:20px; height:20px; fill:#fff }
 .biomimicry-card h4{ margin:.1rem 0 .25rem; font-size:1rem; letter-spacing:.2px; }
 .biomimicry-card p{ margin:0 }
+
+/* PPD Case Study Trio Layout */
+.ppd-cycle-trio {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .ppd-cycle-trio {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

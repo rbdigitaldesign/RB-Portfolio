@@ -300,16 +300,13 @@
     "links": {}
   },
   {
-    "slug": "personal-professional-development-course-design",
-    "title": "Personal Professional Development Course Design",
+    "slug": "ppd-course-design",
+    "title": "Personal Professional Development — Course Design (ENTREP1002)",
     "category": "Learning Design",
-    "summary": "A comprehensive design of a university course on personal professional development, focusing on practical skills, ethical navigation, and creating a cohesive student learning journey.",
-    "tags": ["Learning Design", "Higher Education", "Instructional Design", "UoA"],
-    "coverImage": "https://i.imgur.com/EAfCZaG.png",
-    "gallery": [
-      "https://placehold.co/1200x800.png",
-      "https://placehold.co/1200x800.png"
-    ],
+    "summary": "A full design and build of ENTREP1002 Personal Professional Development: aligning outcomes, assessments and weekly learning to help students form a professional identity and portfolio. Deliverables included course alignment, personas and narrative, UX copy, assessment exemplars, and data visualisation upgrades. Collaboration across academics, learning designers and media resulted in a coherent, visual, week-by-week student experience.",
+    "tags": ["Learning Design", "Higher Education", "Instructional Design", "Constructive alignment", "UX writing"],
+    "coverImage": "https://i.imgur.com/d7AFaMh.jpeg",
+    "gallery": [],
     "overview": "The Personal Professional Development course is a structured educational offering aimed at equipping students with a comprehensive set of professional skills and an understanding of professional identity in the business world.",
     "problem": "The primary challenge was to translate a complex set of academic and professional development concepts into a coherent, engaging, and practical 12-week online course for university students.",
     "process": "The process involved collaborative brainstorming with academics, iterative design of the course structure, development of student personas to guide narrative, and creation of visual and interactive learning artefacts.",
