@@ -12,7 +12,7 @@ interface ProjectsClientProps {
   projects: Project[];
 }
 
-const categories = ['All', 'User Experience', 'Learning Design', 'Hackathons', 'Coding Projects', 'Publications'];
+const categories = ['User Experience', 'Learning Design', 'All', 'Hackathons', 'Coding Projects', 'Publications'];
 
 export function ProjectsClient({ projects }: ProjectsClientProps) {
   const [activeCategory, setActiveCategory] = useState('All');
