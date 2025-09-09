@@ -24,11 +24,17 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   }, []);
 
   const allTags = useMemo(() => {
-    const tags = new Set<string>(['All']);
+    const tags = new Set<string>(['All', 'None']);
     projects.forEach(p => {
       p.tags.forEach(tag => tags.add(tag));
     });
-    return Array.from(tags).sort();
+    return Array.from(tags).sort((a, b) => {
+      if (a === 'All') return -1;
+      if (b === 'All') return 1;
+      if (a === 'None') return -1;
+      if (b === 'None') return 1;
+      return a.localeCompare(b);
+    });
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
@@ -38,7 +44,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
       filtered = filtered.filter((p) => p.category === activeCategory);
     }
 
-    if (activeTag !== 'All') {
+    if (activeTag !== 'All' && activeTag !== 'None') {
       filtered = filtered.filter((p) => p.tags.includes(activeTag));
     }
     
@@ -52,6 +58,14 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
     setActiveCategory(category);
     // Reset tag filter when category changes to avoid empty states
     setActiveTag('All');
+  };
+  
+  const handleTagChange = (tag: string) => {
+    if (tag === 'None') {
+      setActiveTag('All');
+    } else {
+      setActiveTag(tag);
+    }
   };
 
   return (
@@ -72,7 +86,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
         <Separator className="max-w-md" />
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
-           <Select onValueChange={setActiveTag} value={activeTag}>
+           <Select onValueChange={handleTagChange} value={activeTag}>
             <SelectTrigger className="w-[240px]">
               <SelectValue placeholder="Select a tag" />
             </SelectTrigger>
