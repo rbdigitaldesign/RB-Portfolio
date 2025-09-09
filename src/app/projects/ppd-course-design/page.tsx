@@ -46,7 +46,7 @@ const galleryImages = [
     { src: 'https://i.imgur.com/xrDvepw.png', alt: 'Early circular sketch', title: 'PPD cycle — initial sketch' },
     { src: 'https://i.imgur.com/O96zrC2.png', alt: 'Mocked cycle diagram', title: 'PPD cycle — mock with branding' },
     { src: 'https://i.imgur.com/V6n9uM5.gif', alt: 'Animated PPD cycle', title: 'PPD cycle — animated final' },
-    { src: 'https://i.imgur.com/ZmlHyvo.jpeg', alt: 'Three journey maps', title: 'Emotional journey maps' },
+    { src: 'https://i.imgur.com/ZmlHyvo.jpeg', alt: 'Three emotional journey maps', title: 'Emotional journey maps' },
     { src: 'https://i.imgur.com/csdmzNv.jpeg', alt: 'Two journey maps final', title: 'Sarah & Alex journeys' },
     { src: 'https://i.imgur.com/mJf5gtS.png', alt: 'Persona overview styled to UoA', title: 'Persona overview' },
     { src: 'https://i.imgur.com/wZ7uEQO.png', alt: 'Resources framing card', title: 'UX copy — resources' },
@@ -122,7 +122,7 @@ export default function PpdCourseDesignPage() {
                     The Personal Professional Development course equips students with practical professional skills and a strong sense of professional identity. It blends theory with application so learners can navigate ethics, build personal learning ecosystems, and work cooperatively.
                 </p>
                 <h4 className="font-semibold mb-2">Tools</h4>
-                <p className="text-muted-foreground">Canva · Canvas (LMS) · Zoom · Google Docs</p>
+                <p className="text-muted-foreground">Canva · Canvas (LMS) · Zoom</p>
             </section>
             
             <Separator />
@@ -260,7 +260,7 @@ export default function PpdCourseDesignPage() {
                 <Separator />
                  <section id="tools">
                     <h4 className="font-semibold mb-1">Tools</h4>
-                    <p className="text-muted-foreground">Canva, Canvas (LMS), Zoom, Google Docs</p>
+                    <p className="text-muted-foreground">Canva, Canvas (LMS), Zoom</p>
                 </section>
                 <Separator />
                 <section id="team">
