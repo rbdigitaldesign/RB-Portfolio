@@ -47,12 +47,12 @@ const galleryImages = [
     { src: 'https://i.imgur.com/O96zrC2.png', alt: 'Mocked cycle diagram', title: 'PPD cycle — mock with branding' },
     { src: 'https://i.imgur.com/V6n9uM5.gif', alt: 'Animated PPD cycle', title: 'PPD cycle — animated final' },
     { src: 'https://i.imgur.com/ZmlHyvo.jpeg', alt: 'Three emotional journey maps', title: 'Emotional journey maps' },
-    { src: 'https://i.imgur.com/csdmzNv.jpeg', alt: 'Two journey maps final', title: 'Sarah & Alex journeys' },
+    { src: 'https://i.imgur.com/csdmzNv.jpeg', alt: 'Sarah & Alex journeys', title: 'Sarah & Alex journeys' },
     { src: 'https://i.imgur.com/mJf5gtS.png', alt: 'Persona overview styled to UoA', title: 'Persona overview' },
     { src: 'https://i.imgur.com/wZ7uEQO.png', alt: 'Resources framing card', title: 'UX copy — resources' },
     { src: 'https://i.imgur.com/8T0yIKx.png', alt: 'Minimal hierarchy graphic', title: 'Maslow visual' },
     { src: 'https://i.imgur.com/3fajjWX.jpeg', alt: 'Slide visual preview', title: 'Professionalism mini-deck' },
-    { src: 'https://i.imgur.com/jeu3Z5y.jpeg', alt: 'Portfolio support materials', title: 'Assessment exemplar' },
+    { src: 'https://i.imgur.com/jeu3Z5y.jpeg', alt: 'Assessment exemplar', title: 'Assessment exemplar' },
     { src: 'https://i.imgur.com/Ye3mdd6.png', alt: 'Raw text sample', title: 'Pre-visualisation copy' },
     { src: 'https://i.imgur.com/nfzOA70.png', alt: 'Final visualised content', title: 'Inclusion infographic' },
 ];
@@ -175,9 +175,28 @@ export default function PpdCourseDesignPage() {
                 <h3 className="text-2xl font-bold font-headline mb-4">Key design artefacts — the PPD cycle</h3>
                 <p className="text-foreground/80">Lesson 1.1 introduces the Personal Professional Development cycle that frames the course. We evolved it from sketch → mock → animated final, in partnership with the media team.</p>
                 <div className="ppd-cycle-trio my-4">
-                    <Image src="https://i.imgur.com/xrDvepw.png" alt="Initial circular sketch of the PPD cycle" width={300} height={300} className="rounded-lg shadow-md" />
-                    <Image src="https://i.imgur.com/O96zrC2.png" alt="Mock with University branding and clearer labels" width={300} height={300} className="rounded-lg shadow-md" />
-                    <Image src="https://i.imgur.com/V6n9uM5.gif" alt="Finalised animated PPD cycle with distinct colour steps" width={300} height={300} className="rounded-lg shadow-md" />
+                    {[
+                        { src: 'https://i.imgur.com/xrDvepw.png', alt: 'Initial circular sketch of the PPD cycle' },
+                        { src: 'https://i.imgur.com/O96zrC2.png', alt: 'Mock with University branding and clearer labels' },
+                        { src: 'https://i.imgur.com/V6n9uM5.gif', alt: 'Finalised animated PPD cycle with distinct colour steps' }
+                    ].map((image, index) => (
+                        <div 
+                            key={image.src}
+                            className="group relative cursor-pointer aspect-square rounded-lg overflow-hidden shadow-md"
+                            onClick={() => {
+                                const galleryIndex = galleryImages.findIndex(gi => gi.src === image.src);
+                                if (galleryIndex !== -1) {
+                                    setSelectedIndex(galleryIndex);
+                                    setOpen(true);
+                                }
+                            }}
+                        >
+                            <Image src={image.src} alt={image.alt} fill className="object-cover" />
+                             <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <p className="text-white text-center text-sm">{image.alt}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
                 <p className="text-foreground/80">The final chooses distinct colours for each step (rather than UoA palette) to emphasise differences and aid recall.</p>
             </section>
@@ -260,7 +279,7 @@ export default function PpdCourseDesignPage() {
                 <Separator />
                  <section id="tools">
                     <h4 className="font-semibold mb-1">Tools</h4>
-                    <p className="text-muted-foreground">Canva, Canvas (LMS), Zoom</p>
+                    <p className="text-muted-foreground">Canva · Canvas (LMS) · Zoom</p>
                 </section>
                 <Separator />
                 <section id="team">
