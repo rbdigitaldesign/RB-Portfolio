@@ -202,7 +202,7 @@ export default function OuaOrientationRedesignPage() {
             
             <section id="phase4">
                 <h3>Phase 4 — Data synthesis & design decisions</h3>
-                <div className="insights-row my-4">
+                <div className="flex flex-col gap-4 my-4">
                     <img src="https://i.imgur.com/o4fCNH3.png" alt="Sinead’s insights" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(7)} />
                     <img src="https://i.imgur.com/bREUY4l.jpeg" alt="Rich’s insights" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(8)} />
                     <img src="https://i.imgur.com/HlRj5Iv.jpeg" alt="Collaborative synthesis" className="rounded-md shadow-md cursor-pointer" onClick={() => handleImageClick(9)} />
@@ -365,3 +365,4 @@ export default function OuaOrientationRedesignPage() {
     </CaseStudyLayout>
   );
 }
+
