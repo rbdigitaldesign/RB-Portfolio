@@ -12,7 +12,7 @@ interface ProjectsClientProps {
   projects: Project[];
 }
 
-const categories = ['User Experience', 'Learning Design', 'All', 'Hackathons', 'Coding Projects', 'Publications'];
+const categories = ['All', 'User Experience', 'Learning Design', 'Hackathons', 'Coding Projects', 'Publications'];
 
 export function ProjectsClient({ projects }: ProjectsClientProps) {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -86,8 +86,8 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             </SelectTrigger>
             <SelectContent>
               {allTags.map((tag) => (
-                <SelectItem key={tag} value={tag}>
-                  {tag}
+                <SelectItem key={tag} value={tag} className={tag === 'All' ? 'text-center' : ''}>
+                  {tag === 'All' ? '--- All ---' : tag}
                 </SelectItem>
               ))}
             </SelectContent>
