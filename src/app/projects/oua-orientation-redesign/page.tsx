@@ -279,10 +279,33 @@ export default function OuaOrientationRedesignPage() {
         <aside className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardHeader>
-              <CardTitle className="font-headline text-xl">Project Info</CardTitle>
+              <CardTitle className="font-headline text-xl">Quick facts</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
-                 <p className="text-muted-foreground">A ground-up rethink of the OUA orientation sequence: evaluate the current experience, co-design with students, prototype in Figma, and iterate from real feedback. Outcomes: clearer home/orientation hub, streamlined navigation, stronger wayfinding (cue boxes), and an implementation blueprint for the media/LMS teams.</p>
+                <div>
+                    <h4 className="font-semibold mb-1">Role</h4>
+                    <p className="text-muted-foreground">Learning Designer</p>
+                </div>
+                <Separator />
+                 <div>
+                    <h4 className="font-semibold mb-1">Collaborators</h4>
+                    <p className="text-muted-foreground">Tim Klapdor (Manager), Sinead O'Brien (Colleague), Marziah Zad (Student Engagement)</p>
+                </div>
+                <Separator />
+                <div>
+                    <h4 className="font-semibold mb-1">Tools</h4>
+                    <p className="text-muted-foreground">Miro, Jira, Canvas LMS, Zoom, Google Docs/Forms, Figma</p>
+                </div>
+                <Separator />
+                 <div>
+                    <h4 className="font-semibold mb-1">Timeline</h4>
+                    <p className="text-muted-foreground">August - October 2021 (8 weeks)</p>
+                </div>
+                <Separator />
+                 <div>
+                    <h4 className="font-semibold mb-1">Methods</h4>
+                    <p className="text-muted-foreground">Surveys, Focus Group (Students as Partners), Workshop Facilitation</p>
+                </div>
             </CardContent>
           </Card>
         </aside>
