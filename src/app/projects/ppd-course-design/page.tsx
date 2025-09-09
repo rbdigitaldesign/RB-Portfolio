@@ -88,7 +88,7 @@ export default function PpdCourseDesignPage() {
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
             <Image
-                src="https://i.imgur.com/d7AFaMh.jpeg"
+                src="https://i.imgur.com/y42LS7F.jpeg"
                 alt="12-week course planning board showing assessments, knowledge and weekly tasks"
                 fill
                 priority
@@ -116,6 +116,29 @@ export default function PpdCourseDesignPage() {
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
+            <section id="intro">
+                <h3 className="text-2xl font-bold font-headline mb-4">Project scope & tools</h3>
+                 <p className="text-foreground/80 mb-4">
+                    The Personal Professional Development course equips students with practical professional skills and a strong sense of professional identity. It blends theory with application so learners can navigate ethics, build personal learning ecosystems, and work cooperatively.
+                </p>
+                <h4 className="font-semibold mb-2">Tools</h4>
+                <p className="text-muted-foreground">Canva · Canvas (LMS) · Zoom · Google Docs</p>
+            </section>
+            
+            <Separator />
+            
+            <section id="team">
+                <h3 className="text-2xl font-bold font-headline mb-4">Team & timeline</h3>
+                 <p className="text-foreground/80">
+                    <strong>Course Authors</strong> — Stella Bachtis, Rea Bachtis<br/>
+                    <strong>Learning Designers</strong> — Andrew Beatton, Richard Bartlett, Danielle Rhianna Lemieux, Tim Klapdor<br/>
+                    <strong>Media Team</strong> — Aaron Honson, Michael Brockhouse<br/><br/>
+                    <strong>Timeline</strong> — August 2021 → March 2022
+                </p>
+            </section>
+
+            <Separator />
+
             <section id="process">
                 <h3 className="text-2xl font-bold font-headline mb-4">Process overview</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
