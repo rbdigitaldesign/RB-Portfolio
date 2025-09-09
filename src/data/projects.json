@@ -69,7 +69,7 @@
     "year": 2023,
     "duration": "3 Weeks",
     "team": "Startup Founders",
-    "tools": ["FigJam", "Trello", "Google Docs"],
+    "tools": ["FigJam", "Trello"],
     "links": {}
   },
   {
@@ -281,22 +281,22 @@
     "links": {}
   },
   {
-    "slug": "redesigning-course-orientation",
-    "title": "Redesigning Course Orientation",
+    "slug": "oua-orientation-redesign",
+    "title": "Redesigning Course Orientation (OUA)",
     "category": "Learning Design",
-    "summary": "Improving student engagement from day one with a redesigned orientation module.",
-    "tags": ["Student Experience", "LMS", "Online Learning", "UoA"],
-    "coverImage": "https://i.imgur.com/gKA9SWV.png",
+    "summary": "A ground-up rethink of the OUA orientation sequence: evaluate the current experience, co-design with students, prototype in Figma, and iterate from real feedback. Outcomes: clearer home/orientation hub, streamlined navigation, stronger wayfinding (cue boxes), and an implementation blueprint for the media/LMS teams.",
+    "tags": ["Student Experience", "LMS", "Online Learning", "UoA", "Figma", "Miro"],
+    "coverImage": "https://i.imgur.com/ypMmfTs.png",
     "gallery": [],
-    "overview": "Transformed a static, text-heavy orientation module into an interactive and welcoming experience for new online students.",
-    "problem": "Student feedback indicated that the initial course orientation was boring and failed to set them up for success.",
-    "process": "Applied user-centred design principles to learning design, incorporating interactive elements, introductory videos, and a clear roadmap.",
-    "outcomes": "Post-implementation surveys showed a 40% increase in student satisfaction with the orientation module.",
+    "overview": "When I joined the Online Programs Team, one of my first tasks was to re-imagine orientation for OUA students. Guided by my manager Tim and working closely with my colleague Sinead, we audited existing orientation patterns across courses, then shaped a version that fits OUA learners: informative, engaging, and easy to navigate online.",
+    "problem": "Existing orientation sequences were inconsistent and often failed to provide a clear, engaging start for online students, leading to confusion and disengagement.",
+    "process": "The project followed a phased approach: Evaluation of the current state, co-design with a student focus group, development and facilitation of a Miro-based workshop, and synthesis of feedback into actionable Figma prototypes.",
+    "outcomes": "The redesigned orientation resulted in a clearer home/orientation hub, streamlined navigation, and stronger wayfinding. The project delivered a detailed implementation blueprint for the media and LMS teams, grounded in direct student feedback.",
     "role": "Learning Designer",
     "year": 2021,
-    "duration": "5 Weeks",
-    "team": "Solo",
-    "tools": ["Canvas LMS", "Camtasia", "H5P"],
+    "duration": "8 Weeks",
+    "team": "Tim Klapdor (Manager), Sinead O'Brien (Colleague)",
+    "tools": ["Miro", "Jira", "Canvas LMS", "Zoom", "Google Docs/Forms", "Figma"],
     "links": {}
   },
   {

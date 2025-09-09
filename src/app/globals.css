@@ -174,3 +174,25 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* OUA Orientation Case Study */
+.insights-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+@media (min-width: 768px) {
+  .insights-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.iphone-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+@media (min-width: 768px) {
+  .iphone-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
