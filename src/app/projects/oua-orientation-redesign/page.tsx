@@ -223,6 +223,9 @@ export default function OuaOrientationRedesignPage() {
             <section id="wireframes">
                 <h3>Wireframes & implementation notes</h3>
                 <p>We translated insights into Figma wireframes and handed a precise implementation brief to the media/LMS teams (MyUni). Sinead’s Google Sheets framework helped us turn free-form feedback into clear, testable requirements.</p>
+                <div className="aspect-video mt-4">
+                  <iframe style={{border: "1px solid rgba(0, 0, 0, 0.1)", width: '100%', height: '450px', borderRadius: '8px'}} src="https://embed.figma.com/design/F476boAOQLIeuZ2HbbBNH2/Proposed-new-Orientation--post-workshop-?node-id=0-1&embed-host=share" allowFullScreen></iframe>
+                </div>
             </section>
             
             <Separator />
@@ -354,3 +357,4 @@ export default function OuaOrientationRedesignPage() {
     </CaseStudyLayout>
   );
 }
+
