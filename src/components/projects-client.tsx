@@ -24,15 +24,13 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   }, []);
 
   const allTags = useMemo(() => {
-    const tags = new Set<string>(['All', 'None']);
+    const tags = new Set<string>(['All']);
     projects.forEach(p => {
       p.tags.forEach(tag => tags.add(tag));
     });
     return Array.from(tags).sort((a, b) => {
       if (a === 'All') return -1;
       if (b === 'All') return 1;
-      if (a === 'None') return -1;
-      if (b === 'None') return 1;
       return a.localeCompare(b);
     });
   }, [projects]);
@@ -44,7 +42,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
       filtered = filtered.filter((p) => p.category === activeCategory);
     }
 
-    if (activeTag !== 'All' && activeTag !== 'None') {
+    if (activeTag !== 'All') {
       filtered = filtered.filter((p) => p.tags.includes(activeTag));
     }
     
@@ -61,11 +59,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   };
   
   const handleTagChange = (tag: string) => {
-    if (tag === 'None') {
-      setActiveTag('All');
-    } else {
-      setActiveTag(tag);
-    }
+    setActiveTag(tag);
   };
 
   return (
