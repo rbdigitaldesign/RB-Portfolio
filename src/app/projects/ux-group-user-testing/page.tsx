@@ -22,7 +22,6 @@ const LocalTOC = () => (
     <h4 className="font-semibold mb-2 font-headline">On this page</h4>
     <ul className="space-y-2 text-sm text-muted-foreground">
       <li><a href="#background" className="hover:text-primary">Project background</a></li>
-      <li><a href="#team" className="hover:text-primary">Team & roles</a></li>
       <li><a href="#goals" className="hover:text-primary">Research goals</a></li>
       <li><a href="#methods" className="hover:text-primary">Methods</a></li>
       <li><a href="#tested" className="hover:text-primary">What we tested</a></li>
@@ -110,13 +109,6 @@ export default function UxGroupUserTestingPage() {
             <section id="background">
                 <h3 className="text-2xl font-bold font-headline mb-4">Project background</h3>
                 <p className="text-foreground/80">In early 2025 our UX subgroup formed to address a long-standing pain point: page titling and navigation clarity in Canvas, particularly where numbers couldn’t be used because of stackable curriculum requirements.<br/><br/>We met weekly in Miro to collect examples, frame a shared design challenge, and prototype naming conventions that improved readability, accessibility, and wayfinding. As those explorations progressed, Tim Churchward produced an early Dynamic Home concept—an integrated course home page that surfaces the essentials (course info, modules, assessments) without forcing students to detour through Modules.<br/><br/>That pivot set us up to validate four approaches directly with students and let the evidence guide the next iteration of the template.</p>
-            </section>
-            
-            <Separator />
-            
-            <section id="team">
-                <h3 className="text-2xl font-bold font-headline mb-4">Team & roles</h3>
-                <p className="text-foreground/80">UX subgroup contributors:<br/>Tim Churchward — lead designer for the Dynamic Home<br/>Rich Bartlett — research and facilitation<br/>Kelli Knuth<br/>Alex Price<br/>Reference/coordination: Kat Alchin, Josh Cramp, Andrew Beatton</p>
             </section>
             
             <Separator />
