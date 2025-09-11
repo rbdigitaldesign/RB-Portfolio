@@ -367,7 +367,9 @@
     "duration": "1 Hour Workshop",
     "team": "Tim Klapdor — Co-presenter",
     "tools": ["Canva", "Miro", "H5P", "Canvas LMS"],
-    "links": {}
+    "links": {
+      "page": "/projects/everyday-tools-for-learning-design"
+    }
   },
   {
     "slug": "publications",
