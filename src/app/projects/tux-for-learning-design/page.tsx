@@ -120,6 +120,7 @@ const galleryImages = [
     { src: 'https://i.imgur.com/tGQbFmp.png', alt: 'Example of UX tools page', hint: 'ux tools page' },
     { src: 'https://i.imgur.com/UfgW5a0.png', alt: 'UX/ review checklist tool, utilising a mix of Uni Quality framework and UX checklist to create a report for designers', hint: 'checklist tool report' },
     { src: 'https://i.imgur.com/gZVNi9r.png', alt: 'Personas page, with PPTX developer by team mate Kelli Knuth', hint: 'personas page presentation' },
+    { src: 'https://i.imgur.com/Py2dBmx.jpeg', alt: 'Miro board for collaborative toolkit planning', hint: 'miro board planning' },
 ];
 
 function calculateReadingTime(text: string) {
@@ -144,6 +145,11 @@ export default function TuxForLearningDesignPage() {
     setSelectedIndex((prevIndex) => (prevIndex - 1 + galleryImages.length) % galleryImages.length);
   }, []);
 
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
+    setOpen(true);
+  };
+  
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
         if (!open) return;
@@ -319,13 +325,19 @@ export default function TuxForLearningDesignPage() {
                 </ul>
                 <div className="mt-6">
                     <h4 className="font-bold font-headline text-lg mb-2">Collaborative Toolkit Planning</h4>
-                    <div className="aspect-video relative">
+                    <div 
+                        className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                        onClick={() => handleImageClick(galleryImages.findIndex(img => img.src === 'https://i.imgur.com/Py2dBmx.jpeg'))}
+                    >
                         <Image
                             src="https://i.imgur.com/Py2dBmx.jpeg"
                             alt="Miro board for collaborative toolkit planning"
                             fill
                             className="object-contain rounded-lg"
                         />
+                         <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p className="text-white text-center text-sm">View Full Size</p>
+                        </div>
                     </div>
                      <Button asChild variant="outline" className="mt-4">
                         <a 
@@ -397,7 +409,7 @@ export default function TuxForLearningDesignPage() {
        <section id="gallery" className="mt-16">
             <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {galleryImages.map((img, index) => (
+              {galleryImages.slice(0, 6).map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
                      onClick={() => { setSelectedIndex(index); setOpen(true); }}>
                   <Image 
