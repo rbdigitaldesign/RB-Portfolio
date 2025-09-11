@@ -17,7 +17,9 @@
     "duration": "6 Weeks",
     "team": "Solo Project",
     "tools": ["Figma", "Miro", "Adobe Illustrator"],
-    "links": {}
+    "links": {
+      "page": "/projects/gopro-app-redesign"
+    }
   },
   {
     "slug": "wellness-features-heat-safe-riding",
@@ -55,7 +57,9 @@
       "Slack",
       "Google Suite"
     ],
-    "links": {}
+    "links": {
+      "page": "/projects/wellness-features-heat-safe-riding"
+    }
   },
   {
     "slug": "bestie-health-club",
@@ -74,7 +78,9 @@
     "duration": "3 Weeks",
     "team": "Startup Founders",
     "tools": ["FigJam", "Trello"],
-    "links": {}
+    "links": {
+      "page": "/projects/bestie-health-club"
+    }
   },
   {
     "slug": "trip-approve-onboarding",
@@ -93,7 +99,9 @@
     "duration": "6 Weeks",
     "team": "Product Manager, 2 Engineers",
     "tools": ["Figma", "Hotjar", "Jira"],
-    "links": {}
+    "links": {
+      "page": "/projects/trip-approve-onboarding"
+    }
   },
   {
     "slug": "ux-survey-2025",
@@ -112,7 +120,9 @@
     "duration": "2 weeks",
     "team": "Rich Bartlett, Kelli Knuth, Tim Churchward, Alex Price",
     "tools": ["Mentimeter", "Jotform"],
-    "links": {}
+    "links": {
+      "page": "/projects/ux-survey-2025"
+    }
   },
     {
     "slug": "ux-group-user-testing",
@@ -131,7 +141,9 @@
     "duration": "2 Weeks",
     "team": "UX Group",
     "tools": ["Figma", "Miro", "Zoom", "Google Forms"],
-    "links": {}
+    "links": {
+      "page": "/projects/ux-group-user-testing"
+    }
   },
   {
     "slug": "flock-hackathon",
@@ -150,7 +162,9 @@
     "duration": "48 Hours",
     "team": "4 members",
     "tools": ["Figma", "React Native", "Firebase"],
-    "links": {}
+    "links": {
+      "page": "/projects/flock-hackathon"
+    }
   },
   {
     "slug": "rps-pod-battle",
@@ -171,7 +185,8 @@
     "tools": ["Firebase Studio", "Firebase Hosting", "AI"],
     "links": {
       "live": "https://www.leipodbattle.com.au",
-      "github": "https://github.com/rbdigitaldesign/LEI-Pod-Battle.git"
+      "github": "https://github.com/rbdigitaldesign/LEI-Pod-Battle.git",
+      "page": "/projects/rps-pod-battle"
     }
   },
   {
@@ -191,7 +206,9 @@
     "duration": "Ongoing",
     "team": "Solo",
     "tools": ["ChatGPT", "Github Pages", "Google Suite", "Miro", "HTML/CSS/JavaScript"],
-    "links": {}
+    "links": {
+      "page": "/projects/tux-for-learning-design"
+    }
   },
    {
     "slug": "canvas-quick-navigation",
@@ -210,7 +227,9 @@
     "duration": "August 2025",
     "team": "Solo, with academic collaboration",
     "tools": ["Canvas LMS", "HTML", "CSS"],
-    "links": {}
+    "links": {
+      "page": "/projects/canvas-quick-navigation"
+    }
   },
   {
     "slug": "when-not-to-code",
@@ -234,7 +253,9 @@
       "Miro",
       "Canvas (LMS)"
     ],
-    "links": {}
+    "links": {
+      "page": "/projects/when-not-to-code"
+    }
   },
   {
     "slug": "oua-design-process",
@@ -253,7 +274,9 @@
     "duration": "3 Months",
     "team": "Educational Technology Team",
     "tools": ["Lucidchart", "Confluence", "Trello"],
-    "links": {}
+    "links": {
+      "page": "/projects/oua-design-process"
+    }
   },
   {
     "slug": "communication-styles-quiz",
@@ -272,7 +295,9 @@
     "duration": "1 Week",
     "team": "Rich Bartlett, Hui Mu (Media), Course Academics",
     "tools": ["Custom JS/HTML/CSS", "Canvas LMS", "Browser print-to-PDF"],
-    "links": {}
+    "links": {
+      "page": "/projects/communication-styles-quiz"
+    }
   },
   {
     "slug": "oua-orientation-redesign",
@@ -312,7 +337,9 @@
     "duration": "8 Months",
     "team": "Course Authors, Learning Designers, Media Team",
     "tools": ["Canva", "Canvas (LMS)", "Zoom"],
-    "links": {}
+    "links": {
+      "page": "/projects/ppd-course-design"
+    }
   },
   {
     "slug": "expandable-references-ux",
@@ -331,7 +358,9 @@
     "duration": "1 Week",
     "team": "Solo",
     "tools": ["LMS", "CSS", "HTML"],
-    "links": {}
+    "links": {
+      "page": "/projects/expandable-references-ux"
+    }
   },
   {
     "slug": "h5p-student-handbook-conversion",
@@ -350,7 +379,9 @@
     "duration": "2 Weeks",
     "team": "Cristian (academic), Han (academic), Casual Course Builders (Media Team)",
     "tools": ["H5P", "Canvas LMS", "PDF mark-up"],
-    "links": {}
+    "links": {
+      "page": "/projects/h5p-student-handbook-conversion"
+    }
   },
   {
     "slug": "everyday-tools-for-learning-design",
