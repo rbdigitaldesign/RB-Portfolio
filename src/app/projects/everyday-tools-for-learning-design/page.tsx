@@ -23,7 +23,6 @@ const LocalTOC = () => (
       <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
       <li><a href="#context" className="hover:text-primary">Context</a></li>
       <li><a href="#outline" className="hover:text-primary">Session outline</a></li>
-      <li><a href="#event-photo" className="hover:text-primary">Event photo</a></li>
       <li><a href="#slides-highlights" className="hover:text-primary">Key slides (highlights)</a></li>
       <li><a href="#activity" className="hover:text-primary">Hands-on activity</a></li>
       <li><a href="#slides" className="hover:text-primary">Slides</a></li>
@@ -104,14 +103,7 @@ export default function EverydayToolsPage() {
             </section>
 
             <Separator />
-
-            <section id="event-photo">
-                <h3 className="text-2xl font-bold font-headline mb-4">Event photo</h3>
-                <Image src="https://i.imgur.com/uPER2hd.jpeg" alt="Event Photo" width={800} height={450} className="rounded-lg shadow-md" />
-            </section>
             
-            <Separator />
-
             <section id="slides-highlights">
                 <h3 className="text-2xl font-bold font-headline mb-4">Key slides (highlights)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
