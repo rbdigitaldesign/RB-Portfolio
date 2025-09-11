@@ -150,7 +150,9 @@ export default function EverydayToolsPage() {
 
             <section id="credits">
                 <h3 className="text-2xl font-bold font-headline mb-4">Credits</h3>
-                <p className="text-foreground/80">Thanks to Design For Humans for hosting (while it lasted), and Tim Klapdor for co-designing and co-presenting.</p>
+                <p className="text-foreground/80">
+                    Thanks to Design For Humans for hosting (while it lasted), and <a href="https://www.linkedin.com/in/timklapdor/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Tim Klapdor</a> for co-designing and co-presenting.
+                </p>
             </section>
 
         </main>
@@ -168,12 +170,16 @@ export default function EverydayToolsPage() {
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Collaborators</h4>
-                     <p className="text-muted-foreground">Tim Klapdor — Co-presenter</p>
+                    <p className="text-muted-foreground">
+                        <a href="https://www.linkedin.com/in/timklapdor/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Tim Klapdor</a> — Co-presenter
+                    </p>
                 </div>
                 <Separator />
                  <div>
                     <h4 className="font-semibold mb-1">Hosts</h4>
-                     <p className="text-muted-foreground">Harshitha Rajashekara & Isaias Hernandez (Design for Humans)</p>
+                     <p className="text-muted-foreground">
+                        <a href="https://www.linkedin.com/in/harshitha-rajashekara/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Harshitha Rajashekara</a> & <a href="https://www.linkedin.com/in/isaiashernandezb/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Isaias Hernandez</a> (Design for Humans)
+                    </p>
                 </div>
                 <Separator />
                 <div>
