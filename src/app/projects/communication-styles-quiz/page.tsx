@@ -192,7 +192,7 @@ export default function CommunicationStylesQuizPage() {
             
              <section id="demo">
                 <h3 className="text-2xl font-bold font-headline mb-4">Embedded Quiz (interactive)</h3>
-                 <div className="w-full aspect-video">
+                 <div className="w-full h-[750px]">
                     <iframe className="w-full h-full rounded-lg shadow-medium border" src="https://mediaproduction.adelaide.edu.au/hms-interactives/#/communication-styles-quiz" title="Communication Styles Quiz"></iframe>
                  </div>
             </section>
