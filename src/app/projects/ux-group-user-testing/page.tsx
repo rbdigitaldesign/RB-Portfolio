@@ -47,7 +47,7 @@ const galleryImages = [
     { src: 'https://i.imgur.com/QyGP980.jpeg', alt: 'Miro frame with early UI ideas and poll feedback', hint: 'Ideation Station' },
     { src: 'https://i.imgur.com/VEWgxzo.jpeg', alt: 'Miro panel comparing module/page naming options', hint: 'Prototype solutions' },
     { src: 'https://i.imgur.com/BE0yHNt.png', alt: 'Early static mock exploring content layout and quick navigation', hint: 'Rich’s pre-design home-page contribution' },
-    { src: 'https://i.imgur.com/4MxDl7v.png', alt: 'Prototype screenshot of the Dynamic Home page with integrated navigation', hint: 'Early Dynamic Home by Tim' }
+    { src: 'https://i.imgur.com/4MxDl7v.png', alt: 'Prototype screenshot of the Dynamic Home page with integrated navigation', hint: 'Early Dynamic Home Page design by Tim' }
 ];
 
 export default function UxGroupUserTestingPage() {
@@ -324,3 +324,5 @@ export default function UxGroupUserTestingPage() {
     </CaseStudyLayout>
   );
 }
+
+    
