@@ -291,7 +291,9 @@
     "duration": "8 Weeks",
     "team": "Tim Klapdor (Manager), Sinead O'Brien (Colleague)",
     "tools": ["Miro", "Jira", "Canvas LMS", "Zoom", "Google Docs/Forms", "Figma"],
-    "links": {}
+    "links": {
+      "page": "/projects/oua-orientation-redesign"
+    }
   },
   {
     "slug": "ppd-course-design",
