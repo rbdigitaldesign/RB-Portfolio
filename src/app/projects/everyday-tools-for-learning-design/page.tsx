@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 
@@ -32,13 +32,51 @@ const LocalTOC = () => (
   </nav>
 );
 
+const projectContent = {
+  brief: `A fast, tool-rich session for designers and educators showing how everyday UX practices translate directly into online learning design (LX).`,
+  context: `Part of Design For Humans—a local networking group (now disbanded). I co-presented with Tim Klapdor, where we shared our understanding of the parallels between UX design and Learning Design in a University Setting.`,
+  sessionOutline: {
+    uxTranslations: [
+        "Information Architecture → mapping & sequencing content (right info, right time).",
+        "Human–Computer Interaction → social interaction in learning (Zoom, cooperative work, divergent thinking).",
+        "Interaction Design → feedback loops in quizzes/activities; immediate vs delayed feedback.",
+        "Usability → effectiveness, efficiency, engagement, error-tolerance, ease of learning; orientation, familiar layouts, clear visuals, chunking.",
+        "UI vs UX → consistent styles & media sizing; apply Mayer’s multimedia principles on lesson pages."
+    ],
+    learningScience: [
+        "Schema theory (connect new info to prior knowledge).",
+        "Skeuomorphism as a bridge to teach new interfaces.",
+        "Cognitive load (sequence, remove clutter, pace complexity)."
+    ],
+    everydayTools: "Canvas (LMS), H5P for interactives, Miro, Smart Storyboard, cloud docs."
+  },
+  slidesHighlights: [
+    "IA → Mapping & Sequencing for learning.",
+    "HCI in our context = human interaction around the tech.",
+    "Interaction design = meaningful feedback; quizzes that teach, not just test.",
+    "H5P in the LMS = quick, reusable HTML5 interactives.",
+    "Usability pillars across UX & LX; chunking and primacy/recency effects.",
+    "UI consistency & multimedia principles.",
+    "Schema & skeuomorphism → leverage familiar cues.",
+    "Cognitive load limits → design for attention."
+  ],
+  activity: "Rapid sketch of a lesson using learning patterns: question → acquisition → practice → reflection; map media and feedback.",
+  outcome: {
+    miss: "Heavy rain + limited promotion = small audience.",
+    lesson: "Treat outreach as a design problem—value proposition, multi-channel promo, reminders, and a remote/recorded fallback.",
+    wins: "The UX↔LX mapping and pattern library resonated; participants reported immediate applicability."
+  },
+  credits: "Thanks to Design For Humans for hosting (while it lasted), and Tim Klapdor for co-designing and co-presenting."
+};
+
+
 export default function EverydayToolsPage() {
 
   return (
     <CaseStudyLayout>
         <ProjectNavigation 
-            prevProject={{slug: 'communication-styles-quiz'}}
-            nextProject={{slug: 'redesigning-course-orientation'}}
+            prevProject={{slug: 'h5p-student-handbook-conversion'}}
+            nextProject={{slug: 'oua-design-process'}}
         />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
@@ -70,14 +108,14 @@ export default function EverydayToolsPage() {
         <main className="lg:col-span-2 space-y-12">
             <section id="brief">
                 <h3 className="text-2xl font-bold font-headline mb-4">Project brief</h3>
-                <p className="text-foreground/80">A fast, tool-rich session for designers and educators showing how everyday UX practices translate directly into online learning design (LX).</p>
+                <p className="text-foreground/80">{projectContent.brief}</p>
             </section>
             
             <Separator />
             
             <section id="context">
                 <h3 className="text-2xl font-bold font-headline mb-4">Context</h3>
-                <p className="text-foreground/80">Part of Design For Humans—a local networking group (now disbanded). I co-presented with Tim Klapdor, sharing our team’s approach to turning User Experience into Learning Experience in a university setting.</p>
+                <p className="text-foreground/80">{projectContent.context}</p>
             </section>
             
             <Separator />
@@ -86,20 +124,14 @@ export default function EverydayToolsPage() {
                 <h3 className="text-2xl font-bold font-headline mb-4">Session outline</h3>
                 <h4 className="font-semibold text-lg mt-4 mb-2">UX → LX translations</h4>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                    <li>Information Architecture → mapping & sequencing content (right info, right time).</li>
-                    <li>Human–Computer Interaction → social interaction in learning (Zoom, cooperative work, divergent thinking).</li>
-                    <li>Interaction Design → feedback loops in quizzes/activities; immediate vs delayed feedback.</li>
-                    <li>Usability → effectiveness, efficiency, engagement, error-tolerance, ease of learning; orientation, familiar layouts, clear visuals, chunking.</li>
-                    <li>UI vs UX → consistent styles & media sizing; apply Mayer’s multimedia principles on lesson pages.</li>
+                    {projectContent.sessionOutline.uxTranslations.map((item, i) => <li key={i}>{item}</li>)}
                  </ul>
                  <h4 className="font-semibold text-lg mt-4 mb-2">Learning science lenses</h4>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                    <li>Schema theory (connect new info to prior knowledge).</li>
-                    <li>Skeuomorphism as a bridge to teach new interfaces.</li>
-                    <li>Cognitive load (sequence, remove clutter, pace complexity).</li>
+                    {projectContent.sessionOutline.learningScience.map((item, i) => <li key={i}>{item}</li>)}
                  </ul>
                  <h4 className="font-semibold text-lg mt-4 mb-2">Everyday tools</h4>
-                 <p className="text-foreground/80">Canvas (LMS), H5P for interactives, Miro, Smart Storyboard, cloud docs.</p>
+                 <p className="text-foreground/80">{projectContent.sessionOutline.everydayTools}</p>
             </section>
 
             <Separator />
@@ -107,14 +139,7 @@ export default function EverydayToolsPage() {
             <section id="slides-highlights">
                 <h3 className="text-2xl font-bold font-headline mb-4">Key slides (highlights)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                    <li>IA → Mapping & Sequencing for learning.</li>
-                    <li>HCI in our context = human interaction around the tech.</li>
-                    <li>Interaction design = meaningful feedback; quizzes that teach, not just test.</li>
-                    <li>H5P in the LMS = quick, reusable HTML5 interactives.</li>
-                    <li>Usability pillars across UX & LX; chunking and primacy/recency effects.</li>
-                    <li>UI consistency & multimedia principles.</li>
-                    <li>Schema & skeuomorphism → leverage familiar cues.</li>
-                    <li>Cognitive load limits → design for attention.</li>
+                   {projectContent.slidesHighlights.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
             
@@ -122,7 +147,7 @@ export default function EverydayToolsPage() {
 
             <section id="activity">
                 <h3 className="text-2xl font-bold font-headline mb-4">Hands-on activity</h3>
-                <p className="text-foreground/80">Rapid sketch of a lesson using learning patterns: question → acquisition → practice → reflection; map media and feedback.</p>
+                <p className="text-foreground/80">{projectContent.activity}</p>
             </section>
             
             <Separator />
@@ -140,9 +165,9 @@ export default function EverydayToolsPage() {
             <section id="outcome">
                 <h3 className="text-2xl font-bold font-headline mb-4">Outcome & what we learned</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                    <li><strong>Attendance miss:</strong> Heavy rain + limited promotion = small audience.</li>
-                    <li><strong>Lesson:</strong> Treat outreach as a design problem—value proposition, multi-channel promo, reminders, and a remote/recorded fallback.</li>
-                    <li><strong>Wins:</strong> The UX↔LX mapping and pattern library resonated; participants reported immediate applicability.</li>
+                    <li><strong>Attendance miss:</strong> {projectContent.outcome.miss}</li>
+                    <li><strong>Lesson:</strong> {projectContent.outcome.lesson}</li>
+                    <li><strong>Wins:</strong> {projectContent.outcome.wins}</li>
                 </ul>
             </section>
 
