@@ -186,7 +186,7 @@ export default function EverydayToolsPage() {
                 <Separator />
                 <div>
                     <h4 className="font-semibold mb-1">Location</h4>
-                    <p className="text-muted-foreground">Adelaide (Design For Humans)</p>
+                    <p className="text-muted-foreground">The University of Adelaide - Student Hub Mezzanine</p>
                 </div>
             </CardContent>
           </Card>
