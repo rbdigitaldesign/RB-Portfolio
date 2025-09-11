@@ -179,6 +179,11 @@ export default function EverydayToolsPage() {
                      <p className="text-muted-foreground">Tim Klapdor — Co-presenter</p>
                 </div>
                 <Separator />
+                 <div>
+                    <h4 className="font-semibold mb-1">Hosts</h4>
+                     <p className="text-muted-foreground">Harshitha Rajashekara & Isaias Hernandez (Design for Humans)</p>
+                </div>
+                <Separator />
                 <div>
                     <h4 className="font-semibold mb-1">Location</h4>
                     <p className="text-muted-foreground">Adelaide (Design For Humans)</p>
