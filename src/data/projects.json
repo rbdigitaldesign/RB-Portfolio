@@ -351,6 +351,25 @@
     "links": {}
   },
   {
+    "slug": "everyday-tools-for-learning-design",
+    "title": "Everyday tools for the online Learning Designer",
+    "category": "Learning Design",
+    "summary": "A practical intro talk linking UX methods to online Learning Design (LX). We showed how to map & sequence content, design interactions, use H5P, and apply usability, schema theory and cognitive load. Attendance was low (torrential rain + light promo), which became a key lesson—great content still needs great distribution.",
+    "tags": ["UX → LX", "Learning Design", "Workshop", "Usability", "H5P", "Schema Theory", "Cognitive Load"],
+    "coverImage": "https://i.imgur.com/uPER2hd.jpeg",
+    "gallery": [],
+    "overview": "A fast, tool-rich session for designers and educators showing how everyday UX practices translate directly into online learning design (LX).",
+    "problem": "Designers and educators often struggle to see the direct application of UX principles in their day-to-day learning design work.",
+    "process": "Co-presented a workshop that demonstrated practical translations of UX to LX, including information architecture, HCI, interaction design, usability, and learning science principles, using everyday tools like Canvas, H5P, and Miro.",
+    "outcomes": "The session provided a clear framework for applying UX to LX. Despite low attendance due to external factors, the content itself was well-received and highlighted the need for better promotion strategies for valuable content.",
+    "role": "Co-presenter (content + facilitation)",
+    "year": 2022,
+    "duration": "1 Hour Workshop",
+    "team": "Tim Klapdor — Co-presenter",
+    "tools": ["Canva", "Miro", "H5P", "Canvas LMS"],
+    "links": {}
+  },
+  {
     "slug": "publications",
     "title": "Publications",
     "category": "Publications",
