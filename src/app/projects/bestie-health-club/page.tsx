@@ -129,8 +129,8 @@ export default function BestieHealthClubProjectPage() {
   return (
     <CaseStudyLayout>
         <ProjectNavigation 
-            prevProject={{slug: 'trip-approve-onboarding'}}
-            nextProject={{slug: 'wellness-features-delivery-apps'}}
+            prevProject={{slug: 'wellness-features-heat-safe-riding'}}
+            nextProject={{slug: 'trip-approve-onboarding'}}
         />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">

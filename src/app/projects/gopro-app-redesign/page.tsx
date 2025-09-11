@@ -95,7 +95,7 @@ export default function GoProProjectPage() {
     <CaseStudyLayout>
         <ProjectNavigation 
             prevProject={null}
-            nextProject={{slug: 'wellness-features-delivery-apps'}}
+            nextProject={{slug: 'wellness-features-heat-safe-riding'}}
         />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">

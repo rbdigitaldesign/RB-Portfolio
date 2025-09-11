@@ -54,7 +54,7 @@ const galleryImages = [
     { src: 'https://i.imgur.com/3fajjWX.jpeg', alt: 'Slide visual preview', title: 'Professionalism mini-deck' },
     { src: 'https://i.imgur.com/jeu3Z5y.jpeg', alt: 'Assessment exemplar', title: 'Assessment exemplar' },
     { src: 'https://i.imgur.com/Ye3mdd6.png', alt: 'Raw text sample', title: 'Pre-visualisation copy' },
-    { src: 'https://i.imgur.com/nfzOA70.png', alt: 'Final visualised content', title: 'Inclusion infographic' },
+    { src: 'https://i.imgur.com/nfzOA70.png', alt: 'Inclusion infographic', title: 'Inclusion infographic' },
 ];
 
 export default function PpdCourseDesignPage() {
@@ -89,7 +89,7 @@ export default function PpdCourseDesignPage() {
   return (
     <CaseStudyLayout>
         <ProjectNavigation 
-            prevProject={{slug: 'redesigning-course-orientation'}}
+            prevProject={{slug: 'oua-orientation-redesign'}}
             nextProject={{slug: 'expandable-references-ux'}}
         />
        <header className="mb-12">

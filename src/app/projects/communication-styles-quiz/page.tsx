@@ -102,7 +102,7 @@ export default function CommunicationStylesQuizPage() {
     <CaseStudyLayout>
        <ProjectNavigation 
             prevProject={{slug: 'oua-design-process'}}
-            nextProject={{slug: 'redesigning-course-orientation'}}
+            nextProject={{slug: 'oua-orientation-redesign'}}
         />
        <header className="mb-12">
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
