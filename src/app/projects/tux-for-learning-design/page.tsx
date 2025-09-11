@@ -320,7 +320,12 @@ export default function TuxForLearningDesignPage() {
                 <div className="mt-6">
                     <h4 className="font-bold font-headline text-lg mb-2">Collaborative Toolkit Planning</h4>
                     <div className="aspect-video relative">
-                        <iframe className="w-full h-full absolute top-0 left-0" src="https://miro.com/app/live-embed/uXjVJXMJ08E=/?focusWidget=3458764636428448072&embedMode=view_only_without_ui&embedId=656730734944" frameBorder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowFullScreen></iframe>
+                        <Image
+                            src="https://i.imgur.com/Py2dBmx.jpeg"
+                            alt="Miro board for collaborative toolkit planning"
+                            fill
+                            className="object-contain rounded-lg"
+                        />
                     </div>
                      <Button asChild variant="outline" className="mt-4">
                         <a 
