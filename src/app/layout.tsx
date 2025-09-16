@@ -8,6 +8,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { AuthProvider } from '@/contexts/auth-context';
+import FirebaseAnalytics from '@/components/firebase-analytics';
 
 const fontBody = Inter({
   subsets: ['latin'],
@@ -59,6 +60,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
+            <FirebaseAnalytics />
             <div className="relative flex min-h-screen flex-col">
               <Header />
               <main className="flex-1">{children}</main>
