@@ -16,7 +16,7 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
     value: "1:738515003817:web:e996b105dcaf8f4e827cb8"
   - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
-    value: "G-MEASUREMENT_ID"
+    value: "G-2D7VV545RP"
 
   # reCAPTCHA
   - variable: NEXT_PUBLIC_RECAPTCHA_SITE_KEY
