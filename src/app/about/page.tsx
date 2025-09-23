@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AboutPage() {
   const skills = ["UX Research", "UI Design", "Instructional Design", "Prototyping", "Frontend Development", "Agile Methodologies"];
-  const tools = ["Figma", "Adobe CC", "React", "Next.js", "Canvas LMS", "Miro", "Jira"];
+  const tools = ["Firebase Studio", "ChatGPT", "Canvas LMS", "Canva", "Trello", "Miro"];
   const interests = [
     {
       icon: <Dna className="h-5 w-5 text-primary" />,
