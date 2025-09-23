@@ -56,7 +56,7 @@ export default function Home() {
                 </a> — LDX Designer
             </p>
             <p className="max-w-3xl mx-auto text-lg md:text-xl text-foreground/80">
-              Welcome to RB Digital Design. I’m a Learning Designer at a GO8 university with 9+ years in Australia’s tech sector. Combining educational design with UX/UI expertise, I create intuitive, impactful experiences.
+              Welcome to RB Digital Design. I’m a Learning Designer at a GO8 university with 10+ years in Australia’s tech sector. Combining educational design with UX/UI expertise, I create intuitive, impactful experiences.
             </p>
           </div>
         </div>
