@@ -12,7 +12,7 @@ export default function ResumePage() {
         </p>
         <Button asChild size="lg">
           <a 
-            href="https://docs.google.com/document/d/1323RCNFuAi6XZl8nIbOo7y1r8n157PlpDtAwLHdSbFA/export?format=pdf" 
+            href="https://docs.google.com/document/d/1RIHsBSdbUdbeABwg0y3Ql_aiKISd0hpSJM7DIgJK3I8/export?format=pdf" 
             target="_blank" 
             rel="noopener noreferrer"
             download="Rich_Bartlett_Resume.pdf"
