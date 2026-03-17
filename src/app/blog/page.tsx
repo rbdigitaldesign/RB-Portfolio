@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Library } from 'lucide-react';
 import type { Post } from '@/lib/types';
-import { getAllPosts } from '../actions/blog';
+import { getPublishedPosts } from '../actions/blog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
@@ -25,7 +25,7 @@ export default function BlogPage() {
     async function fetchPosts() {
       setIsLoading(true);
       try {
-        const fetchedPosts = await getAllPosts();
+        const fetchedPosts = await getPublishedPosts();
         setPosts(fetchedPosts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);

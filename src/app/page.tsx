@@ -13,7 +13,9 @@ import { useToast } from '@/hooks/use-toast';
 import { useTheme } from 'next-themes';
 
 export default function Home() {
-  const typedProjects: Project[] = projects;
+  const typedProjects: Project[] = (projects as Project[]).filter(
+    (p) => !p.status || p.status === 'published'
+  );
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
 

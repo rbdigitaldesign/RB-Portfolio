@@ -2,9 +2,10 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { PlusCircle, Share2, Trash2, Eye } from "lucide-react";
+import { PlusCircle, Share2, Trash2, Eye, Pencil, Clock, Library } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import type { Post } from "@/lib/types";
@@ -143,34 +144,57 @@ export default function AdminBlogPage() {
               <Skeleton className="h-16 w-full" />
             </div>
           ) : posts.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="divide-y">
               {posts.map((post) => (
-                <li key={post.id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
-                    <h3 className="font-semibold">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(post.publishedDate).toLocaleDateString("en-GB")}
-                    </p>
+                <li key={post.id} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <h3 className="font-semibold">{post.title}</h3>
+                      {post.status === 'draft' ? (
+                        <Badge variant="outline" className="text-xs text-amber-600 border-amber-400">Draft</Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-xs text-emerald-600 border-emerald-400">Published</Badge>
+                      )}
+                      {post.series && (
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Library className="h-3 w-3" />{post.series}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span>{new Date(post.publishedDate).toLocaleDateString("en-GB", { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                      {post.readingTime && (
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />{post.readingTime} min read
+                        </span>
+                      )}
+                    </div>
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1.5">
+                        {post.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-xs py-0 px-1.5">{tag}</Badge>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
                     <Button variant="outline" size="sm" asChild>
                       <Link href={`/blog/${post.slug}`} target="_blank">
-                        <Eye className="mr-2 h-4 w-4" />
-                        View
+                        <Eye className="h-3.5 w-3.5" />
                       </Link>
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => handleShare(post.slug)}>
-                      <Share2 className="mr-2 h-4 w-4" />
-                      Share
+                      <Share2 className="h-3.5 w-3.5" />
                     </Button>
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/admin/blog/edit/${post.slug}`}>Edit</Link>
+                      <Link href={`/admin/blog/edit/${post.slug}`}>
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Link>
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" size="sm">
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
+                          <Trash2 className="h-3.5 w-3.5" />
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>

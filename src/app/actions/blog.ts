@@ -19,11 +19,18 @@ const createSlug = (title: string) =>
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-');
 
+/** Estimate reading time in minutes (avg 200 wpm). */
+function estimateReadingTime(html: string): number {
+  const text = html.replace(/<[^>]+>/g, ' ');
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 const tagsSchema = z
   .string()
   .refine(
-    (value) => !value || value.split(',').map((t) => t.trim()).filter(Boolean).length <= 3,
-    { message: 'You can add a maximum of 3 tags.' }
+    (value) => !value || value.split(',').map((t) => t.trim()).filter(Boolean).length <= 6,
+    { message: 'You can add a maximum of 6 tags.' }
   )
   .optional();
 
@@ -49,6 +56,7 @@ const addPostSchema = z.object({
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
+  status: z.enum(['draft', 'published']).optional().default('published'),
 });
 
 
@@ -64,6 +72,7 @@ const updatePostSchema = z.object({
   publishedDate: z.string().datetime('Invalid date format').optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().optional(),
+  status: z.enum(['draft', 'published']).optional().default('published'),
 }).refine(d => (d.contentHtml && d.contentHtml.trim().length > 0) || (d.content && d.content.trim().length > 0), {
   message: 'Content required (HTML or legacy Markdown).',
   path: ['contentHtml'],
@@ -72,11 +81,18 @@ const updatePostSchema = z.object({
 
 // --- reads -------------------------------------------------------------------
 
+/** Get all posts (admin — includes drafts). */
 export async function getAllPosts(): Promise<Post[]> {
   const col = postsCol();
   if (!col) return []; // Firestore not available (e.g., during build)
   const snap = await col.orderBy('publishedDate', 'desc').get();
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) } as Post));
+}
+
+/** Get only published posts (public-facing pages). */
+export async function getPublishedPosts(): Promise<Post[]> {
+  const posts = await getAllPosts();
+  return posts.filter((p) => !p.status || p.status === 'published');
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
@@ -116,8 +132,9 @@ export async function addPost(formData: FormData) {
     coverImageType: formData.get('coverImageType'),
     coverImageUrl: formData.get('coverImageUrl'),
     coverImageFile: formData.get('coverImageFile'),
+    status: formData.get('status') || 'published',
   };
-  
+
   const parsed = addPostSchema.safeParse({
     title: raw.title,
     summary: raw.summary,
@@ -127,6 +144,7 @@ export async function addPost(formData: FormData) {
     publishedDate: raw.publishedDate,
     coverImageType: raw.coverImageType,
     coverImageUrl: raw.coverImageUrl,
+    status: raw.status,
   });
 
   if (!parsed.success) {
@@ -136,7 +154,7 @@ export async function addPost(formData: FormData) {
     };
   }
 
-  const { title, summary, contentHtml, coverImageType, coverImageUrl, publishedDate, series } = parsed.data;
+  const { title, summary, contentHtml, coverImageType, coverImageUrl, publishedDate, series, status } = parsed.data;
   
   const slug = createSlug(title);
   let finalCoverImageUrl = 'https://placehold.co/1200x675.png';
@@ -173,6 +191,7 @@ export async function addPost(formData: FormData) {
       finalCoverImageUrl = (await obj.getSignedUrl({ action: 'read', expires: '03-01-2500' }))[0];
     }
 
+    const sanitizedContent = sanitizeHtml(contentHtml ?? '');
     const newPostData: any = {
       slug,
       title,
@@ -181,7 +200,9 @@ export async function addPost(formData: FormData) {
       publishedDate: publishedDate || new Date().toISOString(),
       tags: tagsArray,
       coverImage: finalCoverImageUrl,
-      contentHtml: sanitizeHtml(contentHtml ?? ''),
+      contentHtml: sanitizedContent,
+      status: status ?? 'published',
+      readingTime: estimateReadingTime(sanitizedContent),
     };
 
     if (series) {
@@ -226,6 +247,7 @@ export async function updatePost(formData: FormData) {
     coverImageFile: formData.get('coverImageFile'),
     originalSlug: formData.get('originalSlug'),
     postId: formData.get('postId'),
+    status: formData.get('status') || 'published',
   };
 
   const parsed = updatePostSchema.safeParse(raw);
@@ -246,7 +268,8 @@ export async function updatePost(formData: FormData) {
     coverImageType,
     coverImageUrl,
     publishedDate,
-    series
+    series,
+    status,
   } = parsed.data;
 
   const newSlug = createSlug(title);
@@ -293,6 +316,7 @@ export async function updatePost(formData: FormData) {
       ? mdToHtmlSafe(content)
       : '';
 
+    const sanitizedFinalHtml = sanitizeHtml(finalHtml);
     const updated: any = {
       slug: newSlug,
       title,
@@ -303,8 +327,10 @@ export async function updatePost(formData: FormData) {
         ['General'],
       publishedDate: publishedDate || existing.publishedDate,
       coverImage: finalCoverImageUrl,
-      contentHtml: sanitizeHtml(finalHtml),
+      contentHtml: sanitizedFinalHtml,
       series: series || null,
+      status: status ?? 'published',
+      readingTime: estimateReadingTime(sanitizedFinalHtml),
     };
 
     await postRef.update(updated);

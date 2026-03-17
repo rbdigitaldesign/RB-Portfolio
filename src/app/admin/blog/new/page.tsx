@@ -34,13 +34,14 @@ const formSchemaBase = z.object({
   contentHtml: z.string().min(1, 'Content is required.'),
   series: z.string().optional(),
   tags: z.string().refine(
-    (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 3,
-    { message: 'You can add a maximum of 3 tags.' }
+    (value) => !value || value.split(',').map(tag => tag.trim()).filter(Boolean).length <= 6,
+    { message: 'You can add a maximum of 6 tags.' }
   ).optional(),
   publishedDate: z.date().optional(),
   coverImageType: z.enum(['url', 'upload']),
   coverImageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
   coverImageFile: z.any().optional(),
+  status: z.enum(['draft', 'published']).default('published'),
 });
 
 const formSchema = formSchemaBase.refine(data => {
@@ -74,7 +75,8 @@ export default function NewPostPage() {
       publishedDate: new Date(),
       coverImageType: 'url',
       coverImageUrl: '',
-      contentHtml: ''
+      contentHtml: '',
+      status: 'published',
     },
   });
 
@@ -93,13 +95,15 @@ export default function NewPostPage() {
     formData.append('coverImageType', data.coverImageType);
     if (data.coverImageUrl) formData.append('coverImageUrl', data.coverImageUrl);
     if (data.coverImageFile) formData.append('coverImageFile', data.coverImageFile);
-    
+    formData.append('status', data.status ?? 'published');
+
     try {
       const result = await addPost(formData);
       if (result.success) {
+        const isDraft = data.status === 'draft';
         toast({
-          title: 'Post Published!',
-          description: 'Your new blog post is now live.',
+          title: isDraft ? 'Draft saved!' : 'Post Published!',
+          description: isDraft ? 'Your post has been saved as a draft.' : 'Your new blog post is now live.',
         });
         router.push('/admin/blog');
         router.refresh(); 
@@ -227,7 +231,7 @@ export default function NewPostPage() {
                       <Input placeholder="e.g. UX, Design, Learning" {...field} />
                     </FormControl>
                      <FormDescription>
-                        Enter up to 3 tags, separated by commas.
+                        Enter up to 6 tags, separated by commas.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -325,11 +329,23 @@ export default function NewPostPage() {
                   />
               )}
 
-              <div className="flex gap-4">
-                <Button type="submit" disabled={isLoading}>
+              <div className="flex flex-wrap gap-3 pt-2 border-t">
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  onClick={() => form.setValue('status', 'published')}
+                >
                   {isLoading ? 'Publishing...' : 'Publish Post'}
                 </Button>
-                 <Button type="button" variant="outline" onClick={() => router.back()}>
+                <Button
+                  type="submit"
+                  variant="outline"
+                  disabled={isLoading}
+                  onClick={() => form.setValue('status', 'draft')}
+                >
+                  {isLoading ? 'Saving...' : 'Save as Draft'}
+                </Button>
+                <Button type="button" variant="ghost" onClick={() => router.back()} disabled={isLoading}>
                   Cancel
                 </Button>
               </div>
