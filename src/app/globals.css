@@ -1,190 +1,171 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 60 13% 96%; /* neutralLight: #F5F5F2 */
-    --foreground: 0 0% 10%; /* neutralDark: #1A1A1A */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --primary: 180 25% 30%; /* Darkened for better contrast */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 30 34% 49%; /* secondary: #A67C52 */
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 13% 14%; /* #1d1d2a */
-    --muted-foreground: 0 0% 45%; /* Darkened for better contrast */
-    --accent: 36 100% 64%; /* accent: #FFB347 */
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 84.2% 60.2%; /* error: #D64545 */
+    /* Warm editorial palette */
+    --background:           60 20% 98%;   /* #FAFAF8 warm off-white    */
+    --foreground:           20  5%  7%;   /* #111110 warm near-black   */
+    --card:                  0  0% 100%;  /* pure white                */
+    --card-foreground:      20  5%  7%;
+    --popover:               0  0% 100%;
+    --popover-foreground:   20  5%  7%;
+    --primary:             162 38% 17%;   /* #1A3C34 deep forest ink   */
+    --primary-foreground:   60 20% 98%;
+    --secondary:            37 20% 90%;   /* #E8E0D5 warm sand         */
+    --secondary-foreground: 20  5%  7%;
+    --muted:                37 20% 93%;   /* slightly lighter sand     */
+    --muted-foreground:     20 10% 40%;
+    --accent:               14 55% 50%;   /* #C0593A warm terracotta   */
+    --accent-foreground:    60 20% 98%;
+    --destructive:           0 84%  60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 180 25% 30%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 0 0% 10%; /* neutralDark: #1A1A1A */
-    --foreground: 0 0% 98%; /* Adjusted to match light primary-foreground */
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 180 25% 45%; /* Lighter primary for dark mode */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 30 34% 55%; /* Lighter secondary for dark mode */
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 13% 14%; /* #1d1d2a */
-    --muted-foreground: 0 0% 60%; /* Adjusted for better dark mode readability */
-    --accent: 36 100% 64%; /* accent: #FFB347 */
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 62.8% 50.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 36 100% 64%;
+    --border:               37 15% 88%;
+    --input:                37 15% 88%;
+    --ring:                 14 55% 50%;
+    --radius:               0.25rem;
+
+    /* Sidebar (admin-only, keeps legacy values) */
+    --sidebar-background:   20  5%  7%;
+    --sidebar-foreground:   60 20% 98%;
+    --sidebar-primary:      14 55% 50%;
+    --sidebar-primary-foreground: 60 20% 98%;
+    --sidebar-accent:      162 38% 25%;
+    --sidebar-accent-foreground: 60 20% 98%;
+    --sidebar-border:       20 10% 15%;
+    --sidebar-ring:         14 55% 50%;
   }
 }
 
 @layer base {
   html {
     @apply scroll-smooth;
-    scroll-padding-top: 5rem; /* Adjust this value based on your sticky header's height */
+    scroll-padding-top: 5rem;
   }
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline;
+
+  /* Font variable overrides — Fraunces loaded via Google Fonts <link> */
+  --font-headline: 'Fraunces', 'Ananias', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Editorial type scale */
+  h1 {
+    @apply font-headline font-semibold tracking-tight leading-[1.05];
+    font-size: clamp(2.5rem, 6vw, 5rem);
   }
+  h2 {
+    @apply font-headline font-semibold tracking-tight leading-tight;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  h3 {
+    @apply font-headline font-semibold leading-snug;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  }
+  h4, h5, h6 {
+    @apply font-headline font-semibold;
+  }
+
   blockquote {
-    border-left: 4px solid hsl(var(--primary));
-    padding: 0.75rem 1rem;
-    margin: 1.25rem 0;
-    background: color-mix(in srgb, hsl(var(--primary)) 6%, transparent);
+    border-left: 3px solid hsl(var(--accent));
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    background: color-mix(in srgb, hsl(var(--accent)) 5%, transparent);
     font-style: italic;
+    font-size: 1.125rem;
   }
   blockquote > p { margin: 0; }
   blockquote cite {
     display: block;
     margin-top: 0.5rem;
     font-style: normal;
-    opacity: 0.8;
-  }
-
-  /* Target images within the prose-rendered blog content */
-  .prose img {
-    @apply max-w-full rounded-md shadow-soft; /* sensible defaults */
-  }
-  
-  /* Create a container for specific blog post images */
-  .prose .image-container {
-    @apply flex justify-center items-center my-8 p-4 bg-card rounded-lg shadow-medium;
-  }
-
-  .prose .image-container img {
-    @apply max-w-[500px] max-h-[450px] w-auto h-auto object-contain shadow-none;
-  }
-
-  .prose .blog-image-small {
-    @apply max-w-lg mx-auto;
+    font-size: 0.875rem;
+    opacity: 0.7;
   }
 }
 
-.dark blockquote {
-  background: color-mix(in srgb, hsl(var(--primary)) 14%, transparent);
+/* Blog/prose image styles */
+.prose img {
+  @apply max-w-full rounded-sm;
 }
-
-.blog-content img,
-.blog-content .blog-img {
+.prose .image-container {
+  @apply flex justify-center items-center my-8;
+}
+.prose .image-container img {
+  @apply max-w-[500px] max-h-[450px] w-auto h-auto object-contain;
+}
+.blog-content img {
   max-width: 100%;
   height: auto;
   display: block;
   margin: 1rem auto;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
 }
-
-
-/* Special rule for the "simple-truths" post */
-.post-simple-truths img {
-    max-width: 150px !important; /* Use !important to override prose styles if needed */
-    margin: 1rem auto;
-}
-
 .blog-prose img {
   max-width: 100%;
   height: auto;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
 }
-.blog-prose p > img {
-  margin: 1rem 0;
+.blog-prose p > img { margin: 1rem 0; }
+
+/* Special rule for the "simple-truths" post */
+.post-simple-truths img {
+  max-width: 150px !important;
+  margin: 1rem auto;
 }
 
-/* Biomimicry callout card */
-:root{
-  --bio-bg:#F1F8F4;
-  --bio-border:#9BD39B;
-  --bio-accent:#2E7D32;
-  --bio-text:#1F3B2D;
+/* Biomimicry callout card — used in blog posts */
+:root {
+  --bio-bg: #F3F7F4;
+  --bio-border: #9BD39B;
+  --bio-accent: #1A3C34;
+  --bio-text: #1F3B2D;
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bio-bg:#0F1A15;
-    --bio-border:#225E3A;
-    --bio-accent:#56C271;
-    --bio-text:#E6F3EC;
-  }
+.biomimicry-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--bio-bg);
+  border: 1px solid var(--bio-border);
+  border-left: 6px solid var(--bio-accent);
+  border-radius: 4px;
+  padding: 14px 16px;
+  font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--bio-text);
 }
-.biomimicry-card{
-  display:flex; gap:14px; align-items:flex-start;
-  background:var(--bio-bg);
-  border:1px solid var(--bio-border);
-  border-left:8px solid var(--bio-accent);
-  border-radius:14px;
-  padding:14px 16px;
-  box-shadow:0 1px 6px rgba(0,0,0,.06);
-  font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
-  color:var(--bio-text);
+.biomimicry-card .bio-icon {
+  flex: 0 0 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: var(--bio-accent);
+  display: grid;
+  place-items: center;
 }
-.biomimicry-card .bio-icon{
-  flex:0 0 34px; height:34px; border-radius:10px;
-  background:linear-gradient(135deg, var(--bio-accent), #69d18b);
-  display:grid; place-items:center;
-  box-shadow:inset 0 0 0 2px rgba(255,255,255,.18);
-}
-.biomimicry-card .bio-icon svg{ width:20px; height:20px; fill:#fff }
-.biomimicry-card h4{ margin:.1rem 0 .25rem; font-size:1rem; letter-spacing:.2px; }
-.biomimicry-card p{ margin:0 }
+.biomimicry-card .bio-icon svg { width: 20px; height: 20px; fill: #fff; }
+.biomimicry-card h4 { margin: .1rem 0 .25rem; font-size: 1rem; }
+.biomimicry-card p { margin: 0; }
 
-/* PPD Case Study Trio Layout */
+/* Case study layout helpers */
 .ppd-cycle-trio {
   display: grid;
   gap: 0.75rem;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  align-items: center;
 }
 @media (min-width: 768px) {
-  .ppd-cycle-trio {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .ppd-cycle-trio { grid-template-columns: repeat(3, 1fr); }
 }
-
-/* OUA Orientation Case Study */
 .insights-row {
   display: grid;
   gap: 0.75rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 @media (min-width: 768px) {
-  .insights-row {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .insights-row { grid-template-columns: repeat(3, 1fr); }
 }
 .iphone-row {
   display: grid;
@@ -192,7 +173,5 @@
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 @media (min-width: 768px) {
-  .iphone-row {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  .iphone-row { grid-template-columns: repeat(4, 1fr); }
 }

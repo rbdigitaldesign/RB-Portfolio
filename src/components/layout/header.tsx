@@ -1,118 +1,121 @@
-
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { useTheme } from 'next-themes';
-
-import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from '@/components/ui/sheet';
-import SiteAdminLauncher from '@/components/site-admin-launcher';
 
-
-const navLinks = [
-  { href: '/', label: 'Projects' },
+const NAV_LINKS = [
+  { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/blog', label: 'Writing' },
   { href: '/contact', label: 'Contact' },
 ];
 
 export function Header() {
   const pathname = usePathname();
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const logoSrc = resolvedTheme === 'dark' 
-    ? 'https://i.imgur.com/hdIZnWQ.png' 
-    : 'https://i.imgur.com/ocbJgCp.png';
+  // Close menu on route change
+  useEffect(() => setMenuOpen(false), [pathname]);
 
-  const NavLink = ({ href, label, className }: { href: string; label: string; className?: string }) => {
-    const isActive = pathname === href || (href === '/' && pathname.startsWith('/projects'));
-    // A special check for projects to keep the link active on case study pages.
-    const isProjectsLink = href === '/';
-    const isProjectPage = pathname.startsWith('/projects/');
-    const checkIsActive = isProjectsLink ? isActive || isProjectPage : pathname === href;
-
-    return (
-      <Link
-        href={href}
+  return (
+    <>
+      <header
         className={cn(
-          'text-sm font-medium transition-colors hover:text-primary',
-          checkIsActive ? 'text-primary dark:text-accent' : 'text-muted-foreground',
-          className
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          scrolled
+            ? 'bg-background/95 backdrop-blur-sm border-b border-border'
+            : 'bg-transparent'
         )}
       >
-        {label}
-      </Link>
-    );
-  };
-  
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          {mounted ? (
-            <Image src={logoSrc} alt="RB Digital Design Logo" width={32} height={32} />
-          ) : (
-            <div style={{ width: 32, height: 32 }} />
-          )}
-          <span className="font-bold text-lg font-headline">RB Digital Design</span>
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <NavLink key={link.href} {...link} />
-          ))}
-          <div className="flex items-center gap-2">
-             <SiteAdminLauncher />
-          </div>
-          <ThemeToggle />
-        </nav>
+        <div className="max-w-5xl mx-auto px-6 flex h-16 items-center justify-between">
+          {/* Wordmark */}
+          <Link
+            href="/"
+            className="font-headline text-lg font-semibold tracking-tight hover:text-accent transition-colors"
+          >
+            Rich Bartlett
+          </Link>
 
-        {/* Mobile Navigation */}
-        <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <nav className="flex flex-col gap-6 mt-8">
-                {navLinks.map((link) => (
-                  <SheetClose asChild key={link.href}>
-                    <NavLink href={link.href} label={link.label} className="text-lg" />
-                  </SheetClose>
-                ))}
-                 <div className="mt-4">
-                    <SheetClose asChild>
-                      <SiteAdminLauncher />
-                    </SheetClose>
-                 </div>
-              </nav>
-              <div className="absolute bottom-4 right-4">
-                <ThemeToggle />
-              </div>
-            </SheetContent>
-          </Sheet>
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  'text-sm font-medium transition-colors hover:text-accent',
+                  pathname === href || pathname.startsWith(href + '/')
+                    ? 'text-accent'
+                    : 'text-foreground/60'
+                )}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden p-2 -mr-2 text-foreground/60 hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile full-screen overlay */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-background flex flex-col">
+          <div className="max-w-5xl mx-auto px-6 w-full flex h-16 items-center justify-between">
+            <Link
+              href="/"
+              className="font-headline text-lg font-semibold tracking-tight"
+              onClick={() => setMenuOpen(false)}
+            >
+              Rich Bartlett
+            </Link>
+            <button
+              className="p-2 -mr-2 text-foreground/60"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          <nav className="flex flex-col items-start justify-center flex-1 max-w-5xl mx-auto px-6 w-full gap-6 pb-16">
+            {NAV_LINKS.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  'font-headline text-4xl font-semibold transition-colors hover:text-accent',
+                  pathname === href || pathname.startsWith(href + '/')
+                    ? 'text-accent'
+                    : 'text-foreground'
+                )}
+                onClick={() => setMenuOpen(false)}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
+
+      {/* Spacer so content doesn't sit under fixed header */}
+      <div className="h-16" />
+    </>
   );
 }

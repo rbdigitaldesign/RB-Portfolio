@@ -1,163 +1,214 @@
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { User, Dna, Wrench, Lightbulb, Award, ExternalLink, Heart, Radio, Music, BookOpen, Beer, Dog } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight, ExternalLink } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About — Rich Bartlett',
+  description:
+    'Learning Designer and UX practitioner based in Australia. 10+ years across tech and education.',
+};
+
+const SKILLS = [
+  'UX Research',
+  'UI Design',
+  'Instructional Design',
+  'Curriculum Development',
+  'Prototyping',
+  'Usability Testing',
+  'Systems Thinking',
+  'Agile Methodologies',
+  'Frontend Development',
+  'Facilitation',
+];
+
+const TOOLS = [
+  'Figma',
+  'Miro / FigJam',
+  'Canvas LMS',
+  'Canva',
+  'Adobe Creative Suite',
+  'Tiptap / Rich Editors',
+  'ChatGPT / AI Tools',
+  'Firebase Studio',
+  'GitHub',
+  'Google Suite',
+];
+
+const INTERESTS = [
+  'CrossFit — challenging my physical limits and having fun.',
+  'Reading everything: animal studies, biographies, Sci-Fi and Fantasy.',
+  'Long walks with Jerry Boi Seinfeld (a Kelpie cross with strong opinions).',
+  'Podcasts: Heavyweight, Science Vs, How I Built This.',
+  'Slowly learning guitar. Very slowly.',
+  'A good beer with good people.',
+];
 
 export default function AboutPage() {
-  const skills = ["UX Research", "UI Design", "Instructional Design", "Prototyping", "Frontend Development", "Agile Methodologies"];
-  const tools = ["Firebase Studio", "ChatGPT", "Canvas LMS", "Canva", "Trello", "Miro"];
-  const interests = [
-    {
-      icon: <Dna className="h-5 w-5 text-primary" />,
-      text: "Challenging my physical limits and having fun through CrossFit to maintain strength and resilience.",
-    },
-    {
-      icon: <Dog className="h-5 w-5 text-primary" />,
-      text: "Enjoying tranquillity at home or the dog park with our Kelpie cross, 'Jerry Boi Seinfeld'.",
-    },
-    {
-      icon: <BookOpen className="h-5 w-5 text-primary" />,
-      text: "Immersing myself in compelling reads—from animal studies and biographies to Sci-Fi and Fantasy.",
-    },
-    {
-      icon: <Music className="h-5 w-5 text-primary" />,
-      text: "Humming along to inspiring music and continually reminding myself to practise guitar.",
-    },
-    {
-      icon: <Radio className="h-5 w-5 text-primary" />,
-      text: "Tuning into thought-provoking podcasts like 'Heavy Weight,' 'Science Vs,' and 'How I Built This'.",
-    },
-    {
-      icon: <Beer className="h-5 w-5 text-primary" />,
-      text: "Relishing a tasty beer or wine in the company of good friends, celebrating life’s simple pleasures.",
-    },
-  ];
-
   return (
-    <div className="container mx-auto max-w-4xl py-16 px-4">
-      <header className="flex flex-col md:flex-row items-center gap-8 mb-12">
-        <Avatar className="w-32 h-32">
-          <AvatarImage src="https://i.imgur.com/X0EG5j2.png" alt="Rich Bartlett" data-ai-hint="profile picture" className="object-cover" />
-          <AvatarFallback>RB</AvatarFallback>
-        </Avatar>
+    <div className="max-w-5xl mx-auto px-6 py-16">
+      {/* ── Hero ────────────────────────────────────────────────── */}
+      <header className="border-b border-border pb-12 mb-12 grid md:grid-cols-[200px_1fr] gap-10 items-start">
+        <div className="relative aspect-square overflow-hidden bg-muted max-w-[200px]">
+          <Image
+            src="https://i.imgur.com/X0EG5j2.png"
+            alt="Rich Bartlett"
+            fill
+            priority
+            className="object-cover"
+          />
+        </div>
         <div>
-          <h1 className="text-4xl font-bold font-headline mb-2">About Me</h1>
-          <p className="text-xl text-muted-foreground">
-            I build bridges between learning theory and user-centred design to create experiences that are not just usable, but also meaningful and memorable.
+          <p className="text-sm font-medium text-accent uppercase tracking-widest mb-3">
+            About
           </p>
+          <h1 className="font-headline font-semibold text-4xl md:text-5xl leading-tight mb-4 max-w-xl">
+            Rich Bartlett
+          </h1>
+          <p className="text-lg text-muted-foreground mb-2">
+            LDX Designer · Australia
+          </p>
+          <a
+            href="https://www.advance-he.ac.uk/fellowship/fellowship"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-accent transition-colors"
+          >
+            Fellow of the Higher Education Academy (FHEA)
+            <ExternalLink size={13} />
+          </a>
         </div>
       </header>
-      
-      <Separator className="my-12" />
 
-      <div className="grid md:grid-cols-2 gap-12">
-        <section aria-labelledby="profile-heading">
-          <h2 id="profile-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><User /> Profile</h2>
-          <div className="space-y-4 text-foreground/80">
-            <p>
-              With over ten years of experience in Australia's technology and education sectors, I've developed a unique skill set that merges the rigour of learning design with the empathy of user experience (UX) design. My career began in tech support and evolved into roles where I could directly impact how people interact with and learn from technology.
+      {/* ── Bio ─────────────────────────────────────────────────── */}
+      <section className="grid md:grid-cols-[2fr_1fr] gap-12 border-b border-border pb-12 mb-12">
+        <div className="space-y-5 text-muted-foreground leading-relaxed">
+          <p>
+            I build bridges between learning theory and user-centred design to create experiences
+            that are not just usable, but also meaningful and memorable.
+          </p>
+          <p>
+            With over ten years of experience across Australia's technology and education sectors,
+            I've developed a unique skill set that merges the rigour of learning design with the
+            empathy of UX. My career began in tech support and evolved into roles where I could
+            directly impact how people interact with and learn from technology.
+          </p>
+          <p>
+            Currently, as a Learning Designer at a Group of Eight university, I apply these
+            principles to create engaging and effective online courses for thousands of students.
+            I thrive on complex challenges and am passionate about using design to solve problems
+            and improve people's lives.
+          </p>
+          <p>
+            My practice combines systems thinking, iterative design, and a genuine curiosity for
+            how things work. I work collaboratively with academics, developers, and media specialists
+            — because the best results come from shared insight and diverse perspectives.
+          </p>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
+              Based in
             </p>
-            <p>
-              Currently, as a Learning Designer at a Group of Eight university, I apply these principles to create engaging and effective online courses for thousands of students. I thrive on complex challenges and am passionate about using design to solve problems and improve people's lives.
+            <p className="font-medium">Australia</p>
+          </div>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
+              Current role
             </p>
-             <div className="space-y-4">
-              <p>
-                I am a{' '}
-                <a 
-                  href="https://www.advance-he.ac.uk/fellowship/fellowship" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="font-semibold text-primary hover:underline underline-offset-4"
-                >
-                  Fellow of the Higher Education Academy (FHEA)
-                  <ExternalLink className="inline-block ml-1 h-4 w-4" />
-                </a>
-                , a recognition of my commitment to professionalism in teaching and learning in higher education.
-              </p>
-              <Button asChild variant="outline">
-                <a href="https://drive.google.com/file/d/1M-FyFNJF-MSmPWrhU1xVxRFtleo_avm1/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                  View Certificate
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-            </div>
+            <p className="font-medium">Learning Designer, Group of Eight University</p>
           </div>
-        </section>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
+              Experience
+            </p>
+            <p className="font-medium">10+ years</p>
+          </div>
+          <div className="pt-2">
+            <a
+              href="https://docs.google.com/document/d/1RIHsBSdbUdbeABwg0y3Ql_aiKISd0hpSJM7DIgJK3I8/export?format=pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              download="Rich_Bartlett_Resume.pdf"
+              className="inline-flex items-center gap-2 text-sm font-medium border border-border px-4 py-2 hover:border-foreground transition-colors"
+            >
+              Download Resume <ArrowRight size={14} />
+            </a>
+          </div>
+        </div>
+      </section>
 
-        <section aria-labelledby="approach-heading">
-            <h2 id="approach-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><Lightbulb /> My Approach</h2>
-            <div className="space-y-4 text-foreground/80">
-                <p>
-                    My design practice combines the structure of learning theory with the creativity of user-centred design. I see every project as an opportunity to solve complex problems in a way that is clear, practical, and meaningful for learners and stakeholders.
-                </p>
-                <p>
-                    I work iteratively, moving from exploration to refinement through research, prototyping, and feedback. Collaboration is central to this process—whether it’s with academics, developers, or media specialists—because the best results come from shared insight and diverse perspectives.
-                </p>
-                <p>
-                    I draw on systems thinking to understand the broader context of a challenge and ensure that solutions are not only usable in the moment but sustainable over time. While frameworks such as the double-diamond guide my process, I adapt methods to suit the needs of each project rather than applying a rigid formula.
-                </p>
-                 <p>
-                    Inspiration often comes from observing patterns in nature and design: elegant, efficient, and resilient solutions that can be translated into digital learning experiences. My aim is always the same—create courses and tools that are engaging, accessible, and designed to last.
-                </p>
-            </div>
-        </section>
-      </div>
-
-      <Separator className="my-12" />
-
-      <div className="grid md:grid-cols-2 gap-12">
-         <section aria-labelledby="skills-heading">
-          <h2 id="skills-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><Dna /> Skills</h2>
-          <div className="flex flex-wrap gap-2">
-            {skills.map(skill => (
-              <Badge key={skill} variant="secondary" className="text-sm">{skill}</Badge>
+      {/* ── Skills & Tools ──────────────────────────────────────── */}
+      <section className="grid md:grid-cols-2 gap-12 border-b border-border pb-12 mb-12">
+        <div>
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
+            Skills
+          </h2>
+          <ul className="space-y-2">
+            {SKILLS.map((s) => (
+              <li key={s} className="flex items-center gap-2 text-sm">
+                <span className="w-1 h-1 bg-accent flex-shrink-0" />
+                {s}
+              </li>
             ))}
-          </div>
-        </section>
-
-        <section aria-labelledby="tools-heading">
-          <h2 id="tools-heading" className="text-2xl font-bold font-headline mb-4 flex items-center gap-2"><Wrench /> Favourite Tools</h2>
-          <div className="flex flex-wrap gap-2">
-            {tools.map(tool => (
-              <Badge key={tool} variant="outline" className="text-sm">{tool}</Badge>
+          </ul>
+        </div>
+        <div>
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
+            Tools
+          </h2>
+          <ul className="space-y-2">
+            {TOOLS.map((t) => (
+              <li key={t} className="flex items-center gap-2 text-sm">
+                <span className="w-1 h-1 bg-muted-foreground flex-shrink-0" />
+                {t}
+              </li>
             ))}
-          </div>
-        </section>
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Life outside work ───────────────────────────────────── */}
+      <section className="grid md:grid-cols-[1fr_1fr] gap-12 border-b border-border pb-12 mb-12 items-start">
+        <div>
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
+            Life outside work
+          </h2>
+          <ul className="space-y-3">
+            {INTERESTS.map((item, i) => (
+              <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
+                <span className="text-accent flex-shrink-0 mt-0.5">—</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="relative aspect-square overflow-hidden bg-muted">
+          <Image
+            src="https://i.imgur.com/WyDEtud.png"
+            alt="Rich Bartlett with his family"
+            fill
+            className="object-cover"
+          />
+        </div>
+      </section>
+
+      {/* ── CTA ─────────────────────────────────────────────────── */}
+      <div className="flex flex-wrap gap-4">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
+        >
+          View my work <ArrowRight size={16} />
+        </Link>
+        <Link
+          href="/contact"
+          className="inline-flex items-center gap-2 border border-border px-5 py-2.5 text-sm font-medium hover:border-foreground transition-colors"
+        >
+          Get in touch
+        </Link>
       </div>
-
-      <Separator className="my-12" />
-
-      <section aria-labelledby="life-outside-work-heading">
-          <h2 id="life-outside-work-heading" className="text-2xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Heart /> Life Outside Work</h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-             <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-strong">
-                <Image
-                    src="https://i.imgur.com/WyDEtud.png"
-                    alt="Rich Bartlett with his family"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="family photo"
-                />
-            </div>
-            <div>
-              <p className="text-foreground/80 mb-6">
-                When I'm not working, here's a glimpse into what fuels my spirit:
-              </p>
-              <ul className="space-y-4">
-                {interests.map((interest, index) => (
-                  <li key={index} className="flex items-start gap-4">
-                    <div className="flex-shrink-0 mt-1">{interest.icon}</div>
-                    <span className="text-foreground/80">{interest.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
     </div>
   );
 }

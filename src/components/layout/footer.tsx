@@ -1,44 +1,54 @@
 
 import Link from 'next/link';
-import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Github, Linkedin, Instagram } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-muted text-muted-foreground mt-auto">
-      <div className="container mx-auto flex flex-col items-center justify-between py-6 px-4 gap-4 sm:flex-row">
-        <div className="text-sm text-center sm:text-left">
-            <p>&copy; {currentYear} RB Digital Design. All Rights Reserved.</p>
-            <div className="flex gap-2 justify-center sm:justify-start mt-1">
-                <Link href="/privacy-policy" className="text-xs hover:underline">Privacy Policy</Link>
-                <Separator orientation="vertical" className="h-4" />
-                <Link href="/terms-of-service" className="text-xs hover:underline">Terms of Service</Link>
-            </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" asChild>
-            <a href="https://www.linkedin.com/in/richbart11/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <Linkedin className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <a href="https://github.com/rbdigitaldesign" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github className="h-5 w-5" />
-            </a>
-          </Button>
-           <Button variant="ghost" size="icon" asChild>
-            <a href="https://www.instagram.com/rb_digital_design_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <Instagram className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/contact" aria-label="Email">
-              <Mail className="h-5 w-5" />
+    <footer className="border-t border-border mt-auto">
+      <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="text-sm text-muted-foreground">
+          <p>© {currentYear} Rich Bartlett</p>
+          <div className="flex gap-3 mt-1">
+            <Link href="/privacy-policy" className="text-xs hover:text-foreground transition-colors">
+              Privacy
             </Link>
-          </Button>
+            <span className="text-border">·</span>
+            <Link href="/terms-of-service" className="text-xs hover:text-foreground transition-colors">
+              Terms
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <a
+            href="https://www.linkedin.com/in/richbart11/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Linkedin size={18} />
+          </a>
+          <a
+            href="https://github.com/rbdigitaldesign"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Github size={18} />
+          </a>
+          <a
+            href="https://www.instagram.com/rb_digital_design_/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Instagram size={18} />
+          </a>
         </div>
       </div>
     </footer>
