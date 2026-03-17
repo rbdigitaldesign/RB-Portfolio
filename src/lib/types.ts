@@ -1,8 +1,10 @@
 
+export type ProjectCategory = 'User Experience' | 'Learning Design' | 'Hackathons' | 'Coding Projects' | 'Publications';
+
 export type Project = {
   slug: string;
   title: string;
-  category: 'User Experience' | 'Learning Design' | 'Hackathons' | 'Coding Projects' | 'Publications';
+  category: ProjectCategory;
   summary: string;
   tags: string[];
   coverImage: string;
@@ -16,6 +18,8 @@ export type Project = {
   duration: string;
   team: string;
   tools: string[];
+  status?: 'draft' | 'published';
+  featured?: boolean;
   links?: {
     live?: string;
     github?: string;
@@ -35,4 +39,6 @@ export interface Post {
   tags: string[];
   coverImage: string;
   series?: string;
+  status?: 'draft' | 'published';
+  readingTime?: number; // estimated minutes
 }

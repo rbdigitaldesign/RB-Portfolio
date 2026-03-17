@@ -1,83 +1,55 @@
 
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useParams, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getPostsBySeries } from '@/app/actions/blog';
-import type { Post } from '@/lib/types';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Home } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import { getAllPosts } from '@/lib/content';
 
-export default function SeriesPage() {
-  const params = useParams();
-  const seriesName = params.seriesName ? decodeURIComponent(params.seriesName as string) : '';
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export default async function SeriesPage({
+  params,
+}: {
+  params: Promise<{ seriesName: string }>;
+}) {
+  const { seriesName } = await params;
+  const decoded = decodeURIComponent(seriesName);
 
-  useEffect(() => {
-    if (!seriesName) return;
-    async function fetchPosts() {
-      setIsLoading(true);
-      try {
-        const fetchedPosts = await getPostsBySeries(seriesName);
-        if (fetchedPosts.length === 0) {
-          notFound();
-        }
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error("Failed to fetch posts for series:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchPosts();
-  }, [seriesName]);
-
-  if (isLoading) {
-    return (
-      <div className="container mx-auto max-w-4xl py-16 px-4">
-        <Skeleton className="h-10 w-3/4 mx-auto mb-12" />
-        <div className="space-y-4">
-          <Skeleton className="h-20 w-full" />
-          <Skeleton className="h-20 w-full" />
-          <Skeleton className="h-20 w-full" />
-        </div>
-      </div>
-    );
-  }
+  const posts = getAllPosts().filter((p) => p.series === decoded);
+  if (posts.length === 0) notFound();
 
   return (
-    <div className="container mx-auto max-w-4xl py-16 px-4">
-       <nav className="mb-8 flex justify-between items-center">
-        <Button variant="blogHome" asChild>
-          <Link href="/blog">
-            <Home className="mr-2 h-4 w-4" />
-             Blog Home
-          </Link>
-        </Button>
+    <div className="max-w-5xl mx-auto px-6 py-16">
+      <nav className="mb-10">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft size={14} /> Writing
+        </Link>
       </nav>
-      <header className="text-center mb-12">
-        <p className="text-sm font-semibold uppercase text-muted-foreground tracking-wider">Blog Series</p>
-        <h1 className="text-4xl md:text-5xl font-bold font-headline mt-2">{seriesName}</h1>
+
+      <header className="border-b border-border pb-10 mb-12">
+        <p className="text-sm font-medium text-accent uppercase tracking-widest mb-3">Series</p>
+        <h1 className="font-headline font-semibold text-4xl leading-tight">{decoded}</h1>
       </header>
-      <ol className="relative border-l border-gray-200 dark:border-gray-700">
-        {posts.map((post, index) => (
-          <li key={post.id} className="mb-10 ml-6">
-            <span className="absolute -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground ring-8 ring-background">
-              {index + 1}
+
+      <ol className="divide-y divide-border">
+        {posts.map((post, i) => (
+          <li key={post.slug} className="py-6 flex items-baseline gap-4">
+            <span className="text-sm font-mono text-muted-foreground w-6 flex-shrink-0">
+              {i + 1}
             </span>
-            <div className="ml-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    <Link href={`/blog/${post.slug}`} className="hover:underline">
-                        {post.title}
-                    </Link>
-                </h3>
-                <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                    Published on {new Date(post.publishedDate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </time>
-                <p className="text-base font-normal text-gray-500 dark:text-gray-400">{post.summary}</p>
+            <div>
+              <Link
+                href={`/blog/${post.slug}`}
+                className="font-headline font-semibold text-lg hover:text-accent transition-colors"
+              >
+                {post.title}
+              </Link>
+              <p className="text-xs text-muted-foreground font-mono mt-1">
+                {new Date(post.date).toLocaleDateString('en-AU', {
+                  year: 'numeric',
+                  month: 'long',
+                })}
+              </p>
             </div>
           </li>
         ))}
@@ -85,4 +57,3 @@ export default function SeriesPage() {
     </div>
   );
 }
-

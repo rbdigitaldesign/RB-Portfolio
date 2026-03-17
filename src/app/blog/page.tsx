@@ -1,190 +1,123 @@
 
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState, useMemo } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { getAllPosts } from '@/lib/content';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Library } from 'lucide-react';
-import type { Post } from '@/lib/types';
-import { getAllPosts } from '../actions/blog';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import BlogHero from "@/components/BlogHero";
+export const metadata = {
+  title: 'Writing — Rich Bartlett',
+  description: 'Thoughts on learning design, UX, and the craft of making things that work.',
+};
 
 export default function BlogPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeTag, setActiveTag] = useState('All');
-  const [activeSeries, setActiveSeries] = useState('All');
-
-  useEffect(() => {
-    async function fetchPosts() {
-      setIsLoading(true);
-      try {
-        const fetchedPosts = await getAllPosts();
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchPosts();
-  }, []);
-
-  const allTags = useMemo(() => {
-    const tags = new Set<string>(['All']);
-    posts.forEach(p => {
-      p.tags.forEach(tag => tags.add(tag));
-    });
-    return Array.from(tags).sort();
-  }, [posts]);
-
-  const allSeries = useMemo(() => {
-    const series = new Set<string>(['All']);
-    posts.forEach(p => {
-      if (p.series) series.add(p.series);
-    });
-    return Array.from(series).sort();
-  }, [posts]);
-
-  const filteredPosts = useMemo(() => {
-    let filtered = posts;
-
-    if (activeTag !== 'All') {
-      filtered = filtered.filter((p) => p.tags.includes(activeTag));
-    }
-    
-    if (activeSeries !== 'All') {
-      filtered = filtered.filter((p) => p.series === activeSeries);
-    }
-
-    return filtered;
-  }, [posts, activeTag, activeSeries]);
+  const posts = getAllPosts();
+  const [featured, ...rest] = posts;
 
   return (
-    <>
-      <BlogHero />
+    <div className="max-w-5xl mx-auto px-6 py-16">
+      <header className="border-b border-border pb-10 mb-12">
+        <p className="text-sm font-medium text-accent uppercase tracking-widest mb-3">Writing</p>
+        <h1 className="text-4xl md:text-5xl font-headline font-semibold max-w-2xl leading-tight">
+          Thoughts on design,<br /> learning, and craft.
+        </h1>
+      </header>
 
-      <div className="container mx-auto max-w-4xl py-16 px-4">
-        <div className="mb-8 flex flex-col items-center gap-4">
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
-              <Select onValueChange={setActiveTag} value={activeTag}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a tag" />
-                </SelectTrigger>
-                <SelectContent>
-                  {allTags.map((tag) => (
-                    <SelectItem key={tag} value={tag}>
-                      {tag}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-             {allSeries.length > 1 && (
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground">Filter by series:</span>
-                 <Select onValueChange={setActiveSeries} value={activeSeries}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a series" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {allSeries.map((series) => (
-                      <SelectItem key={series} value={series}>
-                        {series}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+      {posts.length === 0 && (
+        <p className="text-muted-foreground">No posts yet — check back soon.</p>
+      )}
+
+      {/* Featured post */}
+      {featured && (
+        <Link
+          href={`/blog/${featured.slug}`}
+          className="group block border border-border hover:border-foreground transition-colors mb-12"
+        >
+          <div className="grid md:grid-cols-2">
+            {featured.coverImage && (
+              <div className="relative aspect-video md:aspect-auto md:min-h-[280px] overflow-hidden bg-muted">
+                <Image
+                  src={featured.coverImage}
+                  alt={featured.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  priority
+                />
               </div>
             )}
+            <div className="p-8 flex flex-col justify-center">
+              <div className="flex flex-wrap gap-2 mb-3">
+                {featured.tags.slice(0, 3).map((tag) => (
+                  <span key={tag} className="text-xs font-medium text-accent uppercase tracking-wider">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h2 className="font-headline font-semibold text-2xl md:text-3xl leading-snug mb-3 group-hover:text-accent transition-colors">
+                {featured.title}
+              </h2>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">
+                {featured.summary}
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground font-mono">
+                  {new Date(featured.date).toLocaleDateString('en-AU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+                <span className="text-sm font-medium text-accent flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Read <ArrowRight size={14} />
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        
-        <Separator className="mb-12" />
+        </Link>
+      )}
 
-        {isLoading ? (
-          <div className="grid gap-8">
-            <Card className="flex flex-col md:flex-row overflow-hidden">
-                <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
-                    <Skeleton className="w-full h-full" />
+      {/* Remaining posts */}
+      {rest.length > 0 && (
+        <div className="divide-y divide-border">
+          {rest.map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="group flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 py-8 hover:bg-muted/30 -mx-4 px-4 transition-colors"
+            >
+              {post.coverImage && (
+                <div className="relative w-full sm:w-32 aspect-video sm:aspect-square flex-shrink-0 overflow-hidden bg-muted">
+                  <Image
+                    src={post.coverImage}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
                 </div>
-                <div className="md:w-1/2 flex flex-col p-6">
-                    <Skeleton className="h-8 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-1/2 mb-4" />
-                    <Skeleton className="h-16 w-full" />
+              )}
+              <div className="flex-1">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {post.tags.slice(0, 2).map((tag) => (
+                    <span key={tag} className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-            </Card>
-            <Card className="flex flex-col md:flex-row overflow-hidden">
-                <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
-                    <Skeleton className="w-full h-full" />
-                </div>
-                <div className="md:w-1/2 flex flex-col p-6">
-                    <Skeleton className="h-8 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-1/2 mb-4" />
-                    <Skeleton className="h-16 w-full" />
-                </div>
-            </Card>
-          </div>
-        ) : filteredPosts.length > 0 ? (
-          <div className="grid gap-8">
-            {filteredPosts.map((post) => (
-              <Card key={post.slug} className="flex flex-col md:flex-row overflow-hidden">
-                  <div className="md:w-1/2 relative min-h-[200px] md:min-h-full">
-                      <Image 
-                          src={post.coverImage} 
-                          alt={`Cover image for ${post.title}`}
-                          fill
-                          className="object-cover"
-                          data-ai-hint="abstract texture"
-                      />
-                  </div>
-                  <div className="md:w-1/2 flex flex-col">
-                      <CardHeader>
-                          {post.series && (
-                                <div className="text-sm font-semibold text-muted-foreground flex items-center gap-2 -mt-2 mb-2">
-                                    <Library className="h-4 w-4" />
-                                    {post.series}
-                                </div>
-                          )}
-                          <CardTitle className="font-headline text-2xl">
-                            <Link href={`/blog/${post.slug}`} className="hover:underline">
-                              {post.title}
-                            </Link>
-                          </CardTitle>
-                          <CardDescription>
-                              {new Date(post.publishedDate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-                          </CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-grow">
-                          <p>{post.summary}</p>
-                      </CardContent>
-                      <CardFooter>
-                          <Button asChild variant="link" className="p-0 h-auto">
-                              <Link href={`/blog/${post.slug}`} className="group">
-                                  Read More
-                                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                              </Link>
-                          </Button>
-                      </CardFooter>
-                  </div>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16">
-            <h3 className="text-2xl font-headline">No Posts Found</h3>
-            <p className="text-muted-foreground mt-2">Try adjusting your filter criteria.</p>
-          </div>
-        )}
-      </div>
-    </>
+                <h3 className="font-headline font-semibold text-xl leading-snug mb-2 group-hover:text-accent transition-colors">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">{post.summary}</p>
+                <span className="mt-3 text-xs text-muted-foreground font-mono block">
+                  {new Date(post.date).toLocaleDateString('en-AU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

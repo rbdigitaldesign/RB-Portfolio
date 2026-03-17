@@ -2,18 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import type { Project } from '@/lib/types';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
 
 interface ProjectCardProps {
   project: Project;
@@ -24,41 +13,60 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isExternal = href.startsWith('http');
 
   return (
-    <Card className="flex flex-col h-full overflow-hidden transition-all duration-300 ease-in-out hover:shadow-medium focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-      <CardHeader>
-        <div className="relative aspect-video w-full mb-4">
-          <Image
-            src={project.coverImage}
-            alt={project.title}
-            fill
-            className="object-cover rounded-t-lg"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            data-ai-hint="project screenshot abstract"
-          />
+    <Link
+      href={href}
+      target={isExternal ? '_blank' : '_self'}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+      className="group flex flex-col border border-border hover:border-foreground transition-colors duration-200"
+    >
+      {/* Cover image */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+        <Image
+          src={project.coverImage}
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-1">
+        {/* Category + year */}
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-medium text-accent uppercase tracking-wider">
+            {project.category}
+          </span>
+          <span className="text-xs text-muted-foreground font-mono">{project.year}</span>
         </div>
-        <Badge variant="secondary" className="w-fit">{project.category}</Badge>
-        <CardTitle className="pt-2 font-headline">
-          <Link href={href} target={isExternal ? '_blank' : '_self'} rel={isExternal ? "noopener noreferrer" : ""}>
-            <span className="hover:underline">{project.title}</span>
-          </Link>
-        </CardTitle>
-        <CardDescription>{project.summary}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <Badge key={tag} variant="outline">{tag}</Badge>
+
+        {/* Title */}
+        <h3 className="font-headline font-semibold text-lg leading-snug mb-2 group-hover:text-accent transition-colors">
+          {project.title}
+        </h3>
+
+        {/* Summary */}
+        <p className="text-sm text-muted-foreground line-clamp-2 flex-1 mb-4">
+          {project.summary}
+        </p>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.slice(0, 3).map((tag) => (
+            <span
+              key={tag}
+              className="text-xs text-muted-foreground border border-border px-2 py-0.5"
+            >
+              {tag}
+            </span>
           ))}
         </div>
-      </CardContent>
-      <CardFooter>
-        <Button asChild variant="link" className="p-0 h-auto">
-          <Link href={href} className="group" target={isExternal ? '_blank' : '_self'} rel={isExternal ? "noopener noreferrer" : ""}>
-            {project.category === 'Publications' ? 'View Publications' : 'View Case Study'}
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
+
+        {/* CTA */}
+        <span className="inline-flex items-center gap-1 text-sm font-medium text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+          View case study <ArrowRight size={14} />
+        </span>
+      </div>
+    </Link>
   );
 }
