@@ -13,21 +13,24 @@ const NAV_LINKS = [
   { href: '/contact', label: 'Contact' },
 ];
 
-function LogoMark({ uid }: { uid: string }) {
-  const clipId = `rb-intersect-${uid}`;
+function LogoMark() {
   return (
     <svg width="30" height="20" viewBox="0 0 30 20" fill="none" aria-hidden="true" className="shrink-0">
-      <defs>
-        <clipPath id={clipId}>
-          <circle cx="10" cy="10" r="9" />
-        </clipPath>
-      </defs>
-      {/* left circle */}
-      <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
-      {/* right circle */}
-      <circle cx="20" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
-      {/* intersection filled with accent */}
-      <circle cx="20" cy="10" r="9" fill="#C0593A" clipPath={`url(#${clipId})`} />
+      {/* R — mirrored bowl (upper left) */}
+      <path d="M 15 2 C 8 2 5 5 5 7 C 5 9 8 10 15 10"
+            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      {/* R — diagonal leg (lower left) */}
+      <line x1="15" y1="10" x2="7" y2="18"
+            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* B — upper bowl (upper right) */}
+      <path d="M 15 2 C 22 2 25 5 25 7 C 25 9 22 10 15 10"
+            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      {/* B — lower bowl, slightly wider (lower right) */}
+      <path d="M 15 10 C 23 10 26 13 26 15 C 26 17 23 18 15 18"
+            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      {/* Shared spine — terracotta accent */}
+      <line x1="15" y1="2" x2="15" y2="18"
+            stroke="#C0593A" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   );
 }
@@ -62,7 +65,7 @@ export function Header() {
             href="/"
             className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight hover:text-accent transition-colors"
           >
-            <LogoMark uid="desktop" />
+            <LogoMark />
             Rich Bartlett
           </Link>
 
@@ -104,7 +107,7 @@ export function Header() {
               className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight"
               onClick={() => setMenuOpen(false)}
             >
-              <LogoMark uid="mobile" />
+              <LogoMark />
               Rich Bartlett
             </Link>
             <button
