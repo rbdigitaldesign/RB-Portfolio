@@ -46,10 +46,18 @@ const INTERESTS = [
   { emoji: '💍', text: 'Married to an incredible Nursey wifey.' },
 ];
 
-const LIFE_CIRCLES = [
+const LIFE_LEFT = [
   { src: '/life-guitar.jpg', alt: 'Playing guitar with my daughter' },
+  { src: '/life-beer.jpg', alt: 'A cold beer — priorities intact' },
+  { src: '/life-crossfit.jpg', alt: 'CrossFit box jump' },
+  { src: '/life-camping.jpg', alt: 'Camping across SA' },
+];
+
+const LIFE_RIGHT = [
   { src: '/life-family.jpg', alt: 'Family day at the coast' },
   { src: '/life-wedding.jpg', alt: 'Wedding day' },
+  { src: '/life-beach.jpg', alt: 'Beach day with the little one' },
+  { src: '/life-jerry.jpg', alt: 'Jerry Boi Seinfeld' },
 ];
 
 export default function AboutPage() {
@@ -179,34 +187,37 @@ export default function AboutPage() {
 
       {/* ── Life outside work ───────────────────────────────────── */}
       <section className="border-b border-border pb-12 mb-12">
-        <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-8 md:hidden">
-          Life outside work
-        </h2>
-
-        {/* Mobile: circles row above text */}
-        <div className="flex justify-around mb-6 md:hidden">
-          {LIFE_CIRCLES.map((img) => (
-            <div key={img.src} className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-border flex-shrink-0">
-              <Image src={img.src} alt={img.alt} fill className="object-cover object-center" />
-            </div>
-          ))}
+        {/* Mobile: 2-col grid of circles then text */}
+        <div className="md:hidden mb-6">
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
+            Life outside work
+          </h2>
+          <div className="grid grid-cols-4 gap-3 mb-6">
+            {[...LIFE_LEFT, ...LIFE_RIGHT].map((img) => (
+              <div key={img.src} className="relative w-full aspect-square rounded-full overflow-hidden ring-2 ring-border">
+                <Image src={img.src} alt={img.alt} fill className="object-cover object-center" />
+              </div>
+            ))}
+          </div>
+          <ul className="space-y-3">
+            {INTERESTS.map((item, i) => (
+              <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
+                <span className="flex-shrink-0">{item.emoji}</span>
+                {item.text}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="space-y-3 md:hidden">
-          {INTERESTS.map((item, i) => (
-            <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
-              <span className="flex-shrink-0">{item.emoji}</span>
-              {item.text}
-            </li>
-          ))}
-        </ul>
 
-        {/* Desktop: left circle | text | right 2 circles */}
-        <div className="hidden md:flex gap-10 items-center">
-          {/* Left: guitar */}
-          <div className="flex-shrink-0">
-            <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border">
-              <Image src="/life-guitar.jpg" alt="Playing guitar with my daughter" fill className="object-cover object-center" />
-            </div>
+        {/* Desktop: 4 circles | text | 4 circles */}
+        <div className="hidden md:flex gap-8 items-center">
+          {/* Left column: 4 circles */}
+          <div className="flex-shrink-0 flex flex-col gap-4">
+            {LIFE_LEFT.map((img) => (
+              <div key={img.src} className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-border">
+                <Image src={img.src} alt={img.alt} fill className="object-cover object-center" />
+              </div>
+            ))}
           </div>
 
           {/* Centre: text */}
@@ -224,14 +235,13 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          {/* Right: family + wedding stacked */}
-          <div className="flex-shrink-0 flex flex-col gap-8">
-            <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border">
-              <Image src="/life-family.jpg" alt="Family day at the coast" fill className="object-cover object-center" />
-            </div>
-            <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border">
-              <Image src="/life-wedding.jpg" alt="Wedding day" fill className="object-cover object-center" />
-            </div>
+          {/* Right column: 4 circles */}
+          <div className="flex-shrink-0 flex flex-col gap-4">
+            {LIFE_RIGHT.map((img) => (
+              <div key={img.src} className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-border">
+                <Image src={img.src} alt={img.alt} fill className="object-cover object-center" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
