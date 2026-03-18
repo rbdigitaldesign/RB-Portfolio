@@ -180,11 +180,11 @@ export default function Home() {
       {/* ── About ─────────────────────────────────────────────────── */}
       <ScrollReveal>
         <section className="border-b border-border">
-          <div className="max-w-7xl mx-auto px-6 md:px-16 py-20 grid md:grid-cols-[2fr_3fr] gap-12 md:gap-20 items-start">
+          <div className="max-w-7xl mx-auto px-6 md:px-16 py-20 grid md:grid-cols-[2fr_3fr] gap-12 md:gap-20 items-stretch">
 
             {/* Circular profile photo */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden ring-4 ring-border">
+            <div className="flex items-center justify-center">
+              <div className="relative aspect-square w-full rounded-full overflow-hidden ring-4 ring-border">
                 <Image
                   src="https://i.imgur.com/X0EG5j2.png"
                   alt="Rich Bartlett"
@@ -194,7 +194,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:pt-6">
+            <div>
               <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">
                 About
               </p>
