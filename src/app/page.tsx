@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ChevronDown, ExternalLink } from 'lucide-react';
+import { ArrowRight, ChevronDown, ExternalLink, Award } from 'lucide-react';
 import projectsData from '@/data/projects.json';
 import { getAllPosts } from '@/lib/content';
 import type { Project } from '@/lib/types';
@@ -29,15 +29,15 @@ export default function Home() {
       <HeroParallax>
         <div />
         <div className="max-w-7xl w-full mx-auto">
-          <p className="text-xs font-medium text-white/60 uppercase tracking-widest mb-8">
+          <p className="text-sm font-medium text-white/80 uppercase tracking-widest mb-8" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
             Learning Designer &amp; UX — Adelaide, Australia
           </p>
           <h1
             className="max-w-5xl font-headline font-semibold tracking-tight text-white"
-            style={{ fontSize: 'clamp(2.8rem, 7.5vw, 6.5rem)', lineHeight: 1.03, letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(2.8rem, 7.5vw, 6.5rem)', lineHeight: 1.03, letterSpacing: '-0.02em', textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}
           >
-            Designing learning<br />
-            that actually works.
+            Where UX meets<br />
+            learning design.
           </h1>
           <div className="mt-10 flex flex-wrap gap-6 items-center">
             <Link
@@ -46,15 +46,16 @@ export default function Home() {
             >
               View selected work <ArrowRight size={15} />
             </Link>
-            <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-white/70">
-              <span>10+ yrs in L&amp;D &amp; UX</span>
+            <div className="flex flex-wrap gap-x-5 gap-y-1 text-base font-medium text-white/90" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>
+              <span>15+ yrs across tech, UX &amp; learning</span>
               <span className="hidden sm:inline">·</span>
               <a
                 href="https://www.advance-he.ac.uk/fellowship"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 hover:text-white transition-colors"
               >
+                <Award size={14} className="text-amber-300" />
                 FHEA <ExternalLink size={10} className="opacity-60" />
               </a>
               <span className="hidden sm:inline">·</span>
