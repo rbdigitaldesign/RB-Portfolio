@@ -13,24 +13,49 @@ const NAV_LINKS = [
   { href: '/contact', label: 'Contact' },
 ];
 
-function LogoMark() {
+function LogoMark({ filterId = 'rb-logo-tc' }: { filterId?: string }) {
   return (
-    <svg width="30" height="20" viewBox="0 0 30 20" fill="none" aria-hidden="true" className="shrink-0">
-      {/* R — mirrored bowl (upper left) */}
-      <path d="M 15 2 C 8 2 5 5 5 7 C 5 9 8 10 15 10"
-            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      {/* R — diagonal leg (lower left) */}
-      <line x1="15" y1="10" x2="7" y2="18"
-            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* B — upper bowl (upper right) */}
-      <path d="M 15 2 C 22 2 25 5 25 7 C 25 9 22 10 15 10"
-            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      {/* B — lower bowl, slightly wider (lower right) */}
-      <path d="M 15 10 C 23 10 26 13 26 15 C 26 17 23 18 15 18"
-            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      {/* Shared spine — terracotta accent */}
-      <line x1="15" y1="2" x2="15" y2="18"
-            stroke="#C0593A" strokeWidth="1.5" strokeLinecap="round"/>
+    <svg
+      width="54"
+      height="42"
+      viewBox="0 0 422.88 323.999988"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <defs>
+        <clipPath id={`${filterId}-clip`}>
+          <path d="M 0 0.046875 L 422.761719 0.046875 L 422.761719 323.953125 L 0 323.953125 Z" />
+        </clipPath>
+        {/* Convert white-background signature to terracotta-on-transparent */}
+        <filter id={filterId} colorInterpolationFilters="sRGB">
+          {/* Luminance → alpha: black ink = opaque, white bg = transparent */}
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 0 0
+                    -0.299 -0.587 -0.114 0 1"
+            result="ink"
+          />
+          {/* Flood terracotta */}
+          <feFlood floodColor="#C0593A" result="color" />
+          {/* Show terracotta only through ink mask */}
+          <feComposite in="color" in2="ink" operator="in" />
+        </filter>
+      </defs>
+      <g clipPath={`url(#${filterId}-clip)`}>
+        <g transform="matrix(0.225227, 0.0631341, -0.0631293, 0.225209, 4.498121, -102.399267)">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <image
+            href="/logo-signature.png"
+            x="0"
+            y="0"
+            width="2340"
+            height="1792"
+            filter={`url(#${filterId})`}
+          />
+        </g>
+      </g>
     </svg>
   );
 }
@@ -65,7 +90,7 @@ export function Header() {
             href="/"
             className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight hover:text-accent transition-colors"
           >
-            <LogoMark />
+            <LogoMark filterId="rb-logo-tc-desktop" />
             Rich Bartlett
           </Link>
 
@@ -107,7 +132,7 @@ export function Header() {
               className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight"
               onClick={() => setMenuOpen(false)}
             >
-              <LogoMark />
+              <LogoMark filterId="rb-logo-tc-mobile" />
               Rich Bartlett
             </Link>
             <button
