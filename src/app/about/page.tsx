@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About — Rich Bartlett',
   description:
-    'Learning Designer and UX practitioner based in Australia. 10+ years across tech and education.',
+    'Learning Designer and UX practitioner based in Adelaide, Australia. 12+ years across tech and education.',
 };
 
 const SKILLS = [
@@ -50,13 +50,13 @@ export default function AboutPage() {
     <div className="max-w-5xl mx-auto px-6 py-16">
       {/* ── Hero ────────────────────────────────────────────────── */}
       <header className="border-b border-border pb-12 mb-12 grid md:grid-cols-[200px_1fr] gap-10 items-start">
-        <div className="relative aspect-square overflow-hidden bg-muted max-w-[200px]">
+        <div className="relative aspect-square overflow-hidden rounded-full bg-muted max-w-[200px]">
           <Image
             src="https://i.imgur.com/X0EG5j2.png"
             alt="Rich Bartlett"
             fill
             priority
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
         <div>
@@ -67,7 +67,7 @@ export default function AboutPage() {
             Rich Bartlett
           </h1>
           <p className="text-lg text-muted-foreground mb-2">
-            LDX Designer · Australia
+            LDX Designer · Adelaide, Australia
           </p>
           <a
             href="https://www.advance-he.ac.uk/fellowship/fellowship"
@@ -95,7 +95,7 @@ export default function AboutPage() {
             directly impact how people interact with and learn from technology.
           </p>
           <p>
-            Currently, as a Learning Designer at a Group of Eight university, I apply these
+            Currently, as a Learning Designer at the University of Adelaide, I apply these
             principles to create engaging and effective online courses for thousands of students.
             I thrive on complex challenges and am passionate about using design to solve problems
             and improve people's lives.
@@ -111,19 +111,19 @@ export default function AboutPage() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
               Based in
             </p>
-            <p className="font-medium">Australia</p>
+            <p className="font-medium">Adelaide, Australia</p>
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
               Current role
             </p>
-            <p className="font-medium">Learning Designer, Group of Eight University</p>
+            <p className="font-medium">Learning Designer, University of Adelaide</p>
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
               Experience
             </p>
-            <p className="font-medium">10+ years</p>
+            <p className="font-medium">12+ years</p>
           </div>
           <div className="pt-2">
             <a
