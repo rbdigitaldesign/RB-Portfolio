@@ -13,27 +13,9 @@ import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import StatusNote from '@/components/StatusNote';
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#solution" className="hover:text-primary">The solution</a></li>
-      <li><a href="#design-approach" className="hover:text-primary">Design approach</a></li>
-      <li><a href="#prompt-to-prototype" className="hover:text-primary">From prompt to prototype</a></li>
-      <li><a href="#toolkit-composition" className="hover:text-primary">Toolkit composition</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
-      <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-      <li><a href="#resources" className="hover:text-primary">Resources</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
   brief: `A UX-for-learning toolkit was needed to provide fast, repeatable, and accessible methods for course design. Success is defined by enabling learning designers and academics to consistently apply user-centred principles, improving the quality of educational experiences and streamlining the development process.`,
@@ -65,10 +47,10 @@ const projectContent = {
       'Integrating reputable methods and accessible tools into the content.'
     ],
     processHighlights: {
-      chatbox: 'Structured HTML on the fly; tailored CSS to the university’s brand palette; added JavaScript for search and a "scroll-to-top" button; received step-by-step deployment guidance.',
+      chatbox: `Structured HTML on the fly; tailored CSS to the university's brand palette; added JavaScript for search and a "scroll-to-top" button; received step-by-step deployment guidance.`,
       github: 'Followed beginner-friendly flows (initialise repository, commit changes, push to remote, deploy via GitHub Pages); learned to recover from mistakes late at night.',
       toolkitShape: 'The site structure evolved to include: Home, Methodologies, Tools, Resources, and Contact, with a search.js file for functionality. Content was anchored in reputable sources like NN/g and IDF.',
-      branding: 'Applied the university’s blue, purple, and limestone palette to ensure readability, consistency, and accessibility.'
+      branding: "Applied the university's blue, purple, and limestone palette to ensure readability, consistency, and accessibility."
     },
     reflections: 'Skipping wireframes in favour of a fast build-and-learn cycle proved effective. The layout of the homepage and profile cards evolved through iteration. The "break one thing, fix three" loop became a familiar challenge, often solved with terse prompts when tired.',
     outcome: [
@@ -165,7 +147,8 @@ export default function TuxForLearningDesignPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+      <CaseStudyHeader slug="tux-for-learning-design" />
+        <ProjectNavigation
             prevProject={{slug: 'rps-pod-battle'}}
             nextProject={{slug: 'canvas-quick-navigation'}}
         />
@@ -196,28 +179,32 @@ export default function TuxForLearningDesignPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#brief', label: 'Project brief' },
+            { href: '#problem', label: 'The problem' },
+            { href: '#solution', label: 'The solution' },
+            { href: '#design-approach', label: 'Design approach' },
+            { href: '#prompt-to-prototype', label: 'From prompt to prototype' },
+            { href: '#toolkit-composition', label: 'Toolkit composition' },
+            { href: '#outcomes', label: 'Outcomes' },
+            { href: '#reflection', label: 'Reflection & next steps' },
+            { href: '#resources', label: 'Resources' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="brief">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project brief</h3>
-                <p className="text-foreground/80">{projectContent.brief}</p>
+                <h3 className="cs-h2">Project brief</h3>
+                <div className="cs-callout"><p className="text-foreground/80">{projectContent.brief}</p></div>
             </section>
-            
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">The problem</h3>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">The problem</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.problem.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The solution — TUX</h3>
+            <section id="solution" className="cs-section">
+                <h3 className="cs-h2">The solution — TUX</h3>
                 <ol className="list-decimal list-outside space-y-4 pl-5 text-foreground/80">
                    {projectContent.solution.map((item, i) => 
                      <li key={i}>
@@ -226,98 +213,83 @@ export default function TuxForLearningDesignPage() {
                    )}
                 </ol>
             </section>
-
-            <Separator />
-
-            <section id="design-approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design approach</h3>
+            <section id="design-approach" className="cs-section">
+                <h3 className="cs-h2">Design approach</h3>
                 <div className="space-y-4">
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Research</h4>
+                        <h4 className="cs-h3">Research</h4>
                         <p className="text-foreground/80">{projectContent.designApproach.research}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Synthesis</h4>
+                        <h4 className="cs-h3">Synthesis</h4>
                         <p className="text-foreground/80">{projectContent.designApproach.synthesis}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Prototyping & tests</h4>
+                        <h4 className="cs-h3">Prototyping & tests</h4>
                         <p className="text-foreground/80">{projectContent.designApproach.prototyping}</p>
                     </div>
                 </div>
             </section>
-
-            <Separator />
-
-            <section id="prompt-to-prototype">
-              <h3 className="text-2xl font-bold font-headline mb-4">From prompt to prototype (ChatGPT + GitHub)</h3>
+            <section id="prompt-to-prototype" className="cs-section">
+              <h3 className="cs-h2">From prompt to prototype (ChatGPT + GitHub)</h3>
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-bold font-headline text-lg">Overview</h4>
+                  <h4 className="cs-h3">Overview</h4>
                   <p className="text-foreground/80">{projectContent.promptToPrototype.overview}</p>
                 </div>
                 <div>
-                  <h4 className="font-bold font-headline text-lg">The challenge</h4>
+                  <h4 className="cs-h3">The challenge</h4>
                   <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.promptToPrototype.challenge.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-bold font-headline text-lg">Process highlights</h4>
+                  <h4 className="cs-h3">Process highlights</h4>
                   <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                      <li><strong className="font-semibold text-foreground">Opening Pandora’s Chatbox:</strong> {projectContent.promptToPrototype.processHighlights.chatbox}</li>
+                      <li><strong className="font-semibold text-foreground">Opening Pandora's Chatbox:</strong> {projectContent.promptToPrototype.processHighlights.chatbox}</li>
                       <li><strong className="font-semibold text-foreground">GitHub, my frenemy:</strong> {projectContent.promptToPrototype.processHighlights.github}</li>
                       <li><strong className="font-semibold text-foreground">The toolkit takes shape (site structure):</strong> {projectContent.promptToPrototype.processHighlights.toolkitShape}</li>
                       <li><strong className="font-semibold text-foreground">Branded beauty:</strong> {projectContent.promptToPrototype.processHighlights.branding}</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-bold font-headline text-lg">Reflections on design process</h4>
+                  <h4 className="cs-h3">Reflections on design process</h4>
                   <p className="text-foreground/80">{projectContent.promptToPrototype.reflections}</p>
                 </div>
                 <div>
-                  <h4 className="font-bold font-headline text-lg">The outcome</h4>
+                  <h4 className="cs-h3">The outcome</h4>
                   <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                       {projectContent.promptToPrototype.outcome.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
                  <div>
-                  <h4 className="font-bold font-headline text-lg">Lessons learned</h4>
+                  <h4 className="cs-h3">Lessons learned</h4>
                   <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                       {projectContent.promptToPrototype.lessons.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
                  <div>
-                  <h4 className="font-bold font-headline text-lg">Future directions</h4>
+                  <h4 className="cs-h3">Future directions</h4>
                   <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                       {projectContent.promptToPrototype.future.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
               </div>
             </section>
-            
-            <Separator />
-            
-            <section id="toolkit-composition">
-                <h3 className="text-2xl font-bold font-headline mb-4">Toolkit composition</h3>
+            <section id="toolkit-composition" className="cs-section">
+                <h3 className="cs-h2">Toolkit composition</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.toolkitComposition.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-             <Separator />
-
-            <section id="outcomes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcomes</h3>
+            <section id="outcomes" className="cs-section">
+                <h3 className="cs-h2">Outcomes</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.outcomes.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="reflection">
-                <h3 className="text-2xl font-bold font-headline mb-4">Reflection & next steps</h3>
+            <section id="reflection" className="cs-section">
+                <h3 className="cs-h2">Reflection & next steps</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li><strong className="font-semibold text-foreground">What worked:</strong> {projectContent.reflection.worked}</li>
                     <li><strong className="font-semibold text-foreground">Constraints:</strong> {projectContent.reflection.constraints}</li>
@@ -351,11 +323,8 @@ export default function TuxForLearningDesignPage() {
                     </Button>
                 </div>
             </section>
-
-            <Separator />
-
-             <section id="resources">
-                <h3 className="text-2xl font-bold font-headline mb-4">Resources</h3>
+             <section id="resources" className="cs-section">
+                <h3 className="cs-h2">Resources</h3>
                  <div className="flex flex-wrap gap-4">
                     <Button asChild><a href="#" target="_blank" rel="noopener noreferrer">View GitHub Pages Site <ExternalLink className="ml-2 h-4 w-4" /></a></Button>
                     <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">View Repository</a></Button>
@@ -407,7 +376,7 @@ export default function TuxForLearningDesignPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.slice(0, 6).map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -448,7 +417,7 @@ export default function TuxForLearningDesignPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in the UX for Learning Design Toolkit?</h3>
+        <h3 className="cs-h2">Interested in the UX for Learning Design Toolkit?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through the toolkit, workshop formats, and facilitation notes.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

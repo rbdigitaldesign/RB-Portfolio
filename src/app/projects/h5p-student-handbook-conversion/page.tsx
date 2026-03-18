@@ -8,30 +8,14 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ProjectNavigation } from '@/components/project-navigation';
 import StatusNote from '@/components/StatusNote';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#context" className="hover:text-primary">Context / Problem</a></li>
-      <li><a href="#objectives" className="hover:text-primary">Objectives</a></li>
-      <li><a href="#approach" className="hover:text-primary">Approach</a></li>
-      <li><a href="#solution" className="hover:text-primary">The Solution</a></li>
-      <li><a href="#outcome" className="hover:text-primary">Outcome / Impact</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-      <li><a href="#acknowledgements" className="hover:text-primary">Acknowledgements</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
   summary: `Academics Cristian and Han needed their 49-page PDF handbook transformed into a modern, navigable, student-friendly digital version. I designed and built an H5P framework that removed tutor-only content, reduced cognitive load, and re-structured information into accessible, interactive components.`,
@@ -42,7 +26,7 @@ const projectContent = {
     `Improve navigation: Chunk content, add in-module navigation, and consistent structure.`
   ],
   approach: {
-      backstory: `I created the initial H5P framework in my sandpit and began transferring content from the PDF. Cristian annotated the PDF with clear red mark-ups indicating what could be safely removed, which guided the scope of the build. After the prototype was ready, I engaged the Casual Course Builders in the Media Team to help complete content import and implement Cristian’s final change requests.`,
+      backstory: `I created the initial H5P framework in my sandpit and began transferring content from the PDF. Cristian annotated the PDF with clear red mark-ups indicating what could be safely removed, which guided the scope of the build. After the prototype was ready, I engaged the Casual Course Builders in the Media Team to help complete content import and implement Cristian's final change requests.`,
       contentModel: `Converted long passages into tables, accordions, and course presentations for scannability. Designed a left-panel navigation and in-page buttons to support quick movement across sections. Cleaned, grouped, and re-ordered content so each page focused on a single, memorable purpose.`
   },
   solution: [
@@ -94,7 +78,8 @@ export default function H5PStudentHandbookConversionPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+        <CaseStudyHeader slug="h5p-student-handbook-conversion" />
+        <ProjectNavigation
             prevProject={{slug: 'expandable-references-ux'}}
             nextProject={{slug: 'tux-for-learning-design'}}
         />
@@ -122,49 +107,51 @@ export default function H5PStudentHandbookConversionPage() {
             This case study focuses on collaboration and content design within H5P. Screens reflect an internal course build and may differ from public-facing materials.
         </StatusNote>
       </header>
-      
+
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#context', label: 'Context / Problem' },
+            { href: '#objectives', label: 'Objectives' },
+            { href: '#approach', label: 'Approach' },
+            { href: '#solution', label: 'The Solution' },
+            { href: '#outcome', label: 'Outcome / Impact' },
+            { href: '#gallery', label: 'Gallery' },
+            { href: '#acknowledgements', label: 'Acknowledgements' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="context">
-                <h3 className="text-2xl font-bold font-headline mb-4">Context / Problem</h3>
-                <p className="text-foreground/80">{projectContent.context}</p>
+                <h3 className="cs-h2">Context / Problem</h3>
+                <p className="cs-body">{projectContent.context}</p>
             </section>
-            
-            <Separator />
-            
-            <section id="objectives">
-                <h3 className="text-2xl font-bold font-headline mb-4">Objectives</h3>
-                <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
+
+            <section id="objectives" className="cs-section">
+                <h3 className="cs-h2">Objectives</h3>
+                <ul className="list-disc list-outside space-y-2 pl-5 cs-body">
                    {projectContent.objectives.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-            
-            <Separator />
 
-            <section id="approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Approach</h3>
+            <section id="approach" className="cs-section">
+                <h3 className="cs-h2">Approach</h3>
                 <div className="space-y-4">
                     <div>
                         <h4 className="font-bold font-headline text-lg">Backstory & collaboration</h4>
-                        <p className="text-foreground/80">{projectContent.approach.backstory}</p>
+                        <p className="cs-body">{projectContent.approach.backstory}</p>
                     </div>
                     <div>
                         <h4 className="font-bold font-headline text-lg">Content model & interaction design</h4>
-                        <p className="text-foreground/80">{projectContent.approach.contentModel}</p>
+                        <p className="cs-body">{projectContent.approach.contentModel}</p>
                     </div>
                 </div>
             </section>
-            
-            <Separator />
 
-            <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The Solution</h3>
-                <ul className="list-disc list-outside space-y-4 pl-5 text-foreground/80">
-                   {projectContent.solution.map((item, i) => 
+            <section id="solution" className="cs-section">
+                <h3 className="cs-h2">The Solution</h3>
+                <ul className="list-disc list-outside space-y-4 pl-5 cs-body">
+                   {projectContent.solution.map((item, i) =>
                      <li key={i}>
                         <strong className="font-semibold text-foreground">{item.title}</strong> — {item.description}
                      </li>
@@ -172,23 +159,19 @@ export default function H5PStudentHandbookConversionPage() {
                 </ul>
             </section>
 
-            <Separator />
-
-            <section id="outcome">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcome / Impact</h3>
-                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
+            <section id="outcome" className="cs-section">
+                <h3 className="cs-h2">Outcome / Impact</h3>
+                 <ul className="list-disc list-outside space-y-2 pl-5 cs-body">
                     {projectContent.outcome.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
 
-            <Separator />
-
-             <section id="acknowledgements">
-                <h3 className="text-2xl font-bold font-headline mb-4">Acknowledgements</h3>
-                <p className="text-foreground/80">{projectContent.acknowledgements}</p>
+             <section id="acknowledgements" className="cs-section">
+                <h3 className="cs-h2">Acknowledgements</h3>
+                <p className="cs-body">{projectContent.acknowledgements}</p>
             </section>
         </main>
-        
+
         <aside className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardHeader>
@@ -225,10 +208,10 @@ export default function H5PStudentHandbookConversionPage() {
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
                      onClick={() => { setSelectedIndex(index); setOpen(true); }}>
-                  <Image 
-                    src={img.src} 
-                    alt={img.alt} 
-                    fill 
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
                     className="object-cover"
                     data-ai-hint={img.hint}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -243,9 +226,9 @@ export default function H5PStudentHandbookConversionPage() {
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
                   <div className="relative aspect-video">
-                    <Image 
-                      src={galleryImages[selectedIndex].src} 
-                      alt={galleryImages[selectedIndex].alt} 
+                    <Image
+                      src={galleryImages[selectedIndex].src}
+                      alt={galleryImages[selectedIndex].alt}
                       fill
                       className="rounded-lg object-contain"
                     />
@@ -261,7 +244,7 @@ export default function H5PStudentHandbookConversionPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Want to transform static documents into interactive experiences?</h3>
+        <h3 className="cs-h2">Want to transform static documents into interactive experiences?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk through the content strategy and H5P authoring process used in this project.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

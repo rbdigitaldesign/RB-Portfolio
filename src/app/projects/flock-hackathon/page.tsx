@@ -20,29 +20,12 @@ import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import StatusNote from '@/components/StatusNote';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#approach" className="hover:text-primary">The approach</a></li>
-      <li><a href="#concept" className="hover:text-primary">The concept</a></li>
-      <li><a href="#ethics" className="hover:text-primary">Ethics & governance</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
-      <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-      <li><a href="#artefacts" className="hover:text-primary">Interactive artefacts</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
-  brief: `Design an equitable, cooperative online platform for creators—an alternative to extractive models (Patreon-style)—grounded in feminist principles and ‘care before code’.`,
+  brief: `Design an equitable, cooperative online platform for creators—an alternative to extractive models (Patreon-style)—grounded in feminist principles and 'care before code'.`,
   problem: [
     `Layered fees and extractive economics disadvantage creators.`,
     `Creators bring audiences yet lack governance power and upside.`,
@@ -54,7 +37,7 @@ const projectContent = {
     shaping: `Narrowed to a creator co-op with transparent governance and revenue.`,
   },
   testimonial: {
-      quote: `Our question is: what could a cooperative, equitable online platform (like Patreon and let’s call it Matreon for now) that will disrupt patriarchy, look and feel like?`,
+      quote: `Our question is: what could a cooperative, equitable online platform (like Patreon and let's call it Matreon for now) that will disrupt patriarchy, look and feel like?`,
       author: 'Moira Were',
       company: ''
   },
@@ -76,7 +59,7 @@ const projectContent = {
     challenges: `Sharpening target segment; robust policies; limited time for interviews.`,
     next: `Validate a niche creator group; prototype governance flows; test fee scenarios; pilot with local partners.`,
   },
-  fullResearch: `The extended write-up covers the origin story (Heaps Good Dev Slack); team naming; the expert wall; Business Model Canvas sessions; mentor notes; judges’ feedback; and post-event context (the platform is inactive as of 2024).`
+  fullResearch: `The extended write-up covers the origin story (Heaps Good Dev Slack); team naming; the expert wall; Business Model Canvas sessions; mentor notes; judges' feedback; and post-event context (the platform is inactive as of 2024).`
 };
 
 const galleryImages = [
@@ -131,70 +114,55 @@ export default function FlockHackathonProjectPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+        <CaseStudyHeader slug="flock-hackathon" />
+        <ProjectNavigation
             prevProject={{slug: 'ux-group-user-testing'}}
             nextProject={{slug: 'rps-pod-battle'}}
         />
-       <header className="mb-12">
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
-            <Image
-                src="https://placehold.co/1200x675.png"
-                alt="Team at Stone & Chalk with concept slides and early wireframes on screens"
-                fill
-                priority
-                className="object-cover"
-                data-ai-hint="hackathon team working"
-            />
-        </div>
-        <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-2">
-              How the ‘Flock’ do you smash the techno-capitalist patriarchy?
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              A cooperative creator-platform concept built in a weekend hackathon
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">Estimated reading time: {readingTime} minutes</p>
-        </div>
         <StatusNote>
           This is a weekend hackathon concept case study. The platform is no longer active (context as of 2024).
         </StatusNote>
-      </header>
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#brief', label: 'Project brief' },
+            { href: '#problem', label: 'The problem' },
+            { href: '#approach', label: 'The approach' },
+            { href: '#concept', label: 'The concept' },
+            { href: '#ethics', label: 'Ethics & governance' },
+            { href: '#outcomes', label: 'Outcomes' },
+            { href: '#reflection', label: 'Reflection & next steps' },
+            { href: '#artefacts', label: 'Interactive artefacts' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="brief">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project brief</h3>
+                <h3 className="cs-h2">Project brief</h3>
                 <p className="text-foreground/80">{projectContent.brief}</p>
             </section>
             
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">The problem</h3>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">The problem</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.problem.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
             
-            <Separator />
-
-             <section id="approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">The approach</h3>
+             <section id="approach" className="cs-section">
+                <h3 className="cs-h2">The approach</h3>
                 <div className="space-y-4">
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Team formation & setup</h4>
+                        <h4 className="cs-h3">Team formation & setup</h4>
                         <p className="text-foreground/80">{projectContent.approach.formation}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Discovery in a weekend</h4>
+                        <h4 className="cs-h3">Discovery in a weekend</h4>
                         <p className="text-foreground/80">{projectContent.approach.discovery}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Shaping the opportunity</h4>
+                        <h4 className="cs-h3">Shaping the opportunity</h4>
                         <p className="text-foreground/80">{projectContent.approach.shaping}</p>
                     </div>
                 </div>
@@ -203,8 +171,8 @@ export default function FlockHackathonProjectPage() {
 
             <Separator />
 
-            <section id="concept">
-                <h3 className="text-2xl font-bold font-headline mb-4">The concept — Flock (working name: “Matreon”)</h3>
+            <section id="concept" className="cs-section">
+                <h3 className="cs-h2">The concept — Flock (working name: "Matreon")</h3>
                 <ol className="list-decimal list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.concept.map((item, i) => 
                      <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
@@ -214,15 +182,17 @@ export default function FlockHackathonProjectPage() {
 
             <Separator />
 
-            <section id="ethics">
-                <h3 className="text-2xl font-bold font-headline mb-4">Ethics & governance</h3>
-                <p className="text-foreground/80">{projectContent.ethics}</p>
+            <section id="ethics" className="cs-section">
+                <h3 className="cs-h2">Ethics & governance</h3>
+                <div className="cs-callout">
+                  <p className="text-foreground/80">{projectContent.ethics}</p>
+                </div>
             </section>
 
             <Separator />
 
-            <section id="outcomes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcomes</h3>
+            <section id="outcomes" className="cs-section">
+                <h3 className="cs-h2">Outcomes</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.outcomes.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
@@ -230,8 +200,8 @@ export default function FlockHackathonProjectPage() {
             
             <Separator />
 
-            <section id="reflection">
-                <h3 className="text-2xl font-bold font-headline mb-4">Reflection & next steps</h3>
+            <section id="reflection" className="cs-section">
+                <h3 className="cs-h2">Reflection & next steps</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li><strong className="font-semibold">What worked:</strong> {projectContent.reflection.worked}</li>
                     <li><strong className="font-semibold">Challenges:</strong> {projectContent.reflection.challenges}</li>
@@ -241,8 +211,8 @@ export default function FlockHackathonProjectPage() {
             
             <Separator />
 
-            <section id="artefacts">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Interactive artefacts</h3>
+            <section id="artefacts" className="cs-section">
+                 <h3 className="cs-h2">Interactive artefacts</h3>
                  <div className="flex flex-wrap gap-4 items-center">
                     <Button asChild>
                         <a href="#" target="_blank" rel="noopener noreferrer">View Pitch Deck <ExternalLink className="ml-2 h-4 w-4" /></a>
@@ -303,7 +273,7 @@ export default function FlockHackathonProjectPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -343,7 +313,7 @@ export default function FlockHackathonProjectPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in the process behind the concept?</h3>
+        <h3 className="cs-h2">Interested in the process behind the concept?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through the Business Model Canvas, survey results, and final pitch deck.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

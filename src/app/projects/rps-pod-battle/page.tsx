@@ -17,36 +17,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ProjectNavigation } from '@/components/project-navigation';
-
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#overview" className="hover:text-primary">Project overview</a></li>
-      <li><a href="#context" className="hover:text-primary">Context</a></li>
-      <li><a href="#early-approach" className="hover:text-primary">Early approach</a></li>
-      <li><a href="#pivot" className="hover:text-primary">The pivot</a></li>
-      <li><a href="#problem" className="hover:text-primary">Problem & constraints</a></li>
-      <li><a href="#approach" className="hover:text-primary">Approach & evolution</a></li>
-      <li><a href="#design" className="hover:text-primary">Design & presentation</a></li>
-      <li><a href="#testing" className="hover:text-primary">Testing & facilitation</a></li>
-      <li><a href="#deployment" className="hover:text-primary">Deployment</a></li>
-      <li><a href="#learning" className="hover:text-primary">What I learned</a></li>
-      <li><a href="#next-steps" className="hover:text-primary">Next steps</a></li>
-      <li><a href="#demo" className="hover:text-primary">Interactive demo</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
-  overview: `Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division’s monthly meeting.`,
+  overview: `Began as a novice to Firebase/Stackblitz; used AI guidance to scaffold, commit, and iterate. Goal: a fast, inclusive rock–paper–scissors tournament for our division's monthly meeting.`,
   context: `In LEI (Learning Enhancement and Innovation) at the University of Adelaide, pods host the monthly meeting. The Orcas hosted 27 August 2025; topic was decision-making, coinciding with international RPS day. With 50+ colleagues on Teams, we needed something interactive, quick to facilitate, and simple.`,
-  earlyApproach: `Two failed Mentimeter trials highlighted limitations around state, ties, and bracket progression. An initial 50+ player idea was impractical, so we reframed to pod managers as players. Existing RPS games were evaluated but found unsuitable for a quick start or clear facilitation. Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and “latest result”.`,
+  earlyApproach: `Two failed Mentimeter trials highlighted limitations around state, ties, and bracket progression. An initial 50+ player idea was impractical, so we reframed to pod managers as players. Existing RPS games were evaluated but found unsuitable for a quick start or clear facilitation. Used Firebase Studio to scaffold quickly; iterated on arena styling, bracket, and "latest result".`,
   pivot: `Multiplayer was the main challenge; while Gemini understood the requirement to create a match between two players, it struggled to generate correct tournament bracketing. With 14 teams, it would try to create byes but wouldn't progress them to the next round automatically, only seeming to work with a perfect power of two, like 16 players. My developer partner, Aaron, was able to successfully engineer the logic to handle the brackets correctly. We paired over several builds to stabilise real-time reads/writes and repair regressions from rapid AI-led edits. We registered the domain, connected hosting, and ran ad-hoc tests which proved compatible with MS Teams breakout rooms.`,
   problem: [
     `Run a lightweight tournament many can follow on one call, with minimal setup.`,
@@ -57,7 +35,7 @@ const projectContent = {
     title: "Six build cycles (high level)",
     cycles: [
         `**Base arena** — Intro screens, single match, result message.`,
-        `**Bracket & pods** — Tournament view, pod names/emojis, “latest result” panel.`,
+        `**Bracket & pods** — Tournament view, pod names/emojis, "latest result" panel.`,
         `**Admin panel** — Start/reset controls; match announcements; player links (future).`,
         `**Draw handling** — Replay mechanics and clearer status text.`,
         `**Multiplayer** — Real-time state; pairing with Aaron to stabilise sync and fix edge cases.`,
@@ -66,17 +44,17 @@ const projectContent = {
   },
   design: [
       `**Aesthetic:** 8-bit/arcade, bold headings, high-contrast CTAs, dark theme.`,
-      `**Information design:** Left-anchored bracket; right-rail for “in progress” + “latest result”; prominent reset for facilitators.`,
-      `**Accessibility:** Large type, clear focus states, plain-language statuses (e.g., “It’s a draw — play again”); keyboard-only facilitation checks planned.`
+      `**Information design:** Left-anchored bracket; right-rail for "in progress" + "latest result"; prominent reset for facilitators.`,
+      `**Accessibility:** Large type, clear focus states, plain-language statuses (e.g., "It's a draw — play again"); keyboard-only facilitation checks planned.`
   ],
   testing: [
       `Ad-hoc tests with colleagues validated round flow, draw handling, and visibility of the bracket.`,
       `Facilitation model: pods play in breakout rooms; host advances bracket via admin panel; reconvene to view results.`,
-      `Success indicators: no state collisions when multiple pods finish at once; clear “who’s next”; easy recovery after reset.`
+      `Success indicators: no state collisions when multiple pods finish at once; clear "who's next"; easy recovery after reset.`
   ],
   deployment: `Domain leipodbattle.com.au mapped to Firebase Hosting; pre-flight checks completed ahead of the meeting.`,
   learning: [
-      `AI accelerates scaffolding but isn’t a substitute for engineering judgement.`,
+      `AI accelerates scaffolding but isn't a substitute for engineering judgement.`,
       `Rapid prompt → run → observe → fix loops worked best.`,
       `Pairing with an engineer (Aaron) was essential for multiplayer stability.`
   ],
@@ -147,6 +125,7 @@ export default function RpsPodBattlePage() {
 
   return (
     <CaseStudyLayout>
+      <CaseStudyHeader slug="rps-pod-battle" />
        <ProjectNavigation 
             prevProject={{slug: 'flock-hackathon'}}
             nextProject={{slug: 'tux-for-learning-design'}}
@@ -175,51 +154,49 @@ export default function RpsPodBattlePage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#overview', label: 'Project overview' },
+            { href: '#context', label: 'Context' },
+            { href: '#early-approach', label: 'Early approach' },
+            { href: '#pivot', label: 'The pivot' },
+            { href: '#problem', label: 'Problem & constraints' },
+            { href: '#approach', label: 'Approach & evolution' },
+            { href: '#design', label: 'Design & presentation' },
+            { href: '#testing', label: 'Testing & facilitation' },
+            { href: '#deployment', label: 'Deployment' },
+            { href: '#learning', label: 'What I learned' },
+            { href: '#next-steps', label: 'Next steps' },
+            { href: '#demo', label: 'Interactive demo' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="overview">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project overview</h3>
-                <p className="text-foreground/80">{projectContent.overview}</p>
+                <h3 className="cs-h2">Project overview</h3>
+                <div className="cs-callout"><p className="text-foreground/80">{projectContent.overview}</p></div>
             </section>
-            
-            <Separator />
-            
-            <section id="context">
-                <h3 className="text-2xl font-bold font-headline mb-4">Context — the division, the theme, and the audience</h3>
+            <section id="context" className="cs-section">
+                <h3 className="cs-h2">Context — the division, the theme, and the audience</h3>
                 <p className="text-foreground/80">{projectContent.context}</p>
             </section>
-            
-            <Separator />
-
-            <section id="early-approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Early approach — Mentimeter and a rethink</h3>
+            <section id="early-approach" className="cs-section">
+                <h3 className="cs-h2">Early approach — Mentimeter and a rethink</h3>
                  <p className="text-foreground/80">{projectContent.earlyApproach}</p>
             </section>
-
-            <Separator />
-
-            <section id="pivot">
-                <h3 className="text-2xl font-bold font-headline mb-4">Pivot — AI-assisted build with Firebase + Stackblitz</h3>
+            <section id="pivot" className="cs-section">
+                <h3 className="cs-h2">Pivot — AI-assisted build with Firebase + Stackblitz</h3>
                 <p className="text-foreground/80">{projectContent.pivot}</p>
             </section>
-
-            <Separator />
-
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">Problem and constraints</h3>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">Problem and constraints</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.problem.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Approach and evolution</h3>
+            <section id="approach" className="cs-section">
+                <h3 className="cs-h2">Approach and evolution</h3>
                 <div>
-                    <h4 className="font-bold font-headline text-lg">{projectContent.approach.title}</h4>
+                    <h4 className="cs-h3">{projectContent.approach.title}</h4>
                     <ol className="list-decimal list-outside space-y-2 pl-5 mt-2 text-foreground/80">
                         {projectContent.approach.cycles.map((item, i) => 
                             <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
@@ -227,70 +204,46 @@ export default function RpsPodBattlePage() {
                     </ol>
                 </div>
             </section>
-
-            <Separator />
-
-            <section id="design">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design and presentation</h3>
+            <section id="design" className="cs-section">
+                <h3 className="cs-h2">Design and presentation</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.design.map((item, i) => 
                         <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                     )}
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="testing">
-                <h3 className="text-2xl font-bold font-headline mb-4">Testing and facilitation plan</h3>
+            <section id="testing" className="cs-section">
+                <h3 className="cs-h2">Testing and facilitation plan</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.testing.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="deployment">
-                <h3 className="text-2xl font-bold font-headline mb-4">Deployment</h3>
+            <section id="deployment" className="cs-section">
+                <h3 className="cs-h2">Deployment</h3>
                 <p className="text-foreground/80">{projectContent.deployment}</p>
             </section>
-
-            <Separator />
-
-            <section id="learning">
-                <h3 className="text-2xl font-bold font-headline mb-4">What I learned</h3>
+            <section id="learning" className="cs-section">
+                <h3 className="cs-h2">What I learned</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.learning.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="next-steps">
-                <h3 className="text-2xl font-bold font-headline mb-4">Next steps after the live run</h3>
+            <section id="next-steps" className="cs-section">
+                <h3 className="cs-h2">Next steps after the live run</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.nextSteps.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-             <Separator />
-
-            <section id="acknowledgements">
-                <h3 className="text-2xl font-bold font-headline mb-4">Acknowledgements</h3>
+            <section id="acknowledgements" className="cs-section">
+                <h3 className="cs-h2">Acknowledgements</h3>
                 <p className="text-foreground/80">{projectContent.acknowledgements}</p>
             </section>
-
-             <Separator />
-
-            <section id="ai-disclosure">
-                <h3 className="text-2xl font-bold font-headline mb-4">Disclosure on AI use</h3>
+            <section id="ai-disclosure" className="cs-section">
+                <h3 className="cs-h2">Disclosure on AI use</h3>
                 <p className="text-foreground/80">{projectContent.aiDisclosure}</p>
             </section>
-            
-            <Separator />
-
-            <section id="demo">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Interactive demo</h3>
+            <section id="demo" className="cs-section">
+                 <h3 className="cs-h2">Interactive demo</h3>
                  <div className="flex flex-wrap gap-4 items-center">
                     <Button asChild>
                         <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">Open Tournament <ExternalLink className="ml-2 h-4 w-4" /></a>
@@ -348,7 +301,7 @@ export default function RpsPodBattlePage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -389,7 +342,7 @@ export default function RpsPodBattlePage() {
       </section>
       
        <section id="post-run-iteration" className="mt-16">
-          <h3 className="text-3xl font-bold font-headline mb-6 text-center">Post-run iteration (v1.1)</h3>
+          <h3 className="cs-h2 text-center">Post-run iteration (v1.1)</h3>
           <div className="max-w-2xl mx-auto space-y-8">
               <p className="text-foreground/80 text-center">Following the first live tournament and colleague feedback, I shipped a small uplift to improve reliability, flow, and facilitation speed. These changes preserve the core experience while reducing accidental starts and streamlining the match loop.</p>
               
@@ -407,20 +360,20 @@ export default function RpsPodBattlePage() {
                 <ol className="list-decimal list-outside space-y-4 pl-5 text-foreground/80">
                   <li>
                     <strong className="font-semibold text-foreground">Ready gate to prevent accidental starts</strong>
-                    <p className="mt-1"><strong className="font-medium">Before:</strong> The tournament could begin as soon as “Start tournament” was pressed.<br/>
+                    <p className="mt-1"><strong className="font-medium">Before:</strong> The tournament could begin as soon as "Start tournament" was pressed.<br/>
                     <strong className="font-medium">Now:</strong> Each pod page includes a Ready button. The bracket only launches once all pods have clicked Ready. This prevents accidental starts and any edge-case auto-starts from backend state glitches.<br/>
-                    <strong className="font-medium">Result:</strong> A deliberate, human-confirmed start that gives facilitators confidence and reduces “false starts”.</p>
+                    <strong className="font-medium">Result:</strong> A deliberate, human-confirmed start that gives facilitators confidence and reduces "false starts".</p>
                   </li>
                   <li>
                     <strong className="font-semibold text-foreground">Roster & seeding tweaks for better brackets</strong>
-                     <p className="mt-1"><strong className="font-medium">Merged pod:</strong> Travis + Associate Director are now combined as “The Big Bosses.”<br/>
-                     <strong className="font-medium">Balancing entrants:</strong> Added Cox and a new AI bot “The Terminator” to keep bracket numbers even.<br/>
+                     <p className="mt-1"><strong className="font-medium">Merged pod:</strong> Travis + Associate Director are now combined as "The Big Bosses."<br/>
+                     <strong className="font-medium">Balancing entrants:</strong> Added Cox and a new AI bot "The Terminator" to keep bracket numbers even.<br/>
                      <strong className="font-medium">AI behaviour:</strong> Bots are intentionally biased to lose against human players, keeping the event people-first while cleanly filling the bracket.<br/>
                      <strong className="font-medium">Result:</strong> Cleaner seeding, simpler facilitation, and less lonely solo play for Travis 😊.</p>
                   </li>
                   <li>
                     <strong className="font-semibold text-foreground">Faster match loop (removed intro & chat overlay)</strong>
-                    <p className="mt-1">Removed the “Hollywood intro” screen.<br/>
+                    <p className="mt-1">Removed the "Hollywood intro" screen.<br/>
                     Removed the LEI chat box overlay.<br/>
                     <strong className="font-medium">Result:</strong> Fewer distractions and quicker round-to-round progression.</p>
                   </li>
@@ -430,14 +383,14 @@ export default function RpsPodBattlePage() {
               <div>
                 <h4 className="font-bold font-headline text-xl mb-2">Impact</h4>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                  <li><strong className="font-semibold text-foreground">Reliability:</strong> Human-confirmed “Ready” gate stops accidental tournament starts.</li>
+                  <li><strong className="font-semibold text-foreground">Reliability:</strong> Human-confirmed "Ready" gate stops accidental tournament starts.</li>
                   <li><strong className="font-semibold text-foreground">Clarity:</strong> Pod consolidation and bracket balancing keep play smooth.</li>
                   <li><strong className="font-semibold text-foreground">Speed:</strong> Removing non-essentials tightens the loop and reduces downtime.</li>
                 </ul>
               </div>
               
                <div>
-                <h4 className="font-bold font-headline text-xl mb-2">What’s next (still on the roadmap)</h4>
+                <h4 className="font-bold font-headline text-xl mb-2">What's next (still on the roadmap)</h4>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                   <li>Optional spectator mode</li>
                   <li>Subtle sound cues for match state transitions</li>
@@ -449,7 +402,7 @@ export default function RpsPodBattlePage() {
         </section>
         
         <section id="iteration-gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Iteration screenshots (v1.1)</h3>
+            <h3 className="cs-h2 text-center">Iteration screenshots (v1.1)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {iterationGalleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -470,7 +423,7 @@ export default function RpsPodBattlePage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in lightweight multiplayer for events?</h3>
+        <h3 className="cs-h2">Interested in lightweight multiplayer for events?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk through the Firebase Studio setup, state model, and facilitation pattern used for the live run.</p>
         <Button asChild>
             <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>

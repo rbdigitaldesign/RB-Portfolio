@@ -12,27 +12,9 @@ import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#background" className="hover:text-primary">Project background</a></li>
-      <li><a href="#goals" className="hover:text-primary">Research goals</a></li>
-      <li><a href="#methods" className="hover:text-primary">Methods</a></li>
-      <li><a href="#tested" className="hover:text-primary">What we tested</a></li>
-      <li><a href="#findings" className="hover:text-primary">Key findings</a></li>
-      <li><a href="#changes" className="hover:text-primary">Design changes we made</a></li>
-      <li><a href="#reflection" className="hover:text-primary">What we’d do differently</a></li>
-      <li><a href="#credits" className="hover:text-primary">Acknowledgements</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const galleryImages = [
     { src: 'https://i.imgur.com/yDylY67.jpeg', alt: 'A student and facilitator during a one-on-one usability test', hint: 'User testing in progress (1:1 session)' },
@@ -41,12 +23,12 @@ const galleryImages = [
     { src: 'https://i.imgur.com/4YlqXC6.png', alt: 'Building the survey in JotForm, showing question types', hint: 'Building the JotForm survey (1)' },
     { src: 'https://i.imgur.com/YvjODJB.png', alt: 'Configuring conditional logic in the JotForm survey builder', hint: 'Building the JotForm survey (2)' },
     { src: 'https://i.imgur.com/Bvywvg0.png', alt: 'Setting up the thank you page and redirects in JotForm', hint: 'Building the JotForm survey (3)' },
-    { src: 'https://i.imgur.com/b7bXELv.jpeg', alt: 'Large Miro board showing research lanes and sticky notes', hint: 'UX subgroup’s Miro board (overview)' },
+    { src: 'https://i.imgur.com/b7bXELv.jpeg', alt: 'Large Miro board showing research lanes and sticky notes', hint: "UX subgroup's Miro board (overview)" },
     { src: 'https://i.imgur.com/DTKxzVY.jpeg', alt: 'Miro frame defining the problem, constraints, and design question', hint: 'Framing the design challenge' },
     { src: 'https://i.imgur.com/vzQPwjU.jpeg', alt: 'Miro column with examples, issues and early concepts', hint: 'Initial research lane' },
     { src: 'https://i.imgur.com/QyGP980.jpeg', alt: 'Miro frame with early UI ideas and poll feedback', hint: 'Ideation Station' },
     { src: 'https://i.imgur.com/VEWgxzo.jpeg', alt: 'Miro panel comparing module/page naming options', hint: 'Prototype solutions' },
-    { src: 'https://i.imgur.com/BE0yHNt.png', alt: 'Early static mock exploring content layout and quick navigation', hint: 'Rich’s pre-design home-page contribution' },
+    { src: 'https://i.imgur.com/BE0yHNt.png', alt: 'Early static mock exploring content layout and quick navigation', hint: "Rich's pre-design home-page contribution" },
     { src: 'https://i.imgur.com/4MxDl7v.png', alt: 'Prototype screenshot of the Dynamic Home page with integrated navigation', hint: 'Early Dynamic Home Page design by Tim' }
 ];
 
@@ -74,47 +56,37 @@ export default function UxGroupUserTestingPage() {
     
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+        <CaseStudyHeader slug="ux-group-user-testing" />
+        <ProjectNavigation
             prevProject={{slug: 'ux-survey-2025'}}
             nextProject={{slug: 'flock-hackathon'}}
         />
-       <header className="mb-12">
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-strong mb-8">
-            <Image
-                src="https://i.imgur.com/yDylY67.jpeg"
-                alt="Student participating in a 1:1 usability test of the Adelaide University course home page"
-                fill
-                priority
-                className="object-cover"
-                data-ai-hint="usability test"
-            />
-        </div>
-        <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-2">
-              Learning From Students: Usability testing the new Adelaide University course home page
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              We tested four designs (current, numbered variant, Dynamic Home, and course info patterns) with 42 students. One-on-one testing proved most valuable; results are now shaping the template and navigation.
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">Estimated reading time: 6 minutes</p>
-        </div>
-      </header>
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#background', label: 'Project background' },
+            { href: '#goals', label: 'Research goals' },
+            { href: '#methods', label: 'Methods' },
+            { href: '#tested', label: 'What we tested' },
+            { href: '#findings', label: 'Key findings' },
+            { href: '#changes', label: 'Design changes we made' },
+            { href: '#reflection', label: "What we'd do differently" },
+            { href: '#credits', label: 'Acknowledgements' },
+            { href: '#gallery', label: 'Gallery' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="background">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project background</h3>
-                <p className="text-foreground/80">In early 2025 our UX subgroup formed to address a long-standing pain point: page titling and navigation clarity in Canvas, particularly where numbers couldn’t be used because of stackable curriculum requirements.<br/><br/>We met weekly in Miro to collect examples, frame a shared design challenge, and prototype naming conventions that improved readability, accessibility, and wayfinding. As those explorations progressed, Tim Churchward produced an early Dynamic Home concept—an integrated course home page that surfaces the essentials (course info, modules, assessments) without forcing students to detour through Modules.<br/><br/>That pivot set us up to validate four approaches directly with students and let the evidence guide the next iteration of the template.</p>
+                <h3 className="cs-h2">Project background</h3>
+                <p className="text-foreground/80">In early 2025 our UX subgroup formed to address a long-standing pain point: page titling and navigation clarity in Canvas, particularly where numbers couldn't be used because of stackable curriculum requirements.<br/><br/>We met weekly in Miro to collect examples, frame a shared design challenge, and prototype naming conventions that improved readability, accessibility, and wayfinding. As those explorations progressed, Tim Churchward produced an early Dynamic Home concept—an integrated course home page that surfaces the essentials (course info, modules, assessments) without forcing students to detour through Modules.<br/><br/>That pivot set us up to validate four approaches directly with students and let the evidence guide the next iteration of the template.</p>
             </section>
             
             <Separator />
             
-            <section id="goals">
-                <h3 className="text-2xl font-bold font-headline mb-4">Research goals</h3>
+            <section id="goals" className="cs-section">
+                <h3 className="cs-h2">Research goals</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Check whether our home-page patterns are fit for purpose on desktop and mobile.</li>
                     <li>Identify navigation pain points and points of confusion.</li>
@@ -125,8 +97,8 @@ export default function UxGroupUserTestingPage() {
             
             <Separator />
 
-            <section id="methods">
-                <h3 className="text-2xl font-bold font-headline mb-4">Methods</h3>
+            <section id="methods" className="cs-section">
+                <h3 className="cs-h2">Methods</h3>
                 <p className="text-foreground/80 mb-4">We used a mixed-methods approach:</p>
                 <ol className="list-decimal list-outside space-y-2 pl-5 text-foreground/80">
                     <li>1:1 usability tests (n≈10) with regional/online students.</li>
@@ -134,16 +106,16 @@ export default function UxGroupUserTestingPage() {
                     <li>Facilitator + note-taker setup, with de-identified notes and AI-assisted transcription/synthesis.</li>
                 </ol>
                 <p className="text-foreground/80 mt-4">Combined, 42 students contributed to the findings below.</p>
-                <p className="text-foreground/80 mt-4"><strong>Biggest lesson:</strong> one-on-one testing surfaced first-impression friction we couldn’t see in surveys alone.</p>
+                <p className="text-foreground/80 mt-4"><strong>Biggest lesson:</strong> one-on-one testing surfaced first-impression friction we couldn't see in surveys alone.</p>
             </section>
             
             <Separator />
             
-            <section id="tested">
-                <h3 className="text-2xl font-bold font-headline mb-4">What we tested</h3>
+            <section id="tested" className="cs-section">
+                <h3 className="cs-h2">What we tested</h3>
                 <p className="text-foreground/80 mb-4">We put four elements in front of students:</p>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
-                    <li><strong>Home page variants</strong> — the current template, a numbered/home variant, and Tim’s Dynamic Home.</li>
+                    <li><strong>Home page variants</strong> — the current template, a numbered/home variant, and Tim's Dynamic Home.</li>
                     <li><strong>Course information</strong> — a three-separate-pages pattern vs a single tabbed page.</li>
                     <li><strong>Course roadmap</strong> — a table showing weeks, events, and assessments.</li>
                     <li><strong>Banners</strong> — five banner treatments and image-type preferences.</li>
@@ -152,19 +124,19 @@ export default function UxGroupUserTestingPage() {
             
             <Separator />
 
-            <section id="findings">
-                <h3 className="text-2xl font-bold font-headline mb-4">Key findings</h3>
+            <section id="findings" className="cs-section">
+                <h3 className="cs-h2">Key findings</h3>
                 <div className="space-y-4">
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Home page</h4>
+                        <h4 className="cs-h3">Home page</h4>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
-                            <li>Clear preference for the Dynamic Home. Students described it as “easier on my brain,” with better module & topic numbering and less visual clutter.</li>
+                            <li>Clear preference for the Dynamic Home. Students described it as "easier on my brain," with better module & topic numbering and less visual clutter.</li>
                             <li>Mobile matters: many students access the LMS on phones; single-column layouts and compact sections help.</li>
                             <li>Students wanted: a quick assessment area, concise course summary/contacts, and on-page navigation (avoid the detour to Modules).</li>
                         </ul>
                     </div>
                      <div>
-                        <h4 className="font-bold font-headline text-lg">Course information</h4>
+                        <h4 className="cs-h3">Course information</h4>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
                             <li>80% preferred the tabbed page over three separate pages—fewer clicks, easier scanning.</li>
                             <li>Usability tests showed why: routing via the Modules page added an unexpected middle step and cognitive load.</li>
@@ -172,14 +144,14 @@ export default function UxGroupUserTestingPage() {
                         </ul>
                     </div>
                      <div>
-                        <h4 className="font-bold font-headline text-lg">Course roadmap</h4>
+                        <h4 className="cs-h3">Course roadmap</h4>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
-                            <li>Roadmaps are valued (most students said they’re useful) but readability created errors: some students misread event dates or couldn’t spot due dates quickly.</li>
+                            <li>Roadmaps are valued (most students said they're useful) but readability created errors: some students misread event dates or couldn't spot due dates quickly.</li>
                             <li>Expectations: explicit dates/times for assessments, clickable items that lead to details, and lighter, snappier tables (some effects lagged on low-powered devices).</li>
                         </ul>
                     </div>
                      <div>
-                        <h4 className="font-bold font-headline text-lg">Banners</h4>
+                        <h4 className="cs-h3">Banners</h4>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-2">
                             <li>No single visual winner. Many students preferred no image or authentic course-related images over marketing/stock.</li>
                             <li>Strong expectation that the course code appears on the banner.</li>
@@ -191,20 +163,20 @@ export default function UxGroupUserTestingPage() {
 
             <Separator />
             
-            <section id="changes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design changes we made</h3>
+            <section id="changes" className="cs-section">
+                <h3 className="cs-h2">Design changes we made</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Adopt Dynamic Home as the default direction; refine for compactness and integrated on-page navigation (minimise page hops).</li>
                     <li>Course information: reorder to CLOs → PLOs, unify list styles, and rebuild tables for readability and mobile.</li>
                     <li>Roadmap: increase type size, tighten spacing, remove hover/cursor effects, show date ranges more clearly, and give Modules its own row to behave better on mobile.</li>
-                    <li>Banner tool: endorse use of the Media Team’s tool, add a slimline height option, and include a course-code field.</li>
+                    <li>Banner tool: endorse use of the Media Team's tool, add a slimline height option, and include a course-code field.</li>
                 </ul>
             </section>
             
             <Separator />
 
             <section id="reflection">
-                <h3 className="text-2xl font-bold font-headline mb-4">What we’d do differently next time</h3>
+                <h3 className="cs-h2">What we'd do differently next time</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Split testing into two tracks:
                         <ol className="list-decimal list-outside pl-5 my-2">
@@ -213,14 +185,14 @@ export default function UxGroupUserTestingPage() {
                         </ol>
                     </li>
                     <li>Bring stimulus sheets for group discussions to focus conversation (screens/printouts).</li>
-                    <li>Treat “don’t make me think” as a design constraint—every extra hop or ambiguous label compounds cognitive load.</li>
+                    <li>Treat "don't make me think" as a design constraint—every extra hop or ambiguous label compounds cognitive load.</li>
                 </ul>
             </section>
             
             <Separator />
             
             <section id="credits">
-                <h3 className="text-2xl font-bold font-headline mb-4">Acknowledgements</h3>
+                <h3 className="cs-h2">Acknowledgements</h3>
                 <p className="text-foreground/80">Final student-testing report compiled by Tim Churchward, with contributions from Rich Bartlett, Kelli Knuth, and Alex Price and support from Kat Alchin, Josh Cramp, and Andrew Beatton. Thanks to the Media Team for advice on banner production and template feasibility.</p>
             </section>
         </main>

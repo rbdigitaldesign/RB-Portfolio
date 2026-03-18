@@ -7,10 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const TimelineItem = ({ year, title, duration }: { year: string, title: string, duration: string }) => (
   <li className="mb-4 flex items-start">
@@ -40,7 +38,8 @@ const projectTimeline = [
 export default function OuaDesignProcessPage() {
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+      <CaseStudyHeader slug="oua-design-process" />
+        <ProjectNavigation
             prevProject={{slug: 'when-not-to-code'}}
             nextProject={{slug: 'communication-styles-quiz'}}
         />
@@ -77,52 +76,44 @@ export default function OuaDesignProcessPage() {
                  </p>
             </section>
             
-            <Separator />
-
-            <section id="scope">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project Scope</h3>
-                <p className="text-foreground/80">{`The project spanned the development of 35 courses for Open Universities Australia (referred to as OUA) initiative, (six of which I was the lead Learning Designer), strategically designed to enhance the University of Adelaide's suite of fully online undergraduate offerings. The scope included courses for both the Bachelor of International Business and the Bachelor of Health Services Management programmes with 12 shared courses amongst the two streams and culminating in a eChallenge Captstone. This initiative aimed to address the growing need for flexible education solutions, catering to the evolving landscape of higher education.`}</p>
+            <section id="scope" className="cs-section">
+                <h3 className="cs-h2">Project Scope</h3>
+                <div className="cs-callout"><p className="text-foreground/80">{`The project spanned the development of 35 courses for Open Universities Australia (referred to as OUA) initiative, (six of which I was the lead Learning Designer), strategically designed to enhance the University of Adelaide's suite of fully online undergraduate offerings. The scope included courses for both the Bachelor of International Business and the Bachelor of Health Services Management programmes with 12 shared courses amongst the two streams and culminating in a eChallenge Captstone. This initiative aimed to address the growing need for flexible education solutions, catering to the evolving landscape of higher education.`}</p></div>
             </section>
             
-            <Separator />
-            
-            <section id="constraints">
-                <h3 className="text-2xl font-bold font-headline mb-4">Constraints</h3>
+            <section id="constraints" className="cs-section">
+                <h3 className="cs-h2">Constraints</h3>
                 <p className="text-foreground/80">{`The primary challenge was to cater to a diverse and geographically dispersed student population, predominantly from NSW, VIC, and QLD, while also considering the lifestyles of learners, 41% of whom are employed full-time. The demographic profile, heavily skewed towards working females aged between 30-39, demanded a flexible and nuanced approach to course delivery and design.`}</p>
             </section>
             
-            <Separator />
-
-            <section id="opportunity">
-                <h3 className="text-2xl font-bold font-headline mb-4">Opportunity</h3>
+            <section id="opportunity" className="cs-section">
+                <h3 className="cs-h2">Opportunity</h3>
                 <p className="text-foreground/80">{`This project presented a significant opportunity to align the University's academic offerings with the strategic goal of increasing accessibility to quality education. By integrating foundational knowledge with specialised content across shared courses, the project sought to create a seamless and cohesive learning journey for students. The redevelopment was more than an academic exercise; it was a step towards redefining the educational model to be more inclusive, adaptable, and resonant with the needs of a modern learner.`}</p>
             </section>
             
-            <Separator />
-            
-            <section id="showcases">
-                <h3 className="text-2xl font-bold font-headline mb-4">OUA Showcases</h3>
+            <section id="showcases" className="cs-section">
+                <h3 className="cs-h2">OUA Showcases</h3>
                 <div className="space-y-8">
                     <div>
-                        <h4 className="font-bold font-headline text-lg mb-2">Showcase 1 - The OUA project - innovations behind the scenes</h4>
+                        <h4 className="cs-h3 mb-2">Showcase 1 - The OUA project - innovations behind the scenes</h4>
                         <div className="aspect-video">
                             <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/0tVOoji-DFc?si=rKM-8LycbTLD0Yb6" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
                     </div>
                      <div>
-                        <h4 className="font-bold font-headline text-lg mb-2">Showcase 2 - The OUA design process</h4>
+                        <h4 className="cs-h3 mb-2">Showcase 2 - The OUA design process</h4>
                         <div className="aspect-video">
                             <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/Cs7badqlanY?si=zc5ZWW-nqyZrePpB" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
                     </div>
                      <div>
-                        <h4 className="font-bold font-headline text-lg mb-2">Reflections on the curriculum design process</h4>
+                        <h4 className="cs-h3 mb-2">Reflections on the curriculum design process</h4>
                         <div className="aspect-video">
                             <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/IHibmTs9hI0?si=vj3CG_EmvICGV9eY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
                     </div>
                       <div>
-                        <h4 className="font-bold font-headline text-lg mb-2">OUA Showcase - student testimonial</h4>
+                        <h4 className="cs-h3 mb-2">OUA Showcase - student testimonial</h4>
                         <div className="aspect-video">
                             <iframe className="w-full h-full rounded-lg" src="https://www.youtube.com/embed/Ky1E0DzbxsU?si=IAvNkQ_A-9RcVwqn" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
@@ -145,7 +136,7 @@ export default function OuaDesignProcessPage() {
         </aside>
       </div>
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in large-scale curriculum design?</h3>
+        <h3 className="cs-h2">Interested in large-scale curriculum design?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through the design process artefacts and learning frameworks used.</p>
         <Button asChild>
             <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>

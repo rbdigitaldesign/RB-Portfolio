@@ -19,32 +19,9 @@ import {
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-// This would ideally be in a separate layout component
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-// This would ideally be in a separate file.
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#objectives" className="hover:text-primary">Objectives</a></li>
-      <li><a href="#solution" className="hover:text-primary">The solution</a></li>
-      <li><a href="#approach" className="hover:text-primary">Design approach</a></li>
-      <li><a href="#manager-flow" className="hover:text-primary">Manager flow</a></li>
-      <li><a href="#employee-flow" className="hover:text-primary">Employee flow</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
-      <li><a href="#feedback" className="hover:text-primary">Client feedback</a></li>
-      <li><a href="#accessibility" className="hover:text-primary">Accessibility & style</a></li>
-      <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-      <li><a href="#prototypes" className="hover:text-primary">Interactive prototypes</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
     brief: `Engineer an onboarding experience that SMEs can self-serve, while allowing a more manual, assisted path for larger organisations managed by tripapprove. focus on managers and employees for this iteration.`,
@@ -59,15 +36,15 @@ const projectContent = {
     ],
     solution: [
         `**Two clear paths** — SME self-service vs enterprise assisted (request demo / guided setup).`,
-        `**Checklist-led onboarding** — manager & employee checklists with direct navigation (skip “pointer overlays”; send users straight to the target screen).`,
+        `**Checklist-led onboarding** — manager & employee checklists with direct navigation (skip "pointer overlays"; send users straight to the target screen).`,
         `**Faster first-run** — minimal initial fields (name + email / SSO); defer non-critical details.`,
-        `**Data import options** — csv template upload and “connect system” placeholder for future integrations.`,
+        `**Data import options** — csv template upload and "connect system" placeholder for future integrations.`,
         `**Copy & email polish** — branded verification email; redirect back after verify; clearer CTA text.`,
         `**UI clarity** — larger inputs/buttons; readable left-panel content; progress indicators.`,
     ],
     approach: {
         research: `6 interviews; 55 survey responses; 5-competitor review (sign-up, trials, ui copy, guidance). key needs: time-efficient onboarding, simple language, SSO, basic-first data entry, on-screen guidance.`,
-        synthesis: `Affinity maps, empathy maps, personas (manager/employee), ‘how might we’ prompts (make set-up easy, intuitive, skippable).`,
+        synthesis: `Affinity maps, empathy maps, personas (manager/employee), 'how might we' prompts (make set-up easy, intuitive, skippable).`,
         prototyping: `Sketches → mid-fi → hi-fi in figma; moderated/unmoderated tests (useberry); iterated checklist behaviour, label clarity, and page copy.`,
     },
     managerFlow: [
@@ -76,7 +53,7 @@ const projectContent = {
         `Direct navigation from checklist to target page (no hamburger detour)`,
     ],
     employeeFlow: [
-        `Sign up/sign in (3 screens); choose “set up an account”`,
+        `Sign up/sign in (3 screens); choose "set up an account"`,
         `Checklist: profile, additional travellers, travel preferences (flight, accommodation, vehicle) → done`,
     ],
     outcomes: [
@@ -88,7 +65,7 @@ const projectContent = {
     feedback: `Early feedback welcomed the quick set-up, checklist approach, and clarified preferences for delegated bookings. Approval-rights and certain fields were flagged for refinement and were iterated accordingly.`,
     accessibility: [
         `WCAG 2.0 AA considerations (perceivable, operable, understandable, robust).`,
-        `Retained tripapprove’s steel blue primary; added complementary palette; consistent iconography.`,
+        `Retained tripapprove's steel blue primary; added complementary palette; consistent iconography.`,
         `Larger tap targets, visible focus, and clear headings in sentence case.`,
     ],
     reflection: {
@@ -144,6 +121,7 @@ export default function TripApproveProjectPage() {
 
   return (
     <CaseStudyLayout>
+      <CaseStudyHeader slug="trip-approve-onboarding" />
         <ProjectNavigation 
             prevProject={{slug: 'wellness-features-delivery-apps'}}
             nextProject={{slug: 'bestie-health-club'}}
@@ -172,124 +150,104 @@ export default function TripApproveProjectPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#brief', label: 'Project brief' },
+            { href: '#problem', label: 'The problem' },
+            { href: '#objectives', label: 'Objectives' },
+            { href: '#solution', label: 'The solution' },
+            { href: '#approach', label: 'Design approach' },
+            { href: '#manager-flow', label: 'Manager flow' },
+            { href: '#employee-flow', label: 'Employee flow' },
+            { href: '#outcomes', label: 'Outcomes' },
+            { href: '#feedback', label: 'Client feedback' },
+            { href: '#accessibility', label: 'Accessibility & style' },
+            { href: '#reflection', label: 'Reflection & next steps' },
+            { href: '#prototypes', label: 'Interactive prototypes' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="brief">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project brief</h3>
-                <p className="text-foreground/80">{projectContent.brief}</p>
+                <h3 className="cs-h2">Project brief</h3>
+                <div className="cs-callout"><p className="text-foreground/80">{projectContent.brief}</p></div>
             </section>
-            
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">The problem</h3>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">The problem</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.problem.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="objectives">
-                <h3 className="text-2xl font-bold font-headline mb-4">Objectives</h3>
+            <section id="objectives" className="cs-section">
+                <h3 className="cs-h2">Objectives</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.objectives.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The solution</h3>
+            <section id="solution" className="cs-section">
+                <h3 className="cs-h2">The solution</h3>
                 <ol className="list-decimal list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.solution.map((item, i) => 
                      <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                    )}
                 </ol>
             </section>
-
-            <Separator />
-
-            <section id="approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design approach</h3>
+            <section id="approach" className="cs-section">
+                <h3 className="cs-h2">Design approach</h3>
                 <div className="space-y-4">
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Research</h4>
+                        <h4 className="cs-h3">Research</h4>
                         <p className="text-foreground/80">{projectContent.approach.research}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Synthesis</h4>
+                        <h4 className="cs-h3">Synthesis</h4>
                         <p className="text-foreground/80">{projectContent.approach.synthesis}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Prototyping & tests</h4>
+                        <h4 className="cs-h3">Prototyping & tests</h4>
                         <p className="text-foreground/80">{projectContent.approach.prototyping}</p>
                     </div>
                 </div>
             </section>
-
-            <Separator />
-
-            <section id="manager-flow">
-                <h3 className="text-2xl font-bold font-headline mb-4">Manager flow (summary)</h3>
+            <section id="manager-flow" className="cs-section">
+                <h3 className="cs-h2">Manager flow (summary)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.managerFlow.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="employee-flow">
-                <h3 className="text-2xl font-bold font-headline mb-4">Employee flow (summary)</h3>
+            <section id="employee-flow" className="cs-section">
+                <h3 className="cs-h2">Employee flow (summary)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.employeeFlow.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="outcomes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcomes</h3>
+            <section id="outcomes" className="cs-section">
+                <h3 className="cs-h2">Outcomes</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.outcomes.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="feedback">
-                <h3 className="text-2xl font-bold font-headline mb-4">Client feedback</h3>
+            <section id="feedback" className="cs-section">
+                <h3 className="cs-h2">Client feedback</h3>
                 <blockquote className="border-l-2 pl-6 italic text-foreground/80">
-                    “{projectContent.feedback}”
+                    "{projectContent.feedback}"
                 </blockquote>
             </section>
-
-            <Separator />
-            
-            <section id="accessibility">
-                <h3 className="text-2xl font-bold font-headline mb-4">Accessibility & style</h3>
+            <section id="accessibility" className="cs-section">
+                <h3 className="cs-h2">Accessibility & style</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.accessibility.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="reflection">
-                <h3 className="text-2xl font-bold font-headline mb-4">Reflection & next steps</h3>
+            <section id="reflection" className="cs-section">
+                <h3 className="cs-h2">Reflection & next steps</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li><strong className="font-semibold">What worked:</strong> {projectContent.reflection.worked}</li>
                     <li><strong className="font-semibold">Challenges:</strong> {projectContent.reflection.challenges}</li>
                     <li><strong className="font-semibold">Next:</strong> {projectContent.reflection.next}</li>
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="prototypes">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Interactive prototypes</h3>
+            <section id="prototypes" className="cs-section">
+                 <h3 className="cs-h2">Interactive prototypes</h3>
                  <div className="flex flex-col sm:flex-row gap-4 items-start">
                     <Button asChild>
                         <a href="#" target="_blank" rel="noopener noreferrer">View Manager Flow Prototype <ExternalLink className="ml-2 h-4 w-4" /></a>
@@ -355,7 +313,7 @@ export default function TripApproveProjectPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -395,7 +353,7 @@ export default function TripApproveProjectPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Want to streamline B2B onboarding?</h3>
+        <h3 className="cs-h2">Want to streamline B2B onboarding?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk through the research artefacts, test scripts, and the implementation-ready ui patterns for SME vs enterprise.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

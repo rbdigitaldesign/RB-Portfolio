@@ -90,6 +90,32 @@
   }
 }
 
+/* ─── Case study primitives ────────────────────────────────────────────────── */
+/* Used across all individual project case study pages for consistent styling.  */
+
+.cs-section  { @apply border-t border-border pt-10 mt-10; }
+.cs-h2       { @apply font-headline font-semibold text-2xl md:text-3xl mb-4 leading-snug; }
+.cs-h3       { @apply font-headline font-semibold text-xl mb-3 leading-snug; }
+.cs-body     { @apply text-foreground/80 leading-relaxed; }
+
+/* Pull-quote / insight callout */
+.cs-callout {
+  border-left: 4px solid hsl(var(--accent));
+  padding: 0.875rem 1.25rem;
+  margin: 1.75rem 0;
+  background: color-mix(in srgb, hsl(var(--accent)) 6%, transparent);
+  font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.cs-callout strong { font-style: normal; }
+
+/* Numbered process phase row */
+.cs-phase     { @apply flex items-start gap-5 py-6 border-b border-border last:border-0; }
+.cs-phase-num { @apply font-headline text-4xl font-bold leading-none shrink-0 w-12;
+                color: color-mix(in srgb, hsl(var(--accent)) 30%, transparent); }
+
+/* ─── Scroll reveal animation ────────────────────────────────────────────── */
 /* Scroll reveal animation */
 .reveal-hidden {
   opacity: 0;

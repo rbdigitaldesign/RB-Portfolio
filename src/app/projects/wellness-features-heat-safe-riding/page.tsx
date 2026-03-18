@@ -13,29 +13,9 @@ import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#intro" className="hover:text-primary">Project scope & team</a></li>
-      <li><a href="#problem" className="hover:text-primary">Problem & design challenge</a></li>
-      <li><a href="#process" className="hover:text-primary">Process at a glance</a></li>
-      <li><a href="#discover" className="hover:text-primary">Discover — research & rider voices</a></li>
-      <li><a href="#define" className="hover:text-primary">Define — insights, personas, journey</a></li>
-      <li><a href="#develop" className="hover:text-primary">Develop — concepts, flows, mid-fi</a></li>
-      <li><a href="#deliver" className="hover:text-primary">Deliver — iterations, hi-fi & tests</a></li>
-      <li><a href="#styleguide" className="hover:text-primary">Style guide & further considerations</a></li>
-      <li><a href="#learnings" className="hover:text-primary">Learnings & reflections</a></li>
-      <li><a href="#ack" className="hover:text-primary">Acknowledgements</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const galleryImages = [
     { src: 'https://i.imgur.com/Ruf6f0A.png', alt: 'Project canvas outlining goals, risks, and deliverables', title: 'Project canvas' },
@@ -104,6 +84,7 @@ export default function WellnessFeaturesPage() {
 
   return (
     <CaseStudyLayout>
+      <CaseStudyHeader slug="wellness-features-heat-safe-riding" />
       <ProjectNavigation 
           prevProject={{slug: 'gopro-app-redesign'}}
           nextProject={{slug: 'bestie-health-club'}}
@@ -135,27 +116,33 @@ export default function WellnessFeaturesPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#intro', label: 'Project scope & team' },
+            { href: '#problem', label: 'Problem & design challenge' },
+            { href: '#process', label: 'Process at a glance' },
+            { href: '#discover', label: 'Discover — research & rider voices' },
+            { href: '#define', label: 'Define — insights, personas, journey' },
+            { href: '#develop', label: 'Develop — concepts, flows, mid-fi' },
+            { href: '#deliver', label: 'Deliver — iterations, hi-fi & tests' },
+            { href: '#styleguide', label: 'Style guide & further considerations' },
+            { href: '#learnings', label: 'Learnings & reflections' },
+            { href: '#ack', label: 'Acknowledgements' },
+            { href: '#gallery', label: 'Gallery' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="intro">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project scope & team</h3>
-                <p className="text-foreground/80">Humanitech’s brief (Australian Red Cross):
+                <h3 className="cs-h2">Project scope & team</h3>
+                <p className="text-foreground/80">Humanitech's brief (Australian Red Cross):
 Define what it means to empower a community through technology; identify themes worth exploring; map lived experience; develop concepts; and prototype solutions that prioritise psychosocial wellbeing and livelihoods.</p>
             </section>
-            
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">Problem & design challenge</h3>
-                <p className="text-foreground/80"><strong>Problem:</strong> Climate change is increasing the frequency and intensity of heatwaves in Australian cities. Riders working outdoors are vulnerable; safety features are fragmented or absent in their day-to-day tools.<br/><br/><strong>Design challenge:</strong> How might we, through technology, empower urban communities—in our case, delivery riders—to better respond to extreme heat?</p>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">Problem & design challenge</h3>
+                <div className="cs-callout"><p className="text-foreground/80"><strong>Problem:</strong> Climate change is increasing the frequency and intensity of heatwaves in Australian cities. Riders working outdoors are vulnerable; safety features are fragmented or absent in their day-to-day tools.<br/><br/><strong>Design challenge:</strong> How might we, through technology, empower urban communities—in our case, delivery riders—to better respond to extreme heat?</p></div>
             </section>
-
-            <Separator />
-
-            <section id="process">
-                <h3 className="text-2xl font-bold font-headline mb-4">Process at a glance</h3>
+            <section id="process" className="cs-section">
+                <h3 className="cs-h2">Process at a glance</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li><strong>Discover</strong> — desk research, field interviews in Adelaide/Perth/Hong Kong, stakeholder review.</li>
                     <li><strong>Define</strong> — affinity mapping, problem scale, personas, journey.</li>
@@ -163,11 +150,8 @@ Define what it means to empower a community through technology; identify themes 
                     <li><strong>Deliver</strong> — usability testing rounds, design iterations, hi-fi prototype and style guide.</li>
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="discover">
-                <h3 className="text-2xl font-bold font-headline mb-4">Discover — research & rider voices</h3>
+            <section id="discover" className="cs-section">
+                <h3 className="cs-h2">Discover — research & rider voices</h3>
                 <p className="text-foreground/80">We began broad (heat risk & public-health literature), then narrowed to delivery riders as a high-exposure group we could reach quickly for research.</p>
                 <h4 className="font-bold font-headline text-lg mt-4 mb-2">Fieldwork</h4>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
@@ -184,24 +168,18 @@ Define what it means to empower a community through technology; identify themes 
                 <p className="text-foreground/80 mb-2">A Deliveroo rider demonstrates the current app:</p>
                 <div className="aspect-video"><iframe width="560" height="315" src="https://www.youtube.com/embed/cJlyXj-KrAI?si=Gm9nadp4LoVDNstF" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-full rounded-lg"></iframe></div>
             </section>
-
-             <Separator />
-
-             <section id="quotes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Voices from riders</h3>
+             <section id="quotes" className="cs-section">
+                <h3 className="cs-h2">Voices from riders</h3>
                 <div className="space-y-4">
-                    <blockquote className="border-l-2 pl-4 italic">“Yes, in the summer it gets very hot doing this job so I just need to drink lots of water but sometimes I forget to fill up or the bottle gets warm.” <cite className="block not-italic text-sm text-muted-foreground mt-2">— Henry, Delivery Rider</cite></blockquote>
-                    <blockquote className="border-l-2 pl-4 italic">“Heat doesn’t really affect me, I just need more support from the delivery company for things like when my bag breaks.” <cite className="block not-italic text-sm text-muted-foreground mt-2">— Inga, Delivery Rider</cite></blockquote>
-                    <blockquote className="border-l-2 pl-4 italic">“I make sure I wear long clothes on my body, a bandanna around my neck and face and sometimes use sunscreen.” <cite className="block not-italic text-sm text-muted-foreground mt-2">— Adesh, Delivery Rider</cite></blockquote>
-                    <blockquote className="border-l-2 pl-4 italic">“I work two shifts, one during the morning then I have a break in the middle of the day and go back out for the peak afternoon/dinner shift.” <cite className="block not-italic text-sm text-muted-foreground mt-2">— Delivery Rider</cite></blockquote>
-                    <blockquote className="border-l-2 pl-4 italic">“I like the existing COVID-19 features in the delivery apps but this is just political and I’m not sure they really care about our wellbeing.” <cite className="block not-italic text-sm text-muted-foreground mt-2">— Adesh, Delivery Rider</cite></blockquote>
+                    <blockquote className="border-l-2 pl-4 italic">"Yes, in the summer it gets very hot doing this job so I just need to drink lots of water but sometimes I forget to fill up or the bottle gets warm." <cite className="block not-italic text-sm text-muted-foreground mt-2">— Henry, Delivery Rider</cite></blockquote>
+                    <blockquote className="border-l-2 pl-4 italic">"Heat doesn't really affect me, I just need more support from the delivery company for things like when my bag breaks." <cite className="block not-italic text-sm text-muted-foreground mt-2">— Inga, Delivery Rider</cite></blockquote>
+                    <blockquote className="border-l-2 pl-4 italic">"I make sure I wear long clothes on my body, a bandanna around my neck and face and sometimes use sunscreen." <cite className="block not-italic text-sm text-muted-foreground mt-2">— Adesh, Delivery Rider</cite></blockquote>
+                    <blockquote className="border-l-2 pl-4 italic">"I work two shifts, one during the morning then I have a break in the middle of the day and go back out for the peak afternoon/dinner shift." <cite className="block not-italic text-sm text-muted-foreground mt-2">— Delivery Rider</cite></blockquote>
+                    <blockquote className="border-l-2 pl-4 italic">"I like the existing COVID-19 features in the delivery apps but this is just political and I'm not sure they really care about our wellbeing." <cite className="block not-italic text-sm text-muted-foreground mt-2">— Adesh, Delivery Rider</cite></blockquote>
                 </div>
              </section>
-
-            <Separator />
-            
-            <section id="define">
-                <h3 className="text-2xl font-bold font-headline mb-4">Define — insights, personas, journey</h3>
+            <section id="define" className="cs-section">
+                <h3 className="cs-h2">Define — insights, personas, journey</h3>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Key insights</h4>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Riders want platforms to show they care; motivation rises with visible support.</li>
@@ -213,11 +191,8 @@ Define what it means to empower a community through technology; identify themes 
                 <h4 className="font-bold font-headline text-lg mt-4 mb-2">Personas & journey</h4>
                 <p className="text-foreground/80">We created primary/secondary personas and a rider journey to locate pain points (task pressure, navigation, recovery between jobs).</p>
             </section>
-            
-            <Separator />
-            
-            <section id="develop">
-                <h3 className="text-2xl font-bold font-headline mb-4">Develop — concepts, flows, mid-fi</h3>
+            <section id="develop" className="cs-section">
+                <h3 className="cs-h2">Develop — concepts, flows, mid-fi</h3>
                 <h4 className="font-bold font-headline text-lg mt-4 mb-2">Co-design & ideation</h4>
                 <p className="text-foreground/80">We ran Crazy-8s with our client (Humanitech), consolidated ideas via brain-writing, then prioritised in an MVP matrix (impact × effort).</p>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Core concept</h4>
@@ -253,23 +228,17 @@ Define what it means to empower a community through technology; identify themes 
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Humanitech mid-fi video with voice-over</h4>
                  <div className="aspect-video"><iframe width="560" height="315" src="https://www.youtube.com/embed/lcVawe5UNks?si=4SdRX1zt5MBlFEdJ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-full rounded-lg"></iframe></div>
             </section>
-
-            <Separator />
-            
-            <section id="deliver">
-                <h3 className="text-2xl font-bold font-headline mb-4">Deliver — iterations, hi-fi & tests</h3>
+            <section id="deliver" className="cs-section">
+                <h3 className="cs-h2">Deliver — iterations, hi-fi & tests</h3>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Round 1 — mid-fi testing (8 tests: 4 moderated, 4 unmoderated)</h4>
                  <p className="text-foreground/80"><strong>Findings:</strong> onboarding lacked clarity; wellness screen felt static; credits/QR redemption was confusing; slider interaction disliked; some map icons unclear.<br/><strong>Iterations</strong> simplified language, made the wellness screen dynamic, refined iconography and interactions.</p>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Round 2 — hi-fi testing (12 tests: 6 moderated, 6 unmoderated incl. riders)</h4>
-                 <p className="text-foreground/80"><strong>Findings:</strong> explanation of new features still needed tightening; “star” was a poor metaphor for credits; map legend ate space.<br/><strong>Iterations</strong> renamed Climate Credits → Credits; switched to coin-stack icon; removed persistent legend; improved copy and micro-interactions.</p>
+                 <p className="text-foreground/80"><strong>Findings:</strong> explanation of new features still needed tightening; "star" was a poor metaphor for credits; map legend ate space.<br/><strong>Iterations</strong> renamed Climate Credits → Credits; switched to coin-stack icon; removed persistent legend; improved copy and micro-interactions.</p>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Hi-fi prototype</h4>
                  <div className="w-full" style={{height: '750px'}}><iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)', width: '100%', height: '100%'}} src="https://embed.figma.com/proto/ZQgjE1b0NUoU3yM7H7CKFJ/V2---Deliveroo-High-Fi?kind=proto&node-id=313-1087&page-id=0%3A1&scaling=min-zoom&viewport=114%2C815%2C0.06224198266863823&embed-host=share" allowFullScreen className="rounded-lg"></iframe></div>
             </section>
-
-            <Separator />
-
-            <section id="styleguide">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Style guide & further considerations</h3>
+            <section id="styleguide" className="cs-section">
+                 <h3 className="cs-h2">Style guide & further considerations</h3>
                  <p className="text-foreground/80">We sampled the Deliveroo Rider App to ensure visual fit, paired it with Australian Red Cross colours where relevant, and chose bold, distinct icons.</p>
                  <h4 className="font-bold font-headline text-lg mt-4 mb-2">Further considerations</h4>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
@@ -278,30 +247,21 @@ Define what it means to empower a community through technology; identify themes 
                     <li>Animate/expand the weather widget; deepen research into heat-related incidents.</li>
                 </ul>
             </section>
-
-            <Separator />
-            
-            <section id="learnings">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Learnings & reflections</h3>
+            <section id="learnings" className="cs-section">
+                 <h3 className="cs-h2">Learnings & reflections</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Pivot early when research access is hard; align to reachable communities.</li>
                     <li>Structure your tests—consistent scripts/metrics make results comparable.</li>
-                    <li>Don’t get attached; iterate on copy, icons, and interaction metaphors.</li>
+                    <li>Don't get attached; iterate on copy, icons, and interaction metaphors.</li>
                     <li>Facilitated sessions surfaced richer insight than unmoderated links.</li>
                 </ul>
             </section>
-
-            <Separator />
-            
-            <section id="ack">
-                <h3 className="text-2xl font-bold font-headline mb-4">Acknowledgements</h3>
+            <section id="ack" className="cs-section">
+                <h3 className="cs-h2">Acknowledgements</h3>
                 <p className="text-foreground/80">Thanks to Osama Mah and Ash Cheuk for collaboration, and Alastair Pryor (Humanitech) for guidance and feedback. Shout-out to mentors Jaemie (Academy Xi), Simon Woods (Data Action), and Juan Vaamonde (Cochlear).</p>
             </section>
-
-            <Separator />
-
-            <section id="cta">
-                <h3 className="text-2xl font-bold font-headline mb-4">View slide deck</h3>
+            <section id="cta" className="cs-section">
+                <h3 className="cs-h2">View slide deck</h3>
                 <Button asChild>
                     <a href="https://www.canva.com/design/DAEdoWlWb_o/view" target="_blank" rel="noopener noreferrer">
                         Open the deck <ExternalLink className="ml-2 h-4 w-4" />
@@ -347,7 +307,7 @@ Define what it means to empower a community through technology; identify themes 
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"

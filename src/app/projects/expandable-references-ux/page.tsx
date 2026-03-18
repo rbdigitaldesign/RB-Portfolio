@@ -12,10 +12,8 @@ import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
   overview: `In this project, I enhanced a course page by integrating an expandable 'show references' feature. This design aligns with the principle of progressive disclosure, which defers advanced or less frequently used features to secondary screens, simplifying the user interface and reducing cognitive load.`,
@@ -56,6 +54,7 @@ export default function ExpandableReferencesPage() {
 
   return (
     <CaseStudyLayout>
+        <CaseStudyHeader slug="expandable-references-ux" />
         <ProjectNavigation 
             prevProject={{slug: 'personal-professional-development-course-design'}}
             nextProject={{slug: 'h5p-student-handbook-conversion'}}
@@ -84,29 +83,23 @@ export default function ExpandableReferencesPage() {
       <div className="grid lg:grid-cols-3 gap-12">
         <main className="lg:col-span-2 space-y-12">
             <section id="overview">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project Overview</h3>
+                <h3 className="cs-h2">Project Overview</h3>
                 <p className="text-foreground/80">{projectContent.overview}</p>
             </section>
-            
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">The Problem</h3>
+
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">The Problem</h3>
                 <p className="text-foreground/80">{projectContent.problem}</p>
             </section>
-            
-            <Separator />
 
-            <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The Solution</h3>
-                 <p className="text-foreground/80">{projectContent.solution}</p>
+            <section id="solution" className="cs-section">
+                <h3 className="cs-h2">The Solution</h3>
+                <p className="text-foreground/80">{projectContent.solution}</p>
             </section>
 
-            <Separator />
-
-            <section id="outcome">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcome</h3>
-                <p className="text-foreground/80">{projectContent.outcome}</p>
+            <section id="outcome" className="cs-section">
+                <h3 className="cs-h2">Outcome</h3>
+                <div className="cs-callout"><p>{projectContent.outcome}</p></div>
             </section>
             
         </main>

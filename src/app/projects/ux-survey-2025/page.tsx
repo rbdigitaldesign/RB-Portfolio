@@ -12,25 +12,9 @@ import { ExternalLink, Download, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#overview" className="hover:text-primary">Project overview</a></li>
-      <li><a href="#method" className="hover:text-primary">Method</a></li>
-      <li><a href="#findings" className="hover:text-primary">Key findings</a></li>
-      <li><a href="#implications" className="hover:text-primary">Implications</a></li>
-      <li><a href="#outreach" className="hover:text-primary">Outreach status</a></li>
-      <li><a href="#artefacts" className="hover:text-primary">Artefacts</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
   overview: `A pulse check was needed to understand current UX practices, confidence levels, and barriers among learning designers to better inform capability support and platform choices.`,
@@ -42,12 +26,12 @@ const projectContent = {
   findings: [
     `UX practices used (multi-select): user interviews 20; surveys/feedback forms 29; student journey mapping 18; personas/empathy maps 17; wireframes/prototypes 33; card sorting/tree testing 6; none 3.`,
     `Confidence applying UX: average 3.35/5.`,
-    `Experience: haven’t thought about using ux 1; understand value but don’t apply 0; would like to incorporate 9; sometimes apply informally 22; actively use methods/tools 11.`,
+    `Experience: haven't thought about using ux 1; understand value but don't apply 0; would like to incorporate 9; sometimes apply informally 22; actively use methods/tools 11.`,
     `Interest in learning more: average 4.85/5.`,
     `Support preferences (multi-select): workshops/events 28; a ux knowledge base 24; exemplars/case studies 28; 1:1 support 12; short video explainers 17.`,
-    `Barriers (multi-select): time constraints 31; lack of training 15; limited tools/resources 22; team/academic resistance 19; don’t know where to start 13; none 3.`,
+    `Barriers (multi-select): time constraints 31; lack of training 15; limited tools/resources 22; team/academic resistance 19; don't know where to start 13; none 3.`,
     `Preferred platform for future resources: canvas course 29; dedicated website 6; confluence 3; pdfs 3; other 2.`,
-    `Open-ended themes: interest in recognised upskilling/certificates; access to paid resources; exemplars and baseline quality standards; earlier usability testing; small-group training; “fewer clicks”; leadership awareness that ux testing is longer and continuous; encode best practices in course templates; helpful link shared (nngroup.com/articles/).`
+    `Open-ended themes: interest in recognised upskilling/certificates; access to paid resources; exemplars and baseline quality standards; earlier usability testing; small-group training; "fewer clicks"; leadership awareness that ux testing is longer and continuous; encode best practices in course templates; helpful link shared (nngroup.com/articles/).`
   ],
   implications: [
     'Prioritise canvas as the preferred delivery platform for future ux-for-learning resources.',
@@ -97,7 +81,8 @@ export default function UxSurveyCaseStudyPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+      <CaseStudyHeader slug="ux-survey-2025" />
+        <ProjectNavigation
             prevProject={{slug: 'trip-approve-onboarding'}}
             nextProject={{slug: 'ux-group-user-testing'}}
         />
@@ -124,61 +109,59 @@ export default function UxSurveyCaseStudyPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#overview', label: 'Project overview' },
+            { href: '#method', label: 'Method' },
+            { href: '#findings', label: 'Key findings' },
+            { href: '#implications', label: 'Implications' },
+            { href: '#outreach', label: 'Outreach status' },
+            { href: '#artefacts', label: 'Artefacts' },
+            { href: '#gallery', label: 'Gallery' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="overview">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project overview</h3>
-                <p className="text-foreground/80">{projectContent.overview}</p>
+                <h3 className="cs-h2">Project overview</h3>
+                <div className="cs-callout"><p className="text-foreground/80">{projectContent.overview}</p></div>
             </section>
-            
-            <Separator />
-            
-            <section id="method">
-                <h3 className="text-2xl font-bold font-headline mb-4">Method</h3>
-                 <div className="space-y-4 text-foreground/80">
+
+            <section id="method" className="cs-section">
+                <h3 className="cs-h2">Method</h3>
+                <div className="space-y-4 text-foreground/80">
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Live Poll (LEI)</h4>
+                        <h4 className="cs-h3">Live Poll (LEI)</h4>
                         <p>{projectContent.method.live}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Follow-up (TIU)</h4>
+                        <h4 className="cs-h3">Follow-up (TIU)</h4>
                         <p>{projectContent.method.followup}</p>
                     </div>
-                     <p className="text-sm text-muted-foreground">{projectContent.method.note}</p>
+                    <p className="text-sm text-muted-foreground">{projectContent.method.note}</p>
                 </div>
             </section>
-            
-            <Separator />
 
-            <section id="findings">
-                <h3 className="text-2xl font-bold font-headline mb-4">Key findings (LEI results)</h3>
+            <section id="findings" className="cs-section">
+                <h3 className="cs-h2">Key findings (LEI results)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.findings.map((item, i) => <li key={i}>{typeof item === 'string' ? item : JSON.stringify(item)}</li>)}
                 </ul>
             </section>
 
-            <Separator />
-
-            <section id="implications">
-                <h3 className="text-2xl font-bold font-headline mb-4">Implications</h3>
+            <section id="implications" className="cs-section">
+                <h3 className="cs-h2">Implications</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.implications.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
 
-             <Separator />
-
-            <section id="outreach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outreach status (TIU, UniSA)</h3>
+            <section id="outreach" className="cs-section">
+                <h3 className="cs-h2">Outreach status (TIU, UniSA)</h3>
                 <p className="text-foreground/80">{projectContent.outreach}</p>
             </section>
 
-            <Separator />
-
-            <section id="artefacts">
-                <h3 className="text-2xl font-bold font-headline mb-4">Artefacts</h3>
+            <section id="artefacts" className="cs-section">
+                <h3 className="cs-h2">Artefacts</h3>
                  <div className="flex flex-wrap gap-4">
                     <Button asChild>
                         <a href="https://www.mentimeter.com/app/presentation/alg5s77uqr8xh113fecfb2cs8uumqze3/view?utm_source=govote&utm_medium=button&question=eeuuvpei44wt" target="_blank" rel="noopener noreferrer">
@@ -236,7 +219,7 @@ export default function UxSurveyCaseStudyPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -277,7 +260,7 @@ export default function UxSurveyCaseStudyPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in this research?</h3>
+        <h3 className="cs-h2">Interested in this research?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">This case study is a living document. Feel free to reach out if you have any questions or would like to discuss the findings.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>
