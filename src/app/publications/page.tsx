@@ -1,15 +1,17 @@
 
+import Link from 'next/link';
+import { ExternalLink } from 'lucide-react';
 import { getAllPublications } from '@/lib/content';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Publications — Rich Bartlett',
-  description: 'Academic papers, conference publications, and working papers by Rich Bartlett.',
+  description: 'Academic papers and conference publications by Rich Bartlett.',
 };
 
 const STATUS_LABEL: Record<string, string> = {
   published: 'Published',
-  unpublished: 'In Review',
+  unpublished: 'Under Review',
 };
 
 export default function PublicationsPage() {
@@ -40,20 +42,14 @@ export default function PublicationsPage() {
                 {pub.venue && <> · {pub.venue}</>}
               </p>
 
-              {/* Title */}
+              {/* Title — links to internal detail page */}
               <h2 className="font-headline font-semibold text-xl leading-snug mb-2">
-                {pub.url ? (
-                  <a
-                    href={pub.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-accent transition-colors"
-                  >
-                    {pub.title}
-                  </a>
-                ) : (
-                  pub.title
-                )}
+                <Link
+                  href={`/publications/${pub.slug}`}
+                  className="hover:text-accent transition-colors"
+                >
+                  {pub.title}
+                </Link>
               </h2>
 
               {/* Collaborators */}
@@ -61,11 +57,23 @@ export default function PublicationsPage() {
                 <p className="text-sm text-muted-foreground mb-3">{pub.collaborators}</p>
               )}
 
-              {/* Abstract */}
+              {/* Abstract excerpt */}
               {pub.abstract && (
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-3">
                   {pub.abstract}
                 </p>
+              )}
+
+              {/* External link */}
+              {pub.url && (
+                <a
+                  href={pub.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-accent hover:underline"
+                >
+                  View paper <ExternalLink className="h-3 w-3" />
+                </a>
               )}
             </div>
 
