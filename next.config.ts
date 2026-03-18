@@ -34,6 +34,12 @@ const nextConfig: NextConfig = {
         hostname: 'images.pexels.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'timklapdor.github.io',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

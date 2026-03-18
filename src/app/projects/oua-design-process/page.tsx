@@ -12,13 +12,34 @@ import { CaseStudyLayout } from '@/components/case-study-layout';
 import { CaseStudyHeader } from '@/components/case-study-header';
 
 const UOA_BASE = 'https://timklapdor.github.io/uoa-online';
+const UOA_BANNERS = `${UOA_BASE}/images/banners`;
+
+const PROGRAM: Record<string, { label: string; overlay: string; dot: string }> = {
+  IB: {
+    label: 'International Business',
+    overlay: 'bg-blue-600/60',
+    dot: 'bg-blue-500',
+  },
+  HSM: {
+    label: 'Health Services Management',
+    overlay: 'bg-orange-600/60',
+    dot: 'bg-orange-500',
+  },
+  Shared: {
+    label: 'Shared — both programmes',
+    overlay: 'bg-green-700/60',
+    dot: 'bg-green-500',
+  },
+};
 
 const COURSES = [
-  { name: 'Personal Professional Development', program: 'Shared', slug: 'personal-professional-development' },
   { name: 'Managing Organisations and People', program: 'Shared', slug: 'managing-organisations-and-people' },
+  { name: 'Personal Professional Development', program: 'Shared', slug: 'personal-professional-development' },
   { name: 'Introduction to Marketing', program: 'IB', slug: 'introduction-to-marketing' },
   { name: 'Data Analytics 1', program: 'IB', slug: 'data-analytics-1' },
-  { name: 'Health Economics', program: 'Health', slug: 'health-economics' },
+  { name: 'Health Economics', program: 'HSM', slug: 'health-economics' },
+  { name: 'Systems Thinking for a Complex World', program: 'Shared', slug: 'systems-thinking-for-a-complex-world' },
+  { name: 'Strategic Management', program: 'Shared', slug: 'strategic-management' },
   { name: 'Corporate Responsibility for Global Business', program: 'IB', slug: 'corporate-responsibility-for-global-business' },
 ];
 
@@ -30,12 +51,6 @@ const UOA_NAV = [
   { label: 'Process', href: `${UOA_BASE}/process/` },
   { label: 'Tools', href: `${UOA_BASE}/tools/` },
 ];
-
-const PROGRAM_BADGE: Record<string, string> = {
-  IB: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  Health: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  Shared: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
-};
 
 const TimelineItem = ({ year, title, duration }: { year: string, title: string, duration: string }) => (
   <li className="mb-4 flex items-start">
@@ -83,7 +98,7 @@ export default function OuaDesignProcessPage() {
         </div>
         <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-2">
-              The OUA design process
+              UoA Online: Learning Design at Scale
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               LD Design Project @The University of Adelaide
@@ -138,9 +153,19 @@ export default function OuaDesignProcessPage() {
 
             <section id="courses" className="cs-section">
                 <h3 className="cs-h2">Courses I Designed</h3>
-                <p className="text-foreground/80 mb-6">
-                  I was Lead Learning Designer on six courses across the Bachelor of International Business and Bachelor of Health Services Management programmes.
+                <p className="text-foreground/80 mb-5">
+                  I was Lead Learning Designer on eight courses across the Bachelor of International Business (IB) and Bachelor of Health Services Management (HSM) programmes. Shared courses were co-designed to serve students in both programmes.
                 </p>
+                {/* Colour legend */}
+                <div className="flex flex-wrap gap-4 mb-5 p-3 bg-muted/50 rounded-lg">
+                  {Object.entries(PROGRAM).map(([key, p]) => (
+                    <div key={key} className="flex items-center gap-2 text-xs font-medium">
+                      <span className={`w-3 h-3 rounded-full flex-shrink-0 ${p.dot}`} />
+                      <span><strong>{key}</strong> — {p.label}</span>
+                    </div>
+                  ))}
+                </div>
+                {/* Course cards with thumbnails */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   {COURSES.map((course) => (
                     <a
@@ -148,15 +173,25 @@ export default function OuaDesignProcessPage() {
                       href={`${UOA_BASE}/courses/${course.slug}/`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col gap-2 border border-border p-4 hover:border-foreground transition-colors"
+                      className="group relative overflow-hidden rounded-lg aspect-[16/9] flex flex-col justify-end"
                     >
-                      <span className="flex items-start justify-between gap-2">
-                        <span className="font-medium text-sm leading-snug">{course.name}</span>
-                        <ExternalLink size={14} className="flex-shrink-0 mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      </span>
-                      <span className={`self-start text-xs font-medium px-2 py-0.5 rounded-full ${PROGRAM_BADGE[course.program]}`}>
-                        {course.program === 'IB' ? 'International Business' : course.program === 'Health' ? 'Health Services Mgmt' : 'Shared'}
-                      </span>
+                      <Image
+                        src={`${UOA_BANNERS}/${course.slug}.png`}
+                        alt={course.name}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className={`absolute inset-0 ${PROGRAM[course.program].overlay} transition-opacity duration-300 group-hover:opacity-75`} />
+                      <div className="relative z-10 p-3 flex items-end justify-between gap-2">
+                        <div>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-semibold text-white/90 mb-1`}>
+                            <span className={`w-2 h-2 rounded-full ${PROGRAM[course.program].dot}`} />
+                            {course.program}
+                          </span>
+                          <h4 className="font-bold text-white text-sm leading-snug drop-shadow">{course.name}</h4>
+                        </div>
+                        <ExternalLink size={14} className="text-white/60 flex-shrink-0 self-end group-hover:text-white transition-colors" />
+                      </div>
                     </a>
                   ))}
                 </div>
@@ -193,40 +228,42 @@ export default function OuaDesignProcessPage() {
             </section>
         </main>
         
-        <aside className="lg:col-span-1 space-y-6">
-          <Card className="sticky top-24">
-            <CardHeader>
-              <CardTitle className="font-headline text-xl">Project Timeline</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <ul>
-                    {projectTimeline.map((item, index) => <TimelineItem key={index} {...item} />)}
+        <aside className="lg:col-span-1">
+          <div className="sticky top-24 space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline text-xl">Project Timeline</CardTitle>
+              </CardHeader>
+              <CardContent>
+                  <ul>
+                      {projectTimeline.map((item, index) => <TimelineItem key={index} {...item} />)}
+                  </ul>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline text-lg">Explore the full project</CardTitle>
+                <p className="text-xs text-muted-foreground">timklapdor.github.io/uoa-online</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {UOA_NAV.map((item) => (
+                    <li key={item.label}>
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between text-sm hover:text-accent transition-colors group"
+                      >
+                        {item.label}
+                        <ExternalLink size={12} className="text-muted-foreground group-hover:text-accent transition-colors" />
+                      </a>
+                    </li>
+                  ))}
                 </ul>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-headline text-lg">Explore the full project</CardTitle>
-              <p className="text-xs text-muted-foreground">timklapdor.github.io/uoa-online</p>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {UOA_NAV.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between text-sm hover:text-accent transition-colors group"
-                    >
-                      {item.label}
-                      <ExternalLink size={12} className="text-muted-foreground group-hover:text-accent transition-colors" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </aside>
       </div>
       <Card className="mt-24 text-center p-8 md:p-12">
