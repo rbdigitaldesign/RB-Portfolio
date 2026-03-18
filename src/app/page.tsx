@@ -186,7 +186,7 @@ export default function Home() {
             <div className="flex items-center justify-center">
               <div className="relative aspect-square w-full rounded-full overflow-hidden ring-4 ring-border">
                 <Image
-                  src="https://i.imgur.com/X0EG5j2.png"
+                  src="/profile.jpg"
                   alt="Rich Bartlett"
                   fill
                   className="object-cover object-center"
