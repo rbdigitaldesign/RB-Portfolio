@@ -7,41 +7,45 @@ content:
     label: Blog Posts
     path: src/content/blog
     type: collection
+    extension: mdx
     view:
       fields: [title, date, status]
     fields:
-      - { name: title,   label: Title,   type: string }
-      - { name: date,    label: Date,    type: date }
-      - { name: summary, label: Summary, type: text }
+      - { name: title,      label: Title,       type: string }
+      - { name: date,       label: Date,        type: date }
+      - { name: summary,    label: Summary,     type: text }
       - name: tags
         label: Tags
         type: select
         multiple: true
         options:
-          - UX Design
-          - Learning Design
-          - Tools
-          - Research
-          - Career
-          - Biomimicry
-          - Design Principles
-          - Innovation
-          - Sustainability
-          - Beginners
+          values:
+            - UX Design
+            - Learning Design
+            - Tools
+            - Research
+            - Career
+            - Biomimicry
+            - Design Principles
+            - Innovation
+            - Sustainability
+            - Beginners
       - name: status
         label: Status
         type: select
         options:
-          - draft
-          - published
-      - { name: coverImage, label: Cover Image, type: image }
-      - { name: author,     label: Author,      type: string }
-      - { name: body,       label: Content,     type: rich-text }
+          values:
+            - draft
+            - published
+      - { name: coverImage, label: Cover Image,  type: image }
+      - { name: author,     label: Author,       type: string }
+      - { name: body,       label: Content,      type: rich-text }
 
   - name: publications
     label: Publications
     path: src/content/publications
     type: collection
+    extension: mdx
     view:
       fields: [title, year, status]
     fields:
@@ -52,8 +56,9 @@ content:
         label: Status
         type: select
         options:
-          - published
-          - unpublished
+          values:
+            - published
+            - unpublished
       - { name: collaborators, label: Collaborators, type: string }
       - { name: abstract,      label: Abstract,      type: text }
       - { name: url,           label: URL,           type: string }

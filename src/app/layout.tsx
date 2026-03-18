@@ -8,36 +8,24 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 
-// Ananias — local display serif for headlines
+// Local fallback fonts — used as CSS variable base during build.
+// Fraunces + Inter are loaded via Google Fonts <link> in <head> and
+// override these via CSS custom properties in globals.css.
 const fontHeadline = localFont({
   src: [
     { path: '../../public/fonts/Ananias.ttf', weight: '400', style: 'normal' },
     { path: '../../public/fonts/Ananias Bold.ttf', weight: '700', style: 'normal' },
   ],
-  variable: '--font-headline',
+  variable: '--font-headline-fb',
   display: 'swap',
-  // Fraunces (Google Fonts) is also referenced via CSS variable override in globals.css
   fallback: ['Georgia', 'serif'],
 });
 
-// Body font — Ananias used as a placeholder; Inter loaded via Google Fonts <link>
-// This keeps the build offline-compatible while production loads Inter
 const fontBody = localFont({
-  src: [
-    { path: '../../public/fonts/Ananias.ttf', weight: '400', style: 'normal' },
-  ],
-  variable: '--font-body',
+  src: [{ path: '../../public/fonts/Ananias.ttf', weight: '400', style: 'normal' }],
+  variable: '--font-body-fb',
   display: 'swap',
-  fallback: [
-    'Inter',
-    '-apple-system',
-    'BlinkMacSystemFont',
-    'Segoe UI',
-    'Roboto',
-    'Helvetica Neue',
-    'Arial',
-    'sans-serif',
-  ],
+  fallback: ['system-ui', 'sans-serif'],
 });
 
 export const metadata: Metadata = {
@@ -64,7 +52,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#1A3C34" />
         <meta name="theme-color" content="#FAFAF8" />
         <meta name="apple-mobile-web-app-title" content="Rich Bartlett" />
-        {/* Google Fonts — Inter + Fraunces loaded async for production */}
+        {/* Fraunces + Inter loaded via Google Fonts — overrides CSS fallback vars */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
