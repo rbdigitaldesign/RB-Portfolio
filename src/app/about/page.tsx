@@ -37,13 +37,13 @@ const TOOLS = [
 ];
 
 const INTERESTS = [
-  'CrossFit and Weightlifting — challenging my physical limits and having fun.',
-  'Camping with family and friends across SA.',
-  'Beach runs and park sessions with Jerry Boi Seinfeld (a Kelpie cross with strong opinions).',
-  'Podcasts: Heavyweight, Science Vs, How I Built This. Diary of a CEO (Steve Bartlett, no relation).',
-  'Slowly learning guitar. Very slowly.',
-  'A good beer with good people.',
-  'Married to an incredible Nursey wifey.',
+  { emoji: '🏋️', text: 'CrossFit and Weightlifting — challenging my physical limits and having fun.' },
+  { emoji: '⛺', text: 'Camping with family and friends across SA.' },
+  { emoji: '🐕', text: 'Beach runs and park sessions with Jerry Boi Seinfeld (a Kelpie cross with strong opinions).' },
+  { emoji: '🎧', text: 'Podcasts: Heavyweight, Science Vs, How I Built This. Diary of a CEO (Steve Bartlett, no relation).' },
+  { emoji: '🎸', text: 'Slowly learning guitar. Very slowly.' },
+  { emoji: '🍺', text: 'A good beer with good people.' },
+  { emoji: '💍', text: 'Married to an incredible Nursey wifey.' },
 ];
 
 const GALLERY = [
@@ -189,26 +189,22 @@ export default function AboutPage() {
             <ul className="space-y-3">
               {INTERESTS.map((item, i) => (
                 <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
-                  <span className="text-accent flex-shrink-0 mt-0.5">—</span>
-                  {item}
+                  <span className="flex-shrink-0">{item.emoji}</span>
+                  {item.text}
                 </li>
               ))}
             </ul>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            {GALLERY.slice(0, 4).map((img) => (
+            <div className="col-span-2 relative aspect-video overflow-hidden bg-muted">
+              <Image src="/life-beer.jpg" alt="Underwater beer — priorities intact" fill className="object-cover" />
+            </div>
+            {GALLERY.slice(1).map((img) => (
               <div key={img.src} className="relative aspect-square overflow-hidden bg-muted">
                 <Image src={img.src} alt={img.alt} fill className="object-cover" />
               </div>
             ))}
           </div>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          {GALLERY.slice(4).map((img) => (
-            <div key={img.src} className="relative aspect-square overflow-hidden bg-muted">
-              <Image src={img.src} alt={img.alt} fill className="object-cover" />
-            </div>
-          ))}
         </div>
       </section>
 
