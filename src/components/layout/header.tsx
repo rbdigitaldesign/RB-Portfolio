@@ -13,6 +13,25 @@ const NAV_LINKS = [
   { href: '/contact', label: 'Contact' },
 ];
 
+function LogoMark({ uid }: { uid: string }) {
+  const clipId = `rb-intersect-${uid}`;
+  return (
+    <svg width="30" height="20" viewBox="0 0 30 20" fill="none" aria-hidden="true" className="shrink-0">
+      <defs>
+        <clipPath id={clipId}>
+          <circle cx="10" cy="10" r="9" />
+        </clipPath>
+      </defs>
+      {/* left circle */}
+      <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
+      {/* right circle */}
+      <circle cx="20" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
+      {/* intersection filled with accent */}
+      <circle cx="20" cy="10" r="9" fill="#C0593A" clipPath={`url(#${clipId})`} />
+    </svg>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,8 +60,9 @@ export function Header() {
           {/* Wordmark */}
           <Link
             href="/"
-            className="font-headline text-lg font-semibold tracking-tight hover:text-accent transition-colors"
+            className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight hover:text-accent transition-colors"
           >
+            <LogoMark uid="desktop" />
             Rich Bartlett
           </Link>
 
@@ -81,9 +101,10 @@ export function Header() {
           <div className="max-w-5xl mx-auto px-6 w-full flex h-16 items-center justify-between">
             <Link
               href="/"
-              className="font-headline text-lg font-semibold tracking-tight"
+              className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight"
               onClick={() => setMenuOpen(false)}
             >
+              <LogoMark uid="mobile" />
               Rich Bartlett
             </Link>
             <button
