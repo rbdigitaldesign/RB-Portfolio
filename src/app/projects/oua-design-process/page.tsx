@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -9,6 +10,32 @@ import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { CaseStudyLayout } from '@/components/case-study-layout';
 import { CaseStudyHeader } from '@/components/case-study-header';
+
+const UOA_BASE = 'https://timklapdor.github.io/uoa-online';
+
+const COURSES = [
+  { name: 'Personal Professional Development', program: 'Shared', slug: 'personal-professional-development' },
+  { name: 'Managing Organisations and People', program: 'Shared', slug: 'managing-organisations-and-people' },
+  { name: 'Introduction to Marketing', program: 'IB', slug: 'introduction-to-marketing' },
+  { name: 'Data Analytics 1', program: 'IB', slug: 'data-analytics-1' },
+  { name: 'Health Economics', program: 'Health', slug: 'health-economics' },
+  { name: 'Corporate Responsibility for Global Business', program: 'IB', slug: 'corporate-responsibility-for-global-business' },
+];
+
+const UOA_NAV = [
+  { label: 'About', href: `${UOA_BASE}/` },
+  { label: 'Programs', href: `${UOA_BASE}/programs/` },
+  { label: 'Courses', href: `${UOA_BASE}/courses/` },
+  { label: 'People', href: `${UOA_BASE}/people/` },
+  { label: 'Process', href: `${UOA_BASE}/process/` },
+  { label: 'Tools', href: `${UOA_BASE}/tools/` },
+];
+
+const PROGRAM_BADGE: Record<string, string> = {
+  IB: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  Health: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  Shared: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
+};
 
 const TimelineItem = ({ year, title, duration }: { year: string, title: string, duration: string }) => (
   <li className="mb-4 flex items-start">
@@ -91,6 +118,50 @@ export default function OuaDesignProcessPage() {
                 <p className="text-foreground/80">{`This project presented a significant opportunity to align the University's academic offerings with the strategic goal of increasing accessibility to quality education. By integrating foundational knowledge with specialised content across shared courses, the project sought to create a seamless and cohesive learning journey for students. The redevelopment was more than an academic exercise; it was a step towards redefining the educational model to be more inclusive, adaptable, and resonant with the needs of a modern learner.`}</p>
             </section>
             
+            <section id="orca-pod" className="cs-section">
+                <h3 className="cs-h2">The Orca Pod</h3>
+                <p className="text-foreground/80 mb-4">
+                  For three years, I had the privilege of designing learning across a diverse portfolio of OUA courses alongside an extraordinary team we called the Orca Pod, part of the Learning Enhancement Innovation division at the University of Adelaide. The name fit us perfectly. Orcas move with precision, communicate constantly, and rely on collective intelligence to navigate vast and unpredictable waters. That was exactly how we worked — no one operated alone. Ideas surfaced, circled, and strengthened through shared effort.
+                </p>
+                <p className="text-foreground/80 mb-6">
+                  The pod changed over time. People moved on, new directions called, but the group's rhythm never broke. We held onto our Salmon Hats, stayed tightly coordinated, and when challenges appeared immovable, we did what orcas do best — worked together beneath the surface until something shifted. Presenting our collective process at ASCILITE 2025 gave us a moment to surface and look back at what we had built. A special acknowledgement goes to Tim Klapdor, my line manager across the entire UoA project, who built the companion portfolio site that documents this work in full.
+                </p>
+                <a
+                  href={`${UOA_BASE}/people/rich-bartlett/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors"
+                >
+                  View my profile on the UoA Online project site <ExternalLink size={14} />
+                </a>
+            </section>
+
+            <section id="courses" className="cs-section">
+                <h3 className="cs-h2">Courses I Designed</h3>
+                <p className="text-foreground/80 mb-6">
+                  I was Lead Learning Designer on six courses across the Bachelor of International Business and Bachelor of Health Services Management programmes.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {COURSES.map((course) => (
+                    <a
+                      key={course.slug}
+                      href={`${UOA_BASE}/courses/${course.slug}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex flex-col gap-2 border border-border p-4 hover:border-foreground transition-colors"
+                    >
+                      <span className="flex items-start justify-between gap-2">
+                        <span className="font-medium text-sm leading-snug">{course.name}</span>
+                        <ExternalLink size={14} className="flex-shrink-0 mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      </span>
+                      <span className={`self-start text-xs font-medium px-2 py-0.5 rounded-full ${PROGRAM_BADGE[course.program]}`}>
+                        {course.program === 'IB' ? 'International Business' : course.program === 'Health' ? 'Health Services Mgmt' : 'Shared'}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+            </section>
+
             <section id="showcases" className="cs-section">
                 <h3 className="cs-h2">OUA Showcases</h3>
                 <div className="space-y-8">
@@ -122,7 +193,7 @@ export default function OuaDesignProcessPage() {
             </section>
         </main>
         
-        <aside className="lg:col-span-1">
+        <aside className="lg:col-span-1 space-y-6">
           <Card className="sticky top-24">
             <CardHeader>
               <CardTitle className="font-headline text-xl">Project Timeline</CardTitle>
@@ -131,6 +202,29 @@ export default function OuaDesignProcessPage() {
                 <ul>
                     {projectTimeline.map((item, index) => <TimelineItem key={index} {...item} />)}
                 </ul>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-headline text-lg">Explore the full project</CardTitle>
+              <p className="text-xs text-muted-foreground">timklapdor.github.io/uoa-online</p>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {UOA_NAV.map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between text-sm hover:text-accent transition-colors group"
+                    >
+                      {item.label}
+                      <ExternalLink size={12} className="text-muted-foreground group-hover:text-accent transition-colors" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
         </aside>
