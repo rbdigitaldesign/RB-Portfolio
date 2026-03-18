@@ -37,12 +37,21 @@ const TOOLS = [
 ];
 
 const INTERESTS = [
-  'CrossFit — challenging my physical limits and having fun.',
-  'Reading everything: animal studies, biographies, Sci-Fi and Fantasy.',
-  'Long walks with Jerry Boi Seinfeld (a Kelpie cross with strong opinions).',
-  'Podcasts: Heavyweight, Science Vs, How I Built This.',
+  'CrossFit and Weightlifting — challenging my physical limits and having fun.',
+  'Camping with family and friends across SA.',
+  'Beach runs and park sessions with Jerry Boi Seinfeld (a Kelpie cross with strong opinions).',
+  'Podcasts: Heavyweight, Science Vs, How I Built This. Diary of a CEO (Steve Bartlett, no relation).',
   'Slowly learning guitar. Very slowly.',
   'A good beer with good people.',
+  'Married to an incredible Nursey wifey.',
+];
+
+const GALLERY = [
+  { src: '/life-beer.jpg', alt: 'Underwater beer — priorities intact' },
+  { src: '/life-crossfit.jpg', alt: 'CrossFit box jump' },
+  { src: '/life-beach.jpg', alt: 'Beach day with the little one' },
+  { src: '/life-camping.jpg', alt: 'Camping sunset in SA' },
+  { src: '/life-jerry.jpg', alt: 'Jerry Boi Seinfeld with strong opinions' },
 ];
 
 export default function AboutPage() {
@@ -171,27 +180,35 @@ export default function AboutPage() {
       </section>
 
       {/* ── Life outside work ───────────────────────────────────── */}
-      <section className="grid md:grid-cols-[1fr_1fr] gap-12 border-b border-border pb-12 mb-12 items-start">
-        <div>
-          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
-            Life outside work
-          </h2>
-          <ul className="space-y-3">
-            {INTERESTS.map((item, i) => (
-              <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
-                <span className="text-accent flex-shrink-0 mt-0.5">—</span>
-                {item}
-              </li>
+      <section className="border-b border-border pb-12 mb-12">
+        <div className="grid md:grid-cols-[1fr_1fr] gap-12 items-start mb-8">
+          <div>
+            <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
+              Life outside work
+            </h2>
+            <ul className="space-y-3">
+              {INTERESTS.map((item, i) => (
+                <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
+                  <span className="text-accent flex-shrink-0 mt-0.5">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {GALLERY.slice(0, 4).map((img) => (
+              <div key={img.src} className="relative aspect-square overflow-hidden bg-muted">
+                <Image src={img.src} alt={img.alt} fill className="object-cover" />
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
-        <div className="relative aspect-square overflow-hidden bg-muted">
-          <Image
-            src="https://i.imgur.com/WyDEtud.png"
-            alt="Rich Bartlett with his family"
-            fill
-            className="object-cover"
-          />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {GALLERY.slice(4).map((img) => (
+            <div key={img.src} className="relative aspect-square overflow-hidden bg-muted">
+              <Image src={img.src} alt={img.alt} fill className="object-cover" />
+            </div>
+          ))}
         </div>
       </section>
 
