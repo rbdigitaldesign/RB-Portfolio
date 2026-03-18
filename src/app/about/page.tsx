@@ -52,7 +52,7 @@ export default function AboutPage() {
       <header className="border-b border-border pb-12 mb-12 grid md:grid-cols-[200px_1fr] gap-10 items-start">
         <div className="relative aspect-square overflow-hidden rounded-full bg-muted max-w-[200px]">
           <Image
-            src="https://i.imgur.com/X0EG5j2.png"
+            src="/profile.jpg"
             alt="Rich Bartlett"
             fill
             priority

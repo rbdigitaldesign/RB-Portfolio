@@ -44,7 +44,7 @@ function LogoMark({ filterId = 'rb-logo-tc' }: { filterId?: string }) {
         </filter>
       </defs>
       <g clipPath={`url(#${filterId}-clip)`}>
-        <g transform="matrix(0.225227, 0.0631341, -0.0631293, 0.225209, 4.498121, -102.399267)">
+        <g transform="matrix(0.296188, 0.0830257, -0.0831183, 0.296519, -54.827135, -187.382845)">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <image
             href="/logo-signature.png"
