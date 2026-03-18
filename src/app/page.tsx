@@ -144,7 +144,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-border">
 
             <div className="md:px-10 first:md:pl-0">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">10+</p>
+              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">15+</p>
               <p className="text-sm text-muted-foreground leading-snug">Yrs in L&amp;D &amp; UX</p>
             </div>
 
@@ -189,7 +189,8 @@ export default function Home() {
                   src="https://i.imgur.com/X0EG5j2.png"
                   alt="Rich Bartlett"
                   fill
-                  className="object-cover"
+                  className="object-cover object-center"
+                  style={{ objectPosition: '50% 30%' }}
                 />
               </div>
             </div>
@@ -211,7 +212,7 @@ export default function Home() {
                 >
                   FHEA
                 </a>
-                ). 10+ years across Australia's tech and education sectors. Currently designing
+                ). 15+ years across Australia's tech and education sectors. Currently designing
                 engaging online courses at Adelaide University.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">

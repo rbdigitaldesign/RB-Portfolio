@@ -12,7 +12,7 @@ export default function ResumePage() {
       <header className="border-b border-border pb-10 mb-12">
         <p className="text-sm font-medium text-accent uppercase tracking-widest mb-3">Résumé</p>
         <h1 className="font-headline font-semibold text-4xl md:text-5xl leading-tight max-w-xl">
-          10+ years of learning design &amp; UX.
+          15+ years of learning design &amp; UX.
         </h1>
       </header>
 

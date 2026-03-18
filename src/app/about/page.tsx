@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About — Rich Bartlett',
   description:
-    'Learning Designer and UX practitioner based in Adelaide, Australia. 12+ years across tech and education.',
+    'Learning Designer and UX practitioner based in Adelaide, Australia. 15+ years across tech and education.',
 };
 
 const SKILLS = [
@@ -56,7 +56,8 @@ export default function AboutPage() {
             alt="Rich Bartlett"
             fill
             priority
-            className="object-cover object-top"
+            className="object-cover object-center"
+            style={{ objectPosition: '50% 30%' }}
           />
         </div>
         <div>
@@ -89,7 +90,7 @@ export default function AboutPage() {
             that are not just usable, but also meaningful and memorable.
           </p>
           <p>
-            With over ten years of experience across Australia's technology and education sectors,
+            With over fifteen years of experience across Australia's technology and education sectors,
             I've developed a unique skill set that merges the rigour of learning design with the
             empathy of UX. My career began in tech support and evolved into roles where I could
             directly impact how people interact with and learn from technology.
@@ -123,7 +124,7 @@ export default function AboutPage() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
               Experience
             </p>
-            <p className="font-medium">12+ years</p>
+            <p className="font-medium">15+ years</p>
           </div>
           <div className="pt-2">
             <a
