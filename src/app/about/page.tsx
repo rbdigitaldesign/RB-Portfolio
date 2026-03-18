@@ -46,14 +46,6 @@ const INTERESTS = [
   { emoji: '💍', text: 'Married to an incredible Nursey wifey.' },
 ];
 
-const GALLERY = [
-  { src: '/life-beer.jpg', alt: 'Underwater beer — priorities intact' },
-  { src: '/life-crossfit.jpg', alt: 'CrossFit box jump' },
-  { src: '/life-beach.jpg', alt: 'Beach day with the little one' },
-  { src: '/life-camping.jpg', alt: 'Camping sunset in SA' },
-  { src: '/life-jerry.jpg', alt: 'Jerry Boi Seinfeld with strong opinions' },
-];
-
 const LIFE_CIRCLES = [
   { src: '/life-guitar.jpg', alt: 'Playing guitar with my daughter' },
   { src: '/life-family.jpg', alt: 'Family day at the coast' },
@@ -187,79 +179,60 @@ export default function AboutPage() {
 
       {/* ── Life outside work ───────────────────────────────────── */}
       <section className="border-b border-border pb-12 mb-12">
+        <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-8 md:hidden">
+          Life outside work
+        </h2>
 
-        {/* Mobile: circles row then text */}
-        <div className="md:hidden mb-8">
-          <div className="flex justify-around mb-6">
-            {LIFE_CIRCLES.map((img) => (
-              <div key={img.src} className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-border flex-shrink-0">
-                <Image src={img.src} alt={img.alt} fill className="object-cover object-center" />
-              </div>
-            ))}
-          </div>
-          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
-            Life outside work
-          </h2>
-          <ul className="space-y-3">
-            {INTERESTS.map((item, i) => (
-              <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
-                <span className="flex-shrink-0">{item.emoji}</span>
-                {item.text}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Desktop: orbital layout — circles at top-left, top-right, bottom-right with text overlaid centre */}
-        <div className="hidden md:grid grid-cols-[176px_1fr_176px] grid-rows-[176px_auto_176px] gap-4 mb-8">
-          {/* Top-left: guitar */}
-          <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border self-start">
-            <Image src="/life-guitar.jpg" alt="Playing guitar with my daughter" fill className="object-cover object-center" />
-          </div>
-          {/* Top-center: empty */}
-          <div />
-          {/* Top-right: family */}
-          <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border self-start justify-self-end">
-            <Image src="/life-family.jpg" alt="Family day at the coast" fill className="object-cover object-center" />
-          </div>
-
-          {/* Text centred across all 3 columns, all 3 rows */}
-          <div className="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center pointer-events-none">
-            <div className="pointer-events-auto text-center max-w-xs">
-              <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
-                Life outside work
-              </h2>
-              <ul className="space-y-3 text-left">
-                {INTERESTS.map((item, i) => (
-                  <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
-                    <span className="flex-shrink-0">{item.emoji}</span>
-                    {item.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom-left: empty */}
-          <div />
-          {/* Bottom-center: empty */}
-          <div />
-          {/* Bottom-right: wedding */}
-          <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border self-end justify-self-end">
-            <Image src="/life-wedding.jpg" alt="Wedding day" fill className="object-cover object-center" />
-          </div>
-        </div>
-
-        {/* Existing photo gallery — unchanged */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="col-span-2 relative aspect-video overflow-hidden bg-muted">
-            <Image src="/life-beer.jpg" alt="Underwater beer — priorities intact" fill className="object-cover" />
-          </div>
-          {GALLERY.slice(1).map((img) => (
-            <div key={img.src} className="relative aspect-square overflow-hidden bg-muted">
-              <Image src={img.src} alt={img.alt} fill className="object-cover" />
+        {/* Mobile: circles row above text */}
+        <div className="flex justify-around mb-6 md:hidden">
+          {LIFE_CIRCLES.map((img) => (
+            <div key={img.src} className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-border flex-shrink-0">
+              <Image src={img.src} alt={img.alt} fill className="object-cover object-center" />
             </div>
           ))}
+        </div>
+        <ul className="space-y-3 md:hidden">
+          {INTERESTS.map((item, i) => (
+            <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
+              <span className="flex-shrink-0">{item.emoji}</span>
+              {item.text}
+            </li>
+          ))}
+        </ul>
+
+        {/* Desktop: left circle | text | right 2 circles */}
+        <div className="hidden md:flex gap-10 items-center">
+          {/* Left: guitar */}
+          <div className="flex-shrink-0">
+            <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border">
+              <Image src="/life-guitar.jpg" alt="Playing guitar with my daughter" fill className="object-cover object-center" />
+            </div>
+          </div>
+
+          {/* Centre: text */}
+          <div className="flex-1">
+            <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
+              Life outside work
+            </h2>
+            <ul className="space-y-3">
+              {INTERESTS.map((item, i) => (
+                <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
+                  <span className="flex-shrink-0">{item.emoji}</span>
+                  {item.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Right: family + wedding stacked */}
+          <div className="flex-shrink-0 flex flex-col gap-8">
+            <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border">
+              <Image src="/life-family.jpg" alt="Family day at the coast" fill className="object-cover object-center" />
+            </div>
+            <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-border">
+              <Image src="/life-wedding.jpg" alt="Wedding day" fill className="object-cover object-center" />
+            </div>
+          </div>
         </div>
       </section>
 
