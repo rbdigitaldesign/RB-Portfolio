@@ -20,31 +20,9 @@ import StatusNote from '@/components/StatusNote';
 import ReactMarkdown from 'react-markdown';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#overview" className="hover:text-primary">Project overview</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#constraints" className="hover:text-primary">Constraints</a></li>
-      <li><a href="#solution" className="hover:text-primary">The solution</a></li>
-      <li><a href="#process" className="hover:text-primary">Process</a></li>
-      <li><a href="#consultation" className="hover:text-primary">Media team consultation & feedback</a></li>
-      <li><a href="#variants" className="hover:text-primary">Variants</a></li>
-      <li><a href="#accessibility" className="hover:text-primary">Accessibility</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
-      <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-      <li><a href="#resources" className="hover:text-primary">Resources</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-      <li><a href="#code" className="hover:text-primary">Code</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const galleryImages = [
     { src: 'https://i.imgur.com/QMwbgwF.png', alt: 'Nav bar implemented on teaching page' },
@@ -100,7 +78,8 @@ export default function CanvasQuickNavPage() {
     
     return (
         <CaseStudyLayout>
-            <ProjectNavigation 
+          <CaseStudyHeader slug="canvas-quick-navigation" />
+            <ProjectNavigation
                 prevProject={{slug: 'tux-for-learning-design'}}
                 nextProject={{slug: 'when-not-to-code'}}
             />
@@ -130,48 +109,50 @@ export default function CanvasQuickNavPage() {
 
             <div className="grid lg:grid-cols-4 gap-12">
                 <aside className="hidden lg:block lg:col-span-1">
-                    <LocalTOC />
+                    <CaseStudyTOC items={[
+                      { href: '#overview', label: 'Project overview' },
+                      { href: '#problem', label: 'The problem' },
+                      { href: '#constraints', label: 'Constraints' },
+                      { href: '#solution', label: 'The solution' },
+                      { href: '#process', label: 'Process' },
+                      { href: '#consultation', label: 'Media team consultation' },
+                      { href: '#variants', label: 'Variants' },
+                      { href: '#accessibility', label: 'Accessibility' },
+                      { href: '#outcomes', label: 'Outcomes' },
+                      { href: '#reflection', label: 'Reflection & next steps' },
+                      { href: '#resources', label: 'Resources' },
+                      { href: '#gallery', label: 'Gallery' },
+                      { href: '#code', label: 'Code' },
+                    ]} />
                 </aside>
 
                 <main className="lg:col-span-2 space-y-12">
                     <section id="overview">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Project overview</h3>
+                        <h3 className="cs-h2">Project overview</h3>
                         <p className="text-foreground/80">A lightweight, consistent quick navigation element embedded on Canvas pages to jump between topics, assignments and key resources with fewer clicks.</p>
                     </section>
-                    
-                    <Separator />
-                    
-                    <section id="problem">
-                        <h3 className="text-2xl font-bold font-headline mb-4">The problem</h3>
+                    <section id="problem" className="cs-section">
+                        <h3 className="cs-h2">The problem</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Frequent navigation requires multiple clicks and context switching</li>
                             <li>Patterns vary across courses, increasing cognitive load</li>
                             <li>Designers often lack theme access, restricting global changes</li>
                         </ul>
                     </section>
-                    
-                    <Separator />
-
-                    <section id="constraints">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Constraints</h3>
+                    <section id="constraints" className="cs-section">
+                        <h3 className="cs-h2">Constraints</h3>
                          <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Page-level only (no theme/LTI); must be keyboard navigable</li>
                             <li>Maintain AA contrast; responsive; easy to duplicate</li>
                             <li>Should sit above/below page content without breaking layout</li>
                         </ul>
                     </section>
-
-                    <Separator />
-
-                    <section id="solution">
-                        <h3 className="text-2xl font-bold font-headline mb-4">The solution</h3>
-                        <p className="text-foreground/80">A page-embedded nav bar using semantic HTML and a small CSS block, styled with brand tokens; supports icon + label buttons, an active state, previous/next anchors, and optional grouped links.</p>
+                    <section id="solution" className="cs-section">
+                        <h3 className="cs-h2">The solution</h3>
+                        <div className="cs-callout"><p>A page-embedded nav bar using semantic HTML and a small CSS block, styled with brand tokens; supports icon + label buttons, an active state, previous/next anchors, and optional grouped links.</p></div>
                     </section>
-
-                    <Separator />
-
-                    <section id="process">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Process</h3>
+                    <section id="process" className="cs-section">
+                        <h3 className="cs-h2">Process</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Review current course pages and common journeys</li>
                             <li>Prototype HTML/CSS in a test shell; scope styles locally</li>
@@ -182,35 +163,26 @@ export default function CanvasQuickNavPage() {
                             <li>Consult the media team on alignment with upcoming global navigation</li>
                         </ul>
                     </section>
-
-                    <Separator />
-                    
-                    <section id="consultation">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Media team consultation & feedback</h3>
+                    <section id="consultation" className="cs-section">
+                        <h3 className="cs-h2">Media team consultation & feedback</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Confirmed that global navigation is being delivered at the theme level, and should remain the system standard.</li>
                             <li>Supportive of this page-level component as a temporary, course-specific aid when clearly labelled as non-standard.</li>
                             <li>Guidance: keep AA contrast, visible focus rings, and generous hit areas; check spacing on smaller viewports.</li>
-                            <li>Recommendation: provide a template page and short “how to” so academics don’t fork styles; avoid conflicting with theme CSS.</li>
+                            <li>Recommendation: provide a template page and short "how to" so academics don't fork styles; avoid conflicting with theme CSS.</li>
                              <li>Governance note: any theme-level change should route through Media for review and release cadence.</li>
                         </ul>
                     </section>
-
-                    <Separator />
-                    
-                    <section id="variants">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Variants</h3>
+                    <section id="variants" className="cs-section">
+                        <h3 className="cs-h2">Variants</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                            <li>Topic rail — topics 1–10 with active state and prev/next</li>
                            <li>Compact quick nav — home, topics, assignments, extra resources</li>
                            <li>Instances view — repeated bars across pages to confirm consistency</li>
                         </ul>
                     </section>
-
-                    <Separator />
-
-                     <section id="accessibility">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Accessibility</h3>
+                     <section id="accessibility" className="cs-section">
+                        <h3 className="cs-h2">Accessibility</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Semantic &lt;nav&gt; landmark with labelled list structure</li>
                             <li>Visible focus indicators; aria-current="page" for the active item</li>
@@ -218,22 +190,16 @@ export default function CanvasQuickNavPage() {
                             <li>Meaningful labels for any icon-only buttons</li>
                         </ul>
                     </section>
-
-                    <Separator />
-                    
-                    <section id="outcomes">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Outcomes</h3>
+                    <section id="outcomes" className="cs-section">
+                        <h3 className="cs-h2">Outcomes</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Consistent in-page pattern ready for wider trial</li>
                             <li>Faster setup for designers (copy/paste then update targets)</li>
                             <li>Positive pilot feedback; media team alignment achieved; candidates identified for templating</li>
                         </ul>
                     </section>
-
-                    <Separator />
-
-                    <section id="reflection">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Reflection & next steps</h3>
+                    <section id="reflection" className="cs-section">
+                        <h3 className="cs-h2">Reflection & next steps</h3>
                         <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                             <li>Convert snippet into a canvas template page for adoption at scale</li>
                             <li>Explore auto-highlighting of the current week/topic</li>
@@ -241,22 +207,16 @@ export default function CanvasQuickNavPage() {
                             <li>Coordinate with the media team on timing and governance for any future theme-level include or retirement of the page-level pattern once global nav is live</li>
                         </ul>
                     </section>
-                    
-                    <Separator />
-
-                     <section id="resources">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Resources</h3>
+                     <section id="resources" className="cs-section">
+                        <h3 className="cs-h2">Resources</h3>
                         <div className="flex flex-wrap gap-4">
                             <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">Download HTML snippet<Download className="ml-2 h-4 w-4" /></a></Button>
                             <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">Setup Guide (PDF)<Download className="ml-2 h-4 w-4" /></a></Button>
                             <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">A11y Checklist (PDF)<Download className="ml-2 h-4 w-4" /></a></Button>
                         </div>
                     </section>
-
-                    <Separator />
-
-                    <section id="gallery">
-                        <h3 className="text-2xl font-bold font-headline mb-4">Gallery</h3>
+                    <section id="gallery" className="cs-section">
+                        <h3 className="cs-h2">Gallery</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {galleryImages.map((img, index) => (
                                 <div 
@@ -278,10 +238,7 @@ export default function CanvasQuickNavPage() {
                             ))}
                         </div>
                     </section>
-                    
-                    <Separator />
-
-                    <section id="code">
+                    <section id="code" className="cs-section">
                         <Accordion type="single" collapsible>
                             <AccordionItem value="item-1">
                                 <AccordionTrigger>
@@ -370,7 +327,7 @@ export default function CanvasQuickNavPage() {
             </Dialog>
 
             <Card className="mt-24 text-center p-8 md:p-12">
-              <h3 className="text-2xl font-bold font-headline mb-2">Interested in accessible component design for LMS?</h3>
+              <h3 className="cs-h2">Interested in accessible component design for LMS?</h3>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk you through the process of creating reusable, accessible components for Canvas.</p>
               <Button asChild>
                   <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>

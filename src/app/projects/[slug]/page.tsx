@@ -1,15 +1,11 @@
-
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import projectsData from '@/data/projects.json';
-import type { Project, ProjectCategory } from '@/lib/types';
+import type { Project } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ExternalLink, Github, CalendarDays, Clock, Users, Wrench } from 'lucide-react';
-import { ProjectNavigation } from '@/components/project-navigation';
-import { CATEGORY_COLORS, CATEGORY_SECTIONS } from '@/lib/project-categories';
+import { ExternalLink, Github, ArrowLeft, ArrowRight } from 'lucide-react';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projects: Project[] = projectsData as Project[];
 
@@ -53,119 +49,70 @@ function getProjectData(slug: string) {
   };
 }
 
-// ── Section renderer ─────────────────────────────────────────────────────────
-
-function ContentSection({
-  title,
-  content,
-  accent,
-}: {
-  title: string;
-  content: string;
-  accent?: string;
-}) {
-  if (!content?.trim()) return null;
-  return (
-    <section>
-      <h2 className={`text-2xl font-bold font-headline mb-4 ${accent ?? ''}`}>{title}</h2>
-      <p className="text-foreground/80 whitespace-pre-line leading-relaxed">{content}</p>
-    </section>
-  );
-}
-
-// ── Detail sidebar ────────────────────────────────────────────────────────────
+// ── Detail sidebar ─────────────────────────────────────────────────────────
 
 function ProjectSidebar({ project }: { project: Project }) {
-  const colors = CATEGORY_COLORS[project.category] ?? CATEGORY_COLORS['User Experience'];
-
   return (
-    <Card className={`sticky top-24 border ${colors.border}`}>
-      <CardHeader className={`rounded-t-lg ${colors.bg}`}>
-        <div className="flex items-center gap-2">
-          <span className="text-lg">{colors.icon}</span>
-          <CardTitle className={`font-headline text-base ${colors.text}`}>{project.category}</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-4 space-y-4 text-sm">
-        {project.role && (
-          <DetailRow icon={<Users className="h-4 w-4 shrink-0 text-muted-foreground" />} label="Role" value={project.role} />
-        )}
-        {project.year && (
-          <DetailRow icon={<CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground" />} label="Year" value={String(project.year)} />
-        )}
-        {project.duration && (
-          <DetailRow icon={<Clock className="h-4 w-4 shrink-0 text-muted-foreground" />} label="Duration" value={project.duration} />
-        )}
-        {project.team && (
-          <DetailRow icon={<Users className="h-4 w-4 shrink-0 text-muted-foreground" />} label="Team" value={project.team} />
-        )}
-
-        {project.tools && project.tools.length > 0 && (
-          <>
-            <Separator />
-            <div>
-              <div className="flex items-center gap-1.5 mb-2 text-muted-foreground">
-                <Wrench className="h-4 w-4" />
-                <span className="font-semibold text-foreground">Tools</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {project.tools.map((tool) => (
-                  <Badge key={tool} variant="outline" className="text-xs">{tool}</Badge>
-                ))}
-              </div>
+    <aside className="space-y-6">
+      <div className="border border-border divide-y divide-border">
+        {[
+          { label: 'Role', value: project.role },
+          { label: 'Year', value: project.year ? String(project.year) : null },
+          { label: 'Duration', value: project.duration },
+          { label: 'Team', value: project.team },
+        ]
+          .filter((r) => r.value)
+          .map(({ label, value }) => (
+            <div key={label} className="px-4 py-3">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">{label}</p>
+              <p className="text-sm font-medium">{value}</p>
             </div>
-          </>
-        )}
-
-        {project.tags && project.tags.length > 0 && (
-          <>
-            <Separator />
-            <div>
-              <span className="font-semibold block mb-2">Tags</span>
-              <div className="flex flex-wrap gap-1.5">
-                {project.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
-        {project.links && (project.links.live || project.links.github) && (
-          <>
-            <Separator />
-            <div className="flex flex-col gap-2">
-              {project.links.live && (
-                <Button variant="outline" size="sm" asChild>
-                  <a href={project.links.live} target="_blank" rel="noopener noreferrer">
-                    Live Site <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                  </a>
-                </Button>
-              )}
-              {project.links.github && (
-                <Button variant="outline" size="sm" asChild>
-                  <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                    GitHub <Github className="ml-2 h-3.5 w-3.5" />
-                  </a>
-                </Button>
-              )}
-            </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className="flex gap-2">
-      {icon}
-      <div>
-        <span className="font-semibold text-foreground">{label}:</span>{' '}
-        <span className="text-foreground/80">{value}</span>
+          ))}
       </div>
-    </div>
+
+      {project.tools && project.tools.length > 0 && (
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Tools</p>
+          <div className="flex flex-wrap gap-1.5">
+            {project.tools.map((tool) => (
+              <span key={tool} className="text-xs border border-border px-2 py-0.5">
+                {tool}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {project.tags && project.tags.length > 0 && (
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Tags</p>
+          <div className="flex flex-wrap gap-1.5">
+            {project.tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-xs font-normal">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {project.links && (project.links.live || project.links.github) && (
+        <div className="space-y-2">
+          {project.links.live && (
+            <a href={project.links.live} target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-2 text-sm text-accent hover:underline">
+              <ExternalLink size={13} /> Live site
+            </a>
+          )}
+          {project.links.github && (
+            <a href={project.links.github} target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-2 text-sm text-accent hover:underline">
+              <Github size={13} /> GitHub
+            </a>
+          )}
+        </div>
+      )}
+    </aside>
   );
 }
 
@@ -176,92 +123,106 @@ export default async function ProjectPage({ params }: { params: { slug: string }
   if (!data) notFound();
 
   const { project, prevProject, nextProject } = data;
-  const colors = CATEGORY_COLORS[project.category] ?? CATEGORY_COLORS['User Experience'];
-  const sections = CATEGORY_SECTIONS[project.category] ?? CATEGORY_SECTIONS['User Experience'];
 
   return (
-    <article className="container mx-auto max-w-6xl py-16 px-4">
-      <ProjectNavigation
-        prevProject={prevProject ? { slug: prevProject.slug } : null}
-        nextProject={nextProject ? { slug: nextProject.slug } : null}
-      />
+    <article className="max-w-6xl mx-auto px-6 md:px-10 pb-24">
+      {/* Editorial header */}
+      <CaseStudyHeader slug={project.slug} />
 
-      {/* Header */}
-      <header className="text-center mb-12">
-        <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold mb-4 ${colors.badge}`}>
-          <span>{colors.icon}</span>
-          {project.category}
-        </span>
-        <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary dark:text-primary-foreground mb-4">
-          {project.title}
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">{project.summary}</p>
-      </header>
+      {/* Content + sidebar */}
+      <div className="grid lg:grid-cols-[1fr_280px] gap-12 lg:gap-16">
+        <div>
+          {/* Overview */}
+          {project.overview?.trim() && (
+            <section>
+              <h2 className="cs-h2">Overview</h2>
+              <p className="cs-body">{project.overview}</p>
+            </section>
+          )}
 
-      {/* Cover image */}
-      <div className="relative w-full aspect-video mb-12 rounded-xl overflow-hidden shadow-strong">
-        <Image
-          src={project.coverImage}
-          alt={`Cover image for ${project.title}`}
-          fill
-          priority
-          className="object-cover"
-          data-ai-hint="project screenshot abstract"
-        />
-        {/* Category accent bar */}
-        <div className={`absolute bottom-0 left-0 right-0 h-1 ${colors.bg}`} />
-      </div>
+          {/* Problem */}
+          {project.problem?.trim() && (
+            <section className="cs-section">
+              <h2 className="cs-h2">Problem</h2>
+              <div className="cs-callout">
+                <p className="cs-body not-italic">{project.problem}</p>
+              </div>
+            </section>
+          )}
 
-      {/* Content grid */}
-      <div className="grid lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-2 space-y-10">
-          <ContentSection title={sections.overview} content={project.overview} />
+          {/* Process — numbered phases */}
+          {project.process?.trim() && (
+            <section className="cs-section">
+              <h2 className="cs-h2">Process</h2>
+              <div>
+                {project.process.split('\n').filter(Boolean).map((step, i) => (
+                  <div key={i} className="cs-phase">
+                    <span className="cs-phase-num">0{i + 1}</span>
+                    <p className="cs-body pt-1">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-          {project.overview?.trim() && project.problem?.trim() && <Separator />}
-          <ContentSection title={sections.problem} content={project.problem} />
+          {/* Outcomes */}
+          {project.outcomes?.trim() && (
+            <section className="cs-section">
+              <h2 className="cs-h2">Outcomes</h2>
+              <p className="cs-body">{project.outcomes}</p>
+            </section>
+          )}
 
-          {project.problem?.trim() && project.process?.trim() && <Separator />}
-          <ContentSection title={sections.process} content={project.process} />
-
-          {project.process?.trim() && project.outcomes?.trim() && <Separator />}
-          <ContentSection title={sections.outcomes} content={project.outcomes} />
-
-          {/* Gallery */}
-          {project.gallery && project.gallery.length > 0 && (
-            <>
-              <Separator />
-              <section>
-                <h2 className="text-2xl font-bold font-headline mb-6">Artefacts</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {project.gallery.map((imgSrc, i) => (
-                    <div key={i} className="relative aspect-video rounded-lg overflow-hidden shadow-medium">
+          {/* Gallery — skip placeholder images */}
+          {project.gallery && project.gallery.filter((g) => !g.includes('placehold')).length > 0 && (
+            <section className="cs-section">
+              <h2 className="cs-h2">Artefacts</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {project.gallery
+                  .filter((g) => !g.includes('placehold'))
+                  .map((imgSrc, i) => (
+                    <div key={i} className="relative aspect-video overflow-hidden bg-muted group">
                       <Image
                         src={imgSrc}
-                        alt={`${project.title} artefact ${i + 1}`}
+                        alt={`${project.title} — artefact ${i + 1}`}
                         fill
-                        className="object-cover"
-                        data-ai-hint="design artifact prototype"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     </div>
                   ))}
-                </div>
-              </section>
-            </>
+              </div>
+            </section>
           )}
         </div>
 
-        <aside className="lg:col-span-1">
+        {/* Sticky sidebar */}
+        <div className="sticky top-24 self-start hidden lg:block">
           <ProjectSidebar project={project} />
-        </aside>
+        </div>
       </div>
 
-      <Separator className="my-16" />
+      {/* Bottom navigation */}
+      <nav className="mt-16 pt-8 border-t border-border flex justify-between items-center">
+        {prevProject ? (
+          <Link href={`/projects/${prevProject.slug}`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group">
+            <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
+            Previous
+          </Link>
+        ) : <span />}
 
-      <ProjectNavigation
-        bottom
-        prevProject={prevProject ? { slug: prevProject.slug } : null}
-        nextProject={nextProject ? { slug: nextProject.slug } : null}
-      />
+        <Link href="/projects" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+          All projects
+        </Link>
+
+        {nextProject ? (
+          <Link href={`/projects/${nextProject.slug}`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group">
+            Next
+            <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        ) : <span />}
+      </nav>
     </article>
   );
 }

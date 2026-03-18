@@ -13,32 +13,9 @@ import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#overview" className="hover:text-primary">Overview</a></li>
-      <li><a href="#plan_methods" className="hover:text-primary">Plan & methods</a></li>
-      <li><a href="#phase1" className="hover:text-primary">Phase 1 — Evaluation</a></li>
-      <li><a href="#collab_figma" className="hover:text-primary">Collaborative design (Figma)</a></li>
-      <li><a href="#phase2" className="hover:text-primary">Phase 2 — Student engagement</a></li>
-      <li><a href="#phase3" className="hover:text-primary">Phase 3 — Workshop development</a></li>
-      <li><a href="#workshop_action" className="hover:text-primary">Workshop in action</a></li>
-      <li><a href="#phase4" className="hover:text-primary">Phase 4 — Synthesis & decisions</a></li>
-      <li><a href="#wireframes" className="hover:text-primary">Wireframes & implementation notes</a></li>
-      <li><a href="#iterations" className="hover:text-primary">Iterations beyond the workshop</a></li>
-      <li><a href="#assessments_modules" className="hover:text-primary">Assessment overview & module pages</a></li>
-      <li><a href="#learnings" className="hover:text-primary">Learnings & acknowledgements</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-      <li><a href="#references" className="hover:text-primary">References</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const galleryImages = [
     { src: 'https://i.imgur.com/ypMmfTs.png', alt: 'Overview of redesigned OUA orientation sequence pages', title: 'Redesigned orientation overview' },
@@ -48,8 +25,8 @@ const galleryImages = [
     { src: 'https://i.imgur.com/BtiAQZB.png', alt: 'Workshop running live on Zoom', title: 'Live Zoom workshop' },
     { src: 'https://i.imgur.com/ACo8ze0.jpeg', alt: 'Miro board with interactive activities', title: 'Miro activity board' },
     { src: 'https://i.imgur.com/9vtA4bH.jpeg', alt: 'Overview of student feedback captured in Miro', title: 'Student feedback in Miro' },
-    { src: 'https://i.imgur.com/o4fCNH3.png', alt: 'Sinead’s insights', title: 'Sinead’s insights' },
-    { src: 'https://i.imgur.com/bREUY4l.jpeg', alt: 'Rich’s insights', title: 'Rich’s insights' },
+    { src: 'https://i.imgur.com/o4fCNH3.png', alt: "Sinead's insights", title: "Sinead's insights" },
+    { src: 'https://i.imgur.com/bREUY4l.jpeg', alt: "Rich's insights", title: "Rich's insights" },
     { src: 'https://i.imgur.com/HlRj5Iv.jpeg', alt: 'Collaborative synthesis', title: 'Collaborative synthesis' },
     { src: 'https://i.imgur.com/8X3YxWz.png', alt: 'Iteration 1', title: 'Iteration 1' },
     { src: 'https://i.imgur.com/7gGaVp3.png', alt: 'Iteration 2', title: 'Iteration 2' },
@@ -91,6 +68,7 @@ export default function OuaOrientationRedesignPage() {
 
   return (
     <CaseStudyLayout>
+      <CaseStudyHeader slug="oua-orientation-redesign" />
       <ProjectNavigation 
           prevProject={{slug: 'communication-styles-quiz'}}
           nextProject={{slug: 'ppd-course-design'}}
@@ -118,20 +96,32 @@ export default function OuaOrientationRedesignPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#overview', label: 'Overview' },
+            { href: '#plan_methods', label: 'Plan & methods' },
+            { href: '#phase1', label: 'Phase 1 — Evaluation' },
+            { href: '#collab_figma', label: 'Collaborative design (Figma)' },
+            { href: '#phase2', label: 'Phase 2 — Student engagement' },
+            { href: '#phase3', label: 'Phase 3 — Workshop development' },
+            { href: '#workshop_action', label: 'Workshop in action' },
+            { href: '#phase4', label: 'Phase 4 — Synthesis & decisions' },
+            { href: '#wireframes', label: 'Wireframes & implementation notes' },
+            { href: '#iterations', label: 'Iterations beyond the workshop' },
+            { href: '#assessments_modules', label: 'Assessment overview & module pages' },
+            { href: '#learnings', label: 'Learnings & acknowledgements' },
+            { href: '#gallery', label: 'Gallery' },
+            { href: '#references', label: 'References' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="overview">
-                <h3 className="text-2xl font-bold font-headline mb-4">Overview</h3>
+                <h3 className="cs-h2">Overview</h3>
                 <Image src="https://i.imgur.com/ypMmfTs.png" alt="Overview of redesigned OUA orientation sequence pages" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/ypMmfTs.png'))} />
-                <p className="text-foreground/80 mt-4">When I joined the Online Programs Team, one of my first tasks was to re-imagine orientation for OUA students. Guided by my manager Tim and working closely with my colleague Sinead, we audited existing orientation patterns across courses, then shaped a version that fits OUA learners: informative, engaging, and easy to navigate online.</p>
+                <div className="cs-callout"><p className="text-foreground/80 mt-4">When I joined the Online Programs Team, one of my first tasks was to re-imagine orientation for OUA students. Guided by my manager Tim and working closely with my colleague Sinead, we audited existing orientation patterns across courses, then shaped a version that fits OUA learners: informative, engaging, and easy to navigate online.</p></div>
             </section>
-
-            <Separator />
-            
-            <section id="plan_methods">
-                <h3 className="text-2xl font-bold font-headline mb-4">Plan & methods</h3>
+            <section id="plan_methods" className="cs-section">
+                <h3 className="cs-h2">Plan & methods</h3>
                 <h4 className="font-semibold text-lg mb-2">Plan</h4>
                 <ol className="list-decimal list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Phase 1 — Evaluation: Critique the current orientation sequence and its fitness for OUA students.</li>
@@ -143,11 +133,8 @@ export default function OuaOrientationRedesignPage() {
                 <h4 className="font-semibold text-lg mt-4 mb-2">Methodologies & Tools</h4>
                 <p className="text-foreground/80">Surveys, Focus group (Students as Partners), Miro, Jira, Canvas LMS, Zoom, Google Docs/Forms.</p>
             </section>
-            
-            <Separator />
-
-            <section id="phase1">
-                <h3 className="text-2xl font-bold font-headline mb-4">Phase 1 — Evaluation</h3>
+            <section id="phase1" className="cs-section">
+                <h3 className="cs-h2">Phase 1 — Evaluation</h3>
                 <p className="text-foreground/80">Current OUA MyUni Orientation (critique)</p>
                 <Image src="https://i.imgur.com/gWovhCt.png" alt="Critique of current OUA orientation sequences" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/gWovhCt.png'))} />
                 <p className="text-foreground/80 mt-4">Sinead produced a detailed review covering copy, videos, visuals, HTML, and Google comment threads. Together we captured strengths, gaps, and actionable fixes—becoming the foundation for our redesign plan.</p>
@@ -157,32 +144,23 @@ export default function OuaOrientationRedesignPage() {
                     <li>Printable tutorial schedule</li>
                     <li>UoA logo in the top-left for trust and recognition</li>
                     <li>Auto-closing accordions to keep focus</li>
-                    <li>Interactive “Meet the team” with wave/tap reveals and comment bubbles</li>
+                    <li>Interactive "Meet the team" with wave/tap reveals and comment bubbles</li>
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="collab_figma">
-                <h3 className="text-2xl font-bold font-headline mb-4">Collaborative design (Figma)</h3>
+            <section id="collab_figma" className="cs-section">
+                <h3 className="cs-h2">Collaborative design (Figma)</h3>
                 <p className="text-foreground/80 mb-4">We explored sequence and layout options together and individually in Figma, aligning with the UoA Style Guide for consistency and accessibility.</p>
                 <div className="aspect-video">
                   <iframe style={{border: '1px solid rgba(0,0,0,.1)'}} width="800" height="450" src="https://embed.figma.com/design/nj2YTaMyxgCvazvW3qTcnj/Orientation-Workshop-before-and-after?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe>
                 </div>
             </section>
-            
-            <Separator />
-
-            <section id="phase2">
-                <h3 className="text-2xl font-bold font-headline mb-4">Phase 2 — Student engagement</h3>
+            <section id="phase2" className="cs-section">
+                <h3 className="cs-h2">Phase 2 — Student engagement</h3>
                 <Image src="https://i.imgur.com/2CoZxAy.png" alt="Requirements scoped for Students as Partners" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/2CoZxAy.png'))} />
                 <p className="text-foreground/80 mt-4">We scoped collaboration with a Students as Partners cohort reflecting our OUA audience to ground decisions in authentic needs and expectations.</p>
             </section>
-
-            <Separator />
-
-            <section id="phase3">
-                <h3 className="text-2xl font-bold font-headline mb-4">Phase 3 — Workshop development & facilitation</h3>
+            <section id="phase3" className="cs-section">
+                <h3 className="cs-h2">Phase 3 — Workshop development & facilitation</h3>
                  <Image src="https://i.imgur.com/c8GRodH.png" alt="Workshop preparation plan and materials" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/c8GRodH.png'))} />
                 <p className="text-foreground/80 mt-4">We prepared pre-workshop quizzes, a facilitator script, and a Miro activity board stored in a shared drive. Activities included:</p>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 mt-4">
@@ -193,23 +171,17 @@ export default function OuaOrientationRedesignPage() {
                 </ul>
                  <Image src="https://i.imgur.com/BtiAQZB.png" alt="Workshop running live on Zoom" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/BtiAQZB.png'))} />
             </section>
-
-            <Separator />
-
-            <section id="workshop_action">
-                <h3 className="text-2xl font-bold font-headline mb-4">Workshop in action</h3>
+            <section id="workshop_action" className="cs-section">
+                <h3 className="cs-h2">Workshop in action</h3>
                 <Image src="https://i.imgur.com/ACo8ze0.jpeg" alt="Miro board with interactive activities" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/ACo8ze0.jpeg'))} />
                 <Image src="https://i.imgur.com/9vtA4bH.jpeg" alt="Overview of student feedback captured in Miro" width={800} height={450} className="mt-4 rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/9vtA4bH.jpeg'))} />
                 <p className="text-foreground/80 mt-4">Nine students joined online. Keeping cameras on helped sustain engagement and let us read reactions in real time.</p>
             </section>
-
-            <Separator />
-
-            <section id="phase4">
-              <h3 className="text-2xl font-bold font-headline mb-4">Phase 4 — Data synthesis & design decisions</h3>
+            <section id="phase4" className="cs-section">
+              <h3 className="cs-h2">Phase 4 — Data synthesis & design decisions</h3>
               <div className="space-y-4 my-4">
-                  <Image src="https://i.imgur.com/o4fCNH3.png" alt="Sinead’s insights" width={800} height={450} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/o4fCNH3.png'))} />
-                  <Image src="https://i.imgur.com/bREUY4l.jpeg" alt="Rich’s insights" width={800} height={450} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/bREUY4l.jpeg'))} />
+                  <Image src="https://i.imgur.com/o4fCNH3.png" alt="Sinead's insights" width={800} height={450} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/o4fCNH3.png'))} />
+                  <Image src="https://i.imgur.com/bREUY4l.jpeg" alt="Rich's insights" width={800} height={450} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/bREUY4l.jpeg'))} />
                   <Image src="https://i.imgur.com/HlRj5Iv.jpeg" alt="Collaborative synthesis" width={800} height={450} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/HlRj5Iv.jpeg'))} />
               </div>
               <h4 className="font-semibold text-lg mt-4 mb-2">Key takeaways from students</h4>
@@ -218,7 +190,7 @@ export default function OuaOrientationRedesignPage() {
                   <li>Simplify the home/orientation page — remove module boxes; streamline the start.</li>
                   <li>Prioritise critical links at the top (orientation, modules, assignment help).</li>
                   <li>Make important help persistent on the home hub.</li>
-                  <li>Headings & typography need stronger hierarchy; rename “About this Course” → “Orientation”.</li>
+                  <li>Headings & typography need stronger hierarchy; rename "About this Course" → "Orientation".</li>
                   <li>Clarify academic conventions (e.g., referencing) up front.</li>
               </ul>
               <h4 className="font-semibold text-lg mt-4 mb-2">Decisions</h4>
@@ -230,21 +202,15 @@ export default function OuaOrientationRedesignPage() {
                   <li>Surface academic expectations on the home page.</li>
               </ul>
             </section>
-
-            <Separator />
-
-            <section id="wireframes">
-              <h3 className="text-2xl font-bold font-headline mb-4">Wireframes & implementation notes</h3>
-              <p className="text-foreground/80 mb-4">We translated insights into Figma wireframes and handed a precise implementation brief to the media/LMS teams (MyUni). Sinead’s Google Sheets framework helped us turn free-form feedback into clear, testable requirements.</p>
+            <section id="wireframes" className="cs-section">
+              <h3 className="cs-h2">Wireframes & implementation notes</h3>
+              <p className="text-foreground/80 mb-4">We translated insights into Figma wireframes and handed a precise implementation brief to the media/LMS teams (MyUni). Sinead's Google Sheets framework helped us turn free-form feedback into clear, testable requirements.</p>
               <div className="aspect-video">
                 <iframe style={{border: '1px solid rgba(0, 0, 0, 0.1)'}} width="800" height="450" src="https://embed.figma.com/design/F476boAOQLIeuZ2HbbBNH2/Proposed-new-Orientation--post-workshop-?node-id=0-1&embed-host=share" allowFullScreen className="w-full h-full rounded-lg"></iframe>
               </div>
             </section>
-
-            <Separator />
-
-            <section id="iterations">
-                <h3 className="text-2xl font-bold font-headline mb-4">Iterations beyond the workshop</h3>
+            <section id="iterations" className="cs-section">
+                <h3 className="cs-h2">Iterations beyond the workshop</h3>
                 <p className="text-foreground/80 mb-4">The work continued—technology and policy shifted, so did the UX. We introduced cue boxes, refined assessment timelines, and explored ChatGPT integration for targeted student support.</p>
                 <div className="iphone-row">
                     <Image src="https://i.imgur.com/8X3YxWz.png" alt="Iteration 1" width={200} height={400} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/8X3YxWz.png'))} />
@@ -253,11 +219,8 @@ export default function OuaOrientationRedesignPage() {
                     <Image src="https://i.imgur.com/IqwFbZm.png" alt="Iteration 4" width={200} height={400} className="rounded-lg shadow-md cursor-pointer" onClick={() => handleImageClick(findImageIndex('https://i.imgur.com/IqwFbZm.png'))} />
                 </div>
             </section>
-            
-            <Separator />
-
-            <section id="assessments_modules">
-              <h3 className="text-2xl font-bold font-headline mb-4">Assessment overview & module pages</h3>
+            <section id="assessments_modules" className="cs-section">
+              <h3 className="cs-h2">Assessment overview & module pages</h3>
               <h4 className="font-semibold text-lg mb-2">Assessment overview</h4>
               <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                   <li>Direction & cue boxes standardised to the UoA style guide</li>
@@ -270,23 +233,17 @@ export default function OuaOrientationRedesignPage() {
                   <li>Cleaner, less cluttered entry experience</li>
               </ul>
             </section>
-            
-            <Separator />
-            
-            <section id="learnings">
-              <h3 className="text-2xl font-bold font-headline mb-4">Learnings, appreciation & reflection</h3>
-              <p className="text-foreground/80">This project was an exercise in iterative design (Buxton, 2007), grounded in a students-as-partners approach (Healey et al., 2016) and guided by principles of simplicity (Hick’s Law, 2007) and user-centred thinking (Norman, 2013). The feedback loops informed every enhancement, and the partnership with students provided an evidence base that elevated the final experience. It proved that virtual environments can foster deep, meaningful collaboration—a learning that now informs my entire design practice. I am particularly grateful to my colleague Sinead, whose expertise and collaborative spirit were invaluable, and to Marziah for her crucial role in organising student engagement. My thanks also go to the Media team, Learning Designers, and Digital Education Officers whose collective efforts were pivotal to the project's success.</p>
+            <section id="learnings" className="cs-section">
+              <h3 className="cs-h2">Learnings, appreciation & reflection</h3>
+              <p className="text-foreground/80">This project was an exercise in iterative design (Buxton, 2007), grounded in a students-as-partners approach (Healey et al., 2016) and guided by principles of simplicity (Hick's Law, 2007) and user-centred thinking (Norman, 2013). The feedback loops informed every enhancement, and the partnership with students provided an evidence base that elevated the final experience. It proved that virtual environments can foster deep, meaningful collaboration—a learning that now informs my entire design practice. I am particularly grateful to my colleague Sinead, whose expertise and collaborative spirit were invaluable, and to Marziah for her crucial role in organising student engagement. My thanks also go to the Media team, Learning Designers, and Digital Education Officers whose collective efforts were pivotal to the project's success.</p>
             </section>
-
-            <Separator />
-
-             <section id="references">
-                <h3 className="text-2xl font-bold font-headline mb-4">References</h3>
+             <section id="references" className="cs-section">
+                <h3 className="cs-h2">References</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80 text-sm">
                   <li>Buxton, B. (2007). <em>Sketching User Experiences</em>. Morgan Kaufmann.</li>
                   <li>Goodman, E., Kuniavsky, M., & Moed, A. (2012). <em>Observing the User Experience</em>. Elsevier.</li>
                   <li>Healey, M., Flint, A., & Harrington, K. (2016). Students as partners… <em>Teaching & Learning Inquiry, 4</em>(2).</li>
-                  <li>McLeod, S. (2007). Hick’s Law. <em>Simply Psychology</em>.</li>
+                  <li>McLeod, S. (2007). Hick's Law. <em>Simply Psychology</em>.</li>
                   <li>Norman, D. (2013). <em>The Design of Everyday Things (rev.)</em>. Basic Books.</li>
                 </ul>
             </section>
@@ -324,7 +281,7 @@ export default function OuaOrientationRedesignPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -364,7 +321,7 @@ export default function OuaOrientationRedesignPage() {
         </Dialog>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in improving online learning experiences?</h3>
+        <h3 className="cs-h2">Interested in improving online learning experiences?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk you through the research artefacts and testing process on request.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

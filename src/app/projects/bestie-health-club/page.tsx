@@ -19,30 +19,9 @@ import {
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-
-// This would ideally be in a separate layout component
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-// This would ideally be in a separate file.
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#challenge" className="hover:text-primary">The design challenge</a></li>
-      <li><a href="#solution" className="hover:text-primary">The solution</a></li>
-      <li><a href="#approach" className="hover:text-primary">Design approach</a></li>
-      <li><a href="#insights" className="hover:text-primary">Key insights</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
-      <li><a href="#feedback" className="hover:text-primary">Client feedback</a></li>
-      <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const Testimonial = ({ quote, author, company }: { quote: string, author: string, company: string }) => (
     <blockquote className="mt-6 border-l-2 pl-6 italic text-foreground/80">
@@ -58,22 +37,22 @@ const projectContent = {
     `Onboarding/home/profile lacked clarity; health-assessment felt long.`,
     `Owners typically see vets every 6–12 months—leaving guidance gaps between visits.`,
   ],
-  challenge: `“What do first-time dog owners actually need in the first two years—and how should the app evolve to support them?”`,
+  challenge: `"What do first-time dog owners actually need in the first two years—and how should the app evolve to support them?"`,
   solution: [
     `**Clearer starts:** crisper sign-up/login, strong CTAs on Home.`,
     `**Momentum:** milestone markers to recognise progress and prompt care.`,
     `**Faster setup:** compressed profile build with progress feedback.`,
-    `**Results that act:** redesigned assessment results with “what this means” and “what to do next.”`,
+    `**Results that act:** redesigned assessment results with "what this means" and "what to do next."`,
   ],
   solutionNote: `All changes respected the current MVP flow for feasibility.`,
   approach: {
     discovery: `8 qualitative interviews; 41-response survey on habits/health; AU tele-vet competitor review (4 focal competitors).`,
-    synthesis: `Affinity mapping, personas, opportunity areas (triage, “forgot-to-ask” questions, behaviour tips).`,
+    synthesis: `Affinity mapping, personas, opportunity areas (triage, "forgot-to-ask" questions, behaviour tips).`,
     prototyping: `Replicated the MVP in Figma; tighter test scripts; short moderated sessions; iterations on language, hierarchy, and component clarity.`,
   },
   insights: [
       `First 1–2 years rarely exhibit persistent problems—but timely reassurance matters.`,
-      `Tele-health add-ons fill the “between-visits” gap.`,
+      `Tele-health add-ons fill the "between-visits" gap.`,
       `Long sequences + unclear labels reduced motivation and completion.`,
   ],
   outcomes: [
@@ -84,7 +63,7 @@ const projectContent = {
       `Recommendations positioned the product to shift from MVP → MLP.`
   ],
   testimonial: {
-      quote: `While not all elements of Rich’s redesign will be implemented in our MVP version, a number of key ideas will be. These will help take the MVP from ‘rational and functional’ to more of a minimum lovable product… greater appeal and engagement, without adding more functionality at this early stage.`,
+      quote: `While not all elements of Rich's redesign will be implemented in our MVP version, a number of key ideas will be. These will help take the MVP from 'rational and functional' to more of a minimum lovable product… greater appeal and engagement, without adding more functionality at this early stage.`,
       author: 'Amanda Falconer',
       company: 'Founder, Bestie Health Club'
   },
@@ -128,7 +107,8 @@ export default function BestieHealthClubProjectPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+        <CaseStudyHeader slug="bestie-health-club" />
+        <ProjectNavigation
             prevProject={{slug: 'wellness-features-heat-safe-riding'}}
             nextProject={{slug: 'trip-approve-onboarding'}}
         />
@@ -151,14 +131,24 @@ export default function BestieHealthClubProjectPage() {
               From minimum viable to minimum lovable for first-time dog owners
             </p>
             <p className="text-md text-muted-foreground mt-4 max-w-3xl mx-auto">
-              A discovery-led engagement to understand early dog-owner needs, validate Bestie’s MVP, and uplift key journeys (onboarding, home, profile, assessment) without changing core flows—moving from MVP to Minimum Lovable Product.
+              A discovery-led engagement to understand early dog-owner needs, validate Bestie's MVP, and uplift key journeys (onboarding, home, profile, assessment) without changing core flows—moving from MVP to Minimum Lovable Product.
             </p>
         </div>
       </header>
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#brief', label: 'Project brief' },
+            { href: '#problem', label: 'The problem' },
+            { href: '#challenge', label: 'Design challenge' },
+            { href: '#solution', label: 'Solution overview' },
+            { href: '#approach', label: 'Process' },
+            { href: '#insights', label: 'Key insights' },
+            { href: '#outcomes', label: 'Outcomes' },
+            { href: '#feedback', label: 'Feedback' },
+            { href: '#reflection', label: 'Reflection' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">

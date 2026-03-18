@@ -1,11 +1,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, ExternalLink } from 'lucide-react';
 import projectsData from '@/data/projects.json';
 import { getAllPosts } from '@/lib/content';
 import type { Project } from '@/lib/types';
 import { ScrollReveal } from '@/components/scroll-reveal';
+import { HeroParallax } from '@/components/hero-parallax';
 
 const FEATURED_SLUGS = [
   'wellness-features-heat-safe-riding',
@@ -24,15 +25,15 @@ export default function Home() {
 
   return (
     <div>
-      {/* ── Hero ──────────────────────────────────────────────────── */}
-      <section className="min-h-[100svh] flex flex-col justify-between px-6 md:px-16 pt-28 pb-14 border-b border-border">
+      {/* ── Hero (parallax) ───────────────────────────────────────── */}
+      <HeroParallax>
         <div />
         <div className="max-w-7xl w-full mx-auto">
-          <p className="text-xs font-medium text-accent uppercase tracking-widest mb-8">
-            Learning Designer &amp; UX — Brisbane, Australia
+          <p className="text-xs font-medium text-white/60 uppercase tracking-widest mb-8">
+            Learning Designer &amp; UX — Adelaide, Australia
           </p>
           <h1
-            className="max-w-5xl font-headline font-semibold tracking-tight"
+            className="max-w-5xl font-headline font-semibold tracking-tight text-white"
             style={{ fontSize: 'clamp(2.8rem, 7.5vw, 6.5rem)', lineHeight: 1.03, letterSpacing: '-0.02em' }}
           >
             Designing learning<br />
@@ -41,24 +42,31 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap gap-6 items-center">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 text-sm font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-white text-foreground px-6 py-3 text-sm font-medium hover:bg-white/90 transition-opacity"
             >
               View selected work <ArrowRight size={15} />
             </Link>
-            <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted-foreground">
-              <span>10+ years</span>
+            <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-white/70">
+              <span>10+ yrs in L&amp;D &amp; UX</span>
               <span className="hidden sm:inline">·</span>
-              <span>FHEA</span>
+              <a
+                href="https://www.advance-he.ac.uk/fellowship"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-white transition-colors"
+              >
+                FHEA <ExternalLink size={10} className="opacity-60" />
+              </a>
               <span className="hidden sm:inline">·</span>
-              <span>Group of Eight</span>
+              <span>Adelaide University</span>
             </div>
           </div>
         </div>
-        <div className="max-w-7xl w-full mx-auto flex items-center gap-2 text-muted-foreground/40 text-xs">
+        <div className="max-w-7xl w-full mx-auto flex items-center gap-2 text-white/30 text-xs">
           <ChevronDown size={15} className="animate-bounce" />
           <span>Scroll</span>
         </div>
-      </section>
+      </HeroParallax>
 
       {/* ── Selected Work ─────────────────────────────────────────── */}
       <section className="border-b border-border">
@@ -82,9 +90,7 @@ export default function Home() {
               href={`/projects/${project.slug}`}
               className="group block border-t border-border hover:bg-muted/20 transition-colors"
             >
-              <div
-                className={`max-w-7xl mx-auto px-6 md:px-16 py-10 md:py-14 grid md:grid-cols-2 gap-8 md:gap-16 items-center`}
-              >
+              <div className="max-w-7xl mx-auto px-6 md:px-16 py-10 md:py-14 grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                 {/* Image — alternates side on desktop */}
                 <div
                   className={`relative aspect-[16/10] overflow-hidden bg-muted ${
@@ -135,19 +141,37 @@ export default function Home() {
       <ScrollReveal>
         <section className="border-b border-border">
           <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-border">
-            {[
-              { stat: '10+', label: 'Years in L&D and UX' },
-              { stat: 'FHEA', label: 'Fellow of the Higher Education Academy' },
-              { stat: 'Go8', label: 'Group of Eight university' },
-              { stat: 'LDX', label: 'Learning Design × UX hybrid' },
-            ].map(({ stat, label }) => (
-              <div key={stat} className="md:px-10 first:md:pl-0 last:md:pr-0">
-                <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">
-                  {stat}
+
+            <div className="md:px-10 first:md:pl-0">
+              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">10+</p>
+              <p className="text-sm text-muted-foreground leading-snug">Yrs in L&amp;D &amp; UX</p>
+            </div>
+
+            <div className="md:px-10">
+              <a
+                href="https://www.advance-he.ac.uk/fellowship"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2 flex items-end gap-2 group-hover:opacity-80 transition-opacity">
+                  FHEA
+                  <ExternalLink size={16} className="mb-1.5 opacity-40 group-hover:opacity-70 transition-opacity" />
                 </p>
-                <p className="text-sm text-muted-foreground leading-snug">{label}</p>
-              </div>
-            ))}
+                <p className="text-sm text-muted-foreground leading-snug">Advance HE Fellow</p>
+              </a>
+            </div>
+
+            <div className="md:px-10">
+              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">AU</p>
+              <p className="text-sm text-muted-foreground leading-snug">Adelaide University</p>
+            </div>
+
+            <div className="md:px-10 last:md:pr-0">
+              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">LDX</p>
+              <p className="text-sm text-muted-foreground leading-snug">Learning Design × UX hybrid</p>
+            </div>
+
           </div>
         </section>
       </ScrollReveal>
@@ -156,14 +180,19 @@ export default function Home() {
       <ScrollReveal>
         <section className="border-b border-border">
           <div className="max-w-7xl mx-auto px-6 md:px-16 py-20 grid md:grid-cols-[2fr_3fr] gap-12 md:gap-20 items-start">
-            <div className="relative aspect-square max-w-xs overflow-hidden">
-              <Image
-                src="https://i.imgur.com/X0EG5j2.png"
-                alt="Rich Bartlett"
-                fill
-                className="object-cover"
-              />
+
+            {/* Circular profile photo */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden ring-4 ring-border">
+                <Image
+                  src="https://i.imgur.com/X0EG5j2.png"
+                  alt="Rich Bartlett"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
+
             <div className="md:pt-6">
               <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">
                 About
@@ -172,9 +201,17 @@ export default function Home() {
                 I build bridges between learning theory and user-centred design.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Fellow of the Higher Education Academy (FHEA). 10+ years across Australia's tech
-                and education sectors. Currently designing engaging online courses for thousands of
-                students at a Group of Eight university.
+                Fellow of the Higher Education Academy (
+                <a
+                  href="https://www.advance-he.ac.uk/fellowship"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground underline underline-offset-2 hover:text-accent transition-colors"
+                >
+                  FHEA
+                </a>
+                ). 10+ years across Australia's tech and education sectors. Currently designing
+                engaging online courses at Adelaide University.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Outside of that, I consult on UX and product design — helping teams build things

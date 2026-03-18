@@ -11,26 +11,9 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
-      <li><a href="#context" className="hover:text-primary">Context</a></li>
-      <li><a href="#outline" className="hover:text-primary">Session outline</a></li>
-      <li><a href="#slides-highlights" className="hover:text-primary">Key slides (highlights)</a></li>
-      <li><a href="#activity" className="hover:text-primary">Hands-on activity</a></li>
-      <li><a href="#slides" className="hover:text-primary">Slides</a></li>
-      <li><a href="#outcome" className="hover:text-primary">Outcome & what we learned</a></li>
-      <li><a href="#credits" className="hover:text-primary">Credits</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
   brief: `A fast, tool-rich session for designers and educators showing how everyday UX practices translate directly into online learning design (LX).`,
@@ -41,7 +24,7 @@ const projectContent = {
         "Human–Computer Interaction → social interaction in learning (Zoom, cooperative work, divergent thinking).",
         "Interaction Design → feedback loops in quizzes/activities; immediate vs delayed feedback.",
         "Usability → effectiveness, efficiency, engagement, error-tolerance, ease of learning; orientation, familiar layouts, clear visuals, chunking.",
-        "UI vs UX → consistent styles & media sizing; apply Mayer’s multimedia principles on lesson pages."
+        "UI vs UX → consistent styles & media sizing; apply Mayer's multimedia principles on lesson pages."
     ],
     learningScience: [
         "Schema theory (connect new info to prior knowledge).",
@@ -74,7 +57,8 @@ export default function EverydayToolsPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+      <CaseStudyHeader slug="everyday-tools-for-learning-design" />
+        <ProjectNavigation
             prevProject={{slug: 'h5p-student-handbook-conversion'}}
             nextProject={{slug: 'oua-design-process'}}
         />
@@ -102,26 +86,31 @@ export default function EverydayToolsPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#brief', label: 'Project brief' },
+            { href: '#context', label: 'Context' },
+            { href: '#outline', label: 'Session outline' },
+            { href: '#slides-highlights', label: 'Key slides (highlights)' },
+            { href: '#activity', label: 'Hands-on activity' },
+            { href: '#slides', label: 'Slides' },
+            { href: '#outcome', label: 'Outcome & what we learned' },
+            { href: '#credits', label: 'Credits' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="brief">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project brief</h3>
-                <p className="text-foreground/80">{projectContent.brief}</p>
+                <h3 className="cs-h2">Project brief</h3>
+                <div className="cs-callout"><p>{projectContent.brief}</p></div>
             </section>
             
-            <Separator />
-            
-            <section id="context">
-                <h3 className="text-2xl font-bold font-headline mb-4">Context</h3>
+            <section id="context" className="cs-section">
+                <h3 className="cs-h2">Context</h3>
                 <p className="text-foreground/80">{projectContent.context}</p>
             </section>
             
-            <Separator />
-
-            <section id="outline">
-                <h3 className="text-2xl font-bold font-headline mb-4">Session outline</h3>
+            <section id="outline" className="cs-section">
+                <h3 className="cs-h2">Session outline</h3>
                 <h4 className="font-semibold text-lg mt-4 mb-2">UX → LX translations</h4>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.sessionOutline.uxTranslations.map((item, i) => <li key={i}>{item}</li>)}
@@ -134,36 +123,28 @@ export default function EverydayToolsPage() {
                  <p className="text-foreground/80">{projectContent.sessionOutline.everydayTools}</p>
             </section>
 
-            <Separator />
-            
-            <section id="slides-highlights">
-                <h3 className="text-2xl font-bold font-headline mb-4">Key slides (highlights)</h3>
+            <section id="slides-highlights" className="cs-section">
+                <h3 className="cs-h2">Key slides (highlights)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.slidesHighlights.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
             
-            <Separator />
-
-            <section id="activity">
-                <h3 className="text-2xl font-bold font-headline mb-4">Hands-on activity</h3>
+            <section id="activity" className="cs-section">
+                <h3 className="cs-h2">Hands-on activity</h3>
                 <p className="text-foreground/80">{projectContent.activity}</p>
             </section>
             
-            <Separator />
-
-            <section id="slides">
-                <h3 className="text-2xl font-bold font-headline mb-4">Slides</h3>
+            <section id="slides" className="cs-section">
+                <h3 className="cs-h2">Slides</h3>
                 <div style={{position: 'relative', width: '100%', height: 0, paddingTop: '56.2500%', paddingBottom: 0, boxShadow: '0 2px 8px 0 rgba(63,69,81,0.16)', marginTop: '1.6em', marginBottom: '0.9em', overflow: 'hidden', borderRadius: '8px', willChange: 'transform'}}>
                     <iframe loading="lazy" style={{position: 'absolute', width: '100%', height: '100%', top: 0, left: 0, border: 'none', padding: 0, margin: 0}} src="https://www.canva.com/design/DAGyp2uRW8I/GHrwR2G0VsV6JKL_43tSAw/view?embed" allowFullScreen={true} allow="fullscreen">
                     </iframe>
                 </div>
             </section>
 
-            <Separator />
-
-            <section id="outcome">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcome & what we learned</h3>
+            <section id="outcome" className="cs-section">
+                <h3 className="cs-h2">Outcome & what we learned</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li><strong>Attendance miss:</strong> {projectContent.outcome.miss}</li>
                     <li><strong>Lesson:</strong> {projectContent.outcome.lesson}</li>
@@ -171,10 +152,8 @@ export default function EverydayToolsPage() {
                 </ul>
             </section>
 
-            <Separator />
-
-            <section id="credits">
-                <h3 className="text-2xl font-bold font-headline mb-4">Credits</h3>
+            <section id="credits" className="cs-section">
+                <h3 className="cs-h2">Credits</h3>
                 <p className="text-foreground/80">
                     Thanks to Design For Humans for hosting (while it lasted), and <a href="https://www.linkedin.com/in/timklapdor/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Tim Klapdor</a> for co-designing and co-presenting.
                 </p>
@@ -217,7 +196,7 @@ export default function EverydayToolsPage() {
       </div>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in translating UX to LX?</h3>
+        <h3 className="cs-h2">Interested in translating UX to LX?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through the workshop materials and discuss how these methods can be applied in your context.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

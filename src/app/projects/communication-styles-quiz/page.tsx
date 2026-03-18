@@ -12,40 +12,21 @@ import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ProjectNavigation } from '@/components/project-navigation';
-
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#objective" className="hover:text-primary">Objective</a></li>
-      <li><a href="#collaboration" className="hover:text-primary">Collaboration summary</a></li>
-      <li><a href="#quick-wins" className="hover:text-primary">Quick wins</a></li>
-      <li><a href="#not-adopted" className="hover:text-primary">Considered but not adopted</a></li>
-      <li><a href="#constraints" className="hover:text-primary">Constraints</a></li>
-      <li><a href="#deliverable" className="hover:text-primary">Final deliverable</a></li>
-      <li><a href="#outcome" className="hover:text-primary">Outcome & impact</a></li>
-      <li><a href="#demo" className="hover:text-primary">Embedded Quiz</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-      <li><a href="#credits" className="hover:text-primary">Credits</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
-  objective: "Convert the “Communication Styles” PDF worksheet into a lightweight, mobile-friendly interactive that guides learners through 23 quick selections (one per screen), provides immediate, visible feedback per choice, produces a printable summary (browser print → save as PDF), and embeds cleanly in Canvas and also runs standalone.",
+  objective: `Convert the "Communication Styles" PDF worksheet into a lightweight, mobile-friendly interactive that guides learners through 23 quick selections (one per screen), provides immediate, visible feedback per choice, produces a printable summary (browser print → save as PDF), and embeds cleanly in Canvas and also runs standalone.`,
   collaboration: [
     "Numbering conflict found in the PDF; confirmed with academics: Analytical = 2; Imaginative = 3.",
     "First live build verified; print-to-PDF flow confirmed.",
     "UX enhancements discussed; feasible quick wins implemented while preserving the simple one-per-screen model for Canvas embedding."
   ],
   quickWins: [
-    "Copy: “Please select the option that best describes you”, UK spelling “socialiser”, fix “A schmoozer”, progress label → “x/23 Selected.”",
+    `Copy: "Please select the option that best describes you", UK spelling "socialiser", fix "A schmoozer", progress label → "x/23 Selected."`,
     "Interaction: Subtle click animation + brief delay so feedback is visible.",
-    "Results: Reset/Redo control near “Show results.”",
+    `Results: Reset/Redo control near "Show results."`,
     "Repos: Moved to HMS interactives (not OUA)."
   ],
   notAdopted: [
@@ -61,12 +42,12 @@ const projectContent = {
   ],
   deliverable: [
     "23 one-tap screens with animated confirmation",
-    "Clear progress display (“x/23 Selected”)",
+    `Clear progress display ("x/23 Selected")`,
     "Results view with Print + Redo",
     "Copy refined for clarity and consistency",
     "Hosted under HMS interactives; Canvas-friendly"
   ],
-  outcome: "Replaced a multi-page PDF with a focused interactive that’s quicker to complete, easier to embed, and produces a clean PDF record. Creates a repeatable pattern for future PDF → interactive conversions with Media."
+  outcome: `Replaced a multi-page PDF with a focused interactive that's quicker to complete, easier to embed, and produces a clean PDF record. Creates a repeatable pattern for future PDF → interactive conversions with Media.`
 };
 
 const galleryImages = [
@@ -100,6 +81,7 @@ export default function CommunicationStylesQuizPage() {
 
   return (
     <CaseStudyLayout>
+      <CaseStudyHeader slug="communication-styles-quiz" />
        <ProjectNavigation 
             prevProject={{slug: 'oua-design-process'}}
             nextProject={{slug: 'oua-orientation-redesign'}}
@@ -127,80 +109,75 @@ export default function CommunicationStylesQuizPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#objective', label: 'Objective' },
+            { href: '#collaboration', label: 'Collaboration summary' },
+            { href: '#quick-wins', label: 'Quick wins' },
+            { href: '#not-adopted', label: 'Considered but not adopted' },
+            { href: '#constraints', label: 'Constraints' },
+            { href: '#deliverable', label: 'Final deliverable' },
+            { href: '#outcome', label: 'Outcome & impact' },
+            { href: '#demo', label: 'Embedded Quiz' },
+            { href: '#gallery', label: 'Gallery' },
+            { href: '#credits', label: 'Credits' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="objective">
-                <h3 className="text-2xl font-bold font-headline mb-4">Objective</h3>
+                <h3 className="cs-h2">Objective</h3>
                 <p className="text-foreground/80">{projectContent.objective}</p>
             </section>
             
-            <Separator />
-            
-            <section id="collaboration">
-                <h3 className="text-2xl font-bold font-headline mb-4">Collaboration summary</h3>
+            <section id="collaboration" className="cs-section">
+                <h3 className="cs-h2">Collaboration summary</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.collaboration.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
             
-            <Separator />
-
-            <section id="quick-wins">
-                <h3 className="text-2xl font-bold font-headline mb-4">Quick wins implemented</h3>
+            <section id="quick-wins" className="cs-section">
+                <h3 className="cs-h2">Quick wins implemented</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.quickWins.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
 
-            <Separator />
-
-            <section id="not-adopted">
-                <h3 className="text-2xl font-bold font-headline mb-4">Considered but not adopted (reasons)</h3>
+            <section id="not-adopted" className="cs-section">
+                <h3 className="cs-h2">Considered but not adopted (reasons)</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.notAdopted.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
             
-            <Separator />
-
-            <section id="constraints">
-                <h3 className="text-2xl font-bold font-headline mb-4">Constraints</h3>
+            <section id="constraints" className="cs-section">
+                <h3 className="cs-h2">Constraints</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.constraints.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
 
-            <Separator />
-
-            <section id="deliverable">
-                <h3 className="text-2xl font-bold font-headline mb-4">Final deliverable</h3>
+            <section id="deliverable" className="cs-section">
+                <h3 className="cs-h2">Final deliverable</h3>
                  <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.deliverable.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
 
-             <Separator />
-
-            <section id="outcome">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcome & impact</h3>
-                <p className="text-foreground/80">{projectContent.outcome}</p>
+            <section id="outcome" className="cs-section">
+                <h3 className="cs-h2">Outcome & impact</h3>
+                <div className="cs-callout"><p>{projectContent.outcome}</p></div>
             </section>
 
-             <Separator />
-            
-             <section id="demo">
-                <h3 className="text-2xl font-bold font-headline mb-4">Embedded Quiz (interactive)</h3>
+             <section id="demo" className="cs-section">
+                <h3 className="cs-h2">Embedded Quiz (interactive)</h3>
                  <div className="w-full h-[750px]">
                     <iframe className="w-full h-full rounded-lg shadow-medium border" src="https://mediaproduction.adelaide.edu.au/hms-interactives/#/communication-styles-quiz" title="Communication Styles Quiz"></iframe>
                  </div>
             </section>
             
-            <Separator />
-            
-            <section id="gallery">
-                <h3 className="text-2xl font-bold font-headline mb-4">Gallery</h3>
+            <section id="gallery" className="cs-section">
+                <h3 className="cs-h2">Gallery</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {galleryImages.map((img, index) => (
                     <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -240,10 +217,8 @@ export default function CommunicationStylesQuizPage() {
                 </Dialog>
             </section>
             
-            <Separator />
-
-            <section id="credits">
-                <h3 className="text-2xl font-bold font-headline mb-4">Credits</h3>
+            <section id="credits" className="cs-section">
+                <h3 className="cs-h2">Credits</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Media engineering & interaction: Hui Mu</li>
                     <li>UX/content & liaison: Rich Bartlett</li>
@@ -288,7 +263,7 @@ export default function CommunicationStylesQuizPage() {
       </div>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Want to turn static content into engaging interactives?</h3>
+        <h3 className="cs-h2">Want to turn static content into engaging interactives?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Happy to walk through the collaboration process between Learning Design and Media teams.</p>
         <Button asChild>
             <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact me</Link>

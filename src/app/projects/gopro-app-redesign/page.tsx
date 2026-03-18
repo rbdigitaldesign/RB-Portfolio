@@ -12,30 +12,9 @@ import { ExternalLink, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-
-// This would ideally be in a separate layout component
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-// This would ideally be in a separate file.
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#scope" className="hover:text-primary">Scope & constraints</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#solution" className="hover:text-primary">The solution</a></li>
-      <li><a href="#design-process" className="hover:text-primary">Design process</a></li>
-      <li><a href="#testing" className="hover:text-primary">Testing & results</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes</a></li>
-      <li><a href="#challenges" className="hover:text-primary">Challenges & learnings</a></li>
-      <li><a href="#future" className="hover:text-primary">Future iterations</a></li>
-      <li><a href="#gallery" className="hover:text-primary">Gallery</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const galleryImages = [
     { src: 'https://i.imgur.com/hxXTWzW.jpeg', title: 'Quantitative findings', hint: 'quantitative findings chart' },
@@ -93,7 +72,8 @@ export default function GoProProjectPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+      <CaseStudyHeader slug="gopro-app-redesign" />
+        <ProjectNavigation
             prevProject={null}
             nextProject={{slug: 'wellness-features-heat-safe-riding'}}
         />
@@ -121,16 +101,26 @@ export default function GoProProjectPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#scope', label: 'Scope & constraints' },
+            { href: '#problem', label: 'The problem' },
+            { href: '#solution', label: 'The solution' },
+            { href: '#design-process', label: 'Design process' },
+            { href: '#testing', label: 'Testing & results' },
+            { href: '#outcomes', label: 'Outcomes' },
+            { href: '#challenges', label: 'Challenges & learnings' },
+            { href: '#future', label: 'Future iterations' },
+            { href: '#gallery', label: 'Gallery' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="scope">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project Scope & Constraints</h3>
+                <h3 className="cs-h2">Project Scope & Constraints</h3>
                 <div className="space-y-4 text-foreground/80">
                   <p><strong>Brief:</strong> I developed an iOS app concept for GoPro that addresses current app limitations and appeals to millennials—differentiating from instagram, vsco, snapchat.</p>
                   <p><strong>Constraints:</strong> must be iOS-compatible; suggested tech must exist now or within 12 months.</p>
-                  <p><strong>Opportunity:</strong> go beyond photo viewing/editing to boost creativity and engagement while aligning to GoPro’s adventurous ethos.</p>
+                  <p><strong>Opportunity:</strong> go beyond photo viewing/editing to boost creativity and engagement while aligning to GoPro's adventurous ethos.</p>
                   <p><strong>Target Audience:</strong> millennials interested in capturing, editing and sharing photo/video.</p>
                   <p><strong>Critical pain points to address:</strong></p>
                   <ul className="list-disc list-outside pl-5">
@@ -139,25 +129,16 @@ export default function GoProProjectPage() {
                   </ul>
                 </div>
             </section>
-            
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">The Problem</h3>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">The Problem</h3>
                  <p className="text-foreground/80">Creating an auto-movie felt slow and opaque (vs QUIKSTORY); overall usability, feature clarity and usefulness needed to improve to encourage in-app editing.</p>
             </section>
-            
-            <Separator />
-
-            <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The Solution</h3>
-                <p className="text-foreground/80">A redesigned magic movie flow with clearer entry points, faster assembly, stronger feedback, and supportive features (e.g., cloud import, learning content, social/shop). The hi-fi prototype achieved <strong>SUS 84.25</strong> (≈ 80th percentile, graded A) with positive feedback on intuitiveness and usefulness.</p>
+            <section id="solution" className="cs-section">
+                <h3 className="cs-h2">The Solution</h3>
+                <div className="cs-callout"><p className="text-foreground/80">A redesigned magic movie flow with clearer entry points, faster assembly, stronger feedback, and supportive features (e.g., cloud import, learning content, social/shop). The hi-fi prototype achieved <strong>SUS 84.25</strong> (≈ 80th percentile, graded A) with positive feedback on intuitiveness and usefulness.</p></div>
             </section>
-
-            <Separator />
-
-            <section id="design-process">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design Process</h3>
+            <section id="design-process" className="cs-section">
+                <h3 className="cs-h2">Design Process</h3>
                 <div className="space-y-6 text-foreground/80">
                   <p>I followed the Double Diamond model: 1) Discover → 2) Define → 3) Develop → 4) Deliver.</p>
                   
@@ -173,7 +154,7 @@ export default function GoProProjectPage() {
                      <p className="mt-4"><strong>Selected research highlights:</strong></p>
                      <ul className="list-disc list-outside pl-5 mt-2 space-y-1">
                         <li><strong>Surveys (n=5):</strong> 75% did not use the app to edit/create; average GoPro use ~2.4 times/month; largest group 25–34.</li>
-                        <li><strong>Interviews:</strong> frequent outdoor use (diving/surf/skate/family); common connectivity issues (“NoGo” nickname); misconceptions about app capabilities.</li>
+                        <li><strong>Interviews:</strong> frequent outdoor use (diving/surf/skate/family); common connectivity issues ("NoGo" nickname); misconceptions about app capabilities.</li>
                         <li><strong>Contextual task:</strong> end-to-end ~25 minutes with rising frustration—clear scope for simplification.</li>
                         <li><strong>Competitors:</strong> most free/freemium; auto-movie features present elsewhere; value in third-party cloud import, music options, video/music editors; overlap with hardware-linked apps (DJI GO 4, Dive+).</li>
                         <li><strong>Market notes (timeline excerpt):</strong> 2004 first 35-mm HERO; 2015 revenue peak $1.62b; 2016 Karma drone failure/layoffs; 2018 >100 countries; 2020 ReelSteady acquisition & pandemic cuts; 2020 HERO9; 2021 underwater camera growth projected.</li>
@@ -214,14 +195,11 @@ export default function GoProProjectPage() {
                   </div>
                 </div>
             </section>
-            
-            <Separator />
-            
-             <section id="testing">
-                <h3 className="text-2xl font-bold font-headline mb-4">Testing & Results</h3>
+             <section id="testing" className="cs-section">
+                <h3 className="cs-h2">Testing & Results</h3>
                 <div className="space-y-4 text-foreground/80">
                   <div>
-                    <h4 className="font-bold font-headline text-lg">Heuristic Review (Selected)</h4>
+                    <h4 className="cs-h3">Heuristic Review (Selected)</h4>
                     <ul className="list-disc list-outside pl-5 mt-2 space-y-1">
                       <li>No clear home (user control & freedom)</li>
                       <li>Missing in-app guidance (help & documentation)</li>
@@ -230,7 +208,7 @@ export default function GoProProjectPage() {
                     </ul>
                   </div>
                    <div>
-                    <h4 className="font-bold font-headline text-lg">Design Principles</h4>
+                    <h4 className="cs-h3">Design Principles</h4>
                     <ul className="list-disc list-outside pl-5 mt-2 space-y-1">
                         <li>Consistency with GoPro language/labels/colour</li>
                         <li>Deference to content (iOS HIGs)</li>
@@ -240,15 +218,15 @@ export default function GoProProjectPage() {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-bold font-headline text-lg">Testing Methods & Metrics</h4>
+                    <h4 className="cs-h3">Testing Methods & Metrics</h4>
                      <ul className="list-disc list-outside pl-5 mt-2 space-y-1">
                         <li><strong>Methods:</strong> lo-fi (maze + in-person) → hi-fi (useberry + figma).</li>
                         <li><strong>Hi-fi participants/metrics:</strong> n=10; age 26–41; gender 50/50; 90% native English; 16 Qs; desktop; avg 13:52; 100% completion.</li>
-                        <li><strong>SUS:</strong> industry avg 68; redesign <strong>84.25 (≈ 80th percentile, “A”)</strong>.</li>
+                        <li><strong>SUS:</strong> industry avg 68; redesign <strong>84.25 (≈ 80th percentile, "A")</strong>.</li>
                     </ul>
                   </div>
                    <div>
-                    <h4 className="font-bold font-headline text-lg">Satisfaction Snapshots</h4>
+                    <h4 className="cs-h3">Satisfaction Snapshots</h4>
                     <ul className="list-disc list-outside pl-5 mt-2 space-y-1">
                         <li><strong>Creating a movie:</strong> 80% happy/very satisfied; 20% neutral</li>
                         <li><strong>Adjusting volume:</strong> mixed → improvement area</li>
@@ -256,38 +234,29 @@ export default function GoProProjectPage() {
                     </ul>
                   </div>
                    <div>
-                    <h4 className="font-bold font-headline text-lg">Interface Optimisations (from testing)</h4>
+                    <h4 className="cs-h3">Interface Optimisations (from testing)</h4>
                     <p>Checkboxes for selection; loading states between steps; consistent back button; added frames for logical continuity; pruned non-essential buttons.</p>
                   </div>
                 </div>
             </section>
-
-            <Separator />
-            
-             <section id="outcomes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcomes</h3>
+             <section id="outcomes" className="cs-section">
+                <h3 className="cs-h2">Outcomes</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Faster, clearer magic movie flow and stronger feedback loops.</li>
                     <li>Quantitative improvement (SUS 84.25) with supporting qualitative comments.</li>
                     <li>Roadmap foundation: cloud import, learning content, social/store.</li>
                 </ul>
             </section>
-
-             <Separator />
-            
-             <section id="challenges">
-                <h3 className="text-2xl font-bold font-headline mb-4">Challenges & Learnings</h3>
+             <section id="challenges" className="cs-section">
+                <h3 className="cs-h2">Challenges & Learnings</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Remote testing quirks (mouse vs touch; prototype clickability).</li>
                     <li>Early question bias—importance of neutral task phrasing.</li>
                     <li>My first extensive use of Figma + remote testing platform; value of SUS as a simple comparable measure.</li>
                 </ul>
             </section>
-
-            <Separator />
-
-             <section id="future">
-                <h3 className="text-2xl font-bold font-headline mb-4">Future Iterations & Ideas</h3>
+             <section id="future" className="cs-section">
+                <h3 className="cs-h2">Future Iterations & Ideas</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li>Rotate/edit in landscape; prioritise most valuable mobile editing tools; explore a GoPro social channel; refine QuikStory → Magic Movie onboarding; continue accessibility checks.</li>
                 </ul>
@@ -341,7 +310,7 @@ export default function GoProProjectPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-[4/3] rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -381,7 +350,7 @@ export default function GoProProjectPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Interested in the process behind the polish?</h3>
+        <h3 className="cs-h2">Interested in the process behind the polish?</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">I can walk you through research artefacts and test recordings on request.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>

@@ -19,34 +19,14 @@ import {
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
-// This would ideally be in a separate layout component
-const CaseStudyLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto max-w-6xl py-16 px-4">{children}</div>;
-};
-
-// This would ideally be in a separate file, but for this request it's here.
-// In a real app, this would need more work to be truly dynamic.
-const LocalTOC = () => (
-  <nav className="sticky top-24">
-    <h4 className="font-semibold mb-2 font-headline">On this page</h4>
-    <ul className="space-y-2 text-sm text-muted-foreground">
-      <li><a href="#brief" className="hover:text-primary">Project brief</a></li>
-      <li><a href="#problem" className="hover:text-primary">The problem</a></li>
-      <li><a href="#opportunity" className="hover:text-primary">The opportunity</a></li>
-      <li><a href="#solution" className="hover:text-primary">The solution</a></li>
-      <li><a href="#approach" className="hover:text-primary">Design approach</a></li>
-      <li><a href="#outcomes" className="hover:text-primary">Outcomes & insight</a></li>
-      <li><a href="#reflection" className="hover:text-primary">Reflection & next steps</a></li>
-      <li><a href="#prototype" className="hover:text-primary">Interactive prototype</a></li>
-    </ul>
-  </nav>
-);
+import { CaseStudyLayout } from '@/components/case-study-layout';
+import { CaseStudyTOC } from '@/components/case-study-toc';
+import { CaseStudyHeader } from '@/components/case-study-header';
 
 const projectContent = {
   brief: `Humanitech asked us to explore how technology might empower urban communities to cope with climate impacts. We focused on delivery riders and heat-stress, aiming to augment existing rider apps with practical wellbeing features usable during shifts.`,
   problem: [
-    `Heatwaves are australia’s deadliest natural hazard; urban heat is rising`,
+    `Heatwaves are australia's deadliest natural hazard; urban heat is rising`,
     `Riders often prioritise income during busy periods, neglecting hydration and shade`,
     `Current apps lack contextual wellness support and inclusive language options`,
   ],
@@ -55,7 +35,7 @@ const projectContent = {
     `**Map markers for heat safety** — nearby water, shade, sunscreen points`,
     `**Daily check-ins with credits** — earn credits for reporting wellbeing and redeem at partner vendors`,
     `**Multilingual onboarding** — language options at first run`,
-    `**Clearer concepts & icons** — rename “climate credits”→“credits”; switch to coin-stack icon; simplify legends`,
+    `**Clearer concepts & icons** — rename "climate credits"→"credits"; switch to coin-stack icon; simplify legends`,
   ],
   solutionNote: `*Note: emergency contacts removed after testing showed low likelihood of use.*`,
   approach: {
@@ -122,7 +102,8 @@ export default function WellnessProjectPage() {
 
   return (
     <CaseStudyLayout>
-        <ProjectNavigation 
+      <CaseStudyHeader slug="wellness-features-delivery-apps" />
+        <ProjectNavigation
             prevProject={{slug: 'gopro-app-redesign'}}
             nextProject={{slug: 'trip-approve-onboarding'}}
         />
@@ -150,35 +131,35 @@ export default function WellnessProjectPage() {
       
       <div className="grid lg:grid-cols-4 gap-12">
         <aside className="hidden lg:block lg:col-span-1">
-          <LocalTOC />
+          <CaseStudyTOC items={[
+            { href: '#brief', label: 'Project brief' },
+            { href: '#problem', label: 'The problem' },
+            { href: '#opportunity', label: 'The opportunity' },
+            { href: '#solution', label: 'The solution' },
+            { href: '#approach', label: 'Design approach' },
+            { href: '#outcomes', label: 'Outcomes & insight' },
+            { href: '#reflection', label: 'Reflection & next steps' },
+            { href: '#prototype', label: 'Interactive prototype' },
+          ]} />
         </aside>
 
         <main className="lg:col-span-2 space-y-12">
             <section id="brief">
-                <h3 className="text-2xl font-bold font-headline mb-4">Project brief</h3>
+                <h3 className="cs-h2">Project brief</h3>
                 <p className="text-foreground/80">{projectContent.brief}</p>
             </section>
-            
-            <Separator />
-            
-            <section id="problem">
-                <h3 className="text-2xl font-bold font-headline mb-4">The problem</h3>
+            <section id="problem" className="cs-section">
+                <h3 className="cs-h2">The problem</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.problem.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="opportunity">
-                <h3 className="text-2xl font-bold font-headline mb-4">The opportunity</h3>
-                <p className="text-foreground/80">{projectContent.opportunity}</p>
+            <section id="opportunity" className="cs-section">
+                <h3 className="cs-h2">The opportunity</h3>
+                <div className="cs-callout"><p className="text-foreground/80">{projectContent.opportunity}</p></div>
             </section>
-            
-            <Separator />
-
-            <section id="solution">
-                <h3 className="text-2xl font-bold font-headline mb-4">The solution</h3>
+            <section id="solution" className="cs-section">
+                <h3 className="cs-h2">The solution</h3>
                 <ol className="list-decimal list-outside space-y-2 pl-5 text-foreground/80">
                    {projectContent.solution.map((item, i) => 
                      <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
@@ -186,53 +167,41 @@ export default function WellnessProjectPage() {
                 </ol>
                 <p className="mt-4 text-sm text-muted-foreground">{projectContent.solutionNote}</p>
             </section>
-
-            <Separator />
-
-            <section id="approach">
-                <h3 className="text-2xl font-bold font-headline mb-4">Design approach</h3>
+            <section id="approach" className="cs-section">
+                <h3 className="cs-h2">Design approach</h3>
                 <div className="space-y-4">
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Research</h4>
+                        <h4 className="cs-h3">Research</h4>
                         <p className="text-foreground/80" dangerouslySetInnerHTML={{ __html: projectContent.approach.research.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Synthesis</h4>
+                        <h4 className="cs-h3">Synthesis</h4>
                         <p className="text-foreground/80">{projectContent.approach.synthesis}</p>
                     </div>
                     <div>
-                        <h4 className="font-bold font-headline text-lg">Prototyping & tests</h4>
+                        <h4 className="cs-h3">Prototyping & tests</h4>
                         <p className="text-foreground/80">{projectContent.approach.prototyping}</p>
                     </div>
                 </div>
             </section>
-
-            <Separator />
-
-            <section id="outcomes">
-                <h3 className="text-2xl font-bold font-headline mb-4">Outcomes & insight</h3>
+            <section id="outcomes" className="cs-section">
+                <h3 className="cs-h2">Outcomes & insight</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     {projectContent.outcomes.map((item, i) => 
                         <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                     )}
                 </ul>
             </section>
-
-            <Separator />
-
-            <section id="reflection">
-                <h3 className="text-2xl font-bold font-headline mb-4">Reflection & next steps</h3>
+            <section id="reflection" className="cs-section">
+                <h3 className="cs-h2">Reflection & next steps</h3>
                 <ul className="list-disc list-outside space-y-2 pl-5 text-foreground/80">
                     <li><strong className="font-semibold">What worked:</strong> {projectContent.reflection.worked}</li>
                     <li><strong className="font-semibold">Challenges:</strong> {projectContent.reflection.challenges}</li>
                     <li><strong className="font-semibold">Next:</strong> {projectContent.reflection.next}</li>
                 </ul>
             </section>
-            
-            <Separator />
-
-            <section id="prototype">
-                 <h3 className="text-2xl font-bold font-headline mb-4">Interactive prototype</h3>
+            <section id="prototype" className="cs-section">
+                 <h3 className="cs-h2">Interactive prototype</h3>
                  <p className="text-foreground/80 mb-4">Try the mid-fi/hi-fi flows.</p>
                  <div className="flex flex-wrap gap-4 items-center">
                     <Button asChild>
@@ -300,7 +269,7 @@ export default function WellnessProjectPage() {
       </div>
 
        <section id="gallery" className="mt-16">
-            <h3 className="text-3xl font-bold font-headline mb-6 text-center">Gallery</h3>
+            <h3 className="cs-h2 text-center">Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {galleryImages.map((img, index) => (
                 <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
@@ -340,7 +309,7 @@ export default function WellnessProjectPage() {
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">
-        <h3 className="text-2xl font-bold font-headline mb-2">Bring wellness into platforms riders already use</h3>
+        <h3 className="cs-h2">Bring wellness into platforms riders already use</h3>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Interested in the cross-sector model (platforms + retailers + charities)? I can walk through research artefacts and testing in detail.</p>
         <Button asChild>
             <Link href="/contact">Contact me</Link>
