@@ -8,18 +8,37 @@ import type { Project } from '@/lib/types';
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { HeroParallax } from '@/components/hero-parallax';
 
-const FEATURED_SLUGS = [
-  'wellness-features-heat-safe-riding',
-  'trip-approve-onboarding',
-  'oua-orientation-redesign',
-  'ppd-course-design',
-];
+export const revalidate = 86400; // Rebuild at most once per day
+
+function seededRandom(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 0x100000000;
+  };
+}
+
+function getDailyFeaturedProjects(projects: Project[], count = 4): Project[] {
+  const eligible = projects.filter(
+    (p) => p.featured && (!p.status || p.status === 'published')
+  );
+  const today = new Date();
+  const seed =
+    today.getUTCFullYear() * 10000 +
+    (today.getUTCMonth() + 1) * 100 +
+    today.getUTCDate();
+  const rand = seededRandom(seed);
+  const shuffled = [...eligible];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
 
 export default function Home() {
   const allProjects = projectsData as Project[];
-  const featuredProjects = FEATURED_SLUGS
-    .map((slug) => allProjects.find((p) => p.slug === slug))
-    .filter(Boolean) as Project[];
+  const featuredProjects = getDailyFeaturedProjects(allProjects);
 
   const recentPosts = getAllPosts().slice(0, 3);
 

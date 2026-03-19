@@ -2,6 +2,7 @@
 [
   {
     "slug": "gopro-app-redesign",
+    "featured": true,
     "title": "GoPro App Redesign",
     "category": "User Experience",
     "summary": "making gopro fun and easy for all—a faster path from capture to share with ‘Magic Movie’.",
@@ -23,6 +24,7 @@
   },
   {
     "slug": "wellness-features-heat-safe-riding",
+    "featured": true,
     "title": "Wellness features in food delivery apps — heat-safe riding in a warming city",
     "category": "User Experience",
     "summary": "Humanitech brief: empower communities via technology in the face of climate change. We focused on food delivery riders working in extreme heat and prototyped wellness features inside an existing rider app. Research → concepts → mid-fi → client feedback → hi-fi + testing, with clear learnings and next steps.",
@@ -63,6 +65,7 @@
   },
   {
     "slug": "bestie-health-club",
+    "featured": true,
     "title": "Bestie Health Club – MVP Discovery",
     "category": "User Experience",
     "summary": "Discovery and strategy for a minimum viable product for a new pet health app.",
@@ -84,6 +87,7 @@
   },
   {
     "slug": "trip-approve-onboarding",
+    "featured": true,
     "title": "Trip Approve – Onboarding",
     "category": "User Experience",
     "summary": "Designing a seamless onboarding experience for a B2B travel approval platform.",
@@ -191,6 +195,7 @@
   },
   {
     "slug": "tux-for-learning-design",
+    "featured": true,
     "title": "UX Design Toolkit (TUX) for Learning Design",
     "category": "Coding Projects",
     "summary": "A UX toolkit providing reusable components, templates, and guidelines to ensure consistency and quality across online courses.",
@@ -212,6 +217,7 @@
   },
    {
     "slug": "canvas-quick-navigation",
+    "featured": true,
     "title": "Canvas LMS Quick Navigation Bar",
     "category": "Coding Projects",
     "summary": "Reducing clicks with an accessible, reusable on-page nav for modules and topics.",
@@ -259,6 +265,7 @@
   },
   {
     "slug": "oua-design-process",
+    "featured": true,
     "title": "UoA Online: Learning Design at Scale",
     "category": "Learning Design",
     "summary": "Lead Learning Designer for eight online university courses across the Bachelor of International Business and Health Services Management programmes at the University of Adelaide.",
@@ -280,6 +287,7 @@
   },
   {
     "slug": "communication-styles-quiz",
+    "featured": true,
     "title": "Communication Styles Quiz",
     "category": "Learning Design",
     "summary": "A static PDF activity was transformed into an accessible, embeddable web quiz for the Create. Connect. Communicate. course. Built in collaboration with Media, the tool adds clear micro-interactions, printable results, and a streamlined single-choice flow that works standalone or inside Canvas.",
@@ -301,6 +309,7 @@
   },
   {
     "slug": "oua-orientation-redesign",
+    "featured": true,
     "title": "Redesigning Course Orientation (OUA)",
     "category": "Learning Design",
     "summary": "A ground-up rethink of the OUA orientation sequence: evaluate the current experience, co-design with students, prototype in Figma, and iterate from real feedback. Outcomes: clearer home/orientation hub, streamlined navigation, stronger wayfinding (cue boxes), and an implementation blueprint for the media/LMS teams.",
@@ -322,6 +331,7 @@
   },
   {
     "slug": "ppd-course-design",
+    "featured": true,
     "title": "Personal Professional Development — Course Design (ENTREP1002)",
     "category": "Learning Design",
     "summary": "A full design and build of ENTREP1002 Personal Professional Development: aligning outcomes, assessments and weekly learning to help students form a professional identity and portfolio. Deliverables included course alignment, personas and narrative, UX copy, assessment exemplars, and data visualisation upgrades. Collaboration across academics, learning designers and media resulted in a coherent, visual, week-by-week student experience.",
