@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ChevronDown, ExternalLink, Award } from 'lucide-react';
 import { FheaModal } from '@/components/fhea-modal';
+import { CountUp } from '@/components/count-up';
+import { LdxAnimation } from '@/components/ldx-animation';
 import projectsData from '@/data/projects.json';
 import { getAllPosts } from '@/lib/content';
 import type { Project } from '@/lib/types';
@@ -164,7 +166,9 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-border">
 
             <div className="md:px-10 first:md:pl-0">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">15+</p>
+              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">
+                <CountUp startYear={2011} />
+              </p>
               <p className="text-sm text-muted-foreground leading-snug">Yrs in L&amp;D &amp; UX</p>
             </div>
 
@@ -173,12 +177,20 @@ export default function Home() {
             </div>
 
             <div className="md:px-10">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">AU</p>
-              <p className="text-sm text-muted-foreground leading-snug">Adelaide University</p>
+              <a
+                href="https://www.adelaide.edu.au"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+                aria-label="Adelaide University"
+              >
+                <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2 group-hover:opacity-80 transition-opacity">AU</p>
+                <p className="text-sm text-muted-foreground leading-snug">Adelaide University</p>
+              </a>
             </div>
 
             <div className="md:px-10 last:md:pr-0">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">LDX</p>
+              <LdxAnimation />
               <p className="text-sm text-muted-foreground leading-snug">Learning Design × UX hybrid</p>
             </div>
 
