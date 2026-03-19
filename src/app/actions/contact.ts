@@ -22,12 +22,27 @@ async function verifyRecaptcha(token: string) {
     return { success: false, score: 0, action: undefined as string | undefined, errorCodes: ['missing-secret'] as string[] };
   }
 
-  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ secret: secretKey, response: token }),
-    // removed cache: 'no-store' to avoid TS lib/dom mismatch warnings
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  let res: Response;
+  try {
+    res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret: secretKey, response: token }),
+      signal: controller.signal,
+    });
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    if (err?.name === 'AbortError') {
+      console.error('reCAPTCHA verification timed out.');
+      return { success: false, score: 0, action: undefined as string | undefined, errorCodes: ['timeout'] as string[] };
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   const data: any = await res.json();
   return {
