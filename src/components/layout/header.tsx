@@ -109,24 +109,15 @@ export function Header() {
             Rich Bartlett
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  'text-sm font-medium transition-colors hover:text-accent',
-                  pathname === href || pathname.startsWith(href + '/')
-                    ? 'text-accent'
-                    : 'text-foreground/60'
-                )}
-              >
-                {label}
-              </Link>
-            ))}
-            <ThemeToggle />
-          </nav>
+          {/* Desktop menu button */}
+          <button
+            className="hidden md:flex items-center gap-1.5 text-sm font-medium text-foreground/60 hover:text-foreground transition-colors p-2 -mr-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            <span>{menuOpen ? 'Close' : 'Menu'}</span>
+          </button>
 
           {/* Mobile: theme toggle + hamburger */}
           <div className="md:hidden flex items-center gap-1">
@@ -142,9 +133,9 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile full-screen overlay */}
+      {/* Full-screen menu overlay (mobile + desktop) */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-background flex flex-col">
+        <div className="fixed inset-0 z-40 bg-background flex flex-col menu-overlay-enter">
           <div className="max-w-5xl mx-auto px-6 w-full flex h-16 items-center justify-between">
             <Link
               href="/"
