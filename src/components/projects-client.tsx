@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { Search } from 'lucide-react';
 import { ProjectCard } from './project-card';
 import type { Project, ProjectCategory } from '@/lib/types';
 import { ALL_CATEGORIES } from '@/lib/project-categories';
@@ -11,9 +12,20 @@ interface ProjectsClientProps {
 }
 
 const ALL_LABEL = 'All';
+type SortBy = 'date' | 'alpha';
+
+function fuzzyMatch(text: string, query: string): boolean {
+  const t = text.toLowerCase();
+  const q = query.toLowerCase().trim();
+  if (!q) return true;
+  // Simple substring match across words
+  return q.split(/\s+/).every((word) => t.includes(word));
+}
 
 export function ProjectsClient({ projects }: ProjectsClientProps) {
   const [activeCategory, setActiveCategory] = useState<string>(ALL_LABEL);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<SortBy>('date');
 
   const categories = useMemo(() => {
     const used = ALL_CATEGORIES.filter((cat) =>
@@ -23,15 +35,51 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   }, [projects]);
 
   const filtered = useMemo(() => {
-    const list =
+    let list =
       activeCategory === ALL_LABEL
         ? projects
         : projects.filter((p) => p.category === activeCategory);
-    return [...list].sort((a, b) => b.year - a.year);
-  }, [projects, activeCategory]);
+
+    if (searchQuery.trim()) {
+      list = list.filter((p) =>
+        fuzzyMatch(p.title, searchQuery) ||
+        fuzzyMatch(p.summary, searchQuery) ||
+        p.tags.some((tag) => fuzzyMatch(tag, searchQuery))
+      );
+    }
+
+    return [...list].sort((a, b) =>
+      sortBy === 'alpha'
+        ? a.title.localeCompare(b.title)
+        : b.year - a.year
+    );
+  }, [projects, activeCategory, searchQuery, sortBy]);
 
   return (
     <section>
+      {/* Search + Sort toolbar */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-8">
+        <div className="relative flex-1">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+          <input
+            type="search"
+            placeholder="Search projects…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 text-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          />
+        </div>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as SortBy)}
+          aria-label="Sort projects"
+          className="text-sm border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-1 focus:ring-ring"
+        >
+          <option value="date">Date: Recent → Oldest</option>
+          <option value="alpha">A → Z</option>
+        </select>
+      </div>
+
       {/* Category filter pills */}
       <div className="flex flex-wrap gap-2 mb-10">
         {categories.map((cat) => (
@@ -58,7 +106,9 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
           ))}
         </div>
       ) : (
-        <p className="text-muted-foreground py-16 text-center">No projects in this category.</p>
+        <p className="text-muted-foreground py-16 text-center">
+          {searchQuery ? `No projects matching "${searchQuery}".` : 'No projects in this category.'}
+        </p>
       )}
     </section>
   );
