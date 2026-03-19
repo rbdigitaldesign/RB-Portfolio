@@ -30,7 +30,7 @@ export default function BlogPage() {
       {featured && (
         <Link
           href={`/blog/${featured.slug}`}
-          className="group block border border-border hover:border-foreground transition-colors mb-12"
+          className="group block border border-border hover:border-foreground transition-colors mb-12 rounded-sm overflow-hidden"
         >
           <div className="grid md:grid-cols-2">
             {featured.coverImage && (

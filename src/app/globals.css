@@ -24,7 +24,7 @@
     --border:               37 15% 88%;
     --input:                37 15% 88%;
     --ring:                 14 55% 50%;
-    --radius:               0.25rem;
+    --radius:               0.5rem;
 
     /* Font family stacks — Fraunces + Inter loaded via Google Fonts <link>;
        --font-headline-fb / --font-body-fb are the local fallbacks from next/font */

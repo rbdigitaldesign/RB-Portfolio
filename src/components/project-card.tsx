@@ -17,7 +17,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       href={href}
       target={isExternal ? '_blank' : '_self'}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      className="group flex flex-col border border-border hover:border-foreground transition-colors duration-200"
+      className="group flex flex-col border border-border hover:border-foreground transition-colors duration-200 rounded-sm overflow-hidden"
     >
       {/* Cover image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
@@ -55,7 +55,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs text-muted-foreground border border-border px-2 py-0.5"
+              className="text-xs text-muted-foreground border border-border px-2 py-0.5 rounded-sm"
             >
               {tag}
             </span>

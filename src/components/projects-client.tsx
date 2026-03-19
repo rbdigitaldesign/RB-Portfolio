@@ -66,14 +66,14 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             placeholder="Search projects…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            className="w-full pl-9 pr-4 py-2 text-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring rounded-sm"
           />
         </div>
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortBy)}
           aria-label="Sort projects"
-          className="text-sm border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-1 focus:ring-ring"
+          className="text-sm border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-1 focus:ring-ring rounded-sm"
         >
           <option value="date">Date: Recent → Oldest</option>
           <option value="alpha">A → Z</option>
@@ -87,7 +87,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             key={cat}
             onClick={() => setActiveCategory(cat)}
             className={cn(
-              'text-sm px-4 py-1.5 border transition-colors',
+              'text-sm px-4 py-1.5 border transition-colors rounded-sm',
               activeCategory === cat
                 ? 'border-foreground bg-foreground text-background'
                 : 'border-border text-muted-foreground hover:border-foreground hover:text-foreground'
