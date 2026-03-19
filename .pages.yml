@@ -63,3 +63,36 @@ content:
       - { name: abstract,      label: Abstract,      type: text }
       - { name: url,           label: URL,           type: string }
       - { name: body,          label: Content,       type: rich-text }
+
+  - name: frameworks
+    label: Frameworks
+    path: src/content/frameworks
+    type: collection
+    extension: mdx
+    view:
+      fields: [title, category, status]
+    fields:
+      - { name: title,                  label: Title,                   type: string }
+      - name: category
+        label: Category
+        type: select
+        options:
+          values:
+            - Design Principle
+            - Mental Model
+            - Framework
+            - Mechanism
+            - Heuristic
+            - Design Rule
+      - { name: summary,                label: One-line summary,        type: string }
+      - { name: why_i_like_it,          label: Why I Like It,           type: text }
+      - { name: where_i_heard_it,       label: Where I Heard About It,  type: text }
+      - { name: real_world_application, label: Real World Application,  type: text }
+      - name: status
+        label: Status
+        type: select
+        options:
+          values:
+            - draft
+            - published
+      - { name: body,                   label: What It Is (Explanation), type: rich-text }
