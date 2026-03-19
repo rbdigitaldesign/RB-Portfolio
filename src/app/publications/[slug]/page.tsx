@@ -67,8 +67,8 @@ export default async function PublicationPage({ params }: { params: { slug: stri
         <span
           className={
             isPublished
-              ? 'text-xs font-medium px-2.5 py-1 bg-primary text-primary-foreground uppercase tracking-wider'
-              : 'text-xs font-medium px-2.5 py-1 bg-muted text-muted-foreground uppercase tracking-wider'
+              ? 'text-xs font-medium px-2.5 py-1 bg-primary text-primary-foreground uppercase tracking-wider rounded-sm'
+              : 'text-xs font-medium px-2.5 py-1 bg-muted text-muted-foreground uppercase tracking-wider rounded-sm'
           }
         >
           {isPublished ? 'Published' : 'Under Review'}

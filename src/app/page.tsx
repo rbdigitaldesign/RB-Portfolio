@@ -61,7 +61,7 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap gap-6 items-center">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 bg-white text-foreground px-6 py-3 text-sm font-medium hover:bg-white/90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-white text-foreground px-6 py-3 text-sm font-medium hover:bg-white/90 transition-opacity rounded-sm"
             >
               View selected work <ArrowRight size={15} />
             </Link>
@@ -113,7 +113,7 @@ export default function Home() {
               <div className="max-w-7xl mx-auto px-6 md:px-16 py-10 md:py-14 grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                 {/* Image — alternates side on desktop */}
                 <div
-                  className={`relative aspect-[16/10] overflow-hidden bg-muted ${
+                  className={`relative aspect-[16/10] overflow-hidden bg-muted rounded-sm ${
                     i % 2 === 1 ? 'md:order-2' : ''
                   }`}
                 >

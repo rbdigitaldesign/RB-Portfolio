@@ -250,7 +250,7 @@ export default function AboutPage() {
       <div className="flex flex-wrap gap-4">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity rounded-sm"
         >
           View my work <ArrowRight size={16} />
         </Link>

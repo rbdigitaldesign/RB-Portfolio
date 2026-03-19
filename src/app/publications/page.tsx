@@ -81,8 +81,8 @@ export default function PublicationsPage() {
             <span
               className={
                 pub.status === 'published'
-                  ? 'text-xs font-medium px-2.5 py-1 bg-primary text-primary-foreground uppercase tracking-wider whitespace-nowrap'
-                  : 'text-xs font-medium px-2.5 py-1 bg-muted text-muted-foreground uppercase tracking-wider whitespace-nowrap'
+                  ? 'text-xs font-medium px-2.5 py-1 bg-primary text-primary-foreground uppercase tracking-wider whitespace-nowrap rounded-sm'
+                  : 'text-xs font-medium px-2.5 py-1 bg-muted text-muted-foreground uppercase tracking-wider whitespace-nowrap rounded-sm'
               }
             >
               {STATUS_LABEL[pub.status] ?? pub.status}

@@ -181,7 +181,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 {project.gallery
                   .filter((g) => !g.includes('placehold'))
                   .map((imgSrc, i) => (
-                    <div key={i} className="relative aspect-video overflow-hidden bg-muted group">
+                    <div key={i} className="relative aspect-video overflow-hidden bg-muted rounded-sm group">
                       <Image
                         src={imgSrc}
                         alt={`${project.title} — artefact ${i + 1}`}
