@@ -44,6 +44,7 @@ const INTERESTS = [
   { emoji: '🎸', text: 'Slowly learning guitar. Very slowly. Currently in a three-year standoff with F chord.' },
   { emoji: '🍺', text: 'A good beer with good people. Preferably a local craft pale ale on a Friday afternoon, ideally somewhere with a view.' },
   { emoji: '💍', text: 'Married to an incredible Nursey wifey who keeps the whole show running and somehow still finds time to laugh at my jokes.' },
+  { emoji: '👧', text: 'Proud Girl Dad to Maggie — and another bub on the way in July 2026 (gender TBD, chaos guaranteed).' },
 ];
 
 const LIFE_LEFT = [
