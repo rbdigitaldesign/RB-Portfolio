@@ -39,6 +39,13 @@ export const CATEGORY_COLORS: Record<
     text: 'text-rose-700 dark:text-rose-300',
     icon: '📄',
   },
+  'Concept Design': {
+    badge: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300',
+    border: 'border-cyan-200 dark:border-cyan-800',
+    bg: 'bg-cyan-50 dark:bg-cyan-950/30',
+    text: 'text-cyan-700 dark:text-cyan-300',
+    icon: '💡',
+  },
 };
 
 /** Labels for the main sections on a project detail page, keyed by category. */
@@ -76,6 +83,12 @@ export const CATEGORY_SECTIONS: Record<
     process: 'Methodology',
     outcomes: 'Findings & Contributions',
   },
+  'Concept Design': {
+    overview: 'Project Overview',
+    problem: 'The Problem Space',
+    process: 'Design & Prototyping',
+    outcomes: 'Outcomes & Learnings',
+  },
 };
 
 export const ALL_CATEGORIES: ProjectCategory[] = [
@@ -84,4 +97,5 @@ export const ALL_CATEGORIES: ProjectCategory[] = [
   'Hackathons',
   'Coding Projects',
   'Publications',
+  'Concept Design',
 ];

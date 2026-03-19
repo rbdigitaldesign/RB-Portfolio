@@ -1,6 +1,29 @@
 
 [
   {
+    "slug": "showerboost",
+    "title": "ShowerBoost",
+    "category": "Concept Design",
+    "summary": "AI-assisted product concept prototype — a portable, battery-powered shower pressure booster pitched as an investor-ready landing page using Lovable and prompt-driven design.",
+    "tags": ["Lovable", "AI Design", "Product Concept", "React", "Tailwind", "Framer Motion"],
+    "coverImage": "/images/showerboost/product-wall-mounted.png",
+    "gallery": [],
+    "overview": "Used Lovable (AI-assisted) to rapidly prototype a product concept landing page for ShowerBoost — a portable, rechargeable shower pressure booster that screws onto any existing shower fitting.",
+    "problem": "Millions of renters, apartment dwellers, and travellers endure weak shower pressure with no practical fix. Whole-house pumps require permanent installation; high-pressure heads barely help. There is no portable, renter-friendly solution on the market.",
+    "process": "Iterative prompt-driven design across six cycles: hero and value proposition, problem framing, product concept and features, comparison table, investor-facing 'why doesn't this exist?' section, and feedback capture.",
+    "outcomes": "A credible, investor-ready prototype site built in hours. Narrative structure (problem → solution → why now) proved more persuasive than visual polish alone. AI tools compressed concept-to-prototype timeline dramatically.",
+    "role": "Concept Designer & AI Prompt Engineer",
+    "year": 2025,
+    "duration": "1 Day",
+    "team": "Solo Project",
+    "tools": ["Lovable", "ChatGPT", "Framer Motion", "Shadcn/UI", "AI Image Generation"],
+    "status": "published",
+    "links": {
+      "live": "https://boost-flow-innovate.lovable.app/",
+      "page": "/projects/showerboost"
+    }
+  },
+  {
     "slug": "gopro-app-redesign",
     "title": "GoPro App Redesign",
     "category": "User Experience",
