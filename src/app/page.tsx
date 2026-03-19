@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ChevronDown, ExternalLink, Award } from 'lucide-react';
+import { FheaModal } from '@/components/fhea-modal';
 import projectsData from '@/data/projects.json';
 import { getAllPosts } from '@/lib/content';
 import type { Project } from '@/lib/types';
@@ -168,18 +169,7 @@ export default function Home() {
             </div>
 
             <div className="md:px-10">
-              <a
-                href="https://www.advance-he.ac.uk/fellowship"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
-              >
-                <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2 flex items-end gap-2 group-hover:opacity-80 transition-opacity">
-                  FHEA
-                  <ExternalLink size={16} className="mb-1.5 opacity-40 group-hover:opacity-70 transition-opacity" />
-                </p>
-                <p className="text-sm text-muted-foreground leading-snug">Advance HE Fellow</p>
-              </a>
+              <FheaModal />
             </div>
 
             <div className="md:px-10">
