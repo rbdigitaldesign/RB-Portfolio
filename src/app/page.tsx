@@ -296,7 +296,7 @@ export default function Home() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="snap-start shrink-0 w-72 border border-border p-6 hover:border-accent/50 transition-colors"
+                  className="snap-start shrink-0 w-72 border border-border p-6 hover:border-accent/50 transition-colors rounded-sm"
                 >
                   <span className="text-xs font-mono text-muted-foreground block mb-3">
                     {new Date(post.date).getFullYear()}

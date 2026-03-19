@@ -24,7 +24,7 @@
     --border:               37 15% 88%;
     --input:                37 15% 88%;
     --ring:                 14 55% 50%;
-    --radius:               0.25rem;
+    --radius:               0.5rem;
 
     /* Font family stacks — Fraunces + Inter loaded via Google Fonts <link>;
        --font-headline-fb / --font-body-fb are the local fallbacks from next/font */
@@ -41,6 +41,29 @@
     --sidebar-border:       20 10% 15%;
     --sidebar-ring:         14 55% 50%;
   }
+}
+
+/* ─── Dark mode palette ──────────────────────────────────────────────────── */
+.dark {
+  --background:           162 25%  8%;   /* #0D1A15 deep forest night     */
+  --foreground:            60 20% 95%;   /* #F5F3EE warm near-white       */
+  --card:                 162 20% 11%;   /* slightly lighter dark surface  */
+  --card-foreground:       60 20% 95%;
+  --popover:              162 20% 11%;
+  --popover-foreground:    60 20% 95%;
+  --primary:              162 38% 45%;   /* #3D8C6E — lighter forest       */
+  --primary-foreground:    60 20% 95%;
+  --secondary:            162 15% 18%;   /* dark muted green-grey          */
+  --secondary-foreground:  60 20% 80%;
+  --muted:                162 15% 14%;
+  --muted-foreground:      20 10% 60%;
+  --accent:                14 55% 58%;   /* #C96B4A — brighter terracotta  */
+  --accent-foreground:     60 20% 98%;
+  --destructive:            0 84%  60%;
+  --destructive-foreground: 0  0%  98%;
+  --border:               162 20% 20%;
+  --input:                162 20% 20%;
+  --ring:                  14 55% 58%;
 }
 
 @layer base {

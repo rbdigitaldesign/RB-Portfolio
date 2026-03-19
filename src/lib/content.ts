@@ -5,6 +5,7 @@ import { marked } from 'marked';
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content/blog');
 const PUBS_DIR = path.join(process.cwd(), 'src/content/publications');
+const FRAMEWORKS_DIR = path.join(process.cwd(), 'src/content/frameworks');
 
 // ─── Blog Posts ──────────────────────────────────────────────────────────────
 
@@ -109,6 +110,67 @@ export function getAllPublications(): PublicationMeta[] {
       } satisfies PublicationMeta;
     })
     .sort((a, b) => b.year - a.year);
+}
+
+// ─── Frameworks ───────────────────────────────────────────────────────────────
+
+export interface FrameworkMeta {
+  slug: string;
+  title: string;
+  category: string;
+  summary: string;
+  why_i_like_it?: string;
+  where_i_heard_it?: string;
+  real_world_application?: string;
+  status: 'draft' | 'published';
+}
+
+export interface FrameworkWithContent extends FrameworkMeta {
+  contentHtml: string;
+}
+
+export function getAllFrameworks(): FrameworkMeta[] {
+  if (!fs.existsSync(FRAMEWORKS_DIR)) return [];
+  const files = fs.readdirSync(FRAMEWORKS_DIR).filter((f) => f.endsWith('.mdx'));
+
+  return files
+    .map((filename) => {
+      const slug = filename.replace(/\.mdx$/, '');
+      const raw = fs.readFileSync(path.join(FRAMEWORKS_DIR, filename), 'utf8');
+      const { data } = matter(raw);
+      return {
+        slug,
+        title: data.title ?? slug,
+        category: data.category ?? '',
+        summary: data.summary ?? '',
+        why_i_like_it: data.why_i_like_it,
+        where_i_heard_it: data.where_i_heard_it,
+        real_world_application: data.real_world_application,
+        status: (data.status ?? 'published') as 'draft' | 'published',
+      } satisfies FrameworkMeta;
+    })
+    .filter((f) => f.status === 'published')
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export function getFramework(slug: string): FrameworkWithContent | null {
+  const filepath = path.join(FRAMEWORKS_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(filepath)) return null;
+
+  const raw = fs.readFileSync(filepath, 'utf8');
+  const { data, content } = matter(raw);
+
+  return {
+    slug,
+    title: data.title ?? slug,
+    category: data.category ?? '',
+    summary: data.summary ?? '',
+    why_i_like_it: data.why_i_like_it,
+    where_i_heard_it: data.where_i_heard_it,
+    real_world_application: data.real_world_application,
+    status: (data.status ?? 'published') as 'draft' | 'published',
+    contentHtml: marked(content) as string,
+  };
 }
 
 export function getPublication(slug: string): PublicationWithContent | null {

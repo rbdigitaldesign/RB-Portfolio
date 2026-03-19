@@ -3,13 +3,28 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/components/theme-provider';
+
+function ThemeToggle() {
+  const { theme, toggle } = useTheme();
+  return (
+    <button
+      onClick={toggle}
+      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="p-2 text-foreground/60 hover:text-foreground transition-colors"
+    >
+      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+    </button>
+  );
+}
 
 const NAV_LINKS = [
   { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
   { href: '/blog', label: 'Writing' },
+  { href: '/frameworks', label: 'Frameworks' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -104,14 +119,17 @@ export function Header() {
             <span>{menuOpen ? 'Close' : 'Menu'}</span>
           </button>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 -mr-2 text-foreground/60 hover:text-foreground transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
+            <button
+              className="p-2 -mr-2 text-foreground/60 hover:text-foreground transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </header>
 

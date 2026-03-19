@@ -92,7 +92,7 @@ export function CaseStudyHeader({ slug, coverImage }: CaseStudyHeaderProps) {
             {project.tags.slice(0, 5).map((tag) => (
               <span
                 key={tag}
-                className="text-xs text-muted-foreground border border-border px-2.5 py-0.5"
+                className="text-xs text-muted-foreground border border-border px-2.5 py-0.5 rounded-sm"
               >
                 {tag}
               </span>
