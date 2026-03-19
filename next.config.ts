@@ -40,7 +40,19 @@ const nextConfig: NextConfig = {
         hostname: 'timklapdor.github.io',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.campusreview.com.au',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -40,3 +40,4 @@ env:
 
 runConfig:
   maxInstances: 1
+  timeoutSeconds: 30

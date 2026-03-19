@@ -6,6 +6,7 @@ import { ScrollToTopButton } from '@/components/scroll-to-top-button'
 import { ProjectNavigation } from '@/components/project-navigation'
 import { CaseStudyLayout } from '@/components/case-study-layout'
 import { CaseStudyHeader } from '@/components/case-study-header'
+import { CASE_STUDY_ORDER } from '@/data/case-study-order'
 
 // ---------------------------------------------------------------------------
 // Inline helper components
@@ -313,11 +314,16 @@ const DISCIPLINES: Discipline[] = [
 // Page
 // ---------------------------------------------------------------------------
 
+const THIS_SLUG = 'au-course-development'
+const _idx = CASE_STUDY_ORDER.findIndex((p) => p.slug === THIS_SLUG)
+const _prev = _idx > 0 ? CASE_STUDY_ORDER[_idx - 1] : null
+const _next = _idx < CASE_STUDY_ORDER.length - 1 ? CASE_STUDY_ORDER[_idx + 1] : null
+
 export default function AuCourseDevelopmentPage() {
   return (
     <CaseStudyLayout>
       <CaseStudyHeader slug="au-course-development" />
-      <ProjectNavigation prevProject={null} nextProject={null} />
+      <ProjectNavigation prevProject={_prev} nextProject={_next} />
 
       <div className="mt-12 lg:grid lg:grid-cols-3 lg:gap-12">
         {/* ── Main content ────────────────────────────────────────────── */}
