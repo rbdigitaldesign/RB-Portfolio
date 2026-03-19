@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -77,7 +77,9 @@ function LogoMark({ filterId = 'rb-logo-tc' }: { filterId?: string }) {
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuClosing, setMenuClosing] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -88,6 +90,23 @@ export function Header() {
 
   // Close menu on route change
   useEffect(() => setMenuOpen(false), [pathname]);
+
+  const closeMenu = () => {
+    setMenuClosing(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuClosing(false);
+    }, 280);
+  };
+
+  const handleNavClick = (href: string) => {
+    setMenuClosing(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuClosing(false);
+      router.push(href);
+    }, 280);
+  };
 
   return (
     <>
@@ -135,19 +154,20 @@ export function Header() {
 
       {/* Full-screen menu overlay (mobile + desktop) */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-background flex flex-col menu-overlay-enter">
+        <div className={cn('fixed inset-0 z-40 bg-background flex flex-col', menuClosing ? 'menu-overlay-exit' : 'menu-overlay-enter')}>
           <div className="max-w-5xl mx-auto px-6 w-full flex h-16 items-center justify-between">
             <Link
               href="/"
               className="flex items-center gap-2.5 font-headline text-lg font-semibold tracking-tight"
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
             >
               <LogoMark filterId="rb-logo-tc-mobile" />
               Rich Bartlett
             </Link>
+            {/* Only show close button on mobile — desktop uses the header button */}
             <button
-              className="p-2 -mr-2 text-foreground/60"
-              onClick={() => setMenuOpen(false)}
+              className="md:hidden p-2 -mr-2 text-foreground/60"
+              onClick={closeMenu}
               aria-label="Close menu"
             >
               <X size={20} />
@@ -155,19 +175,18 @@ export function Header() {
           </div>
           <nav className="flex flex-col items-start justify-center flex-1 max-w-5xl mx-auto px-6 w-full gap-6 pb-16">
             {NAV_LINKS.map(({ href, label }) => (
-              <Link
+              <button
                 key={href}
-                href={href}
+                onClick={() => handleNavClick(href)}
                 className={cn(
-                  'font-headline text-4xl font-semibold transition-colors hover:text-accent',
+                  'font-headline text-4xl font-semibold transition-colors hover:text-accent text-left',
                   pathname === href || pathname.startsWith(href + '/')
                     ? 'text-accent'
                     : 'text-foreground'
                 )}
-                onClick={() => setMenuOpen(false)}
               >
                 {label}
-              </Link>
+              </button>
             ))}
           </nav>
         </div>
