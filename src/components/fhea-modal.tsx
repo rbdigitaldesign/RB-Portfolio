@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { ExternalLink, X } from 'lucide-react';
 
-export function FheaModal() {
+export function FheaModal({ animate }: { animate?: boolean }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -71,9 +71,20 @@ export function FheaModal() {
         className="group block text-left w-full"
         aria-label="View FHEA certificate"
       >
-        <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2 flex items-end gap-2 group-hover:opacity-80 transition-opacity">
-          FHEA
-          <ExternalLink size={16} className="mb-1.5 opacity-40 group-hover:opacity-70 transition-opacity" />
+        <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2 flex items-end gap-[1px] group-hover:opacity-80 transition-opacity">
+          {animate ? (
+            /* Letter-by-letter flash — CSS classes injected by CredentialsStrip */
+            <>
+              <span className="fhea-f inline-block">F</span>
+              <span className="fhea-h inline-block">H</span>
+              <span className="fhea-e inline-block">E</span>
+              <span className="fhea-a inline-block">A</span>
+            </>
+          ) : (
+            /* Invisible placeholder preserves layout until animation triggers */
+            <span className="opacity-0 select-none">FHEA</span>
+          )}
+          <ExternalLink size={16} className="mb-1.5 ml-1 opacity-40 group-hover:opacity-70 transition-opacity" />
         </p>
         <p className="text-sm text-muted-foreground leading-snug">Advance HE Fellow</p>
       </button>
