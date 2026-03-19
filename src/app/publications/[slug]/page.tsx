@@ -135,7 +135,7 @@ export default async function PublicationPage({ params }: { params: { slug: stri
           {(fm.tags as string[]).map((tag) => (
             <span
               key={tag}
-              className="text-xs text-muted-foreground border border-border px-2.5 py-0.5"
+              className="text-xs text-muted-foreground border border-border px-2.5 py-0.5 rounded-sm"
             >
               {tag}
             </span>
@@ -167,7 +167,7 @@ export default async function PublicationPage({ params }: { params: { slug: stri
             </h2>
             <CopyCitation text={fm.citation} />
           </div>
-          <div className="bg-muted/30 border border-border rounded px-4 py-3">
+          <div className="bg-muted/30 border border-border rounded-sm px-4 py-3">
             <p className="text-sm font-mono leading-relaxed text-foreground/80">{fm.citation}</p>
           </div>
         </section>
