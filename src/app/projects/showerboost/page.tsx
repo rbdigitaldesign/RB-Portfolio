@@ -345,8 +345,7 @@ export default function ShowerBoostPage() {
             />
             <p className="text-xs text-muted-foreground mt-2">
               ChatGPT market research conversation — the starting point for the ShowerBoost concept.{' '}
-              <span className="text-accent">
-                            <code className="font-mono">public/images/showerboost/chatgpt-ideation.png</code>)
+              <span className="text-accent">                          
               </span>
             </p>
           </section>
