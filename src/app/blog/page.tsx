@@ -85,7 +85,7 @@ export default function BlogPage() {
               className="group flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 py-8 hover:bg-muted/30 -mx-4 px-4 transition-colors"
             >
               {post.coverImage && (
-                <div className="relative w-full sm:w-32 aspect-video sm:aspect-square flex-shrink-0 overflow-hidden bg-muted">
+                <div className="relative w-full sm:w-32 aspect-video sm:aspect-square flex-shrink-0 overflow-hidden bg-muted rounded-sm">
                   <Image
                     src={post.coverImage}
                     alt={post.title}

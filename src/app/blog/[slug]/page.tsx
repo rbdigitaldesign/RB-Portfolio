@@ -68,7 +68,7 @@ export default async function BlogPostPage({
 
       {/* Cover image */}
       {post.coverImage && (
-        <div className="relative w-full aspect-video mb-12 overflow-hidden bg-muted">
+        <div className="relative w-full aspect-video mb-12 overflow-hidden bg-muted rounded-sm">
           <Image
             src={post.coverImage}
             alt={post.title}
