@@ -135,12 +135,19 @@ function CourseTile({
       {/* Bottom content */}
       <div className="relative z-10 p-3 flex items-end justify-between gap-2">
         <div className="flex-1 min-w-0">
-          <span
-            className={`inline-flex items-center gap-1.5 text-[10px] font-semibold mb-1.5 px-2 py-0.5 rounded-full ${cfg.badge}`}
-          >
-            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
-            {course.discipline}
-          </span>
+          <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
+            <span
+              className={`inline-flex items-center gap-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full ${cfg.badge}`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
+              {course.discipline}
+            </span>
+            {course.isCommonCore && (
+              <span className="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/30">
+                Common Core
+              </span>
+            )}
+          </div>
           {course.instructors && (
             <p className="text-[10px] text-white/70 mb-0.5 truncate">{course.instructors}</p>
           )}
@@ -311,7 +318,7 @@ function CourseModal({
 
   return (
     <Dialog open={!!course} onOpenChange={(open) => { if (!open) onClose() }}>
-      <DialogContent className="max-w-4xl w-full max-h-[92vh] overflow-y-auto p-0 gap-0">
+      <DialogContent className="max-w-5xl w-full max-h-[92vh] overflow-y-auto p-0 gap-0">
 
         {/* Gradient header */}
         <div className="px-6 pt-8 pb-6" style={{ background: cfg.gradient }}>
