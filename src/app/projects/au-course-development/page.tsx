@@ -364,10 +364,15 @@ export default function AuCourseDevelopmentPage() {
 
         {/* ── Sidebar ─────────────────────────────────────────────────── */}
         <aside className="mt-12 lg:mt-0">
-          <div className="sticky top-24 space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
-
+          {/* TOC gets its own sticky wrapper — keeps it isolated from the
+              info cards so the inner sticky nav inside CaseStudyTOC never
+              overlaps the cards below it */}
+          <div className="sticky top-24 mb-6">
             <CaseStudyTOC items={TOC_ITEMS} />
+          </div>
 
+          {/* Info cards flow naturally below the sticky TOC */}
+          <div className="space-y-6">
             <Separator />
 
             <Card>
