@@ -249,7 +249,7 @@ export default function RpsPodBattlePage() {
                         <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">Open Tournament <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                      <Button variant="outline" asChild>
-                        <a href="https://github.com/rbdigitaldesign/LEI-Pod-Battle.git" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>
+                        <a href="https://github.com/rbdigitaldesign/LEI-RPS-Game" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                  </div>
             </section>
