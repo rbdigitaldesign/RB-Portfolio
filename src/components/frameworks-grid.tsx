@@ -21,7 +21,7 @@ export function FrameworksGrid({ frameworks }: FrameworksGridProps) {
           <button
             key={framework.slug}
             onClick={() => setActiveSlug(framework.slug)}
-            className="group text-left border border-border border-t-4 border-t-accent hover:border-foreground hover:-translate-y-0.5 transition-all duration-200 p-8 flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="group text-left border border-border border-t-4 border-t-accent hover:border-foreground hover:-translate-y-0.5 transition-all duration-200 p-8 flex flex-col rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span className="text-xs font-medium tracking-widest uppercase text-accent">
               {framework.category}
@@ -56,7 +56,7 @@ export function FrameworksGrid({ frameworks }: FrameworksGridProps) {
           />
 
           {/* Panel */}
-          <div className="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-background border border-border shadow-xl">
+          <div className="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-background border border-border shadow-xl rounded-lg">
             {/* Close button */}
             <button
               onClick={() => setActiveSlug(null)}
