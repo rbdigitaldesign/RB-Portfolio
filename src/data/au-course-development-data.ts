@@ -85,7 +85,7 @@ export const ENVIRONMENT_PRINCIPLES: EnvironmentPrinciple[] = [
   {
     label: 'Learning environments are inclusive and accessible',
     example:
-      'Every page I built followed AU\'s accessibility guidelines: correct heading hierarchy, sufficient contrast, alt text on images, keyboard-accessible H5P configurations. APA 7 referencing was standardised across courses, and custom Canvas components were reviewed against the AU style guide.',
+      'I aimed to apply AU\'s accessibility guidelines as consistently as possible — heading hierarchy, contrast, alt text, and keyboard-accessible H5P configurations — while recognising that accessibility is an ongoing practice rather than a one-time checklist. APA 7 referencing was applied across courses where I had the opportunity, and custom Canvas components were checked against the AU style guide.',
   },
   {
     label: 'Content is contextualised and authentic',
@@ -121,6 +121,8 @@ export interface CourseEntry {
   discipline: Discipline
   activities: string[]
   notes?: string
+  /** Optional cover image URL for the tile. Omit to use the discipline gradient. */
+  coverImage?: string
 }
 
 export const COURSES: CourseEntry[] = [

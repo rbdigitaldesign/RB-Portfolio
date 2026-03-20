@@ -7,14 +7,12 @@ import { ProjectNavigation } from '@/components/project-navigation'
 import { CaseStudyLayout } from '@/components/case-study-layout'
 import { CaseStudyHeader } from '@/components/case-study-header'
 import { CaseStudyTOC } from '@/components/case-study-toc'
+import { AuCourseGrid } from '@/components/au-course-grid'
 import { CASE_STUDY_ORDER } from '@/data/case-study-order'
 import {
   CYCLE_DATES,
   ATTAINMENT_PRINCIPLES,
   ENVIRONMENT_PRINCIPLES,
-  COURSES,
-  DISCIPLINES,
-  DISCIPLINE_STYLES,
   TOC_ITEMS,
 } from '@/data/au-course-development-data'
 
@@ -265,56 +263,10 @@ export default function AuCourseDevelopmentPage() {
             <h2 className="cs-h2">Courses I Worked On</h2>
             <div className="cs-callout mb-8">
               Across 2025, I worked on <strong>53 courses</strong> spanning disciplines from AI and computing
-              to climate science, law, and the arts. Below are 18 courses I was most closely involved in,
-              grouped by discipline.
+              to climate science, law, and the arts. Below are 18 courses I was most closely involved in —
+              click any tile to see key activities, CLOs, and assessments.
             </div>
-
-            {DISCIPLINES.map((discipline) => {
-              const courses = COURSES.filter((c) => c.discipline === discipline)
-              if (courses.length === 0) return null
-              return (
-                <div key={discipline} className="mb-12">
-                  <div className="flex items-center gap-3 mb-5">
-                    <h3 className="cs-h3 mb-0">{discipline}</h3>
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${DISCIPLINE_STYLES[discipline]}`}>
-                      {courses.length} course{courses.length !== 1 ? 's' : ''}
-                    </span>
-                  </div>
-                  <div className="space-y-5">
-                    {courses.map((course) => (
-                      <Card key={course.name} className="overflow-hidden">
-                        <CardHeader className="pb-3">
-                          <div className="flex flex-wrap items-start gap-2 mb-1">
-                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${DISCIPLINE_STYLES[course.discipline]}`}>
-                              {course.discipline}
-                            </span>
-                            {course.instructors && (
-                              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
-                                {course.instructors}
-                              </span>
-                            )}
-                          </div>
-                          <CardTitle className="font-headline text-lg leading-snug">{course.name}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="pt-0">
-                          {course.notes && (
-                            <p className="cs-callout text-sm mb-4">{course.notes}</p>
-                          )}
-                          <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
-                            Key activities
-                          </h4>
-                          <ul className="list-disc pl-5 space-y-1 text-sm text-foreground/80 leading-relaxed">
-                            {course.activities.map((activity) => (
-                              <li key={activity}>{activity}</li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
+            <AuCourseGrid />
           </section>
 
           {/* PRINCIPLES */}
@@ -366,11 +318,30 @@ export default function AuCourseDevelopmentPage() {
               Learning to scope honestly with ACDs early — and to be clear about what 15 hours could and
               couldn&apos;t achieve — was essential.
             </p>
+            <p className="cs-body mb-4">
+              The process was fundamentally academic-led — and the level of engagement varied enormously.
+              Some course developers arrived prepared and eager to collaborate; others were navigating
+              significant competing pressures. Full teaching loads, active research commitments, unfamiliarity
+              with online pedagogy, anxiety about committing to a public platform, and simple overcommitment
+              all affected the pace and depth of collaboration available in any given cycle. There&apos;s no
+              clean solution to this — it&apos;s structural. But it meant that the same 15-hour allocation
+              could produce very different outcomes depending on the working relationship, and building trust
+              quickly became as important as any technical skill.
+            </p>
+            <p className="cs-body mb-4">
+              Not having a complete set of tools and scaffolding resources made some engagements harder than
+              they needed to be. When an ACD was starting from a blank page — no existing course materials,
+              no content brief, no prior online equivalent — significant time went into helping them draft and
+              structure content before any Canvas build could begin. Without a shared exemplar library,
+              templated H5P structures tailored to different disciplines, or a bank of reusable course
+              components, that scaffolding sometimes absorbed a disproportionate share of the allocation.
+              Better tooling was advocated for; it takes time to materialise.
+            </p>
             <p className="cs-body mb-6">
               Late-breaking content changes in Week 8–9 were a recurring challenge. An ACD rethinking an
-              assessment in the final weeks could derail QA for other courses I was managing simultaneously.
-              Proactive milestone check-ins and a personal early-warning system helped, but it never fully
-              went away.
+              assessment in the final weeks could create knock-on effects for QA across other courses running
+              simultaneously. Proactive milestone check-ins and an early-warning habit helped contain this,
+              but it never fully went away.
             </p>
 
             <h3 className="cs-h3">What I&apos;d do differently</h3>
@@ -393,7 +364,7 @@ export default function AuCourseDevelopmentPage() {
 
         {/* ── Sidebar ─────────────────────────────────────────────────── */}
         <aside className="mt-12 lg:mt-0">
-          <div className="sticky top-24 space-y-6">
+          <div className="sticky top-24 space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
 
             <CaseStudyTOC items={TOC_ITEMS} />
 
