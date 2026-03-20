@@ -1,5 +1,5 @@
 
-export type ProjectCategory = 'User Experience' | 'Learning Design' | 'Hackathons' | 'Coding Projects' | 'Publications';
+export type ProjectCategory = 'User Experience' | 'Learning Design' | 'Hackathons' | 'Coding Projects' | 'Publications' | 'Concept Design';
 
 export type Project = {
   slug: string;

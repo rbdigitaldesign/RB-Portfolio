@@ -2,24 +2,44 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ChevronDown, ExternalLink, Award } from 'lucide-react';
+import { CredentialsStrip } from '@/components/credentials-strip';
 import projectsData from '@/data/projects.json';
 import { getAllPosts } from '@/lib/content';
 import type { Project } from '@/lib/types';
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { HeroParallax } from '@/components/hero-parallax';
 
-const FEATURED_SLUGS = [
-  'wellness-features-heat-safe-riding',
-  'trip-approve-onboarding',
-  'oua-orientation-redesign',
-  'ppd-course-design',
-];
+export const revalidate = 86400; // Rebuild at most once per day
+
+function seededRandom(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 0x100000000;
+  };
+}
+
+function getDailyFeaturedProjects(projects: Project[], count = 4): Project[] {
+  const eligible = projects.filter(
+    (p) => p.featured && (!p.status || p.status === 'published')
+  );
+  const today = new Date();
+  const seed =
+    today.getUTCFullYear() * 10000 +
+    (today.getUTCMonth() + 1) * 100 +
+    today.getUTCDate();
+  const rand = seededRandom(seed);
+  const shuffled = [...eligible];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
 
 export default function Home() {
   const allProjects = projectsData as Project[];
-  const featuredProjects = FEATURED_SLUGS
-    .map((slug) => allProjects.find((p) => p.slug === slug))
-    .filter(Boolean) as Project[];
+  const featuredProjects = getDailyFeaturedProjects(allProjects);
 
   const recentPosts = getAllPosts().slice(0, 3);
 
@@ -42,7 +62,7 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap gap-6 items-center">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 bg-white text-foreground px-6 py-3 text-sm font-medium hover:bg-white/90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-white text-foreground px-6 py-3 text-sm font-medium hover:bg-white/90 transition-opacity rounded-sm"
             >
               View selected work <ArrowRight size={15} />
             </Link>
@@ -94,7 +114,7 @@ export default function Home() {
               <div className="max-w-7xl mx-auto px-6 md:px-16 py-10 md:py-14 grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                 {/* Image — alternates side on desktop */}
                 <div
-                  className={`relative aspect-[16/10] overflow-hidden bg-muted ${
+                  className={`relative aspect-[16/10] overflow-hidden bg-muted rounded-sm ${
                     i % 2 === 1 ? 'md:order-2' : ''
                   }`}
                 >
@@ -139,43 +159,7 @@ export default function Home() {
       </section>
 
       {/* ── Credentials strip ─────────────────────────────────────── */}
-      <ScrollReveal>
-        <section className="border-b border-border">
-          <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-border">
-
-            <div className="md:px-10 first:md:pl-0">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">15+</p>
-              <p className="text-sm text-muted-foreground leading-snug">Yrs in L&amp;D &amp; UX</p>
-            </div>
-
-            <div className="md:px-10">
-              <a
-                href="https://www.advance-he.ac.uk/fellowship"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
-              >
-                <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2 flex items-end gap-2 group-hover:opacity-80 transition-opacity">
-                  FHEA
-                  <ExternalLink size={16} className="mb-1.5 opacity-40 group-hover:opacity-70 transition-opacity" />
-                </p>
-                <p className="text-sm text-muted-foreground leading-snug">Advance HE Fellow</p>
-              </a>
-            </div>
-
-            <div className="md:px-10">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">AU</p>
-              <p className="text-sm text-muted-foreground leading-snug">Adelaide University</p>
-            </div>
-
-            <div className="md:px-10 last:md:pr-0">
-              <p className="font-headline text-4xl md:text-5xl font-semibold text-accent mb-2">LDX</p>
-              <p className="text-sm text-muted-foreground leading-snug">Learning Design × UX hybrid</p>
-            </div>
-
-          </div>
-        </section>
-      </ScrollReveal>
+      <CredentialsStrip />
 
       {/* ── About ─────────────────────────────────────────────────── */}
       <ScrollReveal>
@@ -277,7 +261,7 @@ export default function Home() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="snap-start shrink-0 w-72 border border-border p-6 hover:border-accent/50 transition-colors"
+                  className="snap-start shrink-0 w-72 border border-border p-6 hover:border-accent/50 transition-colors rounded-sm"
                 >
                   <span className="text-xs font-mono text-muted-foreground block mb-3">
                     {new Date(post.date).getFullYear()}

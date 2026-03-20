@@ -26,7 +26,7 @@ export default function ResumePage() {
           target="_blank"
           rel="noopener noreferrer"
           download="Rich_Bartlett_Resume.pdf"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity rounded-sm"
         >
           Download PDF <ArrowRight size={16} />
         </a>

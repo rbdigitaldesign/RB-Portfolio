@@ -37,13 +37,14 @@ const TOOLS = [
 ];
 
 const INTERESTS = [
-  { emoji: '🏋️', text: 'CrossFit and Weightlifting — challenging my physical limits and having fun.' },
-  { emoji: '⛺', text: 'Camping with family and friends across SA.' },
-  { emoji: '🐕', text: 'Beach runs and park sessions with Jerry Boi Seinfeld (a Kelpie cross with strong opinions).' },
-  { emoji: '🎧', text: 'Podcasts: Heavyweight, Science Vs, How I Built This. Diary of a CEO (Steve Bartlett, no relation).' },
-  { emoji: '🎸', text: 'Slowly learning guitar. Very slowly.' },
-  { emoji: '🍺', text: 'A good beer with good people.' },
-  { emoji: '💍', text: 'Married to an incredible Nursey wifey.' },
+  { emoji: '🏋️', text: 'CrossFit and Weightlifting — my main outlet for clearing the head. I compete casually with myself, chase PRs, and generally enjoy feeling broken the next morning.' },
+  { emoji: '⛺', text: 'Camping with family and friends across SA. There\'s something about unplugging in the Flinders Ranges or on the Eyre Peninsula that resets everything.' },
+  { emoji: '🐕', text: 'Beach runs and park sessions with Jerry Boi Seinfeld — a Kelpie cross with strong opinions, selective hearing, and an inexhaustible need to fetch.' },
+  { emoji: '🎧', text: 'Podcast rotation: Heavyweight, Science Vs, How I Built This, Diary of a CEO (Steve Bartlett, no relation). Always learning something on the school run.' },
+  { emoji: '🎸', text: 'Slowly learning guitar. Very slowly. Currently in a three-year standoff with F chord.' },
+  { emoji: '🍺', text: 'A good beer with good people. Preferably a local craft pale ale on a Friday afternoon, ideally somewhere with a view.' },
+  { emoji: '💍', text: 'Married to an incredible Nursey wifey who keeps the whole show running and somehow still finds time to laugh at my jokes.' },
+  { emoji: '👧', text: 'Proud Girl Dad to Maggie — and another bub on the way in July 2026 (gender TBD, chaos guaranteed).' },
 ];
 
 const LIFE_LEFT = [
@@ -147,7 +148,7 @@ export default function AboutPage() {
               target="_blank"
               rel="noopener noreferrer"
               download="Rich_Bartlett_Resume.pdf"
-              className="inline-flex items-center gap-2 text-sm font-medium border border-border px-4 py-2 hover:border-foreground transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium border border-border px-4 py-2 hover:border-foreground transition-colors rounded-sm"
             >
               Download Resume <ArrowRight size={14} />
             </a>
@@ -210,7 +211,7 @@ export default function AboutPage() {
         </div>
 
         {/* Desktop: 4 circles | text | 4 circles */}
-        <div className="hidden md:flex gap-8 items-center">
+        <div className="hidden md:flex gap-8 items-start">
           {/* Left column: 4 circles */}
           <div className="flex-shrink-0 flex flex-col gap-4">
             {LIFE_LEFT.map((img) => (
@@ -220,12 +221,12 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Centre: text */}
-          <div className="flex-1">
+          {/* Centre: heading + items distributed to fill the image column height */}
+          <div className="flex-1 flex flex-col" style={{ minHeight: 'calc(4 * 7rem + 3 * 1rem)' }}>
             <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-5">
               Life outside work
             </h2>
-            <ul className="space-y-3">
+            <ul className="flex flex-col flex-1 justify-between">
               {INTERESTS.map((item, i) => (
                 <li key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
                   <span className="flex-shrink-0">{item.emoji}</span>
@@ -250,13 +251,13 @@ export default function AboutPage() {
       <div className="flex flex-wrap gap-4">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity rounded-sm"
         >
           View my work <ArrowRight size={16} />
         </Link>
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 border border-border px-5 py-2.5 text-sm font-medium hover:border-foreground transition-colors"
+          className="inline-flex items-center gap-2 border border-border px-5 py-2.5 text-sm font-medium hover:border-foreground transition-colors rounded-sm"
         >
           Get in touch
         </Link>

@@ -54,7 +54,7 @@ function getProjectData(slug: string) {
 function ProjectSidebar({ project }: { project: Project }) {
   return (
     <aside className="space-y-6">
-      <div className="border border-border divide-y divide-border">
+      <div className="border border-border divide-y divide-border rounded-sm overflow-hidden">
         {[
           { label: 'Role', value: project.role },
           { label: 'Year', value: project.year ? String(project.year) : null },
@@ -75,7 +75,7 @@ function ProjectSidebar({ project }: { project: Project }) {
           <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Tools</p>
           <div className="flex flex-wrap gap-1.5">
             {project.tools.map((tool) => (
-              <span key={tool} className="text-xs border border-border px-2 py-0.5">
+              <span key={tool} className="text-xs border border-border px-2 py-0.5 rounded-sm">
                 {tool}
               </span>
             ))}
@@ -181,7 +181,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 {project.gallery
                   .filter((g) => !g.includes('placehold'))
                   .map((imgSrc, i) => (
-                    <div key={i} className="relative aspect-video overflow-hidden bg-muted group">
+                    <div key={i} className="relative aspect-video overflow-hidden bg-muted rounded-sm group">
                       <Image
                         src={imgSrc}
                         alt={`${project.title} — artefact ${i + 1}`}

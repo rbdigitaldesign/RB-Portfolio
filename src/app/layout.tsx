@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -67,12 +68,14 @@ export default function RootLayout({
           fontHeadline.variable
         )}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <Toaster />
+        <ThemeProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>
