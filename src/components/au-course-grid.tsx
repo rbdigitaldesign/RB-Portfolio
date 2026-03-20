@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Maximize2, Camera } from 'lucide-react'
+import { Maximize2, Camera, ExternalLink, Github } from 'lucide-react'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import {
   COURSES,
@@ -176,65 +176,188 @@ function CourseModal({
 
         <div className="p-6 space-y-8">
 
-          {/* Key Activities */}
-          <section>
-            <h3 className="font-headline font-semibold text-lg mb-3 flex items-center gap-2">
-              Key Activities
-            </h3>
-            {course.notes && (
-              <p className="text-sm text-muted-foreground italic mb-3 border-l-2 border-accent pl-3">
-                {course.notes}
-              </p>
-            )}
-            <ul className="list-disc pl-5 space-y-1.5 text-sm text-foreground/80 leading-relaxed">
-              {course.activities.map((a) => (
-                <li key={a}>{a}</li>
-              ))}
-            </ul>
-          </section>
+          {course.projectDetail ? (
+            // ── Rich project write-up ──────────────────────────────────────
+            <>
+              {/* Overview */}
+              <section>
+                <p className="text-sm text-foreground/80 leading-relaxed border-l-2 border-accent pl-3">
+                  {course.projectDetail.overview}
+                </p>
+              </section>
 
-          {/* CLOs — placeholder */}
-          <section>
-            <h3 className="font-headline font-semibold text-lg mb-3">Course Learning Outcomes</h3>
-            <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
-                Coming soon
-              </p>
-              <p className="text-sm text-muted-foreground italic">
-                Course Learning Outcomes (CLOs) will be added here
-              </p>
-            </div>
-          </section>
-
-          {/* Assessments — placeholder */}
-          <section>
-            <h3 className="font-headline font-semibold text-lg mb-3">Assessments</h3>
-            <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
-                Coming soon
-              </p>
-              <p className="text-sm text-muted-foreground italic">
-                Assessment details and rubric highlights will be added here
-              </p>
-            </div>
-          </section>
-
-          {/* Screenshots — placeholder grid */}
-          <section>
-            <h3 className="font-headline font-semibold text-lg mb-3">Screenshots &amp; Media</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {Array.from({ length: IMAGE_SLOTS }).map((_, i) => (
-                <div
-                  key={i}
-                  className="aspect-video rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30
-                             flex flex-col items-center justify-center gap-2"
-                >
-                  <Camera className="w-7 h-7 text-muted-foreground/40" />
-                  <p className="text-xs text-muted-foreground italic">Image {i + 1}</p>
+              {/* Problem / Solution */}
+              <section className="grid md:grid-cols-2 gap-4">
+                <div className="rounded-xl border bg-muted/30 p-5">
+                  <h3 className="font-headline font-semibold text-base mb-2">The Problem</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {course.projectDetail.problem}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </section>
+                <div className="rounded-xl border bg-muted/30 p-5">
+                  <h3 className="font-headline font-semibold text-base mb-2">The Solution</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {course.projectDetail.solution.intro}
+                  </p>
+                  <ul className="space-y-2">
+                    {course.projectDetail.solution.interfaces.map((iface) => (
+                      <li key={iface.name} className="text-sm text-muted-foreground">
+                        <strong className="text-foreground">{iface.name}</strong> — {iface.desc}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+
+              {/* Key Features */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Key Features</h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {course.projectDetail.features.map((f) => (
+                    <div key={f.title} className="rounded-lg border bg-muted/30 p-4">
+                      <p className="font-semibold text-sm mb-1">{f.title}</p>
+                      <p className="text-sm text-muted-foreground">{f.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Tech Stack */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Tech Stack</h3>
+                <div className="flex flex-wrap gap-2">
+                  {course.projectDetail.techStack.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1448FF]/10 text-[#1448FF] dark:text-blue-300 border border-[#1448FF]/20"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              {/* Screenshots */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Screenshots</h3>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {course.projectDetail.screenshots.map((s) => (
+                    <div
+                      key={s.src}
+                      className={`relative overflow-hidden rounded-xl border shadow-sm aspect-video ${s.bgColour ?? ''}`}
+                    >
+                      <Image
+                        src={s.src}
+                        alt={s.alt}
+                        fill
+                        className={s.objectFit === 'contain' ? 'object-contain' : 'object-cover'}
+                      />
+                      {s.caption && (
+                        <>
+                          <div className="absolute inset-0 bg-[#140F50]/40" />
+                          <div className="absolute bottom-2 left-3 right-3">
+                            <p className="text-xs text-white/80">{s.caption}</p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Links card */}
+                  {(course.projectDetail.liveUrl || course.projectDetail.githubUrl) && (
+                    <div className="rounded-xl border bg-muted/30 p-5 flex flex-col justify-center gap-3">
+                      <p className="font-semibold text-sm">Links</p>
+                      {course.projectDetail.liveUrl && (
+                        <a
+                          href={course.projectDetail.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1448FF] hover:underline"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                          Live prototype
+                        </a>
+                      )}
+                      {course.projectDetail.githubUrl && (
+                        <a
+                          href={course.projectDetail.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1448FF] hover:underline"
+                        >
+                          <Github className="w-3.5 h-3.5 flex-shrink-0" />
+                          View source
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* Design Decisions */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Design Decisions</h3>
+                <ul className="list-disc pl-5 space-y-1.5 text-sm text-foreground/80 leading-relaxed">
+                  {course.projectDetail.designDecisions.map((d) => (
+                    <li key={d}>{d}</li>
+                  ))}
+                </ul>
+              </section>
+            </>
+          ) : (
+            // ── Standard course layout ─────────────────────────────────────
+            <>
+              {/* Key Activities */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Key Activities</h3>
+                {course.notes && (
+                  <p className="text-sm text-muted-foreground italic mb-3 border-l-2 border-accent pl-3">
+                    {course.notes}
+                  </p>
+                )}
+                <ul className="list-disc pl-5 space-y-1.5 text-sm text-foreground/80 leading-relaxed">
+                  {course.activities.map((a) => (
+                    <li key={a}>{a}</li>
+                  ))}
+                </ul>
+              </section>
+
+              {/* CLOs — placeholder */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Course Learning Outcomes</h3>
+                <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Coming soon</p>
+                  <p className="text-sm text-muted-foreground italic">Course Learning Outcomes (CLOs) will be added here</p>
+                </div>
+              </section>
+
+              {/* Assessments — placeholder */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Assessments</h3>
+                <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Coming soon</p>
+                  <p className="text-sm text-muted-foreground italic">Assessment details and rubric highlights will be added here</p>
+                </div>
+              </section>
+
+              {/* Screenshots — placeholder grid */}
+              <section>
+                <h3 className="font-headline font-semibold text-lg mb-3">Screenshots &amp; Media</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {Array.from({ length: IMAGE_SLOTS }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="aspect-video rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30
+                                 flex flex-col items-center justify-center gap-2"
+                    >
+                      <Camera className="w-7 h-7 text-muted-foreground/40" />
+                      <p className="text-xs text-muted-foreground italic">Image {i + 1}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
 
         </div>
       </DialogContent>
