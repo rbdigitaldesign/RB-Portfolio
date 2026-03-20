@@ -116,9 +116,16 @@ export type Discipline =
   | 'Humanities, Law & Business'
 
 // ---------------------------------------------------------------------------
-// Project detail — optional rich content shown in the course modal
-// Used for courses where significant side-work warrants its own write-up
+// Contribution types — discrete pieces of work documented within a course modal
 // ---------------------------------------------------------------------------
+
+export type ContributionType =
+  | 'Tool'
+  | 'H5P Activity'
+  | 'Canvas Design'
+  | 'Resource'
+  | 'Assessment Design'
+  | 'Other'
 
 export interface ProjectFeature {
   title: string
@@ -133,17 +140,20 @@ export interface ProjectScreenshot {
   bgColour?: string  // Tailwind bg class for contain-mode images
 }
 
-export interface ProjectDetail {
-  overview: string
-  problem: string
-  solution: {
+export interface CourseContribution {
+  title: string
+  type: ContributionType
+  summary: string    // one-liner shown in collapsed accordion header
+  overview?: string
+  problem?: string
+  solution?: {
     intro: string
     interfaces: { name: string; desc: string }[]
   }
-  features: ProjectFeature[]
-  techStack: string[]
-  screenshots: ProjectScreenshot[]
-  designDecisions: string[]
+  features?: ProjectFeature[]
+  techStack?: string[]
+  screenshots?: ProjectScreenshot[]
+  designDecisions?: string[]
   liveUrl?: string
   githubUrl?: string
 }
@@ -156,8 +166,10 @@ export interface CourseEntry {
   notes?: string
   /** Optional cover image URL for the tile. Omit to use the discipline gradient. */
   coverImage?: string
-  /** Optional rich project write-up rendered inside the course modal. */
-  projectDetail?: ProjectDetail
+  /** Marks the course as an AU-wide Common Core unit (shown as badge in modal). */
+  isCommonCore?: boolean
+  /** Discrete contributions documented within the modal (accordion). */
+  contributions?: CourseContribution[]
 }
 
 // Base URL helper — keeps line lengths manageable
@@ -168,68 +180,71 @@ export const COURSES: CourseEntry[] = [
   // ── AI & Computing ──────────────────────────────────────────────────────
   {
     name: 'Responsible AI: Bridging Ethics, Education and Industry',
-    instructors: 'Walter (ACD)',
+    instructors: 'Walter, Bernard, Chris, Simon, Richard & Rich Bartlett',
     discipline: 'AI & Computing',
+    isCommonCore: true,
     coverImage: UNS('1677442136019-21780ecad995'), // abstract AI / purple-blue
-    activities: [
-      'Built Curriculum Lab — a real-time classroom facilitation tool for the Week 3 Discussion Task',
-      'Collaborated with ACD Walter to scope and design the discussion orchestration solution',
-    ],
-    projectDetail: {
-      overview:
-        'Responsible AI: Bridging Ethics, Education and Industry is Adelaide University\'s AI Common Core — a shared unit taken by students across all disciplines. One of the ACDs, Walter, flagged a UX friction point in the Week 3 Discussion Task: tutors running large interactive workshops had no reliable way to coordinate structured group discussions across numbered tables without shouting across the room or printing handouts. I built a lightweight real-time facilitation tool to solve it.',
-      problem:
-        'Tutors running large AI Common Core workshops needed to assign discussion questions to individual tables, push updates in real-time, and guide students through a structured framework — without relying on printing or verbal instruction across a large room. The solution needed to be lightweight enough for a single session yet flexible enough to reuse across different courses.',
-      solution: {
-        intro: 'Curriculum Lab is a lightweight web app with two interfaces:',
-        interfaces: [
+    activities: [],
+    contributions: [
+      {
+        title: 'Curriculum Lab',
+        type: 'Tool',
+        summary: 'Real-time classroom facilitation tool for the Week 3 Discussion Task — assigns questions to tables, syncs live, generates QR codes.',
+        overview:
+          'Responsible AI: Bridging Ethics, Education and Industry is Adelaide University\'s AI Common Core — a shared unit taken by students across all disciplines. One of the ACDs, Walter, flagged a UX friction point in the Week 3 Discussion Task: tutors running large interactive workshops had no reliable way to coordinate structured group discussions across numbered tables without shouting across the room or printing handouts. I built a lightweight real-time facilitation tool to solve it.',
+        problem:
+          'Tutors running large AI Common Core workshops needed to assign discussion questions to individual tables, push updates in real-time, and guide students through a structured framework — without relying on printing or verbal instruction across a large room. The solution needed to be lightweight enough for a single session yet flexible enough to reuse across different courses.',
+        solution: {
+          intro: 'Curriculum Lab is a lightweight web app with two interfaces:',
+          interfaces: [
+            {
+              name: 'Tutor Dashboard',
+              desc: 'Assign 9 curated curriculum questions to numbered tables, push assignments live, and generate QR codes for easy student access.',
+            },
+            {
+              name: 'Student View',
+              desc: 'Students enter their table number and instantly see their assigned question, discussion steps, and thematic background imagery.',
+            },
+          ],
+        },
+        features: [
+          { title: 'Real-time sync',                 desc: 'Assignments update instantly across all connected student devices via websocket subscriptions.' },
+          { title: 'QR code generation',              desc: 'Tutors can display or print QR codes linking directly to each table\'s view.' },
+          { title: 'Structured discussion framework',  desc: 'Four-step guided scaffold: Individual Reflection → Group Share → Find the Tension → Agree on Justification.' },
+          { title: 'Thematic imagery',                desc: 'Each question has a contextual background image at 10% opacity — engaging without competing with question text.' },
+          { title: 'AU branding',                     desc: 'Full Adelaide University colour palette: Dark Blue #140F50, NT Purple #836BFF, Bright Blue #1448FF, South East Limestone #F8EFE0.' },
+          { title: 'Course-agnostic',                 desc: 'Questions, discussion steps, and table counts are all configurable — straightforward to adapt for any course or institution.' },
+        ],
+        techStack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'QRCode.react', 'Lovable'],
+        screenshots: [
           {
-            name: 'Tutor Dashboard',
-            desc: 'Assign 9 curated curriculum questions to numbered tables, push assignments live, and generate QR codes for easy student access.',
+            src: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
+            alt: 'Students engaged in a large workshop discussion',
+            caption: 'AI Common Core Workshop — Week 3 Discussion Task',
+            objectFit: 'cover',
           },
           {
-            name: 'Student View',
-            desc: 'Students enter their table number and instantly see their assigned question, discussion steps, and thematic background imagery.',
+            src: '/canvas-comments.png',
+            alt: 'Canvas page showing the Discussion Task with Walter\'s annotation',
+            objectFit: 'cover',
+          },
+          {
+            src: '/curriculum-lab.png',
+            alt: 'Curriculum Lab join screen with AU branding and QR code',
+            objectFit: 'contain',
+            bgColour: 'bg-[#F8EFE0]',
           },
         ],
+        designDecisions: [
+          'Minimal student interface — just table number entry — to reduce friction in a live workshop setting.',
+          'Background images kept at 10% opacity after testing showed higher values competed with question text.',
+          'Discussion steps use a numbered timeline layout to create a sense of progression through the activity.',
+          'Question content and discussion structure are centralised in a single store file, making it trivial to swap in a different course\'s content without touching UI code.',
+        ],
+        liveUrl: 'https://ai-cc-curriculum-lab.lovable.app',
+        // githubUrl: 'https://github.com/rbdigitaldesign/...',  // add when confirmed
       },
-      features: [
-        { title: 'Real-time sync',                desc: 'Assignments update instantly across all connected student devices via websocket subscriptions.' },
-        { title: 'QR code generation',             desc: 'Tutors can display or print QR codes linking directly to each table\'s view.' },
-        { title: 'Structured discussion framework', desc: 'Four-step guided scaffold: Individual Reflection → Group Share → Find the Tension → Agree on Justification.' },
-        { title: 'Thematic imagery',               desc: 'Each question has a contextual background image at 10% opacity — engaging without competing with question text.' },
-        { title: 'AU branding',                    desc: 'Full Adelaide University colour palette: Dark Blue #140F50, NT Purple #836BFF, Bright Blue #1448FF, South East Limestone #F8EFE0.' },
-        { title: 'Course-agnostic',                desc: 'Questions, discussion steps, and table counts are all configurable — straightforward to adapt for any course or institution.' },
-      ],
-      techStack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'QRCode.react', 'Lovable'],
-      screenshots: [
-        {
-          src: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
-          alt: 'Students engaged in a large workshop discussion',
-          caption: 'AI Common Core Workshop — Week 3 Discussion Task',
-          objectFit: 'cover',
-        },
-        {
-          src: '/canvas-comments.png',
-          alt: 'Canvas page showing the Discussion Task with Walter\'s annotation requesting a facilitation tool',
-          objectFit: 'cover',
-        },
-        {
-          src: '/curriculum-lab.png',
-          alt: 'Curriculum Lab join screen with Adelaide University branding and QR code',
-          objectFit: 'contain',
-          bgColour: 'bg-[#F8EFE0]',
-        },
-      ],
-      designDecisions: [
-        'Minimal student interface — just table number entry — to reduce friction in a live workshop setting.',
-        'Background images kept at 10% opacity after testing showed higher values competed with question text.',
-        'Discussion steps use a numbered timeline layout to create a sense of progression through the activity.',
-        'Question content and discussion structure are centralised in a single store file, making it trivial to swap in a different course\'s content without touching UI code.',
-      ],
-      liveUrl: 'https://ai-cc-curriculum-lab.lovable.app',
-      // githubUrl: 'https://github.com/rbdigitaldesign/...',  // add when repo URL is confirmed
-    },
+    ],
   },
   {
     name: 'Advanced Topics in Artificial Intelligence and Machine Learning',
