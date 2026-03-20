@@ -28,30 +28,34 @@ type DiscConfig = {
 }
 
 const DISC_CONFIG: Record<Discipline, DiscConfig> = {
+  // Bright Blue — matches AU brand
   'AI & Computing': {
     gradient: 'linear-gradient(135deg, #1448FF 0%, #140F50 100%)',
-    overlay:  'bg-[#1448FF]/65',
+    overlay:  'bg-[#1448FF]/60',
     dot:      'bg-[#1448FF]',
     badge:    'bg-[#1448FF]/30 text-white backdrop-blur-sm',
     badgeLight: 'bg-[#1448FF]/15 text-[#1448FF] dark:text-blue-300',
   },
+  // North Terrace Purple — matches AU brand
   'Sciences & Engineering': {
     gradient: 'linear-gradient(135deg, #836BFF 0%, #140F50 100%)',
-    overlay:  'bg-[#836BFF]/65',
+    overlay:  'bg-[#836BFF]/60',
     dot:      'bg-[#836BFF]',
     badge:    'bg-[#836BFF]/30 text-white backdrop-blur-sm',
     badgeLight: 'bg-[#836BFF]/15 text-[#836BFF] dark:text-violet-300',
   },
+  // Teal — complementary to AU palette (no native green in brand)
   'Health & Life Sciences': {
     gradient: 'linear-gradient(135deg, #0D9488 0%, #140F50 100%)',
-    overlay:  'bg-teal-700/65',
+    overlay:  'bg-teal-600/60',
     dot:      'bg-teal-400',
     badge:    'bg-teal-700/30 text-white backdrop-blur-sm',
     badgeLight: 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300',
   },
+  // Dark Blue — matches AU brand
   'Humanities, Law & Business': {
     gradient: 'linear-gradient(135deg, #836BFF 0%, #140F50 100%)',
-    overlay:  'bg-[#140F50]/75',
+    overlay:  'bg-[#140F50]/65',
     dot:      'bg-[#836BFF]',
     badge:    'bg-[#140F50]/50 text-white backdrop-blur-sm',
     badgeLight: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
@@ -94,9 +98,9 @@ function CourseTile({
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          {/* Colour overlay over image */}
+          {/* Colour overlay — dims slightly on hover to reveal more image, matching OUA tile behaviour */}
           <div
-            className={`absolute inset-0 ${cfg.overlay} transition-opacity duration-300 group-hover:opacity-80`}
+            className={`absolute inset-0 ${cfg.overlay} transition-opacity duration-300 group-hover:opacity-75`}
           />
         </>
       ) : (

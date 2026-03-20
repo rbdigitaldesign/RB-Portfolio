@@ -125,12 +125,17 @@ export interface CourseEntry {
   coverImage?: string
 }
 
+// Base URL helper — keeps line lengths manageable
+const UNS = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=80`
+
 export const COURSES: CourseEntry[] = [
   // ── AI & Computing ──────────────────────────────────────────────────────
   {
     name: 'Advanced Topics in Artificial Intelligence and Machine Learning',
     instructors: 'Orvila',
     discipline: 'AI & Computing',
+    coverImage: UNS('1518770660439-4636190af475'), // circuit board
     activities: [
       'Facilitated quiz uplift',
       'H5P creation',
@@ -144,6 +149,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Bioinformatics: Sequencing Technologies',
     instructors: 'Jessica, Anna, James, Chris',
     discipline: 'AI & Computing',
+    coverImage: UNS('1532187863486-abf9dbad1b69'), // laboratory / science bench
     activities: [
       'Worked with LMS Support team to set up a Differentiated Content Solution via Learning Mastery in Canvas',
       'Quiz created and assigned to Learning Mastery; individual pathway pages added sequentially per score pathway',
@@ -158,6 +164,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Security Principles + Security Foundations',
     instructors: '',
     discipline: 'AI & Computing',
+    coverImage: UNS('1550751827-4bd374c3f58b'), // blue network / cybersecurity
     activities: [
       'Uplifted lesson pages across both courses',
       'H5P uplifts',
@@ -168,6 +175,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Enterprise Security',
     instructors: 'Stephen',
     discipline: 'AI & Computing',
+    coverImage: UNS('1558494949-ef010cbdcc31'), // server room
     activities: [
       'Reworked H5P animation in Chapter 1 based on Media team feedback',
       'Requested Media team H5P uplift for Chapter 3 — Endpoint Security Strategies and Architectures',
@@ -177,6 +185,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Applied Artificial Intelligence and Machine Learning',
     instructors: 'Feras',
     discipline: 'AI & Computing',
+    coverImage: UNS('1551288049-bebda4e38f71'), // data dashboard / analytics
     activities: [
       'Updated styling of pages across the course',
       'Implemented Notebook LM audio files into course content',
@@ -186,6 +195,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Generative AI',
     instructors: 'Alfred',
     discipline: 'AI & Computing',
+    coverImage: UNS('1461749280684-dccba630e2f6'), // code on screen
     activities: [
       'Generated multiple H5P and Canvas quizzes',
       'Uplifted lesson pages',
@@ -199,6 +209,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Animal Handling & Husbandry 1',
     instructors: 'William',
     discipline: 'Sciences & Engineering',
+    coverImage: UNS('1500595046743-cd271d694d30'), // animals / farm
     activities: [
       'Uplifted pages throughout the course',
       'H5P collaboration with Media team',
@@ -212,6 +223,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Geochemistry 2',
     instructors: 'Alex, Juraj, Monica',
     discipline: 'Sciences & Engineering',
+    coverImage: UNS('1574226516831-e1dff420e562'), // rocks / geology field
     activities: [
       'At-elbow support throughout development',
       'Assisted with video scripts',
@@ -224,18 +236,21 @@ export const COURSES: CourseEntry[] = [
     name: 'Number Theory',
     instructors: 'Sue',
     discipline: 'Sciences & Engineering',
+    coverImage: UNS('1509228627152-72ae9ae6848d'), // mathematics equations
     activities: ['Mapped topics and concepts from course notebook to Canvas'],
   },
   {
     name: 'Honours Plant, Food and Soil Sciences Project',
     instructors: '',
     discipline: 'Sciences & Engineering',
+    coverImage: UNS('1416879595882-3373a0480b5b'), // botanical / plants
     activities: ['Linked to the H5P Handbook for student reference'],
   },
   {
     name: 'Construction Science & Materials',
     instructors: 'Thilini',
     discipline: 'Sciences & Engineering',
+    coverImage: UNS('1503387762-592deb58ef4e'), // construction site
     activities: [
       'Imported Module 1 / Topic 1 / Concept 1',
       'Provided video presentation feedback',
@@ -249,6 +264,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Additional Development for Introduction to Health Research',
     instructors: 'Anna, Elysia, Joanne',
     discipline: 'Health & Life Sciences',
+    coverImage: UNS('1576091160550-2173dba999ef'), // healthcare professional
     activities: [
       'Built custom interactive prototypes (linked to the VibeCheck tool)',
       'Created IHR Google Forms Topic Allocation system and handover documentation',
@@ -266,24 +282,28 @@ export const COURSES: CourseEntry[] = [
     name: 'Thinking By Design',
     instructors: 'Ari, Ron',
     discipline: 'Humanities, Law & Business',
+    coverImage: UNS('1454165804606-c3d57bc86b40'), // design workspace / whiteboard
     activities: ['Assessment design and creation in Canvas', 'Lesson page uplift'],
   },
   {
     name: 'International Business Environment',
     instructors: '',
     discipline: 'Humanities, Law & Business',
+    coverImage: UNS('1507679799987-c73779587ccf'), // business handshake / global
     activities: ['Uplifted lesson content'],
   },
   {
     name: 'Administrative Law',
     instructors: '',
     discipline: 'Humanities, Law & Business',
+    coverImage: UNS('1589829545856-d10d557cf95f'), // law books
     activities: ['Created a video script for map image', 'Prototyped topic pages'],
   },
   {
     name: 'Passions and Interests: The History of Greed',
     instructors: 'Eden',
     discipline: 'Humanities, Law & Business',
+    coverImage: UNS('1543286386-713bdd548da4'), // antique coins / history
     activities: [
       'Lesson page uplifts',
       'Designed a custom navigation bar',
@@ -295,6 +315,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Fundamentals of Climate Change',
     instructors: 'Sunny',
     discipline: 'Humanities, Law & Business',
+    coverImage: UNS('1504711434969-e33886168f5c'), // environment / earth / nature
     activities: [
       'Assessment creation in Canvas',
       'Converted Activity 3.3A from a basic Canvas Quiz to an interactive H5P activity',
@@ -304,6 +325,7 @@ export const COURSES: CourseEntry[] = [
     name: 'Culture, Society and Climate Change',
     instructors: 'Georgina',
     discipline: 'Humanities, Law & Business',
+    coverImage: UNS('1529156069898-49953e39b3ac'), // diverse community / people
     activities: ['Updated styling for Interactive Seminars Weeks 3–10', 'Quiz creation'],
   },
 ]
