@@ -1,0 +1,27 @@
+export interface CaseStudyMeta { slug: string; title: string }
+
+export const CASE_STUDY_ORDER: CaseStudyMeta[] = [
+  { slug: 'au-course-development',      title: 'AU Course Development: Part 3' },
+  { slug: 'ux-survey-2025',             title: 'UX Survey 2025' },
+  { slug: 'communication-styles-quiz',  title: 'Communication Styles Quiz' },
+  { slug: 'oua-design-process',         title: 'UoA Online: Learning Design at Scale' },
+  { slug: 'ppd-course-design',          title: 'PPD Course Design' },
+  { slug: 'personal-professional-development-course-design', title: 'Personal Professional Development' },
+  { slug: 'everyday-tools-for-learning-design', title: 'Everyday Tools for Learning Design' },
+  { slug: 'h5p-student-handbook-conversion',    title: 'H5P Student Handbook Conversion' },
+  { slug: 'canvas-quick-navigation',    title: 'Canvas Quick Navigation' },
+  { slug: 'lms-tabbed-navigation',      title: 'LMS Tabbed Navigation' },
+  { slug: 'tux-for-learning-design',    title: 'Tux for Learning Design' },
+  { slug: 'expandable-references-ux',   title: 'Expandable References UX' },
+  { slug: 'when-not-to-code',           title: 'When Not to Code' },
+  { slug: 'gopro-app-redesign',         title: 'GoPro App Redesign' },
+  { slug: 'wellness-features-heat-safe-riding', title: 'Wellness Features: Heat Safe Riding' },
+  { slug: 'wellness-features-delivery-apps',    title: 'Wellness Features: Delivery Apps' },
+  { slug: 'oua-orientation-redesign',   title: 'OUA Orientation Redesign' },
+  { slug: 'trip-approve-onboarding',    title: 'TripApprove Onboarding' },
+  { slug: 'bestie-health-club',         title: 'Bestie Health Club' },
+  { slug: 'talas-tiu-ux-survey',        title: 'TALAS / TIU UX Survey' },
+  { slug: 'ux-group-user-testing',      title: 'UX Group User Testing' },
+  { slug: 'flock-hackathon',            title: 'Flock Hackathon' },
+  { slug: 'rps-pod-battle',             title: 'RPS Pod Battle' },
+]
