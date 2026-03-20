@@ -157,7 +157,7 @@ export default function GoProProjectPage() {
                         <li><strong>Interviews:</strong> frequent outdoor use (diving/surf/skate/family); common connectivity issues ("NoGo" nickname); misconceptions about app capabilities.</li>
                         <li><strong>Contextual task:</strong> end-to-end ~25 minutes with rising frustration—clear scope for simplification.</li>
                         <li><strong>Competitors:</strong> most free/freemium; auto-movie features present elsewhere; value in third-party cloud import, music options, video/music editors; overlap with hardware-linked apps (DJI GO 4, Dive+).</li>
-                        <li><strong>Market notes (timeline excerpt):</strong> 2004 first 35-mm HERO; 2015 revenue peak $1.62b; 2016 Karma drone failure/layoffs; 2018 >100 countries; 2020 ReelSteady acquisition & pandemic cuts; 2020 HERO9; 2021 underwater camera growth projected.</li>
+                        <li><strong>Market notes (timeline excerpt):</strong> 2004 first 35-mm HERO; 2015 revenue peak $1.62b; 2016 Karma drone failure/layoffs; 2018 &gt;100 countries; 2020 ReelSteady acquisition & pandemic cuts; 2020 HERO9; 2021 underwater camera growth projected.</li>
                     </ul>
                   </div>
 
