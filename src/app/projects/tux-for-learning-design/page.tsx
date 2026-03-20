@@ -326,11 +326,8 @@ export default function TuxForLearningDesignPage() {
              <section id="resources" className="cs-section">
                 <h3 className="cs-h2">Resources</h3>
                  <div className="flex flex-wrap gap-4">
-                    <Button asChild><a href="#" target="_blank" rel="noopener noreferrer">View GitHub Pages Site <ExternalLink className="ml-2 h-4 w-4" /></a></Button>
-                    <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">View Repository</a></Button>
-                    <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">Download Sample Pack</a></Button>
-                    <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">View Slides</a></Button>
-                    <Button asChild variant="outline"><a href="#" target="_blank" rel="noopener noreferrer">Facilitator Notes</a></Button>
+                    <Button asChild><a href="https://rbdigitaldesign.github.io/ux-toolkit" target="_blank" rel="noopener noreferrer">View GitHub Pages Site <ExternalLink className="ml-2 h-4 w-4" /></a></Button>
+                    <Button asChild variant="outline"><a href="https://github.com/rbdigitaldesign/ux-toolkit" target="_blank" rel="noopener noreferrer">View Repository</a></Button>
                  </div>
             </section>
         </main>
