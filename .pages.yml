@@ -85,6 +85,7 @@ content:
             - Heuristic
             - Design Rule
       - { name: summary,                label: One-line summary,        type: string }
+      - { name: body,                   label: What It Is (Explanation), type: rich-text }
       - { name: why_i_like_it,          label: Why I Like It,           type: text }
       - { name: where_i_heard_it,       label: Where I Heard About It,  type: text }
       - { name: real_world_application, label: Real World Application,  type: text }
@@ -95,4 +96,3 @@ content:
           values:
             - draft
             - published
-      - { name: body,                   label: What It Is (Explanation), type: rich-text }
