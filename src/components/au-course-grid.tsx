@@ -288,6 +288,23 @@ function ContributionDetail({ c }: { c: CourseContribution }) {
         </div>
       )}
 
+      {c.videoUrl && (
+        <div>
+          <h4 className="font-headline font-semibold text-base mb-3">Demo</h4>
+          <div className="flex justify-center">
+            <div className="w-full max-w-[320px] aspect-[9/16] rounded-xl overflow-hidden border shadow-sm">
+              <iframe
+                src={c.videoUrl}
+                title="Demo video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {c.designDecisions && c.designDecisions.length > 0 && (
         <div>
           <h4 className="font-headline font-semibold text-base mb-3">Design Decisions</h4>

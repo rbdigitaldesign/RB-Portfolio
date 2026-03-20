@@ -156,6 +156,7 @@ export interface CourseContribution {
   designDecisions?: string[]
   liveUrl?: string
   githubUrl?: string
+  videoUrl?: string  // YouTube embed URL (https://www.youtube.com/embed/ID)
 }
 
 export interface CourseEntry {
@@ -242,7 +243,8 @@ export const COURSES: CourseEntry[] = [
           'Question content and discussion structure are centralised in a single store file, making it trivial to swap in a different course\'s content without touching UI code.',
         ],
         liveUrl: 'https://ai-cc-curriculum-lab.lovable.app',
-        // githubUrl: 'https://github.com/rbdigitaldesign/...',  // add when confirmed
+        githubUrl: 'https://github.com/rbdigitaldesign/ai-cc-curriculum-lab',
+        videoUrl: 'https://www.youtube.com/embed/ccdZQYDjUZA',
       },
     ],
   },

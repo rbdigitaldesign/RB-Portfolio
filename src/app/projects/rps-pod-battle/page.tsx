@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, Gamepad2, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, Gamepad2, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import StatusNote from '@/components/StatusNote';
 import {
@@ -249,7 +249,7 @@ export default function RpsPodBattlePage() {
                         <a href="https://www.leipodbattle.com.au" target="_blank" rel="noopener noreferrer">Open Tournament <ExternalLink className="ml-2 h-4 w-4" /></a>
                     </Button>
                      <Button variant="outline" asChild>
-                        <a href="https://github.com/rbdigitaldesign/LEI-RPS-Game" target="_blank" rel="noopener noreferrer">View Code <ExternalLink className="ml-2 h-4 w-4" /></a>
+                        <a href="https://github.com/rbdigitaldesign/LEI-Pod-Battle" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" />View Code</a>
                     </Button>
                  </div>
             </section>
