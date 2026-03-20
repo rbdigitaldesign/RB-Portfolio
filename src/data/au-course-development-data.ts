@@ -351,7 +351,8 @@ export const TOC_ITEMS = [
   { href: '#cycle',        label: 'Dev Cycle' },
   { href: '#attainment',   label: 'Attainment Model' },
   { href: '#deliverables', label: 'Key Deliverables' },
-  { href: '#courses',      label: 'Courses' },
-  { href: '#principles',   label: 'Learning Principles' },
+  { href: '#courses',         label: 'Courses' },
+  { href: '#curriculum-lab', label: 'Curriculum Lab' },
+  { href: '#principles',      label: 'Learning Principles' },
   { href: '#reflections',  label: 'Reflections' },
 ]

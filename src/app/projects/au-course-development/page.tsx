@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -267,6 +268,147 @@ export default function AuCourseDevelopmentPage() {
               click any tile to see key activities, CLOs, and assessments.
             </div>
             <AuCourseGrid />
+          </section>
+
+          {/* CURRICULUM LAB */}
+          <section id="curriculum-lab" className="cs-section scroll-mt-24">
+            <h2 className="cs-h2">AI Common Core: Curriculum Lab</h2>
+
+            <div className="cs-callout mb-8">
+              <p className="cs-body">
+                <strong>Responsible AI: Bridging Ethics, Education and Industry</strong> is Adelaide
+                University&apos;s AI Common Core — a shared unit taken by students across all
+                disciplines. One of the Academic Course Developers, Walter, flagged a UX friction
+                point in the Week 3 Discussion Task: tutors running large interactive workshops had
+                no reliable way to coordinate structured group discussions across numbered tables
+                without shouting across the room or printing handouts. I built a lightweight
+                real-time facilitation tool to solve it.
+              </p>
+            </div>
+
+            {/* Problem / Solution */}
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <Card>
+                <CardHeader><CardTitle className="cs-h3">The Problem</CardTitle></CardHeader>
+                <CardContent>
+                  <p className="cs-body">
+                    Tutors running large AI Common Core workshops needed to assign discussion
+                    questions to individual tables, push updates in real-time, and guide students
+                    through a structured framework — without relying on printing or verbal
+                    instruction across a large room. The solution needed to be lightweight enough
+                    for a single session yet flexible enough to reuse across different courses.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader><CardTitle className="cs-h3">The Solution</CardTitle></CardHeader>
+                <CardContent>
+                  <p className="cs-body mb-3">
+                    <strong>Curriculum Lab</strong> is a lightweight web app with two interfaces:
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>
+                      <strong className="text-foreground">Tutor Dashboard</strong> — assign 9
+                      curated curriculum questions to numbered tables, push assignments live, and
+                      generate QR codes for easy student access.
+                    </li>
+                    <li>
+                      <strong className="text-foreground">Student View</strong> — students enter
+                      their table number and instantly see their assigned question, discussion
+                      steps, and thematic background imagery.
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Key Features */}
+            <h3 className="cs-h3 mb-4">Key Features</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              {[
+                { title: 'Real-time sync', desc: 'Assignments update instantly across all connected student devices via websocket subscriptions.' },
+                { title: 'QR code generation', desc: 'Tutors can display or print QR codes linking directly to each table\'s view.' },
+                { title: 'Structured discussion framework', desc: 'Four-step guided scaffold: Individual Reflection → Group Share → Find the Tension → Agree on Justification.' },
+                { title: 'Thematic imagery', desc: 'Each question has a contextual background image at 10% opacity — engaging without competing with question text.' },
+                { title: 'AU branding', desc: 'Full Adelaide University colour palette: Dark Blue #140F50, NT Purple #836BFF, Bright Blue #1448FF, South East Limestone #F8EFE0.' },
+                { title: 'Course-agnostic', desc: 'Questions, discussion steps, and table counts are all configurable — straightforward to adapt for any course or institution.' },
+              ].map(f => (
+                <div key={f.title} className="rounded-lg border bg-muted/30 p-4">
+                  <p className="font-semibold text-sm mb-1">{f.title}</p>
+                  <p className="text-sm text-muted-foreground">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Tech Stack */}
+            <h3 className="cs-h3 mb-3">Tech Stack</h3>
+            <div className="flex flex-wrap gap-2 mb-8">
+              {['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'QRCode.react', 'Lovable'].map(t => (
+                <span key={t} className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1448FF]/10 text-[#1448FF] dark:text-blue-300 border border-[#1448FF]/20">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            {/* Screenshots */}
+            <h3 className="cs-h3 mb-4">Screenshots</h3>
+            <div className="grid sm:grid-cols-2 gap-6 mb-8">
+              {/* Stock workshop image */}
+              <div className="relative overflow-hidden rounded-xl border shadow-sm aspect-[16/10]">
+                <Image
+                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80"
+                  alt="Students engaged in a large workshop discussion"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-[#140F50]/40" />
+                <div className="absolute bottom-3 left-3 right-3">
+                  <p className="text-xs text-white/80">AI Common Core Workshop — Week 3 Discussion Task</p>
+                </div>
+              </div>
+              {/* Canvas comments screenshot */}
+              <div className="relative overflow-hidden rounded-xl border shadow-sm aspect-[16/10]">
+                <Image
+                  src="/canvas-comments.jpg"
+                  alt="Canvas page showing the Discussion Task with Walter's annotation requesting a facilitation tool"
+                  fill
+                  className="object-cover object-top"
+                />
+              </div>
+              {/* Curriculum Lab QR code screenshot */}
+              <div className="relative overflow-hidden rounded-xl border shadow-sm aspect-[16/10]">
+                <Image
+                  src="/curriculum-lab.jpg"
+                  alt="Curriculum Lab join screen with Adelaide University branding and QR code"
+                  fill
+                  className="object-contain bg-[#F8EFE0]"
+                />
+              </div>
+              {/* Live link card */}
+              <div className="rounded-xl border bg-muted/30 p-6 flex flex-col justify-center gap-3">
+                <p className="font-semibold">Try Curriculum Lab</p>
+                <p className="text-sm text-muted-foreground">
+                  The app is deployed and publicly accessible.
+                </p>
+                <a
+                  href="https://ai-cc-curriculum-lab.lovable.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1448FF] hover:underline"
+                >
+                  ai-cc-curriculum-lab.lovable.app <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Design Decisions */}
+            <h3 className="cs-h3 mb-4">Design Decisions</h3>
+            <ul className="space-y-3 cs-body list-disc list-outside pl-5">
+              <li>Minimal student interface — just table number entry — to reduce friction in a live workshop setting.</li>
+              <li>Background images kept at 10% opacity after testing showed higher values competed with question text.</li>
+              <li>Discussion steps use a numbered timeline layout to create a sense of progression through the activity.</li>
+              <li>Question content and discussion structure are centralised in a single store file, making it trivial to swap in a different course&apos;s content without touching UI code.</li>
+            </ul>
           </section>
 
           {/* PRINCIPLES */}
