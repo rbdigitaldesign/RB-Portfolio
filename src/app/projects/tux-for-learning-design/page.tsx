@@ -97,6 +97,7 @@ export default function TuxForLearningDesignPage() {
             { href: '#problem', label: 'The problem' },
             { href: '#solution', label: 'The solution' },
             { href: '#design-approach', label: 'Design approach' },
+            { href: '#team', label: 'The team' },
             { href: '#prompt-to-prototype', label: 'From prompt to prototype' },
             { href: '#toolkit-composition', label: 'Toolkit composition' },
             { href: '#outcomes', label: 'Outcomes' },
@@ -149,6 +150,23 @@ export default function TuxForLearningDesignPage() {
                     <div>
                         <h4 className="cs-h3">Prototyping & tests</h4>
                         <p className="text-foreground/80">{projectContent.designApproach.prototyping}</p>
+                    </div>
+                </div>
+            </section>
+            <section id="team" className="cs-section">
+                <h3 className="cs-h2">The team — &ldquo;Cheese Bags&rdquo;</h3>
+                <p className="text-foreground/80 mb-4">
+                    The learning design team earned an unlikely nickname during this project. Team member Alex shared a meme — a box of &ldquo;Stay Fresh Cheese Bags&rdquo; captioned &ldquo;Found something new to say when I leave a room&rdquo; — and it stuck immediately. From that point on, &ldquo;Cheese Bags&rdquo; became the team&apos;s unofficial sign-off and a bit of shorthand for the group&apos;s spirit: practical, a little absurd, and always staying fresh.
+                </p>
+                <div className="flex justify-center">
+                    <div className="relative w-56 rounded-lg overflow-hidden shadow-medium">
+                        <Image
+                            src="/cheese-bags.jpg"
+                            alt="Stay Fresh Cheese Bags meme — Found something new to say when I leave a room"
+                            width={224}
+                            height={224}
+                            className="object-contain"
+                        />
                     </div>
                 </div>
             </section>
