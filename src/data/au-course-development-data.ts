@@ -159,6 +159,24 @@ export interface CourseContribution {
   videoUrl?: string  // YouTube embed URL (https://www.youtube.com/embed/ID)
 }
 
+export interface CLOEntry {
+  code: string        // 'CLO1', 'CLO2', etc.
+  description: string
+}
+
+export interface AssessmentItem {
+  name: string
+  weighting: string   // '0%', '100%', etc.
+  format: string      // 'Pass/Fail', 'Written report', etc.
+  dueWeek: string     // 'Week 3', 'Week 12', etc.
+}
+
+export interface AssessmentInfo {
+  items: AssessmentItem[]
+  gradingNote?: string  // e.g. 'Non-Graded Pass (NGP) — all items return pass or fail only'
+  notes?: string[]      // key characteristics as bullet points
+}
+
 export interface CourseEntry {
   name: string
   instructors: string
@@ -169,6 +187,10 @@ export interface CourseEntry {
   coverImage?: string
   /** Marks the course as an AU-wide Common Core unit (shown as badge in modal). */
   isCommonCore?: boolean
+  /** Course Learning Outcomes. When set, replaces the CLO placeholder in the modal. */
+  clos?: CLOEntry[]
+  /** Assessment breakdown. When set, replaces the Assessment placeholder in the modal. */
+  assessmentInfo?: AssessmentInfo
   /** Discrete contributions documented within the modal (accordion). */
   contributions?: CourseContribution[]
 }
@@ -247,6 +269,27 @@ export const COURSES: CourseEntry[] = [
         videoUrl: 'https://www.youtube.com/embed/ccdZQYDjUZA',
       },
     ],
+    clos: [
+      { code: 'CLO1', description: 'Describe key AI technologies, methodologies, and their responsible applications.' },
+      { code: 'CLO2', description: 'Reflect upon implications of AI on individuals, cultures, industries and the environment.' },
+      { code: 'CLO3', description: 'Explain the need for ethical, legal and regulatory frameworks to govern AI.' },
+      { code: 'CLO4', description: 'Critically analyse the use of AI relevant to their life, education and career.' },
+      { code: 'CLO5', description: 'Demonstrate ethical, reflective, and effective use of AI in practice.' },
+    ],
+    assessmentInfo: {
+      items: [
+        { name: 'Portfolio Checkpoint 1', weighting: '0%',   format: 'Pass/Fail', dueWeek: 'Week 3'  },
+        { name: 'Portfolio Checkpoint 2', weighting: '0%',   format: 'Pass/Fail', dueWeek: 'Week 5'  },
+        { name: 'Portfolio Checkpoint 3', weighting: '0%',   format: 'Pass/Fail', dueWeek: 'Week 7'  },
+        { name: 'Portfolio (Final)',       weighting: '100%', format: 'Pass/Fail', dueWeek: 'Week 12' },
+      ],
+      gradingNote: 'Non-Graded Pass (NGP) — all assessments return pass or fail only.',
+      notes: [
+        'Final Portfolio is a competency hurdle — a pass is required to pass the course.',
+        'All assessments are AI-assisted completion with human evaluation, designed to develop Generative AI Literacy.',
+        'Checkpoints 1–3 are individual; the final Portfolio involves group work with individual grading.',
+      ],
+    },
   },
   {
     name: 'Advanced Topics in Artificial Intelligence and Machine Learning',
@@ -278,14 +321,24 @@ export const COURSES: CourseEntry[] = [
       'The Learning Mastery differentiated content setup was a first for the team — a technical and pedagogical challenge requiring close collaboration with LMS Support.',
   },
   {
-    name: 'Security Principles + Security Foundations',
-    instructors: '',
+    name: 'Security Principles',
+    instructors: 'Hung',
     discipline: 'AI & Computing',
     coverImage: UNS('1550751827-4bd374c3f58b'), // blue network / cybersecurity
     activities: [
-      'Uplifted lesson pages across both courses',
+      'Uplifted lesson pages',
       'H5P uplifts',
       'Created a Branching Scenario H5P for Cyber Threat Intelligence topics',
+    ],
+  },
+  {
+    name: 'Security Foundations',
+    instructors: 'Hung',
+    discipline: 'AI & Computing',
+    coverImage: UNS('1550751827-4bd374c3f58b'), // blue network / cybersecurity
+    activities: [
+      'Uplifted lesson pages',
+      'H5P uplifts',
     ],
   },
   {
@@ -355,13 +408,6 @@ export const COURSES: CourseEntry[] = [
     discipline: 'Sciences & Engineering',
     coverImage: UNS('1509228627152-72ae9ae6848d'), // mathematics equations
     activities: ['Mapped topics and concepts from course notebook to Canvas'],
-  },
-  {
-    name: 'Honours Plant, Food and Soil Sciences Project',
-    instructors: '',
-    discipline: 'Sciences & Engineering',
-    coverImage: UNS('1416879595882-3373a0480b5b'), // botanical / plants
-    activities: ['Linked to the H5P Handbook for student reference'],
   },
   {
     name: 'Construction Science & Materials',
