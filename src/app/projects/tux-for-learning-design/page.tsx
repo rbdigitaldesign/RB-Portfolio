@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ExternalLink, Github, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import StatusNote from '@/components/StatusNote';
 import { ProjectNavigation } from '@/components/project-navigation';
 import { CaseStudyLayout } from '@/components/case-study-layout';
