@@ -5,6 +5,7 @@ export type Project = {
   slug: string;
   title: string;
   category: ProjectCategory;
+  categories?: ProjectCategory[];
   summary: string;
   tags: string[];
   coverImage: string;

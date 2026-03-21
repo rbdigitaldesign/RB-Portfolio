@@ -95,6 +95,16 @@ const projectContent = {
   }
 };
 
+const localGalleryImages = [
+    { src: '/projects/canvas-uxtoolkit-home-page.png', alt: 'Canvas LMS home page for the UX Toolkit course', hint: 'canvas ux toolkit home' },
+    { src: '/projects/Creating%20an%20actionable%20report.png', alt: 'Creating an actionable report — Canvas planning screenshot', hint: 'actionable report canvas' },
+    { src: '/projects/Minimum%20viable%20testing%20flow.png', alt: 'Minimum viable testing flow — Canvas planning screenshot', hint: 'testing flow canvas' },
+    { src: '/projects/possible-course-outline.png', alt: 'Possible course outline for the TUX toolkit', hint: 'course outline' },
+    { src: '/projects/possible-course-outline-alternative.png', alt: 'Alternative course outline for the TUX toolkit', hint: 'course outline alternative' },
+    { src: '/projects/lesson-1.png', alt: 'Lesson 1 canvas planning screenshot', hint: 'lesson 1 canvas' },
+    { src: '/projects/lesson-2.png', alt: 'Lesson 2 canvas planning screenshot', hint: 'lesson 2 canvas' },
+];
+
 const galleryImages = [
     { src: 'https://i.imgur.com/r4LoKz6.png', alt: 'ive build of the toolkit on github pages showing navigation and search', hint: 'live build toolkit' },
     { src: 'https://i.imgur.com/MaiMjSF.png', alt: 'home page with search bar, main tool kit buttons, team info', hint: 'home page search team' },
@@ -184,6 +194,7 @@ export default function TuxForLearningDesignPage() {
             { href: '#problem', label: 'The problem' },
             { href: '#solution', label: 'The solution' },
             { href: '#design-approach', label: 'Design approach' },
+            { href: '#team', label: 'The team' },
             { href: '#prompt-to-prototype', label: 'From prompt to prototype' },
             { href: '#toolkit-composition', label: 'Toolkit composition' },
             { href: '#outcomes', label: 'Outcomes' },
@@ -227,6 +238,23 @@ export default function TuxForLearningDesignPage() {
                     <div>
                         <h4 className="cs-h3">Prototyping & tests</h4>
                         <p className="text-foreground/80">{projectContent.designApproach.prototyping}</p>
+                    </div>
+                </div>
+            </section>
+            <section id="team" className="cs-section">
+                <h3 className="cs-h2">The team — &ldquo;Cheese Bags&rdquo;</h3>
+                <p className="text-foreground/80 mb-4">
+                    The learning design team earned an unlikely nickname during this project. Team member Alex shared a meme — a box of &ldquo;Stay Fresh Cheese Bags&rdquo; captioned &ldquo;Found something new to say when I leave a room&rdquo; — and it stuck immediately. From that point on, &ldquo;Cheese Bags&rdquo; became the team&apos;s unofficial sign-off and a bit of shorthand for the group&apos;s spirit: practical, a little absurd, and always staying fresh.
+                </p>
+                <div className="flex justify-center">
+                    <div className="relative w-56 rounded-lg overflow-hidden shadow-medium">
+                        <Image
+                            src="/cheese-bags.jpg"
+                            alt="Stay Fresh Cheese Bags meme — Found something new to say when I leave a room"
+                            width={224}
+                            height={224}
+                            className="object-contain"
+                        />
                     </div>
                 </div>
             </section>
@@ -411,6 +439,28 @@ export default function TuxForLearningDesignPage() {
                   </Button>
               </DialogContent>
             </Dialog>
+      </section>
+
+      <section id="canvas-planning" className="mt-12">
+            <h3 className="cs-h2 text-center">Canvas & Planning</h3>
+            <p className="text-muted-foreground text-center mb-6 text-sm">Screenshots of the Canvas LMS build and course planning documents.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {localGalleryImages.map((img, index) => (
+                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={img.hint}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p className="text-white text-center text-sm">{img.alt}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
       </section>
 
       <Card className="mt-24 text-center p-8 md:p-12">

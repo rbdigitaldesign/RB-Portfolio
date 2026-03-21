@@ -221,6 +221,7 @@
     "featured": true,
     "title": "UX Design Toolkit (TUX) for Learning Design",
     "category": "Coding Projects",
+    "categories": ["User Experience", "Coding Projects"],
     "summary": "A UX toolkit providing reusable components, templates, and guidelines to ensure consistency and quality across online courses.",
     "tags": ["Learning Design", "UX Toolkit", "Higher Education", "Canvas LMS", "AI-Assisted", "Github Pages", "HTML", "CSS", "JavaScript"],
     "coverImage": "https://i.imgur.com/t8NXYGY.png",

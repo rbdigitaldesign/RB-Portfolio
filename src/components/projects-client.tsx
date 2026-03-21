@@ -29,7 +29,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
 
   const categories = useMemo(() => {
     const used = ALL_CATEGORIES.filter((cat) =>
-      projects.some((p) => p.category === cat)
+      projects.some((p) => p.category === cat || p.categories?.includes(cat))
     );
     return [ALL_LABEL, ...used];
   }, [projects]);
@@ -38,7 +38,11 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
     let list =
       activeCategory === ALL_LABEL
         ? projects
-        : projects.filter((p) => p.category === activeCategory);
+        : projects.filter(
+            (p) =>
+              p.category === activeCategory ||
+              p.categories?.includes(activeCategory as ProjectCategory)
+          );
 
     if (searchQuery.trim()) {
       list = list.filter((p) =>
