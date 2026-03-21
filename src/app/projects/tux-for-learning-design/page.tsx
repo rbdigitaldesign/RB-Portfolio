@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ArrowLeft, ArrowRight, Download } from 'lucide-react';
+import { ExternalLink, Github, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import StatusNote from '@/components/StatusNote';
@@ -326,8 +326,8 @@ export default function TuxForLearningDesignPage() {
              <section id="resources" className="cs-section">
                 <h3 className="cs-h2">Resources</h3>
                  <div className="flex flex-wrap gap-4">
-                    <Button asChild><a href="https://rbdigitaldesign.github.io/ux-toolkit" target="_blank" rel="noopener noreferrer">View GitHub Pages Site <ExternalLink className="ml-2 h-4 w-4" /></a></Button>
-                    <Button asChild variant="outline"><a href="https://github.com/rbdigitaldesign/ux-toolkit" target="_blank" rel="noopener noreferrer">View Repository</a></Button>
+                    <Button asChild><a href="https://rbdigitaldesign.github.io/ux-toolkit" target="_blank" rel="noopener noreferrer">View Live Site <ExternalLink className="ml-2 h-4 w-4" /></a></Button>
+                    <Button asChild variant="outline"><a href="https://github.com/rbdigitaldesign/ux-toolkit" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" />View Repository</a></Button>
                  </div>
             </section>
         </main>
