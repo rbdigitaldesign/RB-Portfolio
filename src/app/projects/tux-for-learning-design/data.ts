@@ -137,6 +137,7 @@ export const galleryImages = [
 ];
 
 export const canvasGalleryImages = [
+  { src: '/canvas-uxtoolkit-home-page.png', alt: 'Canvas LMS home page for the UX Toolkit course', hint: 'canvas ux toolkit home' },
   { src: '/tux-canvas-why-test.png', alt: 'Canvas LMS page: Why should I run UX testing?', hint: 'canvas lms why test' },
   { src: '/tux-canvas-who-involved.png', alt: 'Canvas LMS page: Who needs to be involved for my testing?', hint: 'canvas lms who involved' },
   { src: '/tux-miro-mvt-flow.png', alt: 'Miro board: Minimum viable testing flow', hint: 'miro minimum viable testing' },
