@@ -379,22 +379,73 @@ function CourseModal({
             </section>
           )}
 
-          {/* CLOs — placeholder (always shown) */}
+          {/* CLOs */}
           <section>
             <h3 className="font-headline font-semibold text-lg mb-3">Course Learning Outcomes</h3>
-            <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Coming soon</p>
-              <p className="text-sm text-muted-foreground italic">Course Learning Outcomes (CLOs) will be added here</p>
-            </div>
+            {course.clos?.length ? (
+              <ol className="space-y-3">
+                {course.clos.map((clo) => (
+                  <li key={clo.code} className="flex gap-3 text-sm">
+                    <span className="font-semibold text-[#1448FF] dark:text-blue-300 flex-shrink-0 w-10">{clo.code}</span>
+                    <span className="text-foreground/80 leading-relaxed">{clo.description}</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Coming soon</p>
+                <p className="text-sm text-muted-foreground italic">Course Learning Outcomes (CLOs) will be added here</p>
+              </div>
+            )}
           </section>
 
-          {/* Assessments — placeholder (always shown) */}
+          {/* Assessments */}
           <section>
             <h3 className="font-headline font-semibold text-lg mb-3">Assessments</h3>
-            <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Coming soon</p>
-              <p className="text-sm text-muted-foreground italic">Assessment details and rubric highlights will be added here</p>
-            </div>
+            {course.assessmentInfo ? (
+              <>
+                <div className="overflow-x-auto rounded-xl border mb-4">
+                  <table className="w-full text-sm">
+                    <thead className="bg-muted/50 text-left">
+                      <tr>
+                        <th className="px-4 py-2 font-semibold">Assessment</th>
+                        <th className="px-4 py-2 font-semibold">Weighting</th>
+                        <th className="px-4 py-2 font-semibold">Format</th>
+                        <th className="px-4 py-2 font-semibold">Due</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {course.assessmentInfo.items.map((item) => (
+                        <tr key={item.name} className="hover:bg-muted/30">
+                          <td className="px-4 py-2.5">{item.name}</td>
+                          <td className="px-4 py-2.5 text-muted-foreground">{item.weighting}</td>
+                          <td className="px-4 py-2.5 text-muted-foreground">{item.format}</td>
+                          <td className="px-4 py-2.5 text-muted-foreground">{item.dueWeek}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {course.assessmentInfo.gradingNote && (
+                  <p className="text-xs text-muted-foreground italic mb-3">{course.assessmentInfo.gradingNote}</p>
+                )}
+                {course.assessmentInfo.notes && course.assessmentInfo.notes.length > 0 && (
+                  <ul className="space-y-1.5">
+                    {course.assessmentInfo.notes.map((note) => (
+                      <li key={note} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/50 flex-shrink-0" />
+                        {note}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            ) : (
+              <div className="rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 text-center">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Coming soon</p>
+                <p className="text-sm text-muted-foreground italic">Assessment details and rubric highlights will be added here</p>
+              </div>
+            )}
           </section>
 
           {/* Screenshots placeholder — only when no contributions */}
