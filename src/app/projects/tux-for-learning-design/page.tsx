@@ -111,7 +111,6 @@ export default function TuxForLearningDesignPage() {
             { href: '#canvas-ethics', label: 'Ethics & consent' },
             { href: '#canvas-recruitment', label: 'Student recruitment' },
             { href: '#canvas-naming', label: 'Naming the resource' },
-            { href: '#canvas-progress', label: 'Content progress' },
           ]} />
         </aside>
 
@@ -376,44 +375,6 @@ export default function TuxForLearningDesignPage() {
             <section id="canvas-naming" className="cs-section">
               <h3 className="cs-h2">What's in a name?</h3>
               <p className="text-foreground/80">{canvasContent.naming}</p>
-            </section>
-
-            {/* ── CONTENT PROGRESS ──────────────────────────────────── */}
-            <section id="canvas-progress" className="cs-section">
-              <h3 className="cs-h2">Content progress (Oct 2025)</h3>
-              <p className="text-foreground/80 mb-4 text-sm">The table below reflects the content allocation agreed by the team as of October 2025. Each page is assigned to a primary author, with status tracked against the shared working document.</p>
-              <div className="overflow-x-auto rounded-lg border border-border">
-                <table className="w-full text-sm text-left">
-                  <thead>
-                    <tr className="bg-muted border-b border-border">
-                      <th className="px-4 py-3 font-semibold text-foreground">Module</th>
-                      <th className="px-4 py-3 font-semibold text-foreground">Page</th>
-                      <th className="px-4 py-3 font-semibold text-foreground">Assigned to</th>
-                      <th className="px-4 py-3 font-semibold text-foreground">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {canvasContent.contentProgress.map((row, i) => (
-                      <tr key={i} className="border-b border-border last:border-0">
-                        <td className="px-4 py-3 text-foreground/60 text-xs">{row.module}</td>
-                        <td className="px-4 py-3 text-foreground/80">{row.page}</td>
-                        <td className="px-4 py-3 text-foreground/80">{row.assigned}</td>
-                        <td className="px-4 py-3">
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${
-                            row.status === 'Ready for review'
-                              ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                              : row.status === 'In progress'
-                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                              : 'bg-muted text-muted-foreground'
-                          }`}>
-                            {row.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
             </section>
 
             {/* ── CANVAS OUTCOMES ───────────────────────────────────── */}
