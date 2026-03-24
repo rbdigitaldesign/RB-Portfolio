@@ -103,10 +103,10 @@ export default function TuxForLearningDesignPage() {
             { href: '#outcomes', label: 'Outcomes' },
             { href: '#reflection', label: 'Reflection & next steps' },
             { href: '#resources', label: 'Resources' },
+            { href: '#gallery', label: 'Gallery' },
             { href: '#canvas-evolution', label: 'Phase 2: Canvas LMS' },
             { href: '#canvas-framework', label: 'Five-step process' },
             { href: '#canvas-design-thinking', label: 'Design thinking' },
-            { href: '#canvas-team', label: 'The team' },
             { href: '#canvas-scope', label: 'Scope decisions' },
             { href: '#canvas-ethics', label: 'Ethics & consent' },
             { href: '#canvas-recruitment', label: 'Student recruitment' },
@@ -155,7 +155,7 @@ export default function TuxForLearningDesignPage() {
             <section id="team" className="cs-section">
                 <h3 className="cs-h2">The team — &ldquo;Cheese Bags&rdquo;</h3>
                 <p className="text-foreground/80 mb-4">
-                    The learning design team earned an unlikely nickname during this project. Team member Alex shared a meme — a box of &ldquo;Stay Fresh Cheese Bags&rdquo; captioned &ldquo;Found something new to say when I leave a room&rdquo; — and it stuck immediately. From that point on, &ldquo;Cheese Bags&rdquo; became the team&apos;s unofficial sign-off and a bit of shorthand for the group&apos;s spirit: practical, a little absurd, and always staying fresh.
+                    Alex dropped a meme in the team chat — a box of &ldquo;Stay Fresh Cheese Bags&rdquo; with the caption &ldquo;Found something new to say when I leave a room.&rdquo; That was it. Nobody planned it, nobody voted on it. It just became the sign-off, the vibe, the whole thing. Practical, a bit absurd, always fresh. Tim, Kelli, Alex and Rich — aka Cheese Bags.
                 </p>
                 <div className="flex justify-center">
                     <div className="relative w-56 rounded-lg overflow-hidden shadow-medium">
@@ -270,6 +270,47 @@ export default function TuxForLearningDesignPage() {
                  </div>
             </section>
 
+            {/* ── PHASE 1 GALLERY ───────────────────────────────────── */}
+            <section id="gallery" className="cs-section">
+              <h3 className="cs-h2">Gallery</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {galleryImages.slice(0, 6).map((img, index) => (
+                  <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
+                       onClick={() => { setSelectedIndex(index); setOpen(true); }}>
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={img.hint}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <p className="text-white text-center text-sm">{img.alt}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
+                  <div className="relative aspect-video">
+                    <Image
+                      src={allGalleryImages[selectedIndex].src}
+                      alt={allGalleryImages[selectedIndex].alt}
+                      fill
+                      className="rounded-lg object-contain"
+                    />
+                  </div>
+                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
+                    <ArrowLeft className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
+                    <ArrowRight className="h-6 w-6" />
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </section>
+
             {/* ── PHASE DIVIDER ─────────────────────────────────────── */}
             <div className="mt-16 mb-4 text-center space-y-3">
               <div className="inline-block px-4 py-1 rounded-full border border-border bg-muted text-muted-foreground text-xs font-semibold tracking-widest uppercase">
@@ -334,15 +375,6 @@ export default function TuxForLearningDesignPage() {
                     <span className="text-sm font-semibold text-foreground">{stage}</span>
                   </div>
                 ))}
-              </div>
-            </section>
-
-            {/* ── THE TEAM ──────────────────────────────────────────── */}
-            <section id="canvas-team" className="cs-section">
-              <h3 className="cs-h2">The team</h3>
-              <p className="text-foreground/80">{canvasContent.teamOverview}</p>
-              <div className="cs-callout mt-4">
-                <p><strong>Working name:</strong> Cheesebags Anonymous — a signal of the psychological safety and collaborative trust that underpins the team's ability to experiment freely.</p>
               </div>
             </section>
 
@@ -437,47 +469,6 @@ export default function TuxForLearningDesignPage() {
           </Card>
         </aside>
       </div>
-
-       <section id="gallery" className="mt-16">
-            <h3 className="cs-h2 text-center">Gallery</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {galleryImages.slice(0, 6).map((img, index) => (
-                <div key={index} className="group relative cursor-pointer aspect-video rounded-md overflow-hidden shadow-medium transition-transform hover:scale-105"
-                     onClick={() => { setSelectedIndex(index); setOpen(true); }}>
-                  <Image 
-                    src={img.src} 
-                    alt={img.alt} 
-                    fill 
-                    className="object-cover"
-                    data-ai-hint={img.hint}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-white text-center text-sm">{img.alt}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogContent className="max-w-5xl p-0 bg-transparent border-none shadow-none">
-                  <div className="relative aspect-video">
-                    <Image
-                      src={allGalleryImages[selectedIndex].src}
-                      alt={allGalleryImages[selectedIndex].alt}
-                      fill
-                      className="rounded-lg object-contain"
-                    />
-                  </div>
-                  <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handlePrev}>
-                      <ArrowLeft className="h-6 w-6" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/50 hover:bg-black/75 text-white" onClick={handleNext}>
-                      <ArrowRight className="h-6 w-6" />
-                  </Button>
-              </DialogContent>
-            </Dialog>
-      </section>
 
       {/* ── PHASE 2 CANVAS GALLERY ────────────────────────────────── */}
       <section id="canvas-gallery" className="mt-16">
