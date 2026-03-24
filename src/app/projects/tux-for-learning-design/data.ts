@@ -138,11 +138,12 @@ export const galleryImages = [
 
 export const canvasGalleryImages = [
   { src: '/canvas-uxtoolkit-home-page.png', alt: 'Canvas LMS home page for the UX Toolkit course', hint: 'canvas ux toolkit home' },
-  { src: '/tux-canvas-why-test.png', alt: 'Canvas LMS page: Why should I run UX testing?', hint: 'canvas lms why test' },
-  { src: '/tux-canvas-who-involved.png', alt: 'Canvas LMS page: Who needs to be involved for my testing?', hint: 'canvas lms who involved' },
-  { src: '/tux-miro-mvt-flow.png', alt: 'Miro board: Minimum viable testing flow', hint: 'miro minimum viable testing' },
-  { src: '/tux-miro-design-thinking.png', alt: 'Miro board: Design thinking framework map', hint: 'miro design thinking map' },
-  { src: '/tux-miro-modules.png', alt: 'Miro board: Five-module course structure', hint: 'miro course modules structure' },
+  { src: '/Creating an actionable report.png', alt: 'Creating an actionable report — Canvas planning screenshot', hint: 'actionable report canvas' },
+  { src: '/Minimum viable testing flow.png', alt: 'Minimum viable testing flow — Miro planning board', hint: 'minimum viable testing flow' },
+  { src: '/possible-course-outline.png', alt: 'Possible course outline for the TUX toolkit', hint: 'course outline' },
+  { src: '/possible-course-outline-alternative.png', alt: 'Alternative course outline for the TUX toolkit', hint: 'course outline alternative' },
+  { src: '/lesson-1.png', alt: 'Lesson 1 — Canvas planning screenshot', hint: 'lesson 1 canvas' },
+  { src: '/lesson-2.png', alt: 'Lesson 2 — Canvas planning screenshot', hint: 'lesson 2 canvas' },
 ];
 
 export const allGalleryImages = [...galleryImages, ...canvasGalleryImages];
