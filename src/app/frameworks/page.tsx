@@ -19,8 +19,13 @@ export default function FrameworksPage() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-16">
       <h1 className="font-headline text-4xl font-semibold mb-3">Frameworks</h1>
-      <p className="text-muted-foreground mb-12 max-w-xl">
+      <p className="text-muted-foreground mb-4 max-w-xl">
         Principles, mental models, and mechanisms that shape how I think about design and the world.
+      </p>
+      <p className="text-xs text-muted-foreground/60 mb-12 max-w-xl">
+        Every framework here is one I&apos;ve genuinely encountered in my work or reading. The card
+        content was written with AI — which has actually been a useful way to deepen my own
+        understanding of each one. I&apos;ve reviewed every card for accuracy and edited where needed.
       </p>
       {frameworks.length === 0 ? (
         <p className="text-muted-foreground">No frameworks published yet.</p>
