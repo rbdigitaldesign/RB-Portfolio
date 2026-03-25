@@ -1,0 +1,44 @@
+---
+title: "Postel's Law"
+category: "UX Law"
+summary: "Be conservative in what you send; be liberal in what you accept."
+why_i_like_it: "Postel's Law is a technical principle that has an elegant translation to human interaction and design. 'Be liberal in what you accept' is a design instruction to meet users where they are — accept their imprecise inputs, their varied formats, their unexpected approaches — and process these gracefully rather than returning an error. 'Be conservative in what you send' is an instruction about output quality: your responses, prompts, and interfaces should be precise, clear, and well-formed. Applied together, this creates systems that are forgiving to work with and reliable to depend on. It's a principle about empathy at the interface layer."
+where_i_heard_it: "Postel's Law — also called the Robustness Principle — was formulated by Jon Postel in RFC 793 (1981), which specified the Transmission Control Protocol (TCP). It was originally an engineering guideline for network protocol design. It's been expanded and applied to UX design in recent years, particularly through the Laws of UX project. I encountered it first through networking literature, then through its design applications."
+real_world_application: "Phone number fields that accept multiple formats (with or without spaces, brackets, country code) and normalise them on submission. Search bars that accept misspellings, abbreviations, and varied punctuation. Address fields that accept international formats. Date fields that accept multiple formats (DD/MM/YYYY, written dates, etc.). Forgiving autocomplete that suggests the most likely intent, not a literal match. In learning design: assignment briefs that specify a clear, consistent output format while accepting a wide variety of student approaches to the task."
+status: published
+---
+
+**Postel's Law** — also known as the **Robustness Principle** — was formulated by network engineer **Jon Postel** in RFC 793 (1981), the specification for the Transmission Control Protocol (TCP). The original formulation: *"be conservative in what you do, be liberal in what you accept from others."*
+
+In networking, it was an instruction for protocol implementations: send only well-formed, standards-compliant data, but accept and process data that deviates from strict compliance rather than failing. This made the early internet more robust — implementations that interpreted inputs generously could interoperate even when other implementations weren't perfect.
+
+**Translation to design:**
+Postel's Law translates directly to interface and interaction design:
+
+- **Liberal in what you accept** — accept the full range of ways a user might provide input. Don't demand perfect formatting. Normalise, interpret, and infer where possible. Return errors only when the input genuinely cannot be processed.
+
+- **Conservative in what you send** — your outputs, prompts, and system messages should be precise, clear, and well-formed. Don't be vague or inconsistent in what you ask of the user.
+
+**Input tolerance:**
+Most input fields impose unnecessary constraints on users. A phone number field that rejects (02) 1234-5678 because it expects 0212345678 is placing the burden of format compliance on the user, when the system could easily normalise either format to the same internal representation. A date field that rejects "March 5" when it expects "05/03/2025" is enforcing a format convention rather than serving the user's goal.
+
+Liberal input acceptance moves the work of normalisation from the user to the system — which is exactly where Tesler's Law says it belongs.
+
+**Output precision:**
+Being conservative in output means system responses — error messages, confirmations, prompts, guidance text — should be specific and unambiguous. "Something went wrong" is not conservative output; it is vague output. "Your email address is missing the @ symbol" is conservative: it tells the user exactly what the problem is and implies exactly what to do.
+
+**Design applications:**
+
+*Search:* Accept approximate matches, common misspellings, synonyms, and abbreviations. Return results for the most probable intent.
+
+*Form inputs:* Accept multiple valid representations of the same data (phone formats, name capitalisations, date formats) and normalise internally. Reserve validation errors for genuinely unresolvable inputs.
+
+*File uploads:* Accept multiple file format variants where possible (JPG and JPEG, different video containers that can be transcoded). Only reject when the format is genuinely unsupported.
+
+*Natural language inputs:* Chat interfaces and search-as-you-type are best when they interpret intent broadly, not literally.
+
+**In learning design:**
+Assignment design can apply Postel's Law: be specific and conservative about the *output* you want (clear brief, defined format, explicit criteria), while being liberal about the *approach* students take to produce that output. Specifying the destination while leaving the route open respects student agency without sacrificing assessment validity.
+
+**The limits:**
+Applied too broadly, liberal input acceptance can mask problems. A system that quietly corrects all user input may not alert users to genuine mistakes. There are contexts where strict input requirements serve important purposes: medical data entry, financial inputs, security credentials. Postel's Law applies most cleanly where the cost of normalisation is low and the cost of friction is high.

@@ -1,0 +1,37 @@
+---
+title: "Fitts's Law"
+category: "UX Law"
+summary: "The time to reach a target depends on how large it is and how far away it is — small or distant targets are slower and harder to hit."
+why_i_like_it: "Fitts's Law is one of those rare principles that gives you an actual mathematical model to back design intuitions you'd otherwise just call 'common sense.' Of course a tiny button in a corner is harder to click than a large button nearby — but Fitts's Law tells you *how much* harder, and it underpins a long list of specific, defensible design decisions. It's also one of the principles I use to explain why mobile design is genuinely difficult: touch targets have to be large enough for imprecise fingers, not precise mouse pointers. A lot of bad mobile UI is Fitts's Law violations in disguise."
+where_i_heard_it: "Fitts's Law was formulated by Paul Fitts in 1954, originally to describe the movement of physical pointing tasks in human performance research. It was later applied to computer pointing devices by Stuart Card, Thomas Moran, and Allen Newell in the late 1970s, making it foundational to human-computer interaction. I encountered it through HCI literature and UX training."
+real_world_application: "Large primary action buttons that are easy to click or tap. Context menus that appear at the cursor position, minimising travel distance. Mac OS screen-edge menus that are effectively infinite in height (the screen edge acts as a wall). Floating action buttons on mobile, positioned at natural thumb-reach zones. Touch targets that meet Apple's 44pt / Google's 48dp minimum sizes. Destructive actions (delete, cancel) that are small or distant from primary actions to reduce accidental activation."
+status: published
+---
+
+**Fitts's Law** is a predictive model of human motor performance stating that the time required to rapidly move to and select a target is a function of the target's **size** and **distance** from the starting point.
+
+It was formulated by psychologist **Paul Fitts** in 1954 through research on manual aiming tasks. The law is expressed as:
+
+**T = a + b × log₂(2D/W)**
+
+Where T is movement time, D is the distance to the target, W is the width of the target, a and b are empirically derived constants, and the log term is the **index of difficulty** — the harder the task, the higher this value.
+
+The critical insight: **doubling the target size reduces difficulty more than halving the distance.** Size and distance both matter, but size has particular leverage in constrained pointing environments.
+
+**Application to screen design:**
+
+*Button size:* Primary action buttons should be large enough to activate quickly and accurately. A tiny "Submit" button creates unnecessary pointing difficulty. Platform guidelines formalise this: Apple recommends a minimum touch target of 44×44 points; Google's Material Design specifies 48×48 density-independent pixels.
+
+*Position matters:* The further a target is from where the user's cursor or finger currently sits, the longer it takes to reach. This is why frequently-used actions should be close to common starting positions — near the content being acted on, near previous actions, or in screen-edge positions.
+
+*Screen edges and corners:* Screen edges are special in Fitts's Law terms — they act as infinite walls, meaning a cursor moving toward a screen edge will always hit it. This is why Mac OS's menu bar (at the top edge) allows extremely fast access — users can slam the cursor toward the top at full speed and it will land on the menu. Screen corners are doubly powerful (two walls).
+
+*Touch vs. mouse:* A mouse pointer is precise; a finger is not. Fitts's Law is more consequential in touch interfaces because W (target width) must compensate for larger pointing uncertainty. Small touch targets are not just inconvenient — they're physically difficult to activate accurately.
+
+*Dangerous actions:* Fitts's Law can be used deliberately to make certain actions *harder* to activate. Destructive or irreversible actions (delete, log out, cancel subscription) can be made small and distant from primary actions to reduce the likelihood of accidental activation.
+
+**The infinite edge principle in design systems:**
+Sticky toolbars, floating action buttons, and context menus that appear at pointer position are all applications of Fitts's Law — reducing movement distance to minimise the time and effort cost of reaching important controls.
+
+**In practice:**
+Fitts's Law violations are often identifiable by asking: *what does a user have to do to complete the most common task?* If the answer involves a tiny target, a long pointer journey, or a small touch target at an awkward position, you have a Fitts's Law problem — measurable, predictable, and fixable.

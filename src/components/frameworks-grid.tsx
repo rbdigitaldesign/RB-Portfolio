@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ArrowRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { FrameworkWithContent } from '@/lib/content';
@@ -11,13 +11,45 @@ interface FrameworksGridProps {
 
 export function FrameworksGrid({ frameworks }: FrameworksGridProps) {
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string>('All');
   const active = frameworks.find((f) => f.slug === activeSlug) ?? null;
+
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(frameworks.map((f) => f.category))).sort();
+    return ['All', ...cats];
+  }, [frameworks]);
+
+  const filtered = useMemo(
+    () =>
+      activeFilter === 'All'
+        ? frameworks
+        : frameworks.filter((f) => f.category === activeFilter),
+    [frameworks, activeFilter],
+  );
 
   return (
     <>
+      {/* Filter bar */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveFilter(cat)}
+            className={cn(
+              'px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              activeFilter === cat
+                ? 'bg-accent text-background'
+                : 'border border-border text-muted-foreground hover:border-foreground hover:text-foreground',
+            )}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {/* Card grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {frameworks.map((framework) => (
+        {filtered.map((framework) => (
           <button
             key={framework.slug}
             onClick={() => setActiveSlug(framework.slug)}
