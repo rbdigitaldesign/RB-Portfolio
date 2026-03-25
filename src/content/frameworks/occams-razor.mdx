@@ -1,0 +1,41 @@
+---
+title: "Occam's Razor"
+category: "Mental Model"
+summary: "Among competing explanations or solutions, the simplest one that fits the evidence is usually right — don't multiply complexity unnecessarily."
+why_i_like_it: "Occam's Razor is the mental model I most often invoke against over-engineering. In design, there's always a temptation to add more — more features, more options, more explanation, more layers of logic — under the assumption that complexity signals thoroughness. But complexity is a cost, not a virtue. Occam's Razor pushes back: what is the simplest solution that actually solves the problem? Start there. Add complexity only when the simpler solution genuinely fails. I've found this principle applies equally to interface design, content design, and the structure of arguments."
+where_i_heard_it: "The principle is attributed to William of Ockham, a 14th-century English friar and philosopher, though the specific phrasing 'do not multiply entities beyond necessity' is a later formulation. It became a foundational principle of scientific reasoning and was popularised across disciplines through the 20th century. I encountered it through philosophy of science literature and it has since become a constant reference point in my design thinking."
+real_world_application: "Choosing a simple, direct copy approach over an elaborate metaphor when the direct approach communicates the same thing. Implementing a straightforward navigation structure before exploring custom patterns. Solving a user problem with one well-designed feature rather than three overlapping ones. Diagnosing a bug by checking the most obvious causes first. In learning design: writing learning outcomes in plain language before reaching for educational jargon; presenting a concept directly before elaborating the theoretical framework around it."
+status: published
+---
+
+**Occam's Razor** — attributed to 14th-century English friar and philosopher **William of Ockham** — is the principle that, among competing hypotheses or solutions, the one requiring the fewest unnecessary assumptions should be preferred. It is often stated as: *entities should not be multiplied beyond necessity* (*entia non sunt multiplicanda praeter necessitatem*).
+
+In practice: given two solutions that both work, prefer the simpler one. Complexity must justify itself.
+
+**What Occam's Razor is not:**
+It's important to be precise about what the razor cuts. It does not say the simplest explanation is *always* correct — reality is sometimes genuinely complex. It says that complexity must be *warranted*: you should not add unnecessary assumptions, entities, or steps. If the simpler explanation explains all the evidence, the more complex one adds nothing useful.
+
+It is a principle of intellectual hygiene, not a rule about truth.
+
+**Why complexity accumulates:**
+Complexity in design and engineering tends to accumulate through well-intentioned additions: edge case handling, legacy compatibility, feature requests, defensive design decisions, and "just in case" provisions. Each addition is individually justifiable; the cumulative effect is a system that is harder to understand, maintain, and use.
+
+Occam's Razor, applied regularly, is a corrective force against this tendency.
+
+**Design applications:**
+
+*Feature design:* Before adding a new feature, ask whether an existing one could be extended or whether the problem could be solved with less. The simplest design that satisfies the user need is usually the best place to start.
+
+*Copy:* Longer copy is not more persuasive than shorter copy when the shorter copy communicates the same thing. Every word that isn't earning its place is adding cognitive load without adding value.
+
+*Information architecture:* A navigation structure with 5 well-chosen top-level items is usually better than one with 9 items — even if all 9 are justified in isolation. The razor asks: what is the minimum structure that serves navigation needs?
+
+*Problem diagnosis:* In engineering, when a system fails, the most common explanation (misconfiguration, network issue, known bug) is statistically more likely to be correct than a complex novel cause. Check the obvious things first.
+
+*Visual design:* Every visual element that has no communicative purpose — decoration that conveys no meaning, structure that organises nothing — adds visual complexity without payoff. The razor argues for purposefulness: if it doesn't serve a function, remove it.
+
+**In learning design:**
+Before introducing a theoretical framework, ask: does the learner need the framework to understand the concept, or does the concept stand on its own? Before adding another reading, ask: what does this add that the previous readings didn't address? Complexity in learning design is not a signal of academic rigour — it is a cost that must be justified by proportionate learning value.
+
+**The relationship to other principles:**
+Occam's Razor is philosophically adjacent to Tesler's Law (complexity can't be eliminated, only moved), Hick's Law (more choices = more cognitive cost), and the Laws of Simplicity (John Maeda's argument that simplicity is a value worth designing for). All share the underlying insight that complexity is expensive and requires justification.

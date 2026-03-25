@@ -1,0 +1,40 @@
+---
+title: "Doherty Threshold"
+category: "UX Law"
+summary: "When a computer responds in under 400 milliseconds, it feels instantaneous — and users stay in flow. Above that, the spell breaks."
+why_i_like_it: "The Doherty Threshold is one of those principles that's easy to dismiss as a developer concern rather than a design concern — but that's exactly the wrong way to think about it. Speed is a design decision. Loading states, perceived performance, and interaction feedback are all squarely in the design domain. And the stakes are higher than they seem: above 400ms, users don't just wait — they disengage, double-click, lose context, and form the impression that the system is unresponsive or broken. I use this principle to argue that performance is part of the user experience, not a separate technical concern."
+where_i_heard_it: "The threshold was articulated by Walter J. Doherty and Ahrvind J. Thadani in a 1982 IBM Systems Journal paper, 'The Economic Value of Rapid Response Time.' They documented that response times under 400ms produced disproportionately higher productivity. The number has since been updated by research (Google's work on Core Web Vitals uses different thresholds), but the principle — that there is a perceptual boundary between 'instant' and 'waiting' — remains influential."
+real_world_application: "Optimistic UI updates: showing the result of an action immediately before server confirmation. Skeleton screens that maintain layout while content loads. Loading spinners or progress bars for operations that will take longer than 400ms. Hover effects and micro-interactions that respond within one animation frame (~16ms). Search-as-you-type that returns results before the user finishes typing. In learning platforms: quiz answer feedback that is immediate, not delayed by round-trip server responses."
+status: published
+---
+
+The **Doherty Threshold** states that productivity and engagement increase dramatically when a system responds to user actions in under **400 milliseconds** — fast enough to feel instantaneous and keep the user in a state of flow.
+
+It was articulated by **Walter J. Doherty** and **Ahrvind J. Thadani** in a 1982 IBM Systems Journal paper, *"The Economic Value of Rapid Response Time."* Their research showed that when computer response times dropped below 400ms, users became significantly more productive — not just incrementally, but disproportionately. The reason: they stayed "in flow," maintaining mental context between actions rather than breaking attention to wait for the system to catch up.
+
+**The perceptual zones:**
+Different response-time thresholds produce qualitatively different user experiences:
+
+- **< 100ms** — Feels instantaneous; the interaction feels like a direct physical manipulation
+- **100–400ms** — Still feels responsive; users accept minor delays without noticing them as "waiting"
+- **400ms–1s** — Users notice the delay; flow is interrupted; the system feels "slow"
+- **1–10s** — Users disengage; they may switch tasks, click again, or form negative impressions of the system
+- **> 10s** — Users typically abandon the task
+
+The 400ms threshold is where the qualitative shift happens — from "fast" to "slow."
+
+**Performance as UX:**
+The Doherty Threshold makes the case that **performance is not a technical metric separate from design** — it is part of the experience. An interface can be visually beautiful, accessible, and well-structured, and still fail if it doesn't feel responsive. Speed shapes perception of quality: slow systems feel unreliable, even if their output is identical.
+
+**Design responses to latency:**
+
+*Optimistic UI:* Instead of waiting for server confirmation before updating the interface, show the user the anticipated result immediately. Undo functionality addresses errors if they occur. This keeps the experience under the threshold even when network round-trips would otherwise break it.
+
+*Skeleton screens:* Rather than a spinner during content load, skeleton screens (grey placeholder shapes matching the layout) maintain visual context and signal that content is incoming, reducing the perceived wait.
+
+*Progress indication:* For processes that genuinely take longer than 400ms, progress bars or percentage indicators transform an indefinite wait into a bounded one — which is psychologically very different.
+
+*Micro-interactions:* Button press states, hover effects, and focus outlines that respond within a single animation frame (~16ms) confirm that the system has received the user's input, even if the result takes longer.
+
+**The updated context:**
+Modern performance research (Google's Core Web Vitals, Nielsen's response time research) has extended and refined Doherty's thresholds, but the underlying principle stands: **responsiveness is a primary dimension of user experience quality**, and the 400ms boundary is where most users move from engagement to frustration.
