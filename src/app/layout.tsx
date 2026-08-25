@@ -34,6 +34,9 @@ export const metadata: Metadata = {
   title: 'Rich Bartlett — Learning Designer & UX',
   description:
     'Portfolio of Rich Bartlett, an LDX Designer based in Australia. Learning Design, UX Research, and educational technology that actually works.',
+  // Tab/app icons come from the app/ file convention (favicon.ico, icon0.svg,
+  // icon1.png, apple-icon.png) — Next emits the <link> tags for them.
+  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -45,11 +48,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="msvalidate.01" content="F0DB3F2938BA0B6100F08D7C9110118C" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1A3C34" />
         <meta name="msapplication-TileColor" content="#1A3C34" />
         <meta name="theme-color" content="#FAFAF8" />
         <meta name="apple-mobile-web-app-title" content="Rich Bartlett" />
