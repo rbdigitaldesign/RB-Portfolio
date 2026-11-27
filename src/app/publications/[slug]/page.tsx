@@ -124,7 +124,9 @@ export default async function PublicationPage({ params }: { params: { slug: stri
             Abstract
           </h2>
           <div className="bg-muted/40 rounded px-6 py-5 border-l-4 border-accent">
-            <p className="text-base leading-relaxed text-foreground/90">{fm.abstract}</p>
+            <p className="text-base leading-relaxed text-foreground/90 whitespace-pre-line">
+              {fm.abstract}
+            </p>
           </div>
         </section>
       )}
@@ -180,7 +182,7 @@ export default async function PublicationPage({ params }: { params: { slug: stri
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="process" className="border-border">
             <AccordionTrigger className="font-headline font-semibold text-base hover:no-underline py-5">
-              Behind the paper — collaborative process notes
+              {fm.body_label ?? 'Behind the paper — collaborative process notes'}
             </AccordionTrigger>
             <AccordionContent>
               <div

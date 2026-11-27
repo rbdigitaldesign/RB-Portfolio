@@ -55,6 +55,7 @@ content:
       - { name: collaborators, label: Collaborators, type: string }
       - { name: abstract,      label: Abstract,      type: text }
       - { name: url,           label: URL,           type: string }
+      - { name: body_label,    label: Body section heading, type: string }
       - name: status
         label: Status
         type: select
